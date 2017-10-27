@@ -21,6 +21,13 @@ class LoginPage extends Component {
       currentAction: "login"
     });
   }
+  back = () => {
+   this.setState({
+      currentAction: "none"
+    }); 
+  }
+  registerSignup = () => {}
+  registerLogin = () => {}
   render() {
     const divStyle = {
         width: '50%',
@@ -39,6 +46,8 @@ class LoginPage extends Component {
               <input type="text" />
               <label>Password</label>
             </div>
+            <MUIButton color="primary" onClick={this.back}>Back</MUIButton>
+            <MUIButton color="primary" onClick={this.registerLogin}>Login</MUIButton>
           </div>
         </div>
       );
@@ -59,7 +68,11 @@ class LoginPage extends Component {
               <input type="text" />
               <label>Age</label>
             </div>
-            etc...
+            <div>
+              etc...
+            </div>
+            <MUIButton color="primary" onClick={this.back}>Back</MUIButton>
+            <MUIButton color="primary" onClick={this.registerSignup}>Sign up</MUIButton>
           </div>
         </div>
       );
