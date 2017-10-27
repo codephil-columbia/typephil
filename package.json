@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cancel": "^0.2.1",
+    "muicss": "^0.9.27",
     "react": "^16.0.0",
+    "react-button": "^1.2.1",
+    "react-buttons": "0.0.11",
     "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14"
+    "react-scripts": "1.0.14",
+    "react-text-field": "^0.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
