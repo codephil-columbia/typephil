@@ -27,53 +27,28 @@ class LoginPage extends Component {
   registerSignup = () => {}
   registerLogin = () => {}
   render() {
-    const divStyle = {
-        width: '50%',
-        margin: 'auto',
-        marginTop: '200px',
-      };
     if (this.state.currentAction == "signup") {
       return (
         <div className="App">
-          <div style={divStyle}>
-            <h1>Welcome to Typephil!</h1>
-            <div class="mui-textfield mui-textfield--float-label">
-              <input type="text" />
-              <label>Name</label>
-            </div>
-            <div class="mui-textfield mui-textfield--float-label">
-              <input type="text" />
-              <label>Password</label>
-            </div>
-            <div class="mui-textfield mui-textfield--float-label">
-              <input type="text" />
-              <label>Age</label>
-            </div>
+          <div className="divStyle">
+            <h1 style={{color: "white"}}>Create an Account</h1>
+            <input type="text" placeholder="Name" className="textField"/>
+            <input type="text" placeholder="Password" className="textField"/>
+            <input type="text" placeholder="Age" className="textField"/>
             <div>
               etc...
             </div>
-            <MUIButton color="primary" onClick={this.back}>Back</MUIButton>
-            <MUIButton color="primary" onClick={this.registerSignup}>Sign up</MUIButton>
+            <MUIButton color="white" onClick={this.back}>Back</MUIButton>
+            <MUIButton color="white" onClick={this.registerSignup}>Sign up</MUIButton>
           </div>
         </div>
       );
     } else {
-      const input_style = {
-        display: "block",
-        margin: "0 auto",
-        marginBottom: "10px",
-        padding: "10px",
-        borderRadius: "3px",
-        backgroundColor: "white",
-        border: "1px solid white",
-        width: "300px",
-        height: "20px",
-      }
       return (
-        <div className="App" style={divStyle}>
+        <div className="App" className="divStyle">
           <h1 style={{color: "white"}}>Welcome to Typephil!</h1>
-          <input type="text" placeholder="Username" style={input_style}/>
-          <input type="text" placeholder="Password" style={input_style}/>
+          <input type="text" placeholder="Username" className="textField"/>
+          <input type="text" placeholder="Password" className="textField"/>
           <MUIButton color="white" onClick={this.login}>Login</MUIButton>
           <MUIButton color="white" onClick={this.signup}>Sign up</MUIButton>
         </div>
