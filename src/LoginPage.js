@@ -11,14 +11,12 @@ class LoginPage extends Component {
       currentAction: "none"
     };
   }
+  componentDidMount() {
+    document.body.classList.toggle('backgroundColor', true)
+  }
   signup = () => {
     this.setState({
       currentAction: "signup"
-    });
-  }
-  login = () => {
-    this.setState({
-      currentAction: "login"
     });
   }
   back = () => {
@@ -32,26 +30,9 @@ class LoginPage extends Component {
     const divStyle = {
         width: '50%',
         margin: 'auto',
-        marginTop: '15px'
+        marginTop: '200px',
       };
-    if (this.state.currentAction == "login") {
-      return (
-        <div className="App">
-          <div style={divStyle}>
-            <div class="mui-textfield mui-textfield--float-label">
-              <input type="text" />
-              <label>Username</label>
-            </div>
-            <div class="mui-textfield mui-textfield--float-label">
-              <input type="text" />
-              <label>Password</label>
-            </div>
-            <MUIButton color="primary" onClick={this.back}>Back</MUIButton>
-            <MUIButton color="primary" onClick={this.registerLogin}>Login</MUIButton>
-          </div>
-        </div>
-      );
-    } else if (this.state.currentAction == "signup") {
+    if (this.state.currentAction == "signup") {
       return (
         <div className="App">
           <div style={divStyle}>
@@ -77,11 +58,24 @@ class LoginPage extends Component {
         </div>
       );
     } else {
+      const input_style = {
+        display: "block",
+        margin: "0 auto",
+        marginBottom: "10px",
+        padding: "10px",
+        borderRadius: "3px",
+        backgroundColor: "white",
+        border: "1px solid white",
+        width: "300px",
+        height: "20px",
+      }
       return (
-        <div className="App">
-          <h1>Welcome to Typephil!</h1>
-          <MUIButton color="primary" onClick={this.login}>Login</MUIButton>
-          <MUIButton color="primary" onClick={this.signup}>Sign up</MUIButton>
+        <div className="App" style={divStyle}>
+          <h1 style={{color: "white"}}>Welcome to Typephil!</h1>
+          <input type="text" placeholder="Username" style={input_style}/>
+          <input type="text" placeholder="Password" style={input_style}/>
+          <MUIButton color="white" onClick={this.login}>Login</MUIButton>
+          <MUIButton color="white" onClick={this.signup}>Sign up</MUIButton>
         </div>
       );
     }
