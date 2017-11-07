@@ -8,22 +8,21 @@ class HomePage extends Component {
     super(props);
       this.state = {
         currentAction: "home"
-	  };
+	 };
   }
-	componentDidMount() {
-		document.body.classList.toggle('backgroundColor', true)
+  componentDidMount() {
+  	document.body.classList.toggle('backgroundColor', true)
+  }
+  render() {
+  	if (this.state.currentAction == "home") {
+  		return (
+	      <div className="App" className="divStyle">
+          	<h1 style={{color: "white"}}>Welcome back</h1>
+          	xyz...
+          </div>
+		);
 	}
-
-	render() {
-		if (this.state.currentAction == "home") {
-			return (
-        <div className="App" className="divStyle">
-          <h1 style={{color: "white"}}>Welcome back</h1>
-          xyz...
-        </div>
-			);
-		}
-	}
+  }
 }
 
 export default HomePage;

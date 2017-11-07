@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom';
 import MUIButton from 'muicss/lib/react/button';
 import Dropdown from 'muicss/lib/react/dropdown';
 import DropdownItem from 'muicss/lib/react/dropdown-item';
+import HomePage from './HomePage.js'
+import { Switch, Route, Link } from 'react-router-dom'
+
 
 class LoginPage extends Component {
   constructor(props) {
@@ -83,6 +86,9 @@ class LoginPage extends Component {
           <div>
             <MUIButton color="white" onClick={this.login}>Login</MUIButton>
             <MUIButton color="white" onClick={this.signup}>Sign up</MUIButton>
+            <MUIButton color="white" onClick={this.signup}>
+              <Link to="/home">Home</Link>
+            </MUIButton>
           </div>
           <MUIButton color="white" onClick={this.resetPassword}>Forgot password?</MUIButton>
         </div>
@@ -91,8 +97,5 @@ class LoginPage extends Component {
 
   }
 }
-
-function login(event){}
-
 
 export default LoginPage;
