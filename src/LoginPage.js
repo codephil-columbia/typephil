@@ -8,16 +8,36 @@ import DropdownItem from 'muicss/lib/react/dropdown-item';
 import HomePage from './HomePage.js'
 import { Switch, Route, Link } from 'react-router-dom'
 
+import { dispatchLoggin } from './actions/auth';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentAction: "none"
+      currentAction: "none",
+      username: "",
+      password: ""
     };
   }
   componentDidMount() {
     document.body.classList.toggle('backgroundColor', true)
+  }
+
+  handleUsernameInput = e => {
+    this.setState({
+      username: e.target.value
+    })
+    console.log('In handle', this.state.username);
+  }
+
+  handlePasswordInput = e => {
+    this.setState({
+      password: e.target.value
+    })
+    console.log('In handle', this.state.password);
   }
 
   signup = () => {
@@ -37,10 +57,17 @@ class LoginPage extends Component {
   }
 
   registerSignup = () => {}
-  registerLogin = () => {}
+
+  registerLogin = () => {
+    const username = this.state.username;
+    const password = this.state.password;
+    console.log(username, password, 'still in front end')
+    this.props.dispatchLoggin(username, password);
+  }
   registerResetPassword = () => {}
 
   render() {
+    console.log(this.state.username, this.state.password);
     if (this.state.currentAction == "signup") {
       return (
         <div className="App">
@@ -81,10 +108,12 @@ class LoginPage extends Component {
       return (
         <div className="App" className="divStyle">
           <h1 style={{color: "white"}}>Welcome to Typephil!</h1>
-          <input type="text" placeholder="Username" className="textField"/>
-          <input type="text" placeholder="Password" className="textField"/>
+          <form>
+            <input type="text" placeholder="Username" className="textField" onChange={this.handleUsernameInput}/>
+            <input type="text" placeholder="Password" className="textField" onChange={this.handlePasswordInput}/>
+          </form>
           <div>
-            <MUIButton color="white" onClick={this.login}>Login</MUIButton>
+            <MUIButton color="white" onClick={this.registerLogin}>Login</MUIButton>
             <MUIButton color="white" onClick={this.signup}>Sign up</MUIButton>
             <MUIButton color="white" onClick={this.signup}>
               <Link to="/home">Home</Link>
@@ -98,4 +127,14 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.isLoggedIn
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ dispatchLoggin }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
