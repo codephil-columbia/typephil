@@ -1,14 +1,15 @@
 import { combineReducers } from 'redux';
 
 const initialState = {
+	isLoggedIn: false
 }
 
 const isLoggedIn = (state = initialState, action) => {
-  console.log('hitting reducer')
   switch(action.type) {
     case 'LOGIN_SUCCESS':
-      console.log('was success');
-      return true
+      return Object.assign({}, state, { isLoggedIn: true });
+    case 'LOGIN_FAILED':
+    	return Object.assign({}, state, { isLoggedIn: false });
     default:
       return false
   }

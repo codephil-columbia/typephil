@@ -8,7 +8,7 @@ import DropdownItem from 'muicss/lib/react/dropdown-item';
 import HomePage from './HomePage.js'
 import { Switch, Route, Link } from 'react-router-dom'
 
-import { dispatchLoggin } from './actions/auth';
+import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -30,14 +30,12 @@ class LoginPage extends Component {
     this.setState({
       username: e.target.value
     })
-    console.log('In handle', this.state.username);
   }
 
   handlePasswordInput = e => {
     this.setState({
       password: e.target.value
     })
-    console.log('In handle', this.state.password);
   }
 
   signup = () => {
@@ -61,14 +59,16 @@ class LoginPage extends Component {
   registerLogin = () => {
     const username = this.state.username;
     const password = this.state.password;
-    console.log(username, password, 'still in front end')
-    this.props.dispatchLoggin(username, password);
+    this.props.dispatchLogin(username, password);
   }
   registerResetPassword = () => {}
 
   render() {
-    console.log(this.state.username, this.state.password);
-    if (this.state.currentAction == "signup") {
+    if(this.props.isLoggedIn) {
+      return (
+        <div>logged in correctly</div>
+      )
+    } else if (this.state.currentAction == "signup") {
       return (
         <div className="App">
           <div className="divStyle">
@@ -129,12 +129,12 @@ class LoginPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.isLoggedIn
+    isLoggedIn: state.isLoggedIn
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchLoggin }, dispatch);
+  return bindActionCreators({ dispatchLogin }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
