@@ -1,25 +1,28 @@
 import axios from 'axios';
 
-export const dispatchLoginSuccess = () => {
-  return {
-    type: 'LOGIN_SUCCESS'
-  }
+export const loginSuccess = () => {
+    return {
+        type: 'LOGIN_SUCCESS'
+    }
 }
 
-export const dispatchLoginError = (err) => {
+export const loginError = err => {
   return {
     type: 'LOGIN_FAILED',
     payload: err
   }
 }
 
-export const dispatchLogin = (username, password) => {
+export const dispatchLogin = (email, password) => {
   return function(dispatch) {
-    return axios.post('http://127.0.0.1:3001/auth/signup', {username, password})
+    return axios.post('http://localhost:8081/auth/login', {email, password})
     .then(res => {
-      dispatch(dispatchLoginSuccess);
+        if(res.status !== 200) {
+            dispatch(loginError());
+        } 
+        dispatch(loginSuccess());
     }).catch(err => {
-      dispatch(dispatchLoginError(err));
+        dispatch(loginError());
     })
   }
 }

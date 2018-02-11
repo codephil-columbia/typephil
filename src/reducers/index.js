@@ -4,14 +4,14 @@ const initialState = {
 	isLoggedIn: false
 }
 
-const isLoggedIn = (state = initialState, action) => {
+const isLoggedIn = (state = false, action) => {
   switch(action.type) {
     case 'LOGIN_SUCCESS':
-      return Object.assign({}, state, { isLoggedIn: true });
+      return true
     case 'LOGIN_FAILED':
-    	return Object.assign({}, state, { isLoggedIn: false });
-    default:
       return false
+    default:
+      return state
   }
 }
 
