@@ -4,7 +4,7 @@ import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import './style/LandingPage.css'
+import './style/LoginPage.css'
 
 
 class LoginPage extends Component {

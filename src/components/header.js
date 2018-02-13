@@ -31,7 +31,7 @@ const HeaderRight = props => {
                 })}
             </div>
             <div className="header-pic">
-                <h3>bye</h3>
+                <h3>Sang</h3>
             </div>
         </div>
     )

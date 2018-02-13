@@ -1,0 +1,60 @@
+.header {
+    height: 74px;
+    background: #99C9C9;
+}
+
+.body {
+    margin-left: 2rem;
+}
+
+.list {
+    margin-left: 1rem;
+}
+
+.form-input {
+    height: 6rem;
+    font-size: 15px;
+}
+
+.header-left {
+    margin-left: 1rem;
+    padding-top: 1rem;
+}
+
+.content {
+    height: 700px;
+}
+
+.content-left {
+    float: left;
+    margin-top: 3rem;
+    width: 69%;
+}
+
+.content-right {
+    float: right;
+    margin-top: 10rem;
+    text-align: center;
+    width: 29%;
+
+}
+
+.line-verticle {
+    border-left: thick solid #ff0000;
+  }
+
+.button-primary.solid {
+    background-color: #99C9C9;
+    border: white;
+}
+
+.button.button-outline.transparent {
+    background-color: white;
+    border: 0.1rem solid #99C9C9;
+    color: #99C9C9;
+}
+
+.login {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
