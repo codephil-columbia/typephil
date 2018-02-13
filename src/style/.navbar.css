@@ -1,0 +1,30 @@
+.header {
+    height: 74px;
+    background: #99C9C9;
+}
+
+.header-left {
+    margin-left: 1rem;
+    padding-top: 1rem;
+    float: left;
+}
+
+.header-right {
+    float: right;
+    margin-top: 2rem;
+    margin-right: 2rem;
+
+}
+
+.header-links {
+    float: left;
+    margin-right: 1.5rem;
+}
+
+.header-pic {
+    float: right;
+}
+
+.header-links.link {
+    float: left;
+}

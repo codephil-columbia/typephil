@@ -3,37 +3,35 @@ import '../style/navbar.css'
 
 const Header = props => {
   return (
-    <div className="header">
-        <HeaderLeft />
-        <HeaderRight links={["Home", "Learn"]}/>
-    </div>
+    <nav className="navigation">
+        <div className="container">
+            <HeaderLeft/>
+            <HeaderRight links={["Home", "Learn"]}/>
+        </div>
+    </nav>
   )
 }
 
 const HeaderLeft = _ => {
     return (
-        <div>
-            <h1 className="header-left">TypePhil</h1>
-        </div>
+        <a className="navigation-title" href="/home">TypePhil</a>
     )
 }
 
 const HeaderRight = props => {
     return (
-        <div className="header-right">
-            <div className="header-links">
-                {props.links.map((link, i) => {
-                    return (
-                        <h3 className="header-links link" key={i}>
-                            <a href="#">{link}</a>
-                        </h3>
-                    )
-                })}
-            </div>
-            <div className="header-pic">
-                <h3>Sang</h3>
-            </div>
-        </div>
+        <ul className="navigation-list float-right">
+            <li className="navigation-item">
+                Sang 
+            </li>
+            {props.links.map((link, i) => {
+                return (
+                    <li className="navigation-item" key={i}>
+                        <a className="navigation-link" href="#">{ link }</a>
+                    </li>
+                )
+            })}
+        </ul>
     )
 }
 
