@@ -1,6 +1,30 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-body {
-  margin: 0;
-  padding: 0;
+.container {
+    width: 100vw;
+}
+
+.left-panel {
+    font-size: 1.5rem;
+    padding: 2rem; 
+}
+
+h1 {
+    color: #2A2A2A;
+    font-size: 2.5rem; 
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+button {
+    background-color: #EFEFEF;
+    border: none;
+    color: #2A2A2A;
+}
+button:hover, button:active {
+    background-color: #DEDEDE;
+    color: #2A2A2A;
 }
