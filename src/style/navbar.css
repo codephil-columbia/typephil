@@ -12,7 +12,7 @@
 }
 .navigation-title:hover, .navigation-title:active {
     color: #6C7A89;
-    transition: color 50ms linear 0s;
+    transition: color 20ms linear 0s;
 }
 
 .navigation-item {
@@ -23,7 +23,7 @@
     padding: 0 2rem 1rem 2rem;
 
     border-bottom: 4px solid transparent;
-    transition: border-bottom-color 50ms linear 0s;
+    transition: border-bottom-color 20ms linear 0s;
 }
 
 .navigation-item:hover, .navigation-item:active {
