@@ -50,18 +50,28 @@ class SignupPage extends Component {
             <div className="row">
                 <div className="column column-50">
                     <div className="left-panel">
-                        <h1>Sign up - it's free!</h1>
+                        <h1>Sign up - It's free!</h1>
                         <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
                         <p>By signing up for TypePhil, you agree to our Terms of Use and Privacy Notice.</p>
+                    
+                        <p>If you would like to create an instructor account, please click below.</p>
+                        <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
+
                     </div>
                 </div>
                 <div className="column column-50">
                     <div className="right-panel">
-                        <h2>Name</h2>
-                        <h2>Username</h2>
-                        <h2>Password</h2>
-                        <h2>Re-type password</h2>
-                        <button>Continue</button>
+                        <h2>NAME</h2>
+                        <input placeholder="First Name"/>
+                        <input placeholder="Last Name"/>
+
+                        <h2>USERNAME</h2>
+                        <h2>SCHOOL YEAR</h2>
+                        <h2>GENDER</h2>
+                        <h2>EMAIL ADDRESS</h2>
+                        <h2>PASSWORD</h2>
+                        <h2>RE-TYPE PASSWORD</h2>
+                        <button id="btn-sign-up">SIGN UP</button>
                     </div>
                 </div>
             </div>

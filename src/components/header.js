@@ -22,7 +22,7 @@ const HeaderRight = props => {
     return (
         <ul className="navigation-list float-right">
             <li className="navigation-item">
-                Sang 
+                Cesar 
             </li>
             {props.links.map((link, i) => {
                 return (

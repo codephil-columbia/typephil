@@ -1,10 +1,11 @@
 .navigation {
-    background-color: #86E2D5;
+/*    background-color: #86E2D5;*/
+    background-color: #77BFA3;
     padding: 1rem;
 }
 
 .navigation a {
-    color: #2A2A2A;
+    color: white;
 }
 
 .navigation-title {

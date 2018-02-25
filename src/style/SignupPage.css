@@ -20,9 +20,12 @@ h2 {
 }
 
 button {
-    background-color: #EFEFEF;
+    background-color: #BFD8BD;/*#EFEFEF;*/
     border: none;
-    color: #2A2A2A;
+    color: white;
+}
+#btn-sign-up{
+    background-color: #9AD4BE;
 }
 button:hover, button:active {
     background-color: #DEDEDE;
