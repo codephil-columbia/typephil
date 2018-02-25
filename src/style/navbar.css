@@ -1,15 +1,13 @@
 .navigation {
-    background-color: #86E2D5;
+    background-color: #77BFA3;
     padding: 1rem;
+    font-size: 3.5rem;
 }
 
 .navigation a {
-    color: #2A2A2A;
+    color: #ffffff;
 }
 
-.navigation-title {
-    font-size: 2rem;
-}
 .navigation-title:hover, .navigation-title:active {
     color: #6C7A89;
     transition: color 50ms linear 0s;

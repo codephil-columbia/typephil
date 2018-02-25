@@ -4,6 +4,8 @@ import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Header from './components/header';
+
 import './style/LoginPage.css'
 
 
@@ -12,7 +14,8 @@ class LoginPage extends Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      headerLinks: []
     };
   }
 
@@ -37,6 +40,7 @@ class LoginPage extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
+    const { headerLinks } = this.state;
     
     if(isLoggedIn) {
         return <Redirect to="/home"/>
@@ -44,9 +48,7 @@ class LoginPage extends Component {
 
     return (
       <div>
-        <div className="header">
-          <h1 className="header-left">TypePhil</h1>
-        </div>
+        <Header links={headerLinks} username=""/>
         <div className="content">
           <div className="content-left">
             <div className="body">

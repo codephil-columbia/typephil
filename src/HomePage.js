@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Header from './components/header'
 
 import "./style/HomePage.css";
@@ -8,19 +10,23 @@ class HomePage extends Component {
         super(props);
 
         this.state = {
-
+            headerLinks: ["Home", "Learn", "Games"]
         }
-    }
-
-    setHeaders() {
-        return ['Home', 'Learn', 'Games']
     }
 
 
     render() {
+        const { headerLinks } = this.state;
+        const { isLoggedIn } = this.props;
+        const dummyUser = "Neil"
+
+        if(!isLoggedIn) {
+            return <Redirect to="/login"/>
+        }
+
         return (
             <div>
-                <Header/>
+                <Header links={headerLinks} username={dummyUser}/>
                 <div className="content">
                     <div className="quickstart">
                         <div className="qs-lesson-info">
@@ -42,6 +48,11 @@ class HomePage extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        isLoggedIn: state.isLoggedIn
+    }
+}
 
 
-export default HomePage;
+export default connect(mapStateToProps)(HomePage);

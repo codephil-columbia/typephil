@@ -2,19 +2,23 @@ import React from 'react';
 import '../style/navbar.css'
 
 const Header = props => {
-  return (
-    <nav className="navigation">
-        <div className="container">
-            <HeaderLeft/>
-            <HeaderRight links={["Home", "Learn"]}/>
-        </div>
-    </nav>
-  )
+    return (
+        <nav className="navigation">
+            <div className="container">
+                <HeaderLeft/>
+                <HeaderRight links={props.links} username={props.username}/>
+            </div>
+        </nav>
+    )
 }
 
 const HeaderLeft = _ => {
     return (
-        <a className="navigation-title" href="/home">TypePhil</a>
+            <div>
+            <a className="navigation-title" href="/home">TypePhil</a>
+            <h5>created by</h5>
+            <h5>CodePhil</h5>
+            </div>
     )
 }
 
@@ -22,7 +26,7 @@ const HeaderRight = props => {
     return (
         <ul className="navigation-list float-right">
             <li className="navigation-item">
-                Sang 
+                {props.username} 
             </li>
             {props.links.map((link, i) => {
                 return (

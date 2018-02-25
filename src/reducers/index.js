@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 const initialState = {
-	isLoggedIn: false
+    isLoggedIn: false
 }
 
 const isLoggedIn = (state = false, action) => {
