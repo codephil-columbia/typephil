@@ -4,7 +4,7 @@ import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header'    
-//import './style/SignupPage.css'
+import './style/SignupPage.css'
 
 
 class SignupPage extends Component {
@@ -43,9 +43,41 @@ class SignupPage extends Component {
     }
 
     return (
-      <div>
-        <Header/>
-      </div>
+        <div>
+        <Header links={[]}/>
+       
+        <div className="container">
+            <div className="row">
+                <div className="column column-50">
+                    <div className="left-panel">
+                        <h1 className="title">Sign up - It's free!</h1>
+                        <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
+                        <p>By signing up for TypePhil, you agree to our Terms of Use and Privacy Notice.</p>
+                    
+                        <p>If you would like to create an instructor account, please click below.</p>
+                        <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
+
+                    </div>
+                </div>
+                <div className="column column-50">
+                    <div className="right-panel">
+                        <h2 className="field">NAME</h2>
+                        <input placeholder="First Name"/>
+                        <input placeholder="Last Name"/>
+
+                        <h2 className="field">USERNAME</h2>
+                        <h2 className="field">SCHOOL YEAR</h2 >
+                        <h2 className="field">GENDER</h2>
+                        <h2 className="field">EMAIL ADDRESS</h2>
+                        <h2 className="field">PASSWORD</h2>
+                        <h2 className="field">RE-TYPE PASSWORD</h2>
+                        <button id="btn-sign-up">SIGN UP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
     )
   }
 }

@@ -12,6 +12,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
+import TutorialInstructions from './TutorialInstructions';
 
 let store = createStore(
   typephilApp,
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Route exact path="/home" component={HomePage} />
         <Route exact path="/login" component={LoginPage}/>
         <Route exact path="/signup" component={SignupPage}/>
+        <Route exact path="/instructions" component={TutorialInstructions}/>
       </Switch>
     </BrowserRouter>
   </Provider>,

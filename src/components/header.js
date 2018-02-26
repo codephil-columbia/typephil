@@ -14,24 +14,18 @@ const Header = props => {
 
 const HeaderLeft = _ => {
     return (
-            <div>
-            <a className="navigation-title" href="/home">TypePhil</a>
-            <h5>created by</h5>
-            <h5>CodePhil</h5>
-            </div>
+        <a className="navigation-title" href="/home">TypePhil</a>
     )
 }
 
 const HeaderRight = props => {
     return (
         <ul className="navigation-list float-right">
-            <li className="navigation-item">
-                {props.username} 
-            </li>
+            <li className="navigation-item">{props.username}</li>
             {props.links.map((link, i) => {
                 return (
                     <li className="navigation-item" key={i}>
-                        <a className="navigation-link" href="#">{ link }</a>
+                        <a className="" href="#">{ link }</a>
                     </li>
                 )
             })}

@@ -1,6 +1,34 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-body {
-  margin: 0;
-  padding: 0;
+.container {
+    width: 100vw;
+}
+
+.left-panel {
+    font-size: 1.5rem;
+    padding: 2rem; 
+}
+
+.title {
+    color: #2A2A2A;
+    font-size: 2.5rem; 
+    text-align: center;
+}
+
+.field {
+    font-size: 2rem;
+}
+
+button {
+    background-color: #BFD8BD;/*#EFEFEF;*/
+    border: none;
+    color: white;
+}
+#btn-sign-up{
+    background-color: #9AD4BE;
+}
+
+button:hover, button:active {
+    background-color: #DEDEDE;
+    color: #2A2A2A;
 }
