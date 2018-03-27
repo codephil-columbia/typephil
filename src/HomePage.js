@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from './components/header'
 
 import "./style/HomePage.css";
+import header from './components/header';
 
 
 class HomePage extends Component {
@@ -13,6 +14,12 @@ class HomePage extends Component {
       this.state = {
         headerLinks: ["Learn", "Progress", "Home"],
         badges: ["WPM", "Accuracy", "Badges"],
+        badgeDescriptions: [
+          "Words Per Minute. \n The faster you type, \n the higher the number",
+          "Accuracy is how \n accurately you type \n words that appear.",
+          "The number of badges \n you have \n earned so far."
+          
+        ]
       }
   }
 
@@ -20,9 +27,12 @@ class HomePage extends Component {
       this.setState({redirectLesson: true})
   }
 
+  splitBadgeDescriptionByLine = desc => {
+    return desc.split('\n');
+  }
 
   render() {
-    const { badges, headerLinks } = this.state;
+    const { badges, headerLinks, badgeDescriptions } = this.state;
     const { isLoggedIn } = this.props;
     const dummyUser = "Neil"
 
@@ -54,14 +64,19 @@ class HomePage extends Component {
           <hr className="line"/>
           <div className="scores">
               {badges.map((badge, i) => {
+                const badgeDescSplit = this.splitBadgeDescriptionByLine(badgeDescriptions[i]);
                 return (
                     <div className="badge">
                       <div className="badge-content">
                         <h1>26</h1>
                       </div>
                       <div className="badge-description">
-                        <h3><strong>WPM</strong></h3>
-                        <p> Words per minute<br></br> The faster you type,<br></br> the higher the number</p>
+                        <h3><strong>{badge}</strong></h3>
+                        <p>
+                          {badgeDescSplit.map(desc => {
+                            return <span>{desc}<br></br></span>
+                          })}
+                        </p>
                       </div>
                     </div>
                 )
