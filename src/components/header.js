@@ -5,7 +5,7 @@ import '../style/navbar.css'
 const Header = props => {
     return (
         <nav className="navigation">
-            <div className="container">
+            <div className="">
                 <HeaderLeft/>
                 <HeaderRight links={props.links} username={props.username}/>
             </div>
@@ -15,7 +15,7 @@ const Header = props => {
 
 const HeaderLeft = _ => {
     return (
-        <a className="navigation-title" href="/home">TypePhil</a>
+        <a className="navigation-title" href="/">TypePhil</a>
     )
 }
 
