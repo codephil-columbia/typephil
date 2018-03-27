@@ -2,15 +2,35 @@
     height: 76px;	
     width: 220px;	
     border-radius: 8px;	
-    background-color: #BFD8BD;	
     color: white;
+    background-color: #BFD8BD;	
     border: none;
     font-size: 20px;
 }
 
+.badge {
+    margin: 0 auto;
+    display: flex;
+}
+
+.badge-content {
+    border-radius: 19px;
+    height: 150px;
+    width: 150px;
+    background-color: #97c9a3;
+    margin-right: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.badge-description {
+}
+
 .quickstart {
-    margin-left: 120px;
-    margin-top: 58px;
+    margin-top: 15rem;
+    display: flex;
+    justify-content: space-around;
 }
 
 .title {
@@ -51,7 +71,8 @@
 }
 
 .scores {
-    margin-top: 20px;
+    margin-top: 150px;
+    display: flex;
 }
 
 .column.badge {
@@ -63,7 +84,7 @@
     height: 50px;
     border: 0;
     border-top: 1px solid #ccc;
-    margin: 5rem 0;
+    margin: 15rem 13rem;
     padding: 0;
 }
 

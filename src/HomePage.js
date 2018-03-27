@@ -11,7 +11,7 @@ class HomePage extends Component {
       super(props);
 
       this.state = {
-        headerLinks: ["Home", "Progress", "Learn"],
+        headerLinks: ["Learn", "Progress", "Home"],
         badges: ["WPM", "Accuracy", "Badges"],
       }
   }
@@ -33,11 +33,11 @@ class HomePage extends Component {
           <div className="title">
             <h1>Welcome Back, Phil!</h1>
           </div>
-          <div className="row quickstart">
-            <div className="column qs-lesson-info">
+          <div className="quickstart">
+            <div className="qs-lesson-info">
               <h3 className="qs-lesson-title">CHAPTER 2 | LESSON 1</h3>
               <h3 className="qs-lesson-excersise"> Introduction to Shift Key</h3>
-              <Link to="/learn" className="button button-outline start">Start</Link>
+              <Link to="/learn"><button className="button button-outline start">Start</button></Link>
               <div className="qs-progress">
                 <div className="progress">
                   <div className="progress-bar w-25" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
@@ -47,24 +47,28 @@ class HomePage extends Component {
                 </div>
               </div>
             </div>
-            <div className="column qs-image">
+            <div className="qs-image">
+              <h1>henlo</h1>
             </div>
           </div>
           <hr className="line"/>
           <div className="scores">
-            <div className="row">
               {badges.map((badge, i) => {
                 return (
-                  <div className="column badge">
-                  <i className="fas fa-car fa-6x"></i>
-                    <h3 key={i}>{badge}</h3>
-                  </div>
+                    <div className="badge">
+                      <div className="badge-content">
+                        <h1>26</h1>
+                      </div>
+                      <div className="badge-description">
+                        <h3><strong>WPM</strong></h3>
+                        <p> Words per minute<br></br> The faster you type,<br></br> the higher the number</p>
+                      </div>
+                    </div>
                 )
               })}
             </div>
           </div>
         </div>
-      </div>
     )
   }
 }
