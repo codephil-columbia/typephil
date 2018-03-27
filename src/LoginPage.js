@@ -15,7 +15,7 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
-      headerLinks: []
+      headerLinks: ["Learn", "Progress", "Home"]
     };
   }
 
@@ -39,12 +39,10 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    // const { isLoggedIn } = this.props;
+    const isLoggedIn = true;
     const { headerLinks } = this.state;
-    
-    if(isLoggedIn) {
-        return <Redirect to="/home"/>
-    }
+  
 
     return (
       <div>

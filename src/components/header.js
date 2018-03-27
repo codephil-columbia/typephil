@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../style/navbar.css'
 
 const Header = props => {
@@ -23,9 +24,10 @@ const HeaderRight = props => {
         <ul className="navigation-list float-right">
             <li className="navigation-item">{props.username}</li>
             {props.links.map((link, i) => {
+                const routePath = `/${link.toLowerCase()}`;
                 return (
                     <li className="navigation-item" key={i}>
-                        <a className="" href="#">{ link }</a>
+                        <Link to={routePath}>{ link }</Link>
                     </li>
                 )
             })}

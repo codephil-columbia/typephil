@@ -1,0 +1,24 @@
+.title-content {
+    width: 586px;
+    color: #77BFA3;
+    margin-left: 40px;
+    line-height: 55px;
+}
+
+.block {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.block-info {
+    text-align: center;
+    margin-top: 50px;
+    color: #4a4a4a;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 60px;    
+}
+
+.link {
+    color: #77BFA3;
+}
