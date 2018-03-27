@@ -10,7 +10,7 @@ class Unit extends Component {
     super(props);
     this.state = {
       chapters: ["The Basics", "Home Row", "Shift & Punctiation"],
-      headerLinks: ["Home", "Progress", "Learn"]
+      headerLinks: ["Learn", "Progress", "Home"]
     }
   }
 
