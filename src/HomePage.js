@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import Header from './components/header'
 
 import "./style/HomePage.css";
-import header from './components/header';
-
 
 class HomePage extends Component {
   constructor(props) {
@@ -33,8 +31,6 @@ class HomePage extends Component {
 
   render() {
     const { badges, headerLinks, badgeDescriptions } = this.state;
-    const { isLoggedIn } = this.props;
-    const dummyUser = "Neil"
 
     return (
       <div>
@@ -66,19 +62,19 @@ class HomePage extends Component {
               {badges.map((badge, i) => {
                 const badgeDescSplit = this.splitBadgeDescriptionByLine(badgeDescriptions[i]);
                 return (
-                    <div className="badge">
-                      <div className="badge-content">
-                        <h1>26</h1>
-                      </div>
-                      <div className="badge-description">
-                        <h3><strong>{badge}</strong></h3>
-                        <p>
-                          {badgeDescSplit.map(desc => {
-                            return <span>{desc}<br></br></span>
-                          })}
-                        </p>
-                      </div>
+                  <div className="badge">
+                    <div className="badge-content">
+                      <h1>26</h1>
                     </div>
+                    <div className="badge-description">
+                      <h3><strong>{badge}</strong></h3>
+                      <p>
+                        {badgeDescSplit.map(desc => {
+                          return <span>{desc}<br></br></span>
+                        })}
+                      </p>
+                    </div>
+                  </div>
                 )
               })}
             </div>

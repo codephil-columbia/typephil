@@ -28,7 +28,7 @@
 }
 
 .quickstart {
-    margin-top: 15rem;
+    margin-top: 5%;
     display: flex;
     justify-content: space-around;
 }
@@ -71,7 +71,6 @@
 }
 
 .scores {
-    margin-top: 150px;
     display: flex;
 }
 
@@ -84,7 +83,7 @@
     height: 50px;
     border: 0;
     border-top: 1px solid #ccc;
-    margin: 15rem 13rem;
+    margin: 2% 1%;
     padding: 0;
 }
 

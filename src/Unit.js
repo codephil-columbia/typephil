@@ -9,7 +9,16 @@ class Unit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chapters: ["The Basics", "Home Row", "Shift & Punctiation"],
+      chapters: [
+        "The Basics", 
+        "Home Row", 
+        "Shift & Punctiation",
+        "Top Row",
+        "Bottom Row",
+        "Establishing a Rhythm",
+        "Numbers",
+        "Special Characters"
+      ],
       headerLinks: ["Learn", "Progress", "Home"]
     }
   }
@@ -25,37 +34,36 @@ class Unit extends Component {
           </div>
           <div className="block">
             <div className="carousel">
-              <div className="row">
-                <div className="column">
-                  <h1>b/</h1>
+              <div className="arrow-left">
+                <h3>a</h3>
+              </div>
+              <div className="carousel-content">
+                <div className="carousel-title">
+                  <h2 className="title">Overview</h2>
                 </div>
-                <div className="column">
-                  <h3>Overview</h3>
-                  <h3>Add Subtitle</h3>
+                <div className="carousel-desc">
+                  <h3 className="desc">Add subtitle</h3>
                 </div>
-                <div className="column">
-                  <h1>\b</h1>
-                </div>
+              </div>
+              <div className="arrow-right">
+                <h3></h3>
               </div>
             </div>
             <div className="block-info">
-              <div className="row">
-                <div className="column">
-                </div>
-                <div className="column">
-                  <ol>
-                    {chapters.map((chapter, index) => {
-                      return (
-                        <li>
-                          <Link to="" className="link">{chapter}</Link>
-                        </li>
-                      )
-                    })}
-                  </ol>
-                </div>
-                <div className="column">
-                </div>
-              </div>  
+              <div className="unit-info">
+              {chapters.map((c, i) => {
+                return (
+                  <div className="unit">
+                    <div className="unit-num">
+                      <h4 className="num">{i}</h4>
+                    </div>
+                    <div className="unit-name">
+                      <h4>{c}</h4>
+                    </div>
+                  </div>
+                )
+              })}
+              </div>
             </div>
           </div>
         </div>
