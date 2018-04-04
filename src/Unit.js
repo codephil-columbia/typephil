@@ -44,7 +44,7 @@ class Unit extends Component {
                 <div className="carousel-desc">
                   <h3 className="desc">Add subtitle</h3>
                 </div>
-              </div>
+              </div> n
               <div className="arrow-right">
                 <h3></h3>
               </div>

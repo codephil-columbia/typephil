@@ -55,21 +55,23 @@ class LoginPage extends Component {
               </div>
               <div className="body-image">
                 <p>arrow</p>
-                <h1>image</h1>
+                <img src="TypephilDesktop.svg" className="big-img"></img>
                 <p>arrow</p>
               </div>
               <div className="footer">
                 <h3>We're partnering with the best and brightest!</h3>
                 <div className="footer-boxes">
-                  Something something something
+                  <img src="DICT_logo.png" className="logo"></img>
+                  <img src="Columbia_logo.png" className="logo"></img>
+                  <img src="MIT_logo.png" className="logo"></img>
                 </div> 
               </div>
             </div>
           </div>
           <vl className="content-sep"/>
           <div className="content-right">
-            <div className="logo">
-              Logo here
+            <div className="">
+              <img src="PalmTree.svg" className="img-right"></img>
             </div>
             <div className="login">
               <form onSubmit={this.login}>

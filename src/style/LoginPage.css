@@ -5,7 +5,39 @@
 
 .content-sep {
     width: 1px;
-    border: 2px solid #979797;
+    border: 1px solid #979797;
+}
+
+.footer-boxes {
+    display: flex;
+    justify-content: center;
+}
+
+.big-img {
+    height: 500px;
+}
+
+.footer {
+    margin-top: 3rem;
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
+    margin-right: 20px;
+}
+
+.login-img {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.img-right {
+    height: 300px;
+    width: 300px;
+    margin-top: 5rem;
 }
 
 .form-buttons {
@@ -27,28 +59,29 @@
 }
 
 .content-left {
-    width: 70%;
+    width: 60%;
     text-align: center;
 }
 
 .body-image {
-    margin: 17rem 0 17rem 0;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-top: 3rem;
 }
 
 .login-content {
     display: flex;
     justify-content: space-around;
-    margin-top: 15rem;
+    margin-top: 7rem;
 }
 
 .content-right {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 20%;
+    align-items: center;
+    width: 30%;
 }
 
 .login {
