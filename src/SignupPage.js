@@ -47,31 +47,68 @@ class SignupPage extends Component {
         <Header/>
        
         <div className="container">
+            <div className="row" id="space">
+            </div>
             <div className="row">
-                <div className="column column-50">
+                <div className="column column-40">
                     <div className="left-panel">
                         <h1>Sign up - It's free!</h1>
                         <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
                         <p>By signing up for TypePhil, you agree to our Terms of Use and Privacy Notice.</p>
-                    
-                        <p>If you would like to create an instructor account, please click below.</p>
-                        <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
+                        <div id="space2">
+                        </div>
 
+                        <div className="left-center">  
+                          <p>If you would like to create an instructor account, please click below.</p>
+                          <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
+                        </div>
                     </div>
                 </div>
-                <div className="column column-50">
-                    <div className="right-panel">
-                        <h2>NAME</h2>
-                        <input placeholder="First Name"/>
-                        <input placeholder="Last Name"/>
 
-                        <h2>USERNAME</h2>
-                        <h2>SCHOOL YEAR</h2>
-                        <h2>GENDER</h2>
-                        <h2>EMAIL ADDRESS</h2>
-                        <h2>PASSWORD</h2>
-                        <h2>RE-TYPE PASSWORD</h2>
-                        <button id="btn-sign-up">SIGN UP</button>
+                <div className="column column-10">
+                </div>
+
+                <div className="vertical-line">
+                </div>
+
+                <div className="column column-10">
+                </div>
+
+                <div className="column column-40">
+                    <div className="right-panel">
+                        <div className="row">
+                            <div className="column column-50">
+                                <h2>USERNAME</h2>
+                                <input placeholder=""/>
+                            </div>
+                            <div className="column column-50">
+                                <h2>BIRTHDATE</h2>
+                                <div className="column column-30">
+                                  <input placeholder="Day"/>
+                                </div>
+                                <div className="column column-30">
+                                  <input placeholder="Month"/>
+                                </div>
+                                <div className="column column-30">
+                                  <input placeholder="Year"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="column column-50">
+                                <h2>PASSWORD</h2>
+                            </div>
+                            <div className="column column-50">
+                                <h2>RE-TYPE PASSWORD</h2>
+                            </div>
+                        </div>
+
+                        <div className="row btn-sign-up">
+                            <div className="column column-50 column-offset-25">
+                                <button id="btn-sign-up">SIGN UP</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

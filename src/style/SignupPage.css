@@ -1,22 +1,56 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
+
+body {
+    color: #4A4A4A;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 200%;
+}
 
 .container {
-    width: 100vw;
+    max-width: 100vw;
+    width: 85vw;
 }
 
 .left-panel {
-    font-size: 1.5rem;
-    padding: 2rem; 
+    padding: 2rem;
+}
+.left-center {
+    text-align: center;
+}
+
+.right-panel {
+    padding-left: 10rem;
+}
+
+.vertical-line {
+    border-left: 2px solid #52B094;
+    height: 78vh;
+}
+
+.row input {
+    border-color: #52B094;
+    border-width: 2px;
+    border-style: solid;
+    width: inherit;
 }
 
 h1 {
     color: #2A2A2A;
-    font-size: 2.5rem; 
+    font-size: 3.5rem; 
     text-align: center;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+#space {
+  height: 5rem;
+}
+#space2 {
+  height: 22rem;
 }
 
 button {
@@ -26,6 +60,9 @@ button {
 }
 #btn-sign-up{
     background-color: #9AD4BE;
+}
+.btn-sign-up{
+    margin: auto;
 }
 button:hover, button:active {
     background-color: #DEDEDE;
