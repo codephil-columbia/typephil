@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 
 import typephilApp from './reducers';
 
-import './index.css';
+import './index.scss';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import LoginPage from './LoginPage';
