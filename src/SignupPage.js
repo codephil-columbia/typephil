@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import Header from './components/header'    
 import './style/SignupPage.css'
 
-
 class SignupPage extends Component {
   constructor(props) {
     super(props);
@@ -44,21 +43,19 @@ class SignupPage extends Component {
 
     return (
         <div>
-        <Header/>
+        <Header links={[]}/>
        
         <div className="container">
-            <div className="row" id="space">
-            </div>
-            <div className="row">
+            <div className="row" id="container">
                 <div className="column column-40">
                     <div className="left-panel">
-                        <h1>Sign up - It's free!</h1>
+                        <h1 className="title">Sign up - It's free!</h1>
                         <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
                         <p>By signing up for TypePhil, you agree to our Terms of Use and Privacy Notice.</p>
                         <div id="space2">
                         </div>
 
-                        <div className="left-center">  
+                        <div className="center">  
                           <p>If you would like to create an instructor account, please click below.</p>
                           <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
                         </div>

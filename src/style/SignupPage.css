@@ -2,48 +2,46 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
 
 body {
-    color: #4A4A4A;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 200%;
+  color: #4A4A4A;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 200%;
 }
 
-.container {
-    max-width: 100vw;
-    width: 85vw;
+#container {
+  margin-top: 10vh;
+  height: 70vh;
+  max-height: 70vh;
 }
 
 .left-panel {
-    padding: 2rem;
-}
-.left-center {
-    text-align: center;
+  padding: 1em;
+  text-align: justify;
 }
 
-.right-panel {
-    padding-left: 10rem;
+.center {
+  text-align: center;
 }
 
 .vertical-line {
-    border-left: 2px solid #52B094;
-    height: 78vh;
+  border-left: 2px solid #52B094;
 }
 
 .row input {
-    border-color: #52B094;
-    border-width: 2px;
-    border-style: solid;
-    width: inherit;
+  border-color: #52B094;
+  border-width: 2px;
+  border-style: solid;
+  width: inherit;
 }
 
-h1 {
-    color: #2A2A2A;
-    font-size: 3.5rem; 
-    text-align: center;
+.title {
+  color: #2A2A2A;
+  font-size: 3.5rem; 
+  text-align: center;
 }
 
 h2 {
-    font-size: 1.5rem;
-    letter-spacing: 1px;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
 }
 
 #space {
@@ -53,18 +51,22 @@ h2 {
   height: 22rem;
 }
 
+.field {
+  font-size: 2rem;
+}
+
 button {
-    background-color: #BFD8BD;/*#EFEFEF;*/
-    border: none;
-    color: white;
+  background-color: #BFD8BD;/*#EFEFEF;*/
+  border: none;
+  color: white;
 }
-#btn-sign-up{
-    background-color: #9AD4BE;
-}
+
 .btn-sign-up{
-    margin: auto;
+  background-color: #9AD4BE;
+  margin: auto;
 }
+
 button:hover, button:active {
-    background-color: #DEDEDE;
-    color: #2A2A2A;
+  background-color: #DEDEDE;
+  color: #2A2A2A;
 }

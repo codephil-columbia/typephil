@@ -9,7 +9,8 @@
 }
 
 .navigation-title {
-    font-size: 2rem;
+    font-size: 3rem;
+    margin-left: 2rem;
 }
 .navigation-title:hover, .navigation-title:active {
     color: #6C7A89;
@@ -25,6 +26,9 @@
 
     border-bottom: 4px solid transparent;
     transition: border-bottom-color 20ms linear 0s;
+
+    margin-top: 5px;
+    font-size: 2rem;
 }
 
 .navigation-item:hover, .navigation-item:active {

@@ -32,9 +32,11 @@
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
-    "jest": "^21.2.1",
-    "@storybook/react": "^3.2.16",
     "@storybook/addon-actions": "^3.2.16",
-    "@storybook/addon-links": "^3.2.16"
+    "@storybook/addon-links": "^3.2.16",
+    "@storybook/react": "^3.2.16",
+    "jest": "^21.2.1",
+    "node-sass": "^4.8.3",
+    "sass-loader": "^7.0.1"
   }
 }

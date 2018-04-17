@@ -4,6 +4,8 @@ import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Header from './components/header';
+
 import './style/LoginPage.css'
 
 
@@ -12,7 +14,8 @@ class LoginPage extends Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      headerLinks: ["Learn", "Progress", "Home"]
     };
   }
 
@@ -36,51 +39,51 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
-    
-    if(isLoggedIn) {
-        return <Redirect to="/home"/>
-    }
+    // const { isLoggedIn } = this.props;
+    const isLoggedIn = true;
+    const { headerLinks } = this.state;
+  
 
     return (
       <div>
-        <div className="header">
-          <h1 className="header-left">TypePhil</h1>
-        </div>
-        <div className="content">
+        <Header links={headerLinks} username=""/>
+        <div className="login-content">
           <div className="content-left">
             <div className="body">
-              <div className="title">
-                <h2>A fun, customized way to learn how to type</h2>
+              <div className="body-title">
+                <h2>A fun, customized way to learn how to type!</h2>
               </div>
-                <dl className="list">
-                  <dt>Interactive typing lessons</dt>
-                  <dt>Identify stengthns and weaknesses</dt>
-                  <dt>Interactive typing lessons</dt>
-                </dl>
+              <div className="body-image">
+                <p>arrow</p>
+                <img src="TypephilDesktop.svg" className="big-img"></img>
+                <p>arrow</p>
+              </div>
               <div className="footer">
                 <h3>We're partnering with the best and brightest!</h3>
                 <div className="footer-boxes">
-                  Something something something
+                  <img src="DICT_logo.png" className="logo"></img>
+                  <img src="Columbia_logo.png" className="logo"></img>
+                  <img src="MIT_logo.png" className="logo"></img>
                 </div> 
               </div>
             </div>
           </div>
+          <vl className="content-sep"/>
           <div className="content-right">
-            <div className="logo">
+            <div className="">
+              <img src="PalmTree.svg" className="img-right"></img>
             </div>
             <div className="login">
               <form onSubmit={this.login}>
-                <fieldset>
-                  <input type="text" placeholder="Username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
-                  <input type="password" placeholder="Password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
-                  <div>
-                    <input className="button-primary solid" type="submit" value="Login"/>
+                  <div className="form-inputs">
+                    <input type="text" placeholder="Enter Your Username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
+                    <input type="password" placeholder="Enter Your Password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
                   </div>
-                  <div>
-                    <input className="button button-outline transparent" type="submit" value="Sign Up for Free"/>
+                  <div className="form-buttons">
+                    <input className="form-button button-primary solid" type="submit" value="SIGN IN"/>
+                    <p> OR </p>
+                    <input className="form-button button-primary solid" type="submit" value="SIGN UP"/>
                   </div>
-                </fieldset>
               </form>
             </div>
           </div>
