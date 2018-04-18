@@ -54,11 +54,9 @@ class SignupPage extends Component {
                         <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
                         <p>By signing up for TypePhil, you agree to our Terms of Use and Privacy Notice.</p>
 
-                        <div className="center">  
-                          <div className="bottom">
+                        <div className="bottom center">
                             <p>If you would like to create an instructor account, please click below.</p>
                             <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
-                          </div>
                         </div>
                     </div>
                 </div>
