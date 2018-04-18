@@ -55,15 +55,15 @@ class LoginPage extends Component {
               </div>
               <div className="body-image">
                 <p>arrow</p>
-                <img src="TypephilDesktop.svg" className="big-img"></img>
+                <img src="images/universal/Landing_image1.svg" className="big-img"></img>
                 <p>arrow</p>
               </div>
               <div className="footer">
                 <h3>We're partnering with the best and brightest!</h3>
                 <div className="footer-boxes">
-                  <img src="DICT_logo.png" className="logo"></img>
-                  <img src="Columbia_logo.png" className="logo"></img>
-                  <img src="MIT_logo.png" className="logo"></img>
+                  <img src="images/universal/DICT_logo.png" className="logo"></img>
+                  <img src="images/universal/Columbia_logo.png" className="logo"></img>
+                  <img src="images/universal/MIT_logo.png" className="logo"></img>
                 </div> 
               </div>
             </div>
@@ -71,7 +71,7 @@ class LoginPage extends Component {
           <vl className="content-sep"/>
           <div className="content-right">
             <div className="">
-              <img src="PalmTree.svg" className="img-right"></img>
+              <img src="images/universal/PalmTree.svg" className="img-right"></img>
             </div>
             <div className="login">
               <form onSubmit={this.login}>
