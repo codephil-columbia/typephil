@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect, Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Header from './components/header'
+import Header from './components/header';
 
+import "./style/styles.scss";
 import "./style/HomePage.css";
 
 class HomePage extends Component {
