@@ -4,6 +4,8 @@ import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 import './style/styles.scss';
 import './style/SignupPage.scss'
 
@@ -37,6 +39,8 @@ class SignupPage extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
+    const options = [1,2,3,4,5];
+    const defaultOption = options[0];
 
     if(isLoggedIn) {
         return <Redirect to="/home"/>
@@ -54,7 +58,10 @@ class SignupPage extends Component {
                         <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
                         <p>By signing up for TypePhil, you agree to our Terms of Use and Privacy Notice.</p>
 
-                        <div className="bottom center">
+                        <div className="void">
+                        </div>
+
+                        <div className="center bottom">
                             <p>If you would like to create an instructor account, please click below.</p>
                             <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
                         </div>
@@ -79,30 +86,56 @@ class SignupPage extends Component {
                             </div>
                             <div className="column column-50">
                                 <h2>BIRTHDATE</h2>
-                                <div className="column column-30">
-                                  <input placeholder="Day"/>
-                                </div>
-                                <div className="column column-30">
-                                  <input placeholder="Month"/>
-                                </div>
-                                <div className="column column-30">
-                                  <input placeholder="Year"/>
+                                <div className="row dropdowns">
+                                    <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Day"/>
+                                    <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Month"/>
+                                    <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Year"/>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row password">
                             <div className="column column-50">
                                 <h2>PASSWORD</h2>
+                                <input placeholder=""/>
                             </div>
                             <div className="column column-50">
                                 <h2>RE-TYPE PASSWORD</h2>
+                                <input placeholder=""/>
                             </div>
                         </div>
 
-                        <div className="row btn-sign-up">
+                        <div className="row gender">
+                            <h2>GENDER</h2>
+                        </div>
+                        <div className="row gender-radios">
+                                <div className="column column-20"><input type="radio" name="gender" value="male"></input>Male</div>
+                                <div className="column column-20"><input type="radio" name="gender" value="female"></input>Female</div>
+                                <div className="column column-20"><input type="radio" name="gender" value="other"></input>Other</div>
+                        </div>
+
+                        <div className="row occupation">
+                            <h2>I AM CURRENTLY...</h2>
+                        </div>
+                        <div className="row occupation-radios">
+                            <div className="column column-50">
+                                <span>
+                                  <div className="row"><input type="radio" name="occupation" value="student"></input>A student</div>
+                                </span>
+                                <span>
+                                  <div className="row"><input type="radio" name="occupation" value="employed"></input>Employed</div>
+                                </span>
+                                <span>
+                                  <div className="row"><input type="radio" name="occupation" value="unemployed"></input>Unemployed</div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="row next">
                             <div className="column column-50 column-offset-25">
-                                <button id="btn-sign-up">SIGN UP</button>
+                                <div className="bottom">
+                                    <button id="btn-next">NEXT</button>
+                                </div>
                             </div>
                         </div>
                     </div>
