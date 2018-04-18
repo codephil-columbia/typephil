@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Header from './components/header'    
-import './style/SignupPage.css'
+import Header from './components/header';
+import './style/styles.scss';
+import './style/SignupPage.scss'
 
 class SignupPage extends Component {
   constructor(props) {
