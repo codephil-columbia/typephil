@@ -1,15 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
 
+$container-height: 70vh;
+
 #container {
   margin-top: 10vh;
-  height: 70vh;
+  height: $container-height;
   max-height: 70vh;
 }
 
 .left-panel {
   padding: 1em;
   text-align: justify;
+}
+
+.bottom {
 }
 
 .center {
@@ -29,7 +34,6 @@
 
 .title {
   color: #2A2A2A;
-  font-size: 3.5rem; 
   text-align: center;
 }
 
