@@ -12,7 +12,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import LoginPage from './LoginPage';
 import SignUp from './SignupPage';
 import HomePageSwitch from './HomePage';
-import Unit from './Unit';
+import Learn from './Learn';
 import Header from './components/header'
 let store = createStore(
   typephilApp,
@@ -28,7 +28,7 @@ ReactDOM.render(
         <Route exact path="/" component={LoginPage}/>
         <Route exact path="/signup" component={SignUp}/>
         <Route exact path="/home" component={HomePageSwitch}/>
-        <Route exact path="/learn" component={Unit}/>
+        <Route exact path="/learn" component={Learn}/>
       </Switch>
     </BrowserRouter>
   </Provider>,
