@@ -44,7 +44,13 @@ class App extends Component {
 
     return (
       <div>
-        {app}
+        <Switch>
+          <Route exact path="/" component={LoginPage}/>
+          <Route exact path="/home" component={HomePageSwitch}/>
+          <Route exact path="/learn" component={Learn}/>
+          <Route exact path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
+          <Route exact path="/signup" component={SignUp}/>
+        </Switch>
       </div>
     )
   }

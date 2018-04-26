@@ -44,6 +44,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-scripts": "^1.1.4",
     "react-text-field": "^0.4.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
@@ -57,8 +58,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "jest",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
