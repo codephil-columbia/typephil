@@ -1,1 +1,3 @@
 node_modules/
+src/style/.sass_cache
+*.map

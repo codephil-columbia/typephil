@@ -133,9 +133,7 @@ class SignupPage extends Component {
 
                         <div className="row next">
                             <div className="column column-50 column-offset-25">
-                                <div className="bottom">
-                                    <button id="btn-next">NEXT</button>
-                                </div>
+                                <button id="btn-next">NEXT</button>
                             </div>
                         </div>
                     </div>

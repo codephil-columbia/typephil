@@ -22,7 +22,7 @@ $radio-fontsize: 80%;
 
 .left-panel {
   padding: 1em;
-  height: 100%;
+  height: $container-height;
   text-align: justify;
 }
 
@@ -31,6 +31,7 @@ $radio-fontsize: 80%;
   height: $void-height;
 }
 .bottom {
+  margin-top: $container-height - 77vh;
 }
 
 .center {
