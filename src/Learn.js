@@ -14,7 +14,7 @@ class Learn extends Component {
       carouselTitle: "Chapter Overview",
       carouselDesc: "Something",
       chapters: [
-        {chapterName: "The Basics", lessons: [{lessonName: 'Some really long lesson here', hasCompleted: true, stats:{wpm: 26, accuracy: 100}}, {lessonName: '1.2', hasCompleted:false}], chapterDesc: 'Test'},
+        {chapterName: "The Basics", lessons: [{lessonName: 'Lesson 1: The Importance of Touch Typing', hasCompleted: true, stats:{wpm: 26, accuracy: 100}}, {lessonName: '1.2', hasCompleted:false}], chapterDesc: 'Test'},
         {chapterName: "Home Row", lessons: [{lessonName: '7'}], chapterDesc: 'Test'},
         {chapterName: "Shift & Punctiation", lessons: [{lessonName: "2"}], chapterDesc: 'Test'},
         {chapterName: "Top Row", lessons: [{lessonName: "2"}], chapterDesc: 'Test'},
@@ -69,56 +69,78 @@ class Learn extends Component {
   }
 }
 
-const lessonLink = lessonName => {
-  return (
-    <div className="chapter-name">
-      <h3>{lessonName}</h3>
-  </div>
-  )
-}
-
 class ShowLessons extends Component {
   constructor(props) {
     super(props);
     this.state = {currentSelectedLesson: this.props.lessons[0]}
   }
 
+  userDidChangeLesson = clickedLesson => {
+    this.setState({currentSelectedLesson: clickedLesson})
+  }
+
   render() {
     const { chapterName, lessons } = this.props;
     const { currentSelectedLesson } = this.state;
+    const hasCompleted = currentSelectedLesson.hasCompleted;
+    const lessonStats = hasCompleted ? showCompletedLesson(currentSelectedLesson) : showLock()
 
     return (
       <div className="container lesson-wrapper"> 
         <div class="container lesson-left">
           {lessons.map(lesson => {
-            if(lesson.hasCompleted) {
-                return <h2 style={{color: 'black'}}>{lessonLink(lesson.lessonName)}</h2>
+            if(lesson.lessonName === currentSelectedLesson.lessonName) { 
+                return <h4 style={{color: 'green'}} onClick={() => this.userDidChangeLesson(lesson)}>{lesson.lessonName}</h4>
+            } else if (lesson.hasCompleted) {
+                return <h4 style={{color: 'black'}} onClick={() => this.userDidChangeLesson(lesson)}>{lesson.lessonName}</h4>
             } else {
-              return <h2 style={{color: 'grey'}}>{lessonLink(lesson.lessonName)}</h2>
+              return <h4 style={{color: 'grey'}} onClick={() => this.userDidChangeLesson(lesson)}>{lesson.lessonName}</h4>
             }
           })}
         </div>
         <vl className="lesson-sep"/>
         <div class="container lesson-right">
           <div className="lesson-stats">
-            <div className="lesson-stats-icon row">
-              <div className="lesson-badge-content-square col">
-                <h2 className="lesson-badge-content-txt"><b>{currentSelectedLesson.stats.wpm}</b></h2>
-              </div>
-              <h3 className="lesson-badge-desc col">Words Per Minute</h3>
-            </div>
-            <div className="lesson-stats-icon row">
-              <div className="lesson-badge-content-circle">
-                <h2 className="lesson-badge-content-txt-circle"><b>{currentSelectedLesson.stats.accuracy}%</b></h2>
-              </div>
-              <h3 className="lesson-badge-desc col">Accuracy</h3>
-            </div>
+            { lessonStats }
           </div>
-          <button>Start next lesson</button>
         </div>
       </div>
     )
   }
+}
+
+const showLock = () => {
+  return (
+    <div>
+      <div>lock here</div>
+      <div>
+        <h4>To unlock this lesson, please complete the previous lesson</h4>
+      </div>
+    </div>  
+  )
+}
+
+const showCompletedLesson = currentSelectedLesson => {
+  return (
+    <div>
+    <div className="lesson-stats-icon row">
+      <div className="lesson-badge-content-square col">
+        <h2 className="lesson-badge-content-txt"><b>{currentSelectedLesson.stats.wpm}</b></h2>
+      </div>
+      <h3 className="lesson-badge-desc col">Words Per Minute</h3>
+    </div>
+    <div className="lesson-stats-icon row">
+      <div className="lesson-badge-content-circle">
+        <h2 className="lesson-badge-content-txt-circle"><b>{currentSelectedLesson.stats.accuracy}%</b></h2>
+      </div>
+      <h3 className="lesson-badge-desc col">Accuracy</h3>
+    </div>
+    <div className="lesson-stats-icon row">
+      <img src="/images/buttons/ResumeButtonSquare.svg" className="resume-button"></img>
+      <a className="lesson-badge-link col">Next Lesson</a>
+    </div>
+    </div>
+  )
 }
 
 class ShowChapters extends Component {

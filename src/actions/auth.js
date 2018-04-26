@@ -14,15 +14,25 @@ export const loginError = err => {
 }
 
 export const dispatchLogin = (email, password) => {
-  return function(dispatch) {
-    return axios.post('http://localhost:8081/auth/login', {email, password})
-    .then(res => {
-        if(res.status !== 200) {
-            dispatch(loginError());
-        } 
-        dispatch(loginSuccess());
-    }).catch(err => {
-        dispatch(loginError());
-    })
+  return {
+    type: "LOGGED_IN",
+    isLoggedIn: true,
+    currentUser: {
+      username: "cesar", 
+      uid: 1234, 
+      email: "ibarrac",
+      school: "columbia"
+    }
   }
+  // return function(dispatch) {
+  //   return axios.post('http://localhost:8081/auth/login', {email, password})
+  //   .then(res => {
+  //       if(res.status !== 200) {
+  //           dispatch(loginError());
+  //       } 
+  //       dispatch(loginSuccess());
+  //   }).catch(err => {
+  //       dispatch(loginError());
+  //   })
+  // }
 }

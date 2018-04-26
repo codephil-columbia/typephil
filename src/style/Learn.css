@@ -36,8 +36,15 @@
 }
 
 .lesson-badge-content-txt {
-    font-size: 2.5rem;
+    font-size: 3rem;
     padding-top: 2.1rem;
+}
+
+.lesson-badge-link {
+    color: #606c76;
+    font-size: 2.5rem;
+    padding-top: 2.2rem;
+    margin-left: 2rem;
 }
 
 .lesson-stats-icon {
@@ -49,7 +56,7 @@
 }
 
 .lesson-badge-desc {
-    padding-top: 1rem;
+    padding-top: 1.5rem;
     margin-left: 2rem;
 }
 
@@ -63,6 +70,11 @@
     width: 75px;
     height: 75px;
     background-color: #97c9a3;
+}
+
+.resume-button {
+    width: 75px;
+    height: 75px;
 }
 
 .left-arrow::after {
