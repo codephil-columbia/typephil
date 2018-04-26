@@ -1,36 +1,113 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
 
+$palm-green: #52B094;
+$hover-light: #DADFE1;
+$hover-dark: #2A2A2A;
+$silver-tree: #68C3A3;
+
+$container-height: 70vh;
+$void-height: 21vh;
+$dropdown-width: 3em;
+$input-thickness: 1px;
+$radio-dim: 10px;
+$radio-fontsize: 80%;
+
 #container {
   margin-top: 10vh;
-  height: 70vh;
+  height: $container-height;
   max-height: 70vh;
+  max-width: 65vw;
 }
 
 .left-panel {
   padding: 1em;
+  height: $container-height;
   text-align: justify;
 }
 
+.void {
+  min-height: $void-height;
+  height: $void-height;
+}
+.bottom {
+  margin-top: $container-height - 77vh;
+}
+
 .center {
+  position: relative;
   text-align: center;
 }
 
 .vertical-line {
-  border-left: 2px solid #52B094;
+  border-left: $input-thickness solid $palm-green;
 }
 
 .row input {
-  border-color: #52B094;
-  border-width: 2px;
+  border-color: $palm-green;
+  border-width: $input-thickness;
   border-style: solid;
   width: inherit;
 }
 
+.dropdowns {
+  margin-left: 0;
+}
+
 .title {
   color: #2A2A2A;
-  font-size: 3.5rem; 
   text-align: center;
+}
+
+.password {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.gender {
+  margin-left: 0;
+}
+.gender-radios {
+  font-size: $radio-fontsize;
+  margin-bottom: 2em;
+  .column {
+    padding: 0;
+  }
+  .column-20 {
+    padding: 0;
+  }
+}
+
+.occupation {
+  margin: 0;
+}
+.occupation-radios {
+  font-size: $radio-fontsize;
+  input[type="radio"] {
+    margin-top: 5px;
+  }
+}
+
+.next {
+  margin-top: $container-height - 60vh;
+  height: 10vh;
+}
+
+input[type="radio"] {
+  margin: 0 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  display: inline-block;
+  height: $radio-dim;
+  width: $radio-dim;
+  box-shadow: 0;
+  border-radius: 50%;
+  border: 1px solid $palm-green!important;
+  &:checked {
+    background-color: $hover-dark;
+  }
 }
 
 h2 {
@@ -38,29 +115,36 @@ h2 {
   letter-spacing: 1px;
 }
 
-#space {
-  height: 5rem;
-}
-#space2 {
-  height: 22rem;
-}
-
-.field {
-  font-size: 2rem;
-}
-
 button {
   background-color: #BFD8BD;/*#EFEFEF;*/
   border: none;
   color: white;
 }
-
-.btn-sign-up{
-  background-color: #9AD4BE;
-  margin: auto;
+#btn-next {
+  background-color: $palm-green;
+  &:hover {
+    background-color: $silver-tree;
+    color: $hover-light;
+  }
 }
 
 button:hover, button:active {
-  background-color: #DEDEDE;
-  color: #2A2A2A;
+  background-color: $silver-tree;
+  color: $hover-light;
+}
+
+.Dropdown-control {
+  border: $input-thickness solid $palm-green;
+  border-radius: 0;
+  padding: 11.5px;
+  width: $dropdown-width;
+}
+.Dropdown-arrow {
+  border-color: $palm-green transparent transparent;
+}
+.Dropdown-menu {
+  width: $dropdown-width;
+}
+.Dropdown-root {
+  margin: 0 $input-thickness;
 }

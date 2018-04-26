@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Header from './components/header';
 
 import "./style/styles.scss";
-import "./style/HomePage.css";
+import "./style/HomePage.scss";
 
 class HomePage extends Component {
   constructor(props) {

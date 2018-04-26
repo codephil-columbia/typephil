@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans");
+#container {
+  margin-top: 10vh;
+  height: 70vh;
+  max-height: 70vh;
+  max-width: 65vw; }
+
+.left-panel {
+  padding: 1em;
+  height: 70vh;
+  text-align: justify; }
+
+.void {
+  min-height: 21vh;
+  height: 21vh; }
+
+.bottom {
+  margin-top: -7vh; }
+
+.center {
+  position: relative;
+  text-align: center; }
+
+.vertical-line {
+  border-left: 1px solid #52B094; }
+
+.row input {
+  border-color: #52B094;
+  border-width: 1px;
+  border-style: solid;
+  width: inherit; }
+
+.dropdowns {
+  margin-left: 0; }
+
+.title {
+  color: #2A2A2A;
+  text-align: center; }
+
+.password {
+  margin-top: 2em;
+  margin-bottom: 1em; }
+
+.gender {
+  margin-left: 0; }
+
+.gender-radios {
+  font-size: 80%;
+  margin-bottom: 2em; }
+  .gender-radios .column {
+    padding: 0; }
+  .gender-radios .column-20 {
+    padding: 0; }
+
+.occupation {
+  margin: 0; }
+
+.occupation-radios {
+  font-size: 80%; }
+  .occupation-radios input[type="radio"] {
+    margin-top: 5px; }
+
+.next {
+  margin-top: 10vh;
+  height: 10vh; }
+
+input[type="radio"] {
+  margin: 0 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  box-shadow: 0;
+  border-radius: 50%;
+  border: 1px solid #52B094 !important; }
+  input[type="radio"]:checked {
+    background-color: #2A2A2A; }
+
+h2 {
+  font-size: 1.5rem;
+  letter-spacing: 1px; }
+
+button {
+  background-color: #BFD8BD;
+  /*#EFEFEF;*/
+  border: none;
+  color: white; }
+
+#btn-next {
+  background-color: #52B094; }
+  #btn-next:hover {
+    background-color: #68C3A3;
+    color: #DADFE1; }
+
+button:hover, button:active {
+  background-color: #68C3A3;
+  color: #DADFE1; }
+
+.Dropdown-control {
+  border: 1px solid #52B094;
+  border-radius: 0;
+  padding: 11.5px;
+  width: 3em; }
+
+.Dropdown-arrow {
+  border-color: #52B094 transparent transparent; }
+
+.Dropdown-menu {
+  width: 3em; }
+
+.Dropdown-root {
+  margin: 0 1px; }
+
+/*# sourceMappingURL=SignupPage.css.map */
