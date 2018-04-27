@@ -44,6 +44,7 @@ class App extends Component {
 
     return (
       <div>
+        <BrowserRouter>
         <Switch>
           <Route exact path="/" component={LoginPage}/>
           <Route exact path="/home" component={HomePageSwitch}/>
@@ -51,6 +52,7 @@ class App extends Component {
           <Route exact path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
           <Route exact path="/signup" component={SignUp}/>
         </Switch>
+        </BrowserRouter>
       </div>
     )
   }
