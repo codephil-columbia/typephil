@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
 import Dropdown from 'react-dropdown'
+import moment from 'moment'
 import 'react-dropdown/style.css'
 import './style/styles.scss';
 import './style/SignupPage.scss'
@@ -13,8 +14,8 @@ class SignupPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: ""
+      month: moment().month(),
+      year: moment().year() // defaults; will be updated by user later
     };
   }
 
@@ -37,10 +38,39 @@ class SignupPage extends Component {
     this.setState({ password });
   }
 
+  setMonth = e => {
+    const month = e.value;
+    this.setState({ month });
+    this.refs.dropdown_days.forceUpdate();
+  }
+
+  setYear = e => {
+    const year = e.value;
+    this.setState({ year });
+    this.refs.dropdown_days.forceUpdate();
+  }
+
+  getDays = (m, y) => {
+    var days = [];
+    var daysInMonth = moment(y + "-" + m, "YYYY-MM").daysInMonth();
+    while(daysInMonth) {
+      days.push(daysInMonth);
+      daysInMonth--;
+    }
+    console.log(days);
+    return days;
+  }
+
   render() {
     const { isLoggedIn } = this.props;
-    const options = [1,2,3,4,5];
-    const defaultOption = options[0];
+    var months = moment.monthsShort();
+    var selectedMonth = months[0];
+    var years = Array.apply(null, {length: 50}).map(
+          function(_, index) {
+            return index + (moment().year()-50);
+          }).reverse();
+    var days = this.getDays(this.state.month, this.state.year);
+    const defaultOption = 0;
 
     if(isLoggedIn) {
         return <Redirect to="/home"/>
@@ -60,11 +90,6 @@ class SignupPage extends Component {
 
                         <div className="void">
                         </div>
-
-                        <div className="center bottom">
-                            <p>If you would like to create an instructor account, please click below.</p>
-                            <button id="create-account">CREATE INSTRUCTOR ACCOUNT</button>
-                        </div>
                     </div>
                 </div>
 
@@ -81,15 +106,25 @@ class SignupPage extends Component {
                     <div className="right-panel">
                         <div className="row">
                             <div className="column column-50">
+                                <h2>FIRST NAME</h2>
+                                <input placeholder=""/>
+                            </div>
+                            <div className="column column-50">
+                                <h2>LAST NAME</h2>
+                                <input placeholder=""/>
+                            </div>
+                        </div>
+                        <div className="row username">
+                            <div className="column column-50">
                                 <h2>USERNAME</h2>
                                 <input placeholder=""/>
                             </div>
                             <div className="column column-50">
                                 <h2>BIRTHDATE</h2>
                                 <div className="row dropdowns">
-                                    <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Day"/>
-                                    <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Month"/>
-                                    <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Year"/>
+                                    <Dropdown options={months} onChange={this.updateMonth} value={defaultOption} placeholder="Month"/>
+                                    <Dropdown options={days} onChange={this._onSelect} value={defaultOption} placeholder="Day" id="dropdown_days"/>
+                                    <Dropdown options={years} onChange={this.updateYear} value={defaultOption} placeholder="Year"/>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +168,7 @@ class SignupPage extends Component {
 
                         <div className="row next">
                             <div className="column column-50 column-offset-25">
-                                <button id="btn-next">NEXT</button>
+                                <button id="btn-next">SIGN UP</button>
                             </div>
                         </div>
                     </div>

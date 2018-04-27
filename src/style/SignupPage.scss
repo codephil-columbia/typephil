@@ -8,7 +8,7 @@ $silver-tree: #68C3A3;
 
 $container-height: 70vh;
 $void-height: 21vh;
-$dropdown-width: 3em;
+$dropdown-width: 3.8em;
 $input-thickness: 1px;
 $radio-dim: 10px;
 $radio-fontsize: 80%;
@@ -59,8 +59,13 @@ $radio-fontsize: 80%;
   text-align: center;
 }
 
+.username {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 .password {
-  margin-top: 2em;
+  margin-top: 1em;
   margin-bottom: 1em;
 }
 
@@ -89,7 +94,7 @@ $radio-fontsize: 80%;
 }
 
 .next {
-  margin-top: $container-height - 60vh;
+  margin-top: $container-height - 65vh;
   height: 10vh;
 }
 

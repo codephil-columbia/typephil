@@ -38,8 +38,12 @@
   color: #2A2A2A;
   text-align: center; }
 
+.username {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+
 .password {
-  margin-top: 2em;
+  margin-top: 1em;
   margin-bottom: 1em; }
 
 .gender {
@@ -62,7 +66,7 @@
     margin-top: 5px; }
 
 .next {
-  margin-top: 10vh;
+  margin-top: 5vh;
   height: 10vh; }
 
 input[type="radio"] {
@@ -103,13 +107,13 @@ button:hover, button:active {
   border: 1px solid #52B094;
   border-radius: 0;
   padding: 11.5px;
-  width: 3em; }
+  width: 3.8em; }
 
 .Dropdown-arrow {
   border-color: #52B094 transparent transparent; }
 
 .Dropdown-menu {
-  width: 3em; }
+  width: 3.8em; }
 
 .Dropdown-root {
   margin: 0 1px; }
