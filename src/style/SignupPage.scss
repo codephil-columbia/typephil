@@ -5,13 +5,16 @@ $palm-green: #52B094;
 $hover-light: #DADFE1;
 $hover-dark: #2A2A2A;
 $silver-tree: #68C3A3;
+$menu-gray: #A2A3A4;
 
 $container-height: 70vh;
+$dropdown-width: 3.95em;
 $void-height: 21vh;
-$dropdown-width: 3.8em;
 $input-thickness: 1px;
 $radio-dim: 10px;
-$radio-fontsize: 80%;
+$radio-fontsize: 90%;
+
+$transition-delta: 0.1s;
 
 #container {
   margin-top: 10vh;
@@ -24,6 +27,16 @@ $radio-fontsize: 80%;
   padding: 1em;
   height: $container-height;
   text-align: justify;
+}
+
+/* A vertical-centering hack for the right panel. */
+.right-panel-container {
+  position: relative;
+}
+.right-panel {
+  position: absolute;
+  top: 50%;
+  margin-top: $container-height - 100vh;
 }
 
 .void {
@@ -43,13 +56,6 @@ $radio-fontsize: 80%;
   border-left: $input-thickness solid $palm-green;
 }
 
-.row input {
-  border-color: $palm-green;
-  border-width: $input-thickness;
-  border-style: solid;
-  width: inherit;
-}
-
 .dropdowns {
   margin-left: 0;
 }
@@ -61,15 +67,14 @@ $radio-fontsize: 80%;
 
 .username {
   margin-top: 1em;
-  margin-bottom: 1em;
 }
 
 .password {
   margin-top: 1em;
-  margin-bottom: 1em;
 }
 
 .gender {
+  margin-top: 1em;
   margin-left: 0;
 }
 .gender-radios {
@@ -84,7 +89,7 @@ $radio-fontsize: 80%;
 }
 
 .occupation {
-  margin: 0;
+  margin: -2em 0 0 -0.5em;
 }
 .occupation-radios {
   font-size: $radio-fontsize;
@@ -98,6 +103,29 @@ $radio-fontsize: 80%;
   height: 10vh;
 }
 
+
+h2 {
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.5em;
+}
+
+input, input[type="password"] {
+  -webkit-transition: all $transition-delta ease-in-out;
+  -moz-transition: all $transition-delta ease-in-out;
+  -ms-transition: all $transition-delta ease-in-out;
+  -o-transition: all $transition-delta ease-in-out;
+
+  border-color: $palm-green;
+  border-radius: 0px;
+  border-style: solid;
+  border-width: $input-thickness;
+  max-height: 25px;
+  width: inherit;
+  &:focus {
+    border-color: $hover-light;
+  }
+}
 input[type="radio"] {
   margin: 0 10px;
   -webkit-appearance: none;
@@ -110,14 +138,11 @@ input[type="radio"] {
   box-shadow: 0;
   border-radius: 50%;
   border: 1px solid $palm-green!important;
+  outline: none;
   &:checked {
-    background-color: $hover-dark;
+    background-color: $palm-green;
+    outline: none;
   }
-}
-
-h2 {
-  font-size: 1.5rem;
-  letter-spacing: 1px;
 }
 
 button {
@@ -138,11 +163,14 @@ button:hover, button:active {
   color: $hover-light;
 }
 
+/********* DROPDOWN MENU (BIRTHDATE) *********/
 .Dropdown-control {
   border: $input-thickness solid $palm-green;
   border-radius: 0;
-  padding: 11.5px;
-  width: $dropdown-width;
+  color: $menu-gray;
+  font-size: 70%;
+  padding: 3px 5px 2.5px 6px;
+  width: inherit;
 }
 .Dropdown-arrow {
   border-color: $palm-green transparent transparent;
@@ -152,4 +180,18 @@ button:hover, button:active {
 }
 .Dropdown-root {
   margin: 0 $input-thickness;
+  width: $dropdown-width;
+}
+.Dropdown-arrow {
+  right: 5px;
+}
+
+.occupation-specify {
+  margin: 0 2px 0 -2px;
+  > .Dropdown-root { /* Special case for full-width dropdown. */
+    width: inherit;
+    > .Dropdown-menu {
+      width: 100%;
+    }
+  }
 }
