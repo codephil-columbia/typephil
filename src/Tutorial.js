@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import { moveIndexPtr, startTutorial, unFreeze, freeze, lessonCompleted } from './actions/lesson';
-
-import Header from './components/header';
-import './style/Tutorial.scss'
 import { Redirect } from 'react-router';
 
-import HomePage from './HomePage';
+import { 
+  moveIndexPtr, 
+  unFreeze, 
+  freeze, 
+  completedTutorial 
+} from './actions/tutorial';
+
+import TutorialContent from './TutorialContent';
+import Header from './components/header';
+import './style/Tutorial.scss'
 
 class Tutorial extends Component {
 
@@ -17,10 +21,7 @@ class Tutorial extends Component {
 
     const { currentLesson } = this.props
     const { lessonContent, indexPtr } = currentLesson;
-
     const contentLength = lessonContent.length;
-
-    console.log(lessonContent[indexPtr])
 
     this.state = {
       headerLinks: ["Learn", "Progress", "Home"],
@@ -34,19 +35,19 @@ class Tutorial extends Component {
   }
 
   calculateTime = txt => {
-    console.log((txt.length/5) * 60/200);
-    return (txt.length/5) * 60/200
+    return (txt.length/5) * 60/200 * 1000;
   }
 
   moveIndexPtr = () => {
     const nextPtr = ++this.state.indexPtr;
     const { contentLength } = this.state;
+    console.log(contentLength);
     
     if(nextPtr < contentLength) {
       this.props.moveIndexPtr(nextPtr);
       this.freezeTextIfLessonInfo();
     } else {
-      this.props.lessonCompleted();
+      this.props.completedTutorial();
     }
   }
 
@@ -55,19 +56,14 @@ class Tutorial extends Component {
 
     if(!lessonContent[indexPtr]) {
       const { lessonInformation } = this.props.currentLesson;
-      const time = this.calculateTime(lessonInformation[indexPtr]) * 1000;
+      const time = this.calculateTime(lessonInformation[indexPtr]);
       this.props.freeze();
       setTimeout(() => {
-        console.log('setting time out')
         this.props.unFreeze();
       }, time);
     } else {
       this.props.unFreeze();
     }
-  }
-
-  startTutorial = () => {
-    return this.props.startTutorial();
   }
 
   render() {
@@ -76,6 +72,7 @@ class Tutorial extends Component {
     const { indexPtr, lessonInformation, lessonContent } = this.props.currentLesson;
 
     const next = this.moveIndexPtr;
+    const userPressedKey = this.onUserPressedKey;
 
     const currentLessonContent = lessonContent[indexPtr];
     const currentInfoText = lessonInformation[indexPtr];
@@ -87,8 +84,7 @@ class Tutorial extends Component {
     }
     
     if(currentLessonContent) {
-      // content = tutorialContentText(currentInfoText, currentLessonContent);
-      content = <TutorialContent info={currentInfoText} content={currentLessonContent} />
+      content = <TutorialContent info={currentInfoText} content={currentLessonContent} next={next} onUserPressedKey={userPressedKey} />
     } else if(!currentLessonContent) {
       content = tutorialInformationText(currentInfoText);
     }
@@ -118,44 +114,10 @@ const tutorialInformationText = text => {
   )
 }
 
-class TutorialContent extends Component {
-  constructor(props) {
-    super(props);
-
-    const { content } = this.props;
-    const ptr = 0;
-
-    this.state = {
-      incorrectCharCount: 0,
-      currentChar: content[ptr],
-      ptr
-    }
-  }
-
-  componentWillMount = () => {
-    document.addEventListener("keydown", this.onKeyPress)
-  }
-
-  onKeyPress = event => {
-    const keyPressed = String.fromCharCode(event.keyCode);
-    console.log(keyPressed);
-  }
-
-  render() {
-    const { info, content } = this.props;
-    return (
-      <div>
-        <p>{info}</p>
-        <p>{content}</p>
-      </div>
-    )
-  }
-}
-
 const keyboard = () => {
   return (
     <div>
-      <img src="images/universal/Keyboard_right_hand.eps" className="logo"></img>
+      <img src="images/universal/Keyboard_right_hand.eps" alt="keyboard-right" className="logo"></img>
     </div>
   )
 }
@@ -169,7 +131,10 @@ const rightHand = () => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ moveIndexPtr, startTutorial, unFreeze, freeze, lessonCompleted }, dispatch);
+  return bindActionCreators (
+    { moveIndexPtr, unFreeze, freeze, completedTutorial }, 
+    dispatch
+  )
 }
 
 const mapStateToProps = ({ app }) => ({
