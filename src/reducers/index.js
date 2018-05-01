@@ -31,7 +31,8 @@ const initialAppState = {
     charPtr:0,
     currentLessonContent: null,
     shouldValidate: false,
-    isFirstChar: true
+    isFirstChar: true,
+    missedChar: false
   },
   shouldFreeze: true,
   tutorialFinished: false
@@ -102,14 +103,16 @@ const lessonSession = (state=app.currentLessonSession, action) => {
         return {
           ...state, 
           missed,
-          charPtr: ++charPtr
+          charPtr: ++charPtr,
+          missedChar: true
         }
       } else {
         const correct = [...state.correct, got];
         return {
           ...state,
           correct,
-          charPtr: ++charPtr
+          charPtr: ++charPtr,
+          missedChar: false
         }
       }
     case START_LESSON:

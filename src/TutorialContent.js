@@ -9,7 +9,7 @@ import {
   stopLesson
 } from './actions/tutorialContent';
 
-import './style/TutorialContent.scss';
+import './style/TutorialContent.css';
 
 class TutorialContent extends Component {
   constructor(props) {
@@ -40,20 +40,21 @@ class TutorialContent extends Component {
 
   colorKey = ptr => {
     let { spans } = this.state;
-    const { charPtr, content } = this.props;
-    console.log(charPtr);
-    spans[ptr] = <span key={ptr} className="correct-letter">{content[charPtr]}</span>
+    const { charPtr, content, missedChar } = this.props;
+
+    spans[ptr] = <span key={ptr} className={missedChar ? "incorrect-letter" : "correct-letter"}>{content[charPtr-1]}</span>
+
+    console.log(charPtr, spans[ptr], content[ptr])
+    this.setState({spans: [...spans]});
   }
  
   onKeyPress = event => {
     const { key } = event;
     let { charPtr } = this.props;
-    console.log(this.props);
 
     if(this.props.isFirstChar) {
       this.props.startLesson();
     }
-
 
     this.props.userPressedKey(key);
     if(this.props.pressedKey) {
@@ -71,7 +72,6 @@ class TutorialContent extends Component {
   render() {
     const { info } = this.props;
     let { spans } = this.state;
-    console.log(this.state.spans);
 
     return (
       <div>
@@ -91,7 +91,8 @@ const mapStateToProps = ({ app }) => ({
   pressedKey: app.currentLessonSession.pressedKey,
   shouldValidate: app.currentLessonSession.shouldValidate,
   isFirstChar: app.currentLessonSession.isFirstChar,
-  charPtr: app.currentLessonSession.charPtr
+  charPtr: app.currentLessonSession.charPtr,
+  missedChar: app.currentLessonSession.missedChar
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TutorialContent);

@@ -41,7 +41,6 @@ class Tutorial extends Component {
   moveIndexPtr = () => {
     const nextPtr = ++this.state.indexPtr;
     const { contentLength } = this.state;
-    console.log(contentLength);
     
     if(nextPtr < contentLength) {
       this.props.moveIndexPtr(nextPtr);
@@ -98,6 +97,7 @@ class Tutorial extends Component {
           </div>
           <div className="row tutorial-keyboard">
             {keyboard()}
+            {hands()}
           </div>
           <button onClick={next} disabled={shouldFreeze}>Next</button>
         </div>
@@ -117,17 +117,13 @@ const tutorialInformationText = text => {
 const keyboard = () => {
   return (
     <div>
-      <img src="images/universal/Keyboard_right_hand.eps" alt="keyboard-right" className="logo"></img>
+      <img src="images/universal/Keyboard.svg" alt="keyboard-right" className=""></img>
     </div>
   )
 }
 
-const leftHand = () => {
-
-}
-
-const rightHand = () => {
-
+const hands = () => {
+  return <img src="images/universal/Hands.svg" alt="keyboard-right" className=""></img>
 }
 
 const mapDispatchToProps = dispatch => {
