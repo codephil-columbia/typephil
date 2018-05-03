@@ -144,12 +144,12 @@ button:hover, button:active {
 .Dropdown-arrow {
   right: 5px; }
 
-.occupation-specify {
+#ddoccupation {
   margin: 0 2px 0 -2px; }
-  .occupation-specify > .Dropdown-root {
+  #ddoccupation > .Dropdown-root {
     /* Special case for full-width dropdown. */
     width: inherit; }
-    .occupation-specify > .Dropdown-root > .Dropdown-menu {
+    #ddoccupation > .Dropdown-root > .Dropdown-menu {
       width: 100%; }
 
 /*# sourceMappingURL=SignupPage.css.map */

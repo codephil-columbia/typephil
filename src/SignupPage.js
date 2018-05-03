@@ -172,8 +172,11 @@ class SignupPage extends Component {
                           <div className="column column-50">
                             <h2>SCHOOL YEAR</h2>
                             <div className="occupation-specify">
-                              <Dropdown options={schoolyears} onChange={this.updateSchoolYear} value={defaultOption} placeholder="Select from below"/>
+                              <div id="ddoccupation">
+                                <Dropdown options={schoolyears} onChange={this.updateSchoolYear} value={defaultOption} placeholder="Select from below"/>
+                              </div>
                             </div>
+                            <input placeholder="student"/>
                           </div>
                         </div>
 

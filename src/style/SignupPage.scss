@@ -97,6 +97,8 @@ $transition-delta: 0.1s;
     margin-top: 5px;
   }
 }
+.occupation-specify {
+}
 
 .next {
   margin-top: $container-height - 65vh;
@@ -185,8 +187,7 @@ button:hover, button:active {
 .Dropdown-arrow {
   right: 5px;
 }
-
-.occupation-specify {
+#ddoccupation {
   margin: 0 2px 0 -2px;
   > .Dropdown-root { /* Special case for full-width dropdown. */
     width: inherit;
