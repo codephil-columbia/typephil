@@ -16,8 +16,13 @@ class SignupPage extends Component {
     this.state = {
       // Default month and year. User updates these values later.
       month: moment().month(),
-      year: moment().year()
-    };
+      year: moment().year(),
+      option1: 'hide',
+      option2: ''
+    }
+    this.setMonth = this.setMonth.bind(this);
+    this.setYear = this.setYear.bind(this);
+    this.setOccupation = this.setOccupation.bind(this);
   }
 
   login = e => {
@@ -39,16 +44,16 @@ class SignupPage extends Component {
     this.setState({ password });
   }
 
-  setMonth = e => {
-    const month = e.value;
-    this.setState({ month });
+  setMonth = (e) => {
+    this.setState({ month: e.value });
     this.refs.dddays.forceUpdate();
+    console.log(e, this.refs.dddays);
   }
 
-  setYear = e => {
-    const year = e.value;
-    this.setState({ year });
+  setYear = (e) => {
+    this.setState({ year: e.value });
     this.refs.dddays.forceUpdate();
+    console.log(e, this.refs.dddays);
   }
 
   getDays = (m, y) => {
@@ -59,6 +64,16 @@ class SignupPage extends Component {
       daysInMonth--;
     }
     return days;
+  }
+
+  setOccupation = (e) => {
+    var occupation = e.target.value;
+    if (occupation === 'student')
+      this.setState({ option1: '', option2: 'hide' });
+    else if (occupation === 'employed')
+      this.setState({ option1: 'hide', option2: '' });
+    else
+      this.setState({ option1: 'hide', option2: 'hide' });
   }
 
   render() {
@@ -118,6 +133,7 @@ class SignupPage extends Component {
                                 <input placeholder=""/>
                             </div>
                         </div>
+
                         <div className="row username">
                             <div className="column column-50">
                                 <h2>USERNAME</h2>
@@ -126,9 +142,9 @@ class SignupPage extends Component {
                             <div className="column column-50">
                                 <h2>BIRTHDATE</h2>
                                 <div className="row dropdowns">
-                                    <Dropdown options={months} onChange={this.updateMonth} value={defaultOption} placeholder="Month" id="ddmonths"/>
-                                    <Dropdown options={days} onChange={this._onSelect} value={defaultOption} placeholder="Day" id="dddays"/>
-                                    <Dropdown options={years} onChange={this.updateYear} value={defaultOption} placeholder="Year" id="ddyears"/>
+                                    <Dropdown options={months} onChange={this.setMonth} value={defaultOption} placeholder="Month" ref="ddmonths"/>
+                                    <Dropdown options={days} onChange={this._onSelect} value={defaultOption} placeholder="Day" ref="dddays"/>
+                                    <Dropdown options={years} onChange={this.setYear} value={defaultOption} placeholder="Year" ref="ddyears"/>
                                 </div>
                             </div>
                         </div>
@@ -158,25 +174,31 @@ class SignupPage extends Component {
                             <h2>I AM CURRENTLY...</h2>
                             <div className="occupation-radios">
                               <span>
-                                <div className="row"><input type="radio" name="occupation" value="student"></input>A student</div>
+                                <div className="row"><input type="radio" name="occupation" value="student" onChange={this.setOccupation}></input>A student</div>
                               </span>
                               <span>
-                                <div className="row"><input type="radio" name="occupation" value="employed"></input>Employed</div>
+                                <div className="row"><input type="radio" name="occupation" value="employed" onChange={this.setOccupation}></input>Employed</div>
                               </span>
                               <span>
-                                <div className="row"><input type="radio" name="occupation" value="unemployed"></input>Unemployed</div>
+                                <div className="row"><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</div>
                               </span>
                             </div>
                           </div>
 
                           <div className="column column-50">
-                            <h2>SCHOOL YEAR</h2>
-                            <div className="occupation-specify">
+
+                            <div className={"specify-schoolyear " + this.state.option1}>
+                              <h2>SCHOOL YEAR</h2>
                               <div id="ddoccupation">
                                 <Dropdown options={schoolyears} onChange={this.updateSchoolYear} value={defaultOption} placeholder="Select from below"/>
                               </div>
                             </div>
-                            <input placeholder="student"/>
+
+                            <div className={"specify-occupation " + this.state.option2}>
+                              <h2>OCCUPATION</h2>
+                              <input placeholder=""/>
+                            </div>
+
                           </div>
                         </div>
 

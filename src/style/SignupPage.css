@@ -71,10 +71,20 @@
   margin-top: 5vh;
   height: 10vh; }
 
+a {
+  color: #52B094; }
+
 h2 {
   font-size: 1.5rem;
   letter-spacing: 1px;
   margin-bottom: 0.5em; }
+
+.hide {
+  display: none; }
+
+.specify-occupation input {
+  margin: 0 0 0 -1px;
+  width: 99%; }
 
 input, input[type="password"] {
   -webkit-transition: all 0.1s ease-in-out;
