@@ -3,8 +3,9 @@
 
 $palm-green: #52B094;
 $hover-light: #DADFE1;
-$hover-dark: #2A2A2A;
+$hover-dark: #555555;
 $silver-tree: #68C3A3;
+$chestnut-rose: #D24D57;
 $menu-gray: #A2A3A4;
 
 $container-height: 70vh;
@@ -86,6 +87,9 @@ $transition-delta: 0.1s;
   .column-20 {
     padding: 0;
   }
+  .warning {
+    font-size: 1em;
+  }
 }
 
 .occupation {
@@ -101,6 +105,11 @@ $transition-delta: 0.1s;
 .next {
   margin-top: $container-height - 65vh;
   height: 10vh;
+}
+
+.warning {
+  color: $chestnut-rose;
+  font-size: 0.8em;
 }
 
 a {
@@ -125,7 +134,7 @@ h2 {
   }
 }
 
-input, input[type="password"] {
+input, input[type="text"], input[type="password"] {
   -webkit-transition: all $transition-delta ease-in-out;
   -moz-transition: all $transition-delta ease-in-out;
   -ms-transition: all $transition-delta ease-in-out;
@@ -135,6 +144,11 @@ input, input[type="password"] {
   border-radius: 0px;
   border-style: solid;
   border-width: $input-thickness;
+  color: $hover-dark;
+  font-size: 90%;
+  font-family: 'Nunito Sans', 'Open Sans', 'sans-serif';
+  margin-bottom: 1px;
+  padding-left: 5px;
   max-height: 25px;
   width: inherit;
   &:focus {

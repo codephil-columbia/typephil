@@ -126,11 +126,13 @@ class SignupPage extends Component {
                         <div className="row">
                             <div className="column column-50">
                                 <h2>FIRST NAME</h2>
-                                <input placeholder=""/>
+                                <input placeholder="" type="text"/>
+                                <div className="warning">What's your first name?</div>
                             </div>
                             <div className="column column-50">
                                 <h2>LAST NAME</h2>
                                 <input placeholder=""/>
+                                <div className="warning">What's your last name?</div>
                             </div>
                         </div>
 
@@ -138,6 +140,7 @@ class SignupPage extends Component {
                             <div className="column column-50">
                                 <h2>USERNAME</h2>
                                 <input placeholder=""/>
+                                <div className="warning">What username would you like?</div>
                             </div>
                             <div className="column column-50">
                                 <h2>BIRTHDATE</h2>
@@ -146,6 +149,7 @@ class SignupPage extends Component {
                                     <Dropdown options={days} onChange={this._onSelect} value={defaultOption} placeholder="Day" ref="dddays"/>
                                     <Dropdown options={years} onChange={this.setYear} value={defaultOption} placeholder="Year" ref="ddyears"/>
                                 </div>
+                                <div className="warning">What's your birthday?</div>
                             </div>
                         </div>
 
@@ -153,10 +157,12 @@ class SignupPage extends Component {
                             <div className="column column-50">
                                 <h2>PASSWORD</h2>
                                 <input placeholder="" type="password"/>
+                                <div className="warning">Please enter a password!</div>
                             </div>
                             <div className="column column-50">
                                 <h2>RE-TYPE PASSWORD</h2>
                                 <input placeholder="" type="password"/>
+                                <div className="warning">Please re-type your password!</div>
                             </div>
                         </div>
 
@@ -167,6 +173,7 @@ class SignupPage extends Component {
                                 <div className="column column-20"><input type="radio" name="gender" value="male"></input>Male</div>
                                 <div className="column column-25"><input type="radio" name="gender" value="female"></input>Female</div>
                                 <div className="column column-20"><input type="radio" name="gender" value="other"></input>Other</div>
+                        <div className="warning">Please fill this in!</div>
                         </div>
 
                         <div className="row occupation">
@@ -183,6 +190,7 @@ class SignupPage extends Component {
                                 <div className="row"><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</div>
                               </span>
                             </div>
+                            <div className="warning">Please fill this in!</div>
                           </div>
 
                           <div className="column column-50">
@@ -192,11 +200,13 @@ class SignupPage extends Component {
                               <div id="ddoccupation">
                                 <Dropdown options={schoolyears} onChange={this.updateSchoolYear} value={defaultOption} placeholder="Select from below"/>
                               </div>
+                              <div className="warning">When do you graduate your current school?</div>
                             </div>
 
                             <div className={"specify-occupation " + this.state.option2}>
                               <h2>OCCUPATION</h2>
                               <input placeholder=""/>
+                              <div className="warning">What's your occupation?</div>
                             </div>
 
                           </div>
