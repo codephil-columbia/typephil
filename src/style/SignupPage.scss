@@ -110,6 +110,17 @@ $transition-delta: 0.1s;
 .warning {
   color: $chestnut-rose;
   font-size: 0.8em;
+  text-align: center;
+}
+.true {
+  visibility: hidden;
+}
+.false {
+  visibility: visible;
+}
+.hide-warning {
+  display: none;
+  /* visibility: hidden; TODO: scrap this */
 }
 
 a {
@@ -178,6 +189,9 @@ button {
   background-color: #BFD8BD;/*#EFEFEF;*/
   border: none;
   color: white;
+}
+.signup {
+  text-align: center;
 }
 #btn-next {
   background-color: $palm-green;

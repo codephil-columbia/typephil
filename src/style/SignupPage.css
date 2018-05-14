@@ -75,7 +75,18 @@
 
 .warning {
   color: #D24D57;
-  font-size: 0.8em; }
+  font-size: 0.8em;
+  text-align: center; }
+
+.true {
+  visibility: hidden; }
+
+.false {
+  visibility: visible; }
+
+.hide-warning {
+  display: none;
+  /* visibility: hidden; TODO: scrap this */ }
 
 a {
   color: #52B094; }
@@ -132,6 +143,9 @@ button {
   /*#EFEFEF;*/
   border: none;
   color: white; }
+
+.signup {
+  text-align: center; }
 
 #btn-next {
   background-color: #52B094; }

@@ -18,28 +18,30 @@ class SignupPage extends Component {
       month: moment().month(),
       year: moment().year(),
       option1: 'hide',
-      option2: ''
+      option2: '',
+
+      firstname: '',
+      lastname: '',
+      username: '',
+      password: '', // TODO make this less obvious
+      password2: '',
+      occupation: '',
     }
+
+    this.isEnabled = false;
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.setMonth = this.setMonth.bind(this);
     this.setYear = this.setYear.bind(this);
     this.setOccupation = this.setOccupation.bind(this);
   }
 
-  login = e => {
-    e.preventDefault();
-    const { username, password } = this.state;
-    this.props.dispatchLogin(
-      username,
-      password
-    )
+  handleInputChange = (e) => {
+    this.setState({ [e.target.name] : e.target.value });
+    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.state.password.length > 5 && (this.state.password2 === this.state.password);
+    console.log(this.isEnabled);
   }
 
-  getUsernameData = e => {
-    const username = e.target.value;
-    this.setState({ username });
-  }
-
-  getPasswordData = e => {
+  setPassword = (e) => {
     const password = e.target.value;
     this.setState({ password });
   }
@@ -74,6 +76,10 @@ class SignupPage extends Component {
       this.setState({ option1: 'hide', option2: '' });
     else
       this.setState({ option1: 'hide', option2: 'hide' });
+  }
+
+  signup = (e) => {
+    console.log(e);
   }
 
   render() {
@@ -126,21 +132,21 @@ class SignupPage extends Component {
                         <div className="row">
                             <div className="column column-50">
                                 <h2>FIRST NAME</h2>
-                                <input placeholder="" type="text"/>
-                                <div className="warning">What's your first name?</div>
+                                <input placeholder="" name="firstname" type="text" onChange={this.handleInputChange}/>
+                                <div className="warning hide-warning">What's your first name?</div>
                             </div>
                             <div className="column column-50">
                                 <h2>LAST NAME</h2>
-                                <input placeholder=""/>
-                                <div className="warning">What's your last name?</div>
+                                <input placeholder="" name="lastname" type="text" onChange={this.handleInputChange}/>
+                                <div className="warning hide-warning">What's your last name?</div>
                             </div>
                         </div>
 
                         <div className="row username">
                             <div className="column column-50">
                                 <h2>USERNAME</h2>
-                                <input placeholder=""/>
-                                <div className="warning">What username would you like?</div>
+                                <input placeholder="" name="username" type="text" onChange={this.handleInputChange}/>
+                                <div className="warning hide-warning">What username would you like?</div>
                             </div>
                             <div className="column column-50">
                                 <h2>BIRTHDATE</h2>
@@ -149,20 +155,20 @@ class SignupPage extends Component {
                                     <Dropdown options={days} onChange={this._onSelect} value={defaultOption} placeholder="Day" ref="dddays"/>
                                     <Dropdown options={years} onChange={this.setYear} value={defaultOption} placeholder="Year" ref="ddyears"/>
                                 </div>
-                                <div className="warning">What's your birthday?</div>
+                                <div className="warning hide-warning">What's your birthday?</div>
                             </div>
                         </div>
 
                         <div className="row password">
                             <div className="column column-50">
                                 <h2>PASSWORD</h2>
-                                <input placeholder="" type="password"/>
-                                <div className="warning">Please enter a password!</div>
+                                <input placeholder="" name="password" type="password" onChange={this.handleInputChange}/>
+                                <div className="warning hide-warning">Please enter a password!</div>
                             </div>
                             <div className="column column-50">
                                 <h2>RE-TYPE PASSWORD</h2>
-                                <input placeholder="" type="password"/>
-                                <div className="warning">Please re-type your password!</div>
+                                <input placeholder="" name="password2" type="password" onChange={this.handleInputChange}/>
+                                <div className="warning hide-warning">Please re-type your password!</div>
                             </div>
                         </div>
 
@@ -173,7 +179,7 @@ class SignupPage extends Component {
                                 <div className="column column-20"><input type="radio" name="gender" value="male"></input>Male</div>
                                 <div className="column column-25"><input type="radio" name="gender" value="female"></input>Female</div>
                                 <div className="column column-20"><input type="radio" name="gender" value="other"></input>Other</div>
-                        <div className="warning">Please fill this in!</div>
+                        <div className="warning hide-warning">Please fill this in!</div>
                         </div>
 
                         <div className="row occupation">
@@ -190,7 +196,7 @@ class SignupPage extends Component {
                                 <div className="row"><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</div>
                               </span>
                             </div>
-                            <div className="warning">Please fill this in!</div>
+                            <div className="warning hide-warning">Please fill this in!</div>
                           </div>
 
                           <div className="column column-50">
@@ -200,21 +206,22 @@ class SignupPage extends Component {
                               <div id="ddoccupation">
                                 <Dropdown options={schoolyears} onChange={this.updateSchoolYear} value={defaultOption} placeholder="Select from below"/>
                               </div>
-                              <div className="warning">When do you graduate your current school?</div>
+                              <div className="warning hide-warning">When do you graduate your current school?</div>
                             </div>
 
                             <div className={"specify-occupation " + this.state.option2}>
                               <h2>OCCUPATION</h2>
-                              <input placeholder=""/>
-                              <div className="warning">What's your occupation?</div>
+                              <input placeholder="" name="occupation" type="text" onChange={this.handleInputChange}/>
+                              <div className="warning hide-warning">What's your occupation?</div>
                             </div>
 
                           </div>
                         </div>
 
                         <div className="row next">
-                            <div className="column column-50 column-offset-25">
-                                <button id="btn-next">SIGN UP</button>
+                            <div className="column column-50 column-offset-25 signup">
+                                <button id="btn-next" disabled={!this.isEnabled} onClick={this.signup}>SIGN UP</button>
+                                <div class={"warning " + this.isEnabled} ref="signup_warning">Please complete all fields.</div>
                             </div>
                         </div>
                     </div>
