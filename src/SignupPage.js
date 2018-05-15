@@ -26,6 +26,8 @@ class SignupPage extends Component {
       password: '', // TODO make this less obvious
       password2: '',
       occupation: '',
+
+      headerLinks: ["Learn", "Progress", "Home"]
     }
 
     this.isEnabled = false;
@@ -84,6 +86,8 @@ class SignupPage extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
+    const { headerLinks } = this.state;
+
     var months = moment.monthsShort();
     var selectedMonth = months[0];
     var years = Array.apply(null, {length: 50}).map(
@@ -103,7 +107,7 @@ class SignupPage extends Component {
 
     return (
         <div>
-        <Header links={[]}/>
+        <Header links={headerLinks} username=""/>
        
         <div className="container">
             <div className="row" id="container">
