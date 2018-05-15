@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600');
+
+$palm-green: #52B094;
+$hover-light: #DADFE1;
+$hover-dark: #555555;
+$silver-tree: #68C3A3;
+$chestnut-rose: #D24D57;
+$menu-gray: #A2A3A4;
+
+$container-height: 70vh;
+$image-dim: 100px;
+
+$transition-delta: 0.05s;
+
+body {
+  font-family: 'Nunito Sans', 'Open Sans', 'sans-serif';
+}
+
+h1 {
+  font-size: 1.8em;
+  font-weight: 200;
+}
+h2 {
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+h3 {
+  font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+hr {
+  border-color: $palm-green;
+  margin: 5vh auto 8vh auto;
+  width: 15%;
+}
+
+p {
+  margin: 0 auto;
+}
+
+.container {
+  height: $container-height;
+  max-height: 70vh;
+  max-width: 30vw;
+  margin: 0 auto;
+  position: relative;
+}
+
+.vert-container {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  margin-top: $container-height - 100vh;
+  height: inherit;
+  width: inherit;
+}
+
+.eye {
+  width: 13px;
+  height: 13px;
+  border: solid 1px #000;
+  border-radius:  75% 15%;
+  position: relative;
+  transform: rotate(45deg);
+}
+.eye:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border: solid 1px #000;
+  border-radius: 50%;
+  left: 3px;
+  top: 3px;
+}
+
+.highlight {
+  -webkit-transition: border-left $transition-delta ease-in-out;
+  -moz-transition: border-left $transition-delta ease-in-out;
+  -ms-transition: border-left $transition-delta ease-in-out;
+  -o-transition: border-left $transition-delta ease-in-out;
+
+  padding-left: 10px;
+  &:hover {
+    border-left: solid 3px $palm-green;
+    padding-left: 7px;
+  }
+}
+
+.panel {
+  position: relative;
+}
+
+.top {
+  margin-bottom: 2vh;
+  margin-top: 8vh;
+}
+
+#profile-pic {
+  margin: 0 auto;
+  img {
+    border: 5px solid $palm-green;
+    border-radius: 50%;
+    height: $image-dim;
+    width: $image-dim;
+  }
+}
+#edit {
+  display: inline-block;
+  img {
+    height: 13px;
+    width: 13px;
+  }
+}
