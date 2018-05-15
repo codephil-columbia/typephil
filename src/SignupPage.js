@@ -4,11 +4,11 @@ import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
-import Dropdown from 'react-dropdown'
-import moment from 'moment'
-import 'react-dropdown/style.css'
+import Dropdown from 'react-dropdown';
+import moment from 'moment';
+import 'react-dropdown/style.css';
 import './style/styles.css';
-import './style/SignupPage.css'
+import './style/SignupPage.css';
 
 class SignupPage extends Component {
   constructor(props) {
