@@ -27,7 +27,7 @@ class SignupPage extends Component {
       password2: '',
       occupation: '',
 
-      headerLinks: ["Learn", "Progress", "Home"]
+      headerLinks: ["Home"]
     }
 
     this.isEnabled = false;
