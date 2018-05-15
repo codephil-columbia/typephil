@@ -9,7 +9,10 @@ $chestnut-rose: #D24D57;
 $menu-gray: #A2A3A4;
 
 $container-height: 70vh;
-$dropdown-width: 3.95em;
+$container-width: 90%;
+$container-maxwidth: 100vw;
+
+$dropdown-width: 100%; /*3.95em;*/
 $void-height: 21vh;
 $input-thickness: 1px;
 $radio-dim: 10px;
@@ -17,16 +20,23 @@ $radio-fontsize: 90%;
 
 $transition-delta: 0.1s;
 
+.container {
+  width: $container-width !important;
+  max-width: $container-maxwidth !important;
+}
 #container {
-  margin-top: 10vh;
+  margin: 10vh auto 0 auto;
   height: $container-height;
   max-height: 70vh;
-  max-width: 65vw;
+  width: $container-width;
+  max-width: $container-maxwidth !important;
 }
 
 .left-panel {
-  padding: 1em;
+  float: right;
+  padding: 1em 0 1em 1em;
   height: $container-height;
+  max-width: 18vw;
   text-align: justify;
 }
 
@@ -59,6 +69,8 @@ $transition-delta: 0.1s;
 
 .dropdowns {
   margin-left: 0;
+  min-width: 100%;
+  max-width: 100%;
 }
 
 .title {
