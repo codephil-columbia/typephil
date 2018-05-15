@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600");
+body {
+  font-family: 'Nunito Sans', 'Open Sans', 'sans-serif'; }
+
+h1 {
+  font-size: 1.8em;
+  font-weight: 200; }
+
+h2 {
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: -1px; }
+
+h3 {
+  font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: 0.2px; }
+
+hr {
+  border-color: #52B094;
+  margin: 5vh auto 8vh auto;
+  width: 15%; }
+
+p {
+  margin: 0 auto; }
+
+.container {
+  height: 70vh;
+  max-height: 70vh;
+  max-width: 30vw;
+  margin: 0 auto;
+  position: relative; }
+
+.vert-container {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  margin-top: -30vh;
+  height: inherit;
+  width: inherit; }
+
+.eye {
+  width: 13px;
+  height: 13px;
+  border: solid 1px #000;
+  border-radius: 75% 15%;
+  position: relative;
+  transform: rotate(45deg); }
+
+.eye:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border: solid 1px #000;
+  border-radius: 50%;
+  left: 3px;
+  top: 3px; }
+
+.highlight {
+  -webkit-transition: border-left 0.05s ease-in-out;
+  -moz-transition: border-left 0.05s ease-in-out;
+  -ms-transition: border-left 0.05s ease-in-out;
+  -o-transition: border-left 0.05s ease-in-out;
+  padding-left: 10px; }
+  .highlight:hover {
+    border-left: solid 3px #52B094;
+    padding-left: 7px; }
+
+.panel {
+  position: relative; }
+
+.top {
+  margin-bottom: 2vh;
+  margin-top: 8vh; }
+
+#profile-pic {
+  margin: 0 auto; }
+  #profile-pic img {
+    border: 5px solid #52B094;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px; }
+
+#edit {
+  display: inline-block; }
+  #edit img {
+    height: 13px;
+    width: 13px; }
+
+/*# sourceMappingURL=ProfilePage.css.map */
