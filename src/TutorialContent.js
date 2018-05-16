@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { 
@@ -11,76 +11,191 @@ import {
 
 import './style/TutorialContent.css';
 
+const BACKSPACE = "Backspace";
+const DEFAULT = "default-letter";
+const CORRECT = "correct-letter";
+const INCORRECT = "incorrect-letter";
+
 class TutorialContent extends Component {
   constructor(props) {
     super(props);
 
     const { content } = this.props;
-    const ptr = 0;
+    const lines = this.createLines(content);
+    const totalLineLength = lines.length;
+    const linePtr = 0;
+    const currentLine = lines[linePtr];
+    const nextLine = totalLineLength === 1 ? null : lines[linePtr+1];
 
     this.state = {
+      edited: [],
+      correct: [],
+      incorrect: [],
+      missed: false,
       incorrectCharCount: 0,
-      currentChar: content[ptr],
-      ptr,
+      charPtr: 0,
+      groupPtr: 0,
+      linePtr,
       hasPressedFirstChar: false,
-      spans: this.createSpans(content)
+      lines,
+      totalLineLength,
+      currentLine,
+      nextLine
     }
   }
 
   componentWillMount = () => {
-    document.addEventListener("keydown", this.onKeyPress);
+    document.addEventListener("keydown", this.validateKeyPressed);
   }
 
-  createSpans = content => {
-    const spans = [...content].map((letter, i) => {
-      return <span key={i}>{letter}</span>
-    })
-    return spans;
+  createLines = content => {
+    let contentGroup = content.split("\n");
+    contentGroup = contentGroup.map(str => str.trim());
+    let letterGroups = contentGroup.map((str, i) =>  {
+      let x = str.split("").map((char, j) => <span>{char}</span>);
+      return <div>{x}</div>;
+    });
+
+    return [...letterGroups]
   }
 
-  colorKey = ptr => {
-    let { spans } = this.state;
-    const { charPtr, content, missedChar } = this.props;
+  // createNewLine = content => {
+  //   let letterGroups = content.map
+  // }
 
-    spans[ptr] = <span key={ptr} className={missedChar ? "incorrect-letter" : "correct-letter"}>{content[charPtr-1]}</span>
+  _getChildrenValue = element => {
+    return element.props.children;
+  }
 
-    console.log(charPtr, spans[ptr], content[ptr])
-    this.setState({spans: [...spans]});
+  colorKey = (charPtr, wasCorrect, wasBackspace) => {
+    let { lines, linePtr, currentLine } = this.state;
+    let domColoredLetter;
+    let className; 
+    let newLine;
+
+    const charactersInCurrentLine = this._getChildrenValue(currentLine);
+    const currentKey = this._getChildrenValue(charactersInCurrentLine[charPtr]);
+
+    if(wasBackspace) {
+      className = DEFAULT;
+    } else {
+      className = wasCorrect ? CORRECT : INCORRECT;
+    }
+
+    domColoredLetter = <span className={className}>{currentKey}</span>;
+    charactersInCurrentLine[charPtr] = domColoredLetter;
+
+    newLine = <div>{charactersInCurrentLine}</div>;
+    lines[linePtr] = newLine;
+
+    this.setState({currentLine: newLine, lines});
+  }
+
+  shouldCheckKey = key => {
+    if(key === "Meta" || key === "Shift" || 
+      key === 'CapsLock' || key === 'Tab') {
+      return false;
+    }
+    return true;
   }
  
-  onKeyPress = event => {
-    const { key } = event;
-    let { charPtr } = this.props;
+  validateKeyPressed = ({ key: keyPressed }) => {
+    let { charPtr, linePtr, lines, totalLineLength, 
+      nextLine, edited, correct, incorrect, missed } = this.state;
 
-    if(this.props.isFirstChar) {
-      this.props.startLesson();
+    let currentLine = lines[linePtr];
+    const currentLineLength = this._getChildrenValue(currentLine).length;
+    const currentChar = currentLine.props.children[charPtr].props.children;
+
+    //if key was nonimportant whitespace, check its value
+    if(this.shouldCheckKey(keyPressed)) {
+      if (keyPressed === currentChar) {
+        this.colorKey(charPtr, true, false);
+        ++charPtr;
+        console.log(charPtr, currentLineLength - 1);
+        if(charPtr > currentLineLength - 1) {
+          console.log(charPtr, "is too big addingone");
+          linePtr++;
+          if(linePtr > totalLineLength - 1) {
+            console.log("FINISHED");
+          } else {
+            currentLine = nextLine;
+            nextLine = linePtr > totalLineLength - 1 ? null : lines[linePtr+1];
+            this.setState({ linePtr, charPtr: 0, currentLine, nextLine, missed: false });
+          }
+        } else {
+          this.setState({ charPtr, missed: false });
+        }
+      } else if(keyPressed === BACKSPACE) {
+        let prevKey;
+        let prevObj;
+        if(missed) {
+          prevObj = incorrect.pop();
+          prevKey = prevObj.got;
+          incorrect.push(prevObj);
+        } else {
+          prevKey = correct.pop();
+        }
+        edited.push(prevKey);
+
+        charPtr = (0 >= charPtr-1) ? charPtr = 0 : charPtr = charPtr-1;
+        this.colorKey(charPtr, null, true);
+        this.setState({ charPtr });
+      } else {
+        incorrect.push({got: keyPressed, expected: currentChar});
+        this.colorKey(charPtr, false, false);
+
+        ++charPtr;
+        if(charPtr > currentLineLength - 1) {
+          console.log(charPtr, "is too big addingone");
+          linePtr++;
+          if(linePtr > totalLineLength - 1) {
+            console.log("FINISHED");
+          } else {
+            currentLine = nextLine;
+            nextLine = linePtr > totalLineLength - 1 ? null : lines[linePtr+1];
+            this.setState({ linePtr, charPtr: 0, currentLine, nextLine, missed: false });
+          }
+        } else {
+          this.setState({ charPtr, missed:true });
+        }
+      }
     }
-
-    this.props.userPressedKey(key);
-    if(this.props.pressedKey) {
-      this.props.validatePressedKey(key);
-      this.colorKey(charPtr);
-    }
-
-    if(charPtr >= this.props.content.length) {
-      this.props.stopLesson();
-      this.props.next();
-    }
-
   }
 
   render() {
-    const { info } = this.props;
-    let { spans } = this.state;
+    const { lines, totalLineLength, currentLine, nextLine } = this.state;
+    let { charPtr, linePtr } = this.state;
+    
+    const toShow = [currentLine, nextLine];
 
-    return (
-      <div>
-        <p>{info}</p>
-        {spans}
-        <p>other stuff</p>
-      </div> 
-    )
+    return (toShow.map((line, i) => {
+      return <div className="row content">{line}</div>
+    }))
   }
+
+}
+
+const speechBubble = text => {
+  return (
+    <svg width="1113px" height="95px" viewBox="0 0 1113 95" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <title>Speech Bubble </title>
+      <desc>Created with Sketch.</desc>
+      <defs></defs>
+      <g id="Tutorial-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-164.000000, -219.000000)" opacity="0.5">
+        <g id="Speech-bubble" transform="translate(164.000000, 219.000000)" fill="#B5DCCD">
+            <g id="Speech-Bubble-">
+              <rect id="Rectangle-12" x="0" y="0" width="1113" height="76.369863" rx="10"></rect>
+              <polygon id="Triangle-2" transform="translate(22.500000, 85.136986) scale(1, -1) translate(-22.500000, -85.136986) " points="7 75.2739726 38 95 15.1482349 95"></polygon>
+              <rect width="996" height="41"/>
+              <text id="myText" font-size="15" font-family="arial" fill="black">
+                <tspan x="" y="20">{text}</tspan>
+              </text>
+            </g>
+        </g>
+      </g>
+    </svg>
+  )
 }
 
 const mapDispatchToProps = dispatch => {
