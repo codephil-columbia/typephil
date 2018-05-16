@@ -28,6 +28,8 @@ class TutorialContent extends Component {
     const nextLine = totalLineLength === 1 ? null : lines[linePtr+1];
     const prevLine = null;
 
+    this.highlightFirstCharInLine(linePtr, currentLine, lines);
+
     this.state = {
       edited: [],
       correct: [],
@@ -54,29 +56,37 @@ class TutorialContent extends Component {
     let contentGroup = content.split("\n");
     contentGroup = contentGroup.map(str => str.trim());
     let letterGroups = contentGroup.map((str, i) =>  {
-      let x = str.split("").map((char, j) => <span>{char}</span>);
-      return <div>{x}</div>;
+      let x = str.split("").map((char, j) => <span key={j}>{char}</span>);
+      return <div className="words">{x}</div>;
     });
 
     return [...letterGroups]
   }
 
-  // createNewLine = content => {
-  //   let letterGroups = content.map
-  // }
-
   _getChildrenValue = element => {
     return element.props.children;
   }
 
+  highlightFirstCharInLine = (linePtr, currentLine, lines) => {
+    const charactersInCurrentLine = this._getChildrenValue(currentLine);
+    const currentKey = this._getChildrenValue(charactersInCurrentLine[0]);
+    const highlightedKey = <span className="highlighted">{currentKey}</span>
+    charactersInCurrentLine[0] = highlightedKey;
+    let newLine = <div className="words">{charactersInCurrentLine}</div>
+    lines[linePtr] = newLine;
+    this.setState({currentLine:newLine, lines});
+  }
+
   colorKey = (charPtr, wasCorrect, wasBackspace) => {
     let { lines, linePtr, currentLine } = this.state;
+    const currentLineLength = this._getChildrenValue(currentLine).length;
     let domColoredLetter;
     let className; 
     let newLine;
 
     const charactersInCurrentLine = this._getChildrenValue(currentLine);
     const currentKey = this._getChildrenValue(charactersInCurrentLine[charPtr]);
+    let nextKey;
 
     if(wasBackspace) {
       className = DEFAULT;
@@ -84,10 +94,20 @@ class TutorialContent extends Component {
       className = wasCorrect ? CORRECT : INCORRECT;
     }
 
+
     domColoredLetter = <span className={className}>{currentKey}</span>;
     charactersInCurrentLine[charPtr] = domColoredLetter;
+    
+    charactersInCurrentLine[charPtr] = domColoredLetter;
+    // if(!(charPtr+1 > currentLineLength - 1)) {
+    //   nextKey = this._getChildrenValue(charactersInCurrentLine[charPtr+1]);
+    //   const nextHighlightedKey = <span className="highlighted">{nextKey}</span>
+    //   charactersInCurrentLine[charPtr+1] = nextHighlightedKey;
+    // }
 
-    newLine = <div>{charactersInCurrentLine}</div>;
+    domColoredLetter = <span className={className}>{currentKey}</span>
+    charactersInCurrentLine[charPtr] = domColoredLetter;
+    newLine = <div className="words">{charactersInCurrentLine}</div>;
     lines[linePtr] = newLine;
 
     this.setState({currentLine: newLine, lines});
@@ -99,6 +119,19 @@ class TutorialContent extends Component {
       return false;
     }
     return true;
+  }
+
+  applyClass = (charPtr, className) => {
+    let { lines, currentLine, linePtr } = this.state;
+    let charactersInCurrentLine = this._getChildrenValue(currentLine);
+    let currentKey = this._getChildrenValue(charactersInCurrentLine[charPtr]);
+
+    const newDOM = <span className={className}>{currentKey}</span>
+    charactersInCurrentLine[charPtr] = newDOM;
+    const newLine = <div className="words">{charactersInCurrentLine}</div>
+    lines[linePtr] = newLine;
+
+    this.setState({currentLine: newLine, lines});
   }
  
   validateKeyPressed = ({ key: keyPressed }) => {
@@ -113,13 +146,15 @@ class TutorialContent extends Component {
     if(this.shouldCheckKey(keyPressed)) {
       if (keyPressed === currentChar) {
         this.colorKey(charPtr, true, false);
+        if(!(charPtr+1 > currentLineLength-1)) 
+          this.applyClass(charPtr+1, "highlighted");
         charPtr++;
-        console.log(charPtr, currentLineLength - 1);
         if(charPtr > currentLineLength - 1) {
           linePtr++;
           if(linePtr > totalLineLength - 1) {
             console.log("FINISHED");
           } else {
+            this.highlightFirstCharInLine(linePtr, nextLine, lines);
             prevLine = currentLine;
             currentLine = nextLine;
             nextLine = linePtr > totalLineLength - 1 ? null : lines[linePtr+1];
@@ -145,14 +180,20 @@ class TutorialContent extends Component {
         if(charPtr === 0) {
           if(linePtr !== 0 && totalLineLength > 1) {
             linePtr--;
+            this.applyClass(charPtr, "default-letter");
             charPtr = this._getChildrenValue(lines[linePtr]).length - 1;
             const lineBeforePrev = lines[linePtr-1]
             this.setState({ linePtr, charPtr, currentLine:prevLine, nextLine:currentLine, prevLine:lineBeforePrev});
             this.colorKey(charPtr, null, true);
+            this.applyClass(charPtr, "highlighted");
           }
         } else {
+          console.log(charPtr);
+          this.applyClass(charPtr, "default-letter");
           charPtr = (0 > charPtr-1) ? charPtr = 0 : charPtr = charPtr-1;
+          console.log(charPtr);
           this.colorKey(charPtr, null, true);
+          this.applyClass(charPtr, "highlighted");
           this.setState({ charPtr });
         }
       } else {
@@ -166,12 +207,14 @@ class TutorialContent extends Component {
           if(linePtr > totalLineLength - 1) {
             console.log("FINISHED");
           } else {
+            this.highlightFirstCharInLine(linePtr, nextLine, lines);
             prevLine = currentLine;
             currentLine = nextLine;
             nextLine = linePtr > totalLineLength - 1 ? null : lines[linePtr+1];
             this.setState({ linePtr, charPtr: 0, currentLine, nextLine, missed: false, prevLine });
           }
         } else {
+          this.applyClass(charPtr, "highlighted");
           this.setState({ charPtr, missed:true });
         }
       }
@@ -189,28 +232,6 @@ class TutorialContent extends Component {
     }))
   }
 
-}
-
-const speechBubble = text => {
-  return (
-    <svg width="1113px" height="95px" viewBox="0 0 1113 95" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <title>Speech Bubble </title>
-      <desc>Created with Sketch.</desc>
-      <defs></defs>
-      <g id="Tutorial-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-164.000000, -219.000000)" opacity="0.5">
-        <g id="Speech-bubble" transform="translate(164.000000, 219.000000)" fill="#B5DCCD">
-            <g id="Speech-Bubble-">
-              <rect id="Rectangle-12" x="0" y="0" width="1113" height="76.369863" rx="10"></rect>
-              <polygon id="Triangle-2" transform="translate(22.500000, 85.136986) scale(1, -1) translate(-22.500000, -85.136986) " points="7 75.2739726 38 95 15.1482349 95"></polygon>
-              <rect width="996" height="41"/>
-              <text id="myText" font-size="15" font-family="arial" fill="black">
-                <tspan x="" y="20">{text}</tspan>
-              </text>
-            </g>
-        </g>
-      </g>
-    </svg>
-  )
 }
 
 const mapDispatchToProps = dispatch => {
