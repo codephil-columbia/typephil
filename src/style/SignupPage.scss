@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400');
 
 $palm-green: #52B094;
 $hover-light: #DADFE1;
@@ -9,24 +9,46 @@ $chestnut-rose: #D24D57;
 $menu-gray: #A2A3A4;
 
 $container-height: 70vh;
-$dropdown-width: 3.95em;
+$container-width: 90%;
+$container-maxwidth: 100vw;
+
+$dropdown-width: 100%; /*3.95em;*/
 $void-height: 21vh;
 $input-thickness: 1px;
-$radio-dim: 10px;
+$radio-dim: 12px;
 $radio-fontsize: 90%;
+$text-weight: 400;
 
 $transition-delta: 0.1s;
+$transition-delta2: 0.2s;
 
+.container {
+  width: $container-width !important;
+  max-width: $container-maxwidth !important;
+}
 #container {
-  margin-top: 10vh;
+  font-weight: 400;
+  margin: 10vh auto 0 auto;
   height: $container-height;
   max-height: 70vh;
-  max-width: 65vw;
+  width: $container-width;
+  max-width: $container-maxwidth !important;
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 0.5em;
+  }
+  label {
+    font-weight: $text-weight;
+  }
 }
 
 .left-panel {
-  padding: 1em;
+  float: right;
+  padding: 1em 0 1em 1em;
   height: $container-height;
+  max-width: 18vw;
   text-align: justify;
 }
 
@@ -59,6 +81,8 @@ $transition-delta: 0.1s;
 
 .dropdowns {
   margin-left: 0;
+  min-width: 100%;
+  max-width: 100%;
 }
 
 .title {
@@ -75,7 +99,7 @@ $transition-delta: 0.1s;
 }
 
 .gender {
-  margin-top: 1em;
+  margin-top: 2em;
   margin-left: 0;
 }
 .gender-radios {
@@ -127,12 +151,6 @@ a {
   color: $palm-green;
 }
 
-h2 {
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-  margin-bottom: 0.5em;
-}
-
 .hide {
   display: none;
 }
@@ -146,10 +164,10 @@ h2 {
 }
 
 input, input[type="text"], input[type="password"] {
-  -webkit-transition: all $transition-delta ease-in-out;
-  -moz-transition: all $transition-delta ease-in-out;
-  -ms-transition: all $transition-delta ease-in-out;
-  -o-transition: all $transition-delta ease-in-out;
+  -webkit-transition: all $transition-delta2 ease-in-out;
+  -moz-transition: all $transition-delta2 ease-in-out;
+  -ms-transition: all $transition-delta2 ease-in-out;
+  -o-transition: all $transition-delta2 ease-in-out;
 
   border-color: $palm-green;
   border-radius: 0px;
@@ -210,7 +228,7 @@ button:hover, button:active {
 .Dropdown-control {
   border: $input-thickness solid $palm-green;
   border-radius: 0;
-  color: $menu-gray;
+  color: $hover-dark; /*$menu-gray;*/
   font-size: 70%;
   padding: 3px 5px 2.5px 6px;
   width: inherit;
