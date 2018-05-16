@@ -191,9 +191,9 @@ class SignupPage extends Component {
                             <h2>GENDER</h2>
                         </div>
                         <div className="row gender-radios">
-                          <div className="column column-20"><input type="radio" name="gender" value="male"></input>Male</div>
-                          <div className="column column-25"><input type="radio" name="gender" value="female"></input>Female</div>
-                          <div className="column column-20"><input type="radio" name="gender" value="other"></input>Other</div>
+                          <div className="column column-20"><label><input type="radio" name="gender" value="male"></input>Male</label></div>
+                          <div className="column column-25"><label><input type="radio" name="gender" value="female"></input>Female</label></div>
+                          <div className="column column-20"><label><input type="radio" name="gender" value="other"></input>Other</label></div>
                         <div className="warning hide-warning">Please fill this in!</div>
                         </div>
 
@@ -202,13 +202,13 @@ class SignupPage extends Component {
                             <h2>I AM CURRENTLY...</h2>
                             <div className="occupation-radios">
                               <span>
-                                <div className="row"><input type="radio" name="occupation" value="student" onChange={this.setOccupation}></input>A student</div>
+                                <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.setOccupation}></input>A student</label></div>
                               </span>
                               <span>
-                                <div className="row"><input type="radio" name="occupation" value="employed" onChange={this.setOccupation}></input>Employed</div>
+                                <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.setOccupation}></input>Employed</label></div>
                               </span>
                               <span>
-                                <div className="row"><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</div>
+                                <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</label></div>
                               </span>
                             </div>
                             <div className="warning hide-warning">Please fill this in!</div>
