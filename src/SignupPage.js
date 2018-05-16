@@ -106,145 +106,142 @@ class SignupPage extends Component {
     const defaultDay = days[0];
     const defaultYear = years[0];
 
-    var schoolyears = Array.apply(null, {length: 10}).map(
-          function(_, index) {
-            return index + moment().year()
-          });
+    var schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
 
     if(isLoggedIn) {
         return <Redirect to="/home"/>
     }
 
     return (
-        <div>
-        <Header links={headerLinks} username=""/>
-       
-        <div className="container">
-            <div className="row" id="container">
-                <div className="column column-33">
-                    <div className="left-panel">
-                        <h1 className="title">Sign up - It's free!</h1>
-                        <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
-                        <br/>
-                        <p>By signing up for TypePhil, you agree to our <a href="https://app.termly.io/document/terms-of-use-for-website/b57ed416-1978-4739-b295-a2578c7bff00">Terms of Use and Privacy Notice.</a></p>
+      <div>
+      <Header links={headerLinks} username=""/>
+      
+      <div className="container">
+        <div className="row" id="container">
+          <div className="column column-33">
+              <div className="left-panel">
+                  <h1 className="title">Sign up - It's free!</h1>
+                  <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
+                  <br/>
+                  <p>By signing up for TypePhil, you agree to our <a href="https://app.termly.io/document/terms-of-use-for-website/b57ed416-1978-4739-b295-a2578c7bff00">Terms of Use and Privacy Notice.</a></p>
 
-                        <div className="void">
-                        </div>
+                  <div className="void">
+                  </div>
+              </div>
+          </div>
+
+          <div className="column column-10">
+          </div>
+
+          <div className="vertical-line">
+          </div>
+
+          <div className="column column-10">
+          </div>
+
+          <div className="column column-40 right-panel-container">
+            <div className="right-panel">
+              <div className="row">
+                  <div className="column column-50">
+                      <h2>FIRST NAME</h2>
+                      <input placeholder="" name="firstname" type="text" onChange={this.handleInputChange}/>
+                      <div className="warning hide-warning">What's your first name?</div>
+                  </div>
+                  <div className="column column-50">
+                      <h2>LAST NAME</h2>
+                      <input placeholder="" name="lastname" type="text" onChange={this.handleInputChange}/>
+                      <div className="warning hide-warning">What's your last name?</div>
+                  </div>
+              </div>
+
+              <div className="row username">
+                  <div className="column column-50">
+                      <h2>USERNAME</h2>
+                      <input placeholder="" name="username" type="text" onChange={this.handleInputChange}/>
+                      <div className="warning hide-warning">What username would you like?</div>
+                  </div>
+                  <div className="column column-50">
+                      <h2>BIRTHDATE</h2>
+                      <div className="row dropdowns">
+                          <Dropdown options={months} onChange={this.setMonth} placeholder={this.state.month} ref="ddmonths"/>
+                          <Dropdown options={days} onChange={this.setDay} placeholder={this.state.day} ref="dddays"/>
+                          <Dropdown options={years} onChange={this.setYear} placeholder={this.state.year} ref="ddyears"/>
+                      </div>
+                      <div className="warning hide-warning">What's your birthday?</div>
+                  </div>
+              </div>
+
+              <div className="row password">
+                  <div className="column column-50">
+                      <h2>PASSWORD</h2>
+                      <input placeholder="" name="password" type="password" onChange={this.handleInputChange}/>
+                      <div className="warning hide-warning">Please enter a password!</div>
+                  </div>
+                  <div className="column column-50">
+                      <h2>RE-TYPE PASSWORD</h2>
+                      <input placeholder="" name="password2" type="password" onChange={this.handleInputChange}/>
+                      <div className="warning hide-warning">Please re-type your password!</div>
+                  </div>
+              </div>
+
+              <div className="row gender">
+                  <h2>GENDER</h2>
+              </div>
+              <div className="row gender-radios">
+                <div className="column column-20"><label><input type="radio" name="gender" value="male"></input>Male</label></div>
+                <div className="column column-25"><label><input type="radio" name="gender" value="female"></input>Female</label></div>
+                <div className="column column-20"><label><input type="radio" name="gender" value="other"></input>Other</label></div>
+              <div className="warning hide-warning">Please fill this in!</div>
+              </div>
+
+              <div className="row occupation">
+                <div className="column column-50">
+                  <h2>I AM CURRENTLY...</h2>
+                  <div className="occupation-radios">
+                    <span>
+                      <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.setOccupation}></input>A student</label></div>
+                    </span>
+                    <span>
+                      <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.setOccupation}></input>Employed</label></div>
+                    </span>
+                    <span>
+                      <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</label></div>
+                    </span>
+                  </div>
+                  <div className="warning hide-warning">Please fill this in!</div>
+                </div>
+
+                <div className="column column-50">
+
+                  <div className={"specify-schoolyear " + this.state.option1}>
+                    <h2>SCHOOL YEAR</h2>
+                    <div id="ddoccupation">
+                      <Dropdown options={schoolyears} onChange={this.updateSchoolYear} placeholder="Select from below"/>
                     </div>
+                    <div className="warning hide-warning">When do you graduate your current school?</div>
+                  </div>
+
+                  <div className={"specify-occupation " + this.state.option2}>
+                    <h2>OCCUPATION</h2>
+                    <input placeholder="" name="occupation" type="text" onChange={this.handleInputChange}/>
+                    <div className="warning hide-warning">What's your occupation?</div>
+                  </div>
+
                 </div>
+              </div>
 
-                <div className="column column-10">
+              <div className="row next">
+                <div className="column column-50 column-offset-25 signup">
+                  <button id="btn-next" disabled={!this.isEnabled} onClick={this.signup}>SIGN UP</button>
+                  <div className={"warning " + this.isEnabled} ref="signup_warning">Please complete all fields.</div>
                 </div>
-
-                <div className="vertical-line">
-                </div>
-
-                <div className="column column-10">
-                </div>
-
-                <div className="column column-40 right-panel-container">
-                    <div className="right-panel">
-                        <div className="row">
-                            <div className="column column-50">
-                                <h2>FIRST NAME</h2>
-                                <input placeholder="" name="firstname" type="text" onChange={this.handleInputChange}/>
-                                <div className="warning hide-warning">What's your first name?</div>
-                            </div>
-                            <div className="column column-50">
-                                <h2>LAST NAME</h2>
-                                <input placeholder="" name="lastname" type="text" onChange={this.handleInputChange}/>
-                                <div className="warning hide-warning">What's your last name?</div>
-                            </div>
-                        </div>
-
-                        <div className="row username">
-                            <div className="column column-50">
-                                <h2>USERNAME</h2>
-                                <input placeholder="" name="username" type="text" onChange={this.handleInputChange}/>
-                                <div className="warning hide-warning">What username would you like?</div>
-                            </div>
-                            <div className="column column-50">
-                                <h2>BIRTHDATE</h2>
-                                <div className="row dropdowns">
-                                    <Dropdown options={months} onChange={this.setMonth} placeholder={this.state.month} ref="ddmonths"/>
-                                    <Dropdown options={days} onChange={this.setDay} placeholder={this.state.day} ref="dddays"/>
-                                    <Dropdown options={years} onChange={this.setYear} placeholder={this.state.year} ref="ddyears"/>
-                                </div>
-                                <div className="warning hide-warning">What's your birthday?</div>
-                            </div>
-                        </div>
-
-                        <div className="row password">
-                            <div className="column column-50">
-                                <h2>PASSWORD</h2>
-                                <input placeholder="" name="password" type="password" onChange={this.handleInputChange}/>
-                                <div className="warning hide-warning">Please enter a password!</div>
-                            </div>
-                            <div className="column column-50">
-                                <h2>RE-TYPE PASSWORD</h2>
-                                <input placeholder="" name="password2" type="password" onChange={this.handleInputChange}/>
-                                <div className="warning hide-warning">Please re-type your password!</div>
-                            </div>
-                        </div>
-
-                        <div className="row gender">
-                            <h2>GENDER</h2>
-                        </div>
-                        <div className="row gender-radios">
-                          <div className="column column-20"><label><input type="radio" name="gender" value="male"></input>Male</label></div>
-                          <div className="column column-25"><label><input type="radio" name="gender" value="female"></input>Female</label></div>
-                          <div className="column column-20"><label><input type="radio" name="gender" value="other"></input>Other</label></div>
-                        <div className="warning hide-warning">Please fill this in!</div>
-                        </div>
-
-                        <div className="row occupation">
-                          <div className="column column-50">
-                            <h2>I AM CURRENTLY...</h2>
-                            <div className="occupation-radios">
-                              <span>
-                                <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.setOccupation}></input>A student</label></div>
-                              </span>
-                              <span>
-                                <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.setOccupation}></input>Employed</label></div>
-                              </span>
-                              <span>
-                                <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</label></div>
-                              </span>
-                            </div>
-                            <div className="warning hide-warning">Please fill this in!</div>
-                          </div>
-
-                          <div className="column column-50">
-
-                            <div className={"specify-schoolyear " + this.state.option1}>
-                              <h2>SCHOOL YEAR</h2>
-                              <div id="ddoccupation">
-                                <Dropdown options={schoolyears} onChange={this.updateSchoolYear} placeholder="Select from below"/>
-                              </div>
-                              <div className="warning hide-warning">When do you graduate your current school?</div>
-                            </div>
-
-                            <div className={"specify-occupation " + this.state.option2}>
-                              <h2>OCCUPATION</h2>
-                              <input placeholder="" name="occupation" type="text" onChange={this.handleInputChange}/>
-                              <div className="warning hide-warning">What's your occupation?</div>
-                            </div>
-
-                          </div>
-                        </div>
-
-                        <div className="row next">
-                            <div className="column column-50 column-offset-25 signup">
-                                <button id="btn-next" disabled={!this.isEnabled} onClick={this.signup}>SIGN UP</button>
-                                <div className={"warning " + this.isEnabled} ref="signup_warning">Please complete all fields.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
-        
-        </div>
+      </div>
+      
+      </div>
     )
   }
 }
