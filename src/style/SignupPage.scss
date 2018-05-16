@@ -17,14 +17,17 @@ $void-height: 21vh;
 $input-thickness: 1px;
 $radio-dim: 12px;
 $radio-fontsize: 90%;
+$text-weight: 400;
 
 $transition-delta: 0.1s;
+$transition-delta2: 0.2s;
 
 .container {
   width: $container-width !important;
   max-width: $container-maxwidth !important;
 }
 #container {
+  font-weight: 400;
   margin: 10vh auto 0 auto;
   height: $container-height;
   max-height: 70vh;
@@ -35,6 +38,9 @@ $transition-delta: 0.1s;
     font-weight: 300;
     letter-spacing: 1px;
     margin-bottom: 0.5em;
+  }
+  label {
+    font-weight: $text-weight;
   }
 }
 
@@ -158,10 +164,10 @@ a {
 }
 
 input, input[type="text"], input[type="password"] {
-  -webkit-transition: all $transition-delta ease-in-out;
-  -moz-transition: all $transition-delta ease-in-out;
-  -ms-transition: all $transition-delta ease-in-out;
-  -o-transition: all $transition-delta ease-in-out;
+  -webkit-transition: all $transition-delta2 ease-in-out;
+  -moz-transition: all $transition-delta2 ease-in-out;
+  -ms-transition: all $transition-delta2 ease-in-out;
+  -o-transition: all $transition-delta2 ease-in-out;
 
   border-color: $palm-green;
   border-radius: 0px;
