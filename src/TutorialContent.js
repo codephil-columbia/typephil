@@ -26,6 +26,7 @@ class TutorialContent extends Component {
     const linePtr = 0;
     const currentLine = lines[linePtr];
     const nextLine = totalLineLength === 1 ? null : lines[linePtr+1];
+    const prevLine = null;
 
     this.state = {
       edited: [],
@@ -40,7 +41,8 @@ class TutorialContent extends Component {
       lines,
       totalLineLength,
       currentLine,
-      nextLine
+      nextLine,
+      prevLine
     }
   }
 
@@ -101,7 +103,7 @@ class TutorialContent extends Component {
  
   validateKeyPressed = ({ key: keyPressed }) => {
     let { charPtr, linePtr, lines, totalLineLength, 
-      nextLine, edited, correct, incorrect, missed } = this.state;
+      nextLine, edited, correct, incorrect, missed, prevLine } = this.state;
 
     let currentLine = lines[linePtr];
     const currentLineLength = this._getChildrenValue(currentLine).length;
@@ -111,22 +113,23 @@ class TutorialContent extends Component {
     if(this.shouldCheckKey(keyPressed)) {
       if (keyPressed === currentChar) {
         this.colorKey(charPtr, true, false);
-        ++charPtr;
+        charPtr++;
         console.log(charPtr, currentLineLength - 1);
         if(charPtr > currentLineLength - 1) {
-          console.log(charPtr, "is too big addingone");
           linePtr++;
           if(linePtr > totalLineLength - 1) {
             console.log("FINISHED");
           } else {
+            prevLine = currentLine;
             currentLine = nextLine;
             nextLine = linePtr > totalLineLength - 1 ? null : lines[linePtr+1];
-            this.setState({ linePtr, charPtr: 0, currentLine, nextLine, missed: false });
+            this.setState({ linePtr, charPtr: 0, currentLine, nextLine, missed: false, prevLine });
           }
         } else {
           this.setState({ charPtr, missed: false });
         }
       } else if(keyPressed === BACKSPACE) {
+        // Have to move characters into edited list
         let prevKey;
         let prevObj;
         if(missed) {
@@ -138,9 +141,20 @@ class TutorialContent extends Component {
         }
         edited.push(prevKey);
 
-        charPtr = (0 >= charPtr-1) ? charPtr = 0 : charPtr = charPtr-1;
-        this.colorKey(charPtr, null, true);
-        this.setState({ charPtr });
+        // Go to prev line if there was one
+        if(charPtr === 0) {
+          if(linePtr !== 0 && totalLineLength > 1) {
+            linePtr--;
+            charPtr = this._getChildrenValue(lines[linePtr]).length - 1;
+            const lineBeforePrev = lines[linePtr-1]
+            this.setState({ linePtr, charPtr, currentLine:prevLine, nextLine:currentLine, prevLine:lineBeforePrev});
+            this.colorKey(charPtr, null, true);
+          }
+        } else {
+          charPtr = (0 > charPtr-1) ? charPtr = 0 : charPtr = charPtr-1;
+          this.colorKey(charPtr, null, true);
+          this.setState({ charPtr });
+        }
       } else {
         incorrect.push({got: keyPressed, expected: currentChar});
         this.colorKey(charPtr, false, false);
@@ -152,9 +166,10 @@ class TutorialContent extends Component {
           if(linePtr > totalLineLength - 1) {
             console.log("FINISHED");
           } else {
+            prevLine = currentLine;
             currentLine = nextLine;
             nextLine = linePtr > totalLineLength - 1 ? null : lines[linePtr+1];
-            this.setState({ linePtr, charPtr: 0, currentLine, nextLine, missed: false });
+            this.setState({ linePtr, charPtr: 0, currentLine, nextLine, missed: false, prevLine });
           }
         } else {
           this.setState({ charPtr, missed:true });
