@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Redirect, Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Spinner from 'react-spinkit';
+
 import Header from './components/header';
+
+import { getCurrentLessonForUser } from './actions/homepage';
 
 import "./style/styles.scss";
 import "./style/HomePage.css";
@@ -9,6 +14,8 @@ import "./style/HomePage.css";
 class HomePage extends Component {
   constructor(props) {
       super(props);
+
+      this.props.getCurrentLessonForUser("bbu9uqje8cdm8j5109ug");
 
       this.state = {
         headerLinks: ["Learn", "Progress", "Home"],
@@ -30,9 +37,21 @@ class HomePage extends Component {
     return desc.split('\n');
   }
 
+  formatText = (chapterName, lessonName) => {
+    const title = `${chapterName.split(":")[0]} | ${lessonName.split(":")[0]}`
+    const lesson = lessonName.split(":")[1];
+    return { title, lesson };
+  }
+
   render() {
     const { badges, headerLinks, badgeDescriptions } = this.state;
+    const { chapterName, lessonName, hasFinishedLoading, imagePath  } = this.props;
+    console.log(imagePath);
+    if(!hasFinishedLoading) {
+      return <Spinner name='double-bounce' />
+    }
 
+    const { title, lesson } = this.formatText(chapterName, lessonName);
     return (
       <div>
         <Header links={headerLinks}/>
@@ -42,8 +61,8 @@ class HomePage extends Component {
           </div>
           <div className="quickstart">
             <div className="qs-lesson-info">
-              <h3 className="qs-lesson-title">CHAPTER 2 | LESSON 1</h3>
-              <h3 className="qs-lesson-excersise"> Introduction to Shift Key</h3>
+              <h3 className="qs-lesson-title">{title}</h3>
+              <h3 className="qs-lesson-excersise">{lesson}</h3>
               <Link to="/learn"><button className="button button-outline start">Start</button></Link>
               <div className="qs-progress">
                 <div className="progress">
@@ -55,7 +74,7 @@ class HomePage extends Component {
               </div>
             </div>
             <div className="qs-image">
-              <h1>henlo</h1>
+              <img src={imagePath}></img>
             </div>
           </div>
           <hr className="line"/>
@@ -85,11 +104,18 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ app }) => {
   return {
-    isLoggedIn: state.isLoggedIn
+    lessonName: app.currentLesson.lessonName,
+    chapterName: app.currentLesson.chapterName,
+    hasFinishedLoading: app.currentLesson.hasFinishedLoading,
+    showSpinner: app.currentLesson.showSpinner,
+    imagePath: app.currentLesson.chapterImage
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ getCurrentLessonForUser }, dispatch);
+}
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

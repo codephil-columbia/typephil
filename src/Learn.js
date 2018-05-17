@@ -5,9 +5,19 @@ import { Link } from 'react-router-dom';
 import Header from './components/header'
 import header from './components/header';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import Spinner from 'react-spinkit';
+
+import { fetchAllChapterNames } from './actions/learn';
+
 class Learn extends Component {
   constructor(props) {
     super(props);
+
+    this.props.fetchAllChapterNames();
+
     this.state = {
       chapterPos: 0,
       shouldShowLessons: false,
@@ -34,8 +44,13 @@ class Learn extends Component {
 
   render() {
     const { chapters, headerLinks, shouldShowLessons, chapterPos, carouselTitle, carouselDesc } = this.state;
+    const { isLoading, allChapters } = this.props;
     const body = shouldShowLessons ? <ShowLessons lessons={chapters[chapterPos]['lessons']} chapterName={chapters[chapterPos]['chapterName']}/> 
       : <ShowChapters chapters={chapters} userDidClickChapter={this.userDidClickChapter} />
+
+    if(isLoading) {
+      return <Spinner name='double-bounce' />
+    }
 
     return (
       <div>
@@ -171,4 +186,15 @@ class ShowChapters extends Component {
   }
 }
 
-export default Learn;
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ fetchAllChapterNames }, dispatch);
+}
+
+const mapStateToProps = ({ app }) => {
+  return {
+    allChapters: app.allChapters,
+    isLoading: app.isLoading
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Learn);

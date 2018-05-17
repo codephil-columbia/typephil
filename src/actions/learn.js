@@ -1,38 +1,41 @@
 import axios from 'axios';
 
-// Fetch info for user with uid <x>
-// while fetching, show spinner/intermediate state 
-// when handle data and then show it
+export const FETCH_ALL_CHAPTERS_REQUEST = "FETCH_ALL_CHAPTERS_REQUEST"
+export const FETCH_ALL_CHAPTERS_SUCCESS = "FETCH_ALL_CHAPTERS_SUCCESS";
+export const FETCH_ALL_CHAPTERS_FAILED = "FETCH_ALL_CHAPTERS_FAILED";
 
-const FETCH_BULK_REQUEST = "FETCH_BULK_REQUEST";
-const FETCH_BULK_SUCCESS = "FETCH_BULK_SUCCESS";
-const FETCH_BULK_FAILURE = "FETCH_BULK_FAILURE";
-
-export const fetchBulkRequest = uid => { 
+const fetchAllChapterNamesRequest = _ => {
   return {
-    type: FETCH_BULK_REQUEST,
-    uid
+    type: FETCH_ALL_CHAPTERS_REQUEST
   }
 }
 
-export const fetchBulkSuccess = bulk => {
+const fetchAllChapterNamesSuccess = data => {
   return {
-    type: FETCH_BULK_SUCCESS,
-    bulk
+    type: FETCH_ALL_CHAPTERS_SUCCESS,
+    data
   }
 }
 
-export const fetchBulkFailure = _ => {
+const fetchAllChapterNamesFailed = err => {
   return {
-    type: FETCH_BULK_FAILURE
+    type: FETCH_ALL_CHAPTERS_FAILED,
+    err
   }
 }
 
-
-export const fetchBulk = uid => {
+export const fetchAllChapterNames = _ => {
   return function(dispatch) {
-    dispatch(fetchBulkRequest(uid) => {
-      
-    })
+    dispatch(fetchAllChapterNamesRequest());
+    return axios.get("http://localhost:5000/chapter/getAllNames")
+      .then(res => {
+        const {
+          data
+        } = res;
+        dispatch(fetchAllChapterNamesSuccess(data));
+      })
+      .catch(err => {
+        dispatch(fetchAllChapterNamesFailed(err));
+      })
   }
 }
