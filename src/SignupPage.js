@@ -85,6 +85,7 @@ class SignupPage extends Component {
   }
 
   signup = (e) => {
+    const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n?
     console.log(e);
   }
 
