@@ -61,6 +61,7 @@ const initialAppState = {
     shouldValidate: false,
     isFirstChar: true
   },
+  chapterLessonPairs: [],
   allChapters: [],
   isLoading: false,
   shouldFreeze: true,

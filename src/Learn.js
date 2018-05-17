@@ -10,13 +10,14 @@ import { bindActionCreators } from 'redux';
 
 import Spinner from 'react-spinkit';
 
-import { fetchAllChapterNames } from './actions/learn';
+import { fetchAllChapterNames, fetchAllPairs } from './actions/learn';
 
 class Learn extends Component {
   constructor(props) {
     super(props);
 
     this.props.fetchAllChapterNames();
+    this.props.fetchAllPairs();
 
     this.state = {
       chapterPos: 0,
@@ -37,6 +38,10 @@ class Learn extends Component {
     }
   }
 
+  makeChapterObjects = data => {
+    console.log(data);
+  }
+
   userDidClickChapter = i =>  {
     const {chapterName, chapterDesc } = this.state.chapters[i];
     this.setState({shouldShowLessons: true, chapterPos:i, carouselTitle: chapterName, carouselDesc: chapterDesc})
@@ -44,7 +49,7 @@ class Learn extends Component {
 
   render() {
     const { chapters, headerLinks, shouldShowLessons, chapterPos, carouselTitle, carouselDesc } = this.state;
-    const { isLoading, allChapters } = this.props;
+    const { isLoading, chapterLessonPairs } = this.props;
     const body = shouldShowLessons ? <ShowLessons lessons={chapters[chapterPos]['lessons']} chapterName={chapters[chapterPos]['chapterName']}/> 
       : <ShowChapters chapters={chapters} userDidClickChapter={this.userDidClickChapter} />
 
@@ -187,13 +192,14 @@ class ShowChapters extends Component {
 }
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ fetchAllChapterNames }, dispatch);
+  return bindActionCreators({ fetchAllChapterNames, fetchAllPairs }, dispatch);
 }
 
 const mapStateToProps = ({ app }) => {
   return {
     allChapters: app.allChapters,
-    isLoading: app.isLoading
+    isLoading: app.isLoading,
+    chapterLessonPairs: app.chapterLessonPairs
   }
 }
 
