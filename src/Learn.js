@@ -47,6 +47,8 @@ class Learn extends Component {
       const body = shouldShowLessons ? <ShowLessons lessons={chapterLessonPairs[chapterPos].lessons} chapterName={chapterLessonPairs[chapterPos]['chapterName']}/> 
       : <ShowChapters chapters={allChapters} userDidClickChapter={this.userDidClickChapter} />
 
+      console.log(chapterLessonPairs);
+
       return (
         <div>
           <Header links={headerLinks}/>
@@ -93,7 +95,7 @@ class ShowLessons extends Component {
   render() {
     const { chapterName, lessons } = this.props;
     const { currentSelectedLesson } = this.state;
-    const hasCompleted = currentSelectedLesson.hasCompleted;
+    const hasCompleted = currentSelectedLesson.UID ? true : false;
     const lessonStats = hasCompleted ? showCompletedLesson(currentSelectedLesson) : showLock()
 
     console.log(lessons, chapterName);
@@ -102,7 +104,7 @@ class ShowLessons extends Component {
       <div className="container lesson-wrapper"> 
         <div class="container lesson-left">
           {lessons.map(lesson => {
-            if(lesson.LessonName === currentSelectedLesson.lessonName) { 
+            if(lesson.LessonName === currentSelectedLesson.LessonName) { 
                 return <h4 style={{color: 'green'}} onClick={() => this.userDidChangeLesson(lesson)}>{lesson.LessonName}</h4>
             } else if (lesson.hasCompleted) {
                 return <h4 style={{color: 'black'}} onClick={() => this.userDidChangeLesson(lesson)}>{lesson.LessonName}</h4>
@@ -125,7 +127,9 @@ class ShowLessons extends Component {
 const showLock = () => {
   return (
     <div>
-      <div>lock here</div>
+      <div>
+        <img src="images/universal/lockicon.svg"></img>
+      </div>
       <div>
         <h4>To unlock this lesson, please complete the previous lesson</h4>
       </div>
@@ -138,13 +142,13 @@ const showCompletedLesson = currentSelectedLesson => {
     <div>
     <div className="lesson-stats-icon row">
       <div className="lesson-badge-content-square col">
-        <h2 className="lesson-badge-content-txt"><b>{currentSelectedLesson.stats.wpm}</b></h2>
+        {/* <h2 className="lesson-badge-content-txt"><b>{currentSelectedLesson.stats.wpm}</b></h2> */}
       </div>
       <h3 className="lesson-badge-desc col">Words Per Minute</h3>
     </div>
     <div className="lesson-stats-icon row">
       <div className="lesson-badge-content-circle">
-        <h2 className="lesson-badge-content-txt-circle"><b>{currentSelectedLesson.stats.accuracy}%</b></h2>
+        {/* <h2 className="lesson-badge-content-txt-circle"><b>{currentSelectedLesson.stats.accuracy}%</b></h2> */}
       </div>
       <h3 className="lesson-badge-desc col">Accuracy</h3>
     </div>
