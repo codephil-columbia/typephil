@@ -72,7 +72,6 @@ export const fetchAllPairs = _ => {
         const {
           data
         } = res;
-        console.log(data);
         dispatch(fetchAllPairsSuccess(data));
       })
       .catch(err => {

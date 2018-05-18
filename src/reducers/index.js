@@ -23,6 +23,12 @@ import {
 } from '../actions/tutorialContent';
 
 import {
+  FETCH_ALL_PAIRS_REQUEST,
+  FETCH_ALL_PAIRS_SUCCESS,
+  FETCH_ALL_PAIRS_FAILED
+} from '../actions/learn';
+
+import {
   FETCH_ALL_CHAPTERS_REQUEST,
   FETCH_ALL_CHAPTERS_SUCCESS,
   FETCH_ALL_CHAPTERS_FAILED
@@ -134,16 +140,26 @@ const app = (state = initialAppState, action) => {
       };
     case FETCH_ALL_CHAPTERS_SUCCESS:
       state.allChapters = allChapters(state.allChapters, action);
-      state.isLoading = false;
       return {...state }
 
     case FETCH_ALL_CHAPTERS_REQUEST:
       return {...state, isLoading: true}
 
     case GET_CURRENT_LESSON_WAITING:
-    state.currentLesson = currentLessonReducer(state.currentLesson, action);
-    return { ...state 
-    };
+      state.currentLesson = currentLessonReducer(state.currentLesson, action);
+      return { ...state 
+      };
+
+    case FETCH_ALL_PAIRS_REQUEST:
+      state.isLoading = true;
+      return { ...state };
+
+    case FETCH_ALL_PAIRS_SUCCESS:
+      const { data } = action;
+      console.log(data);
+      state.chapterLessonPairs = data
+      state.isLoading = false;
+      return { ...state };
       
     default:
       return state;
