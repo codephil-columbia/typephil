@@ -72,7 +72,7 @@ class Profile extends Component {
               <div className="column column-40">
                 <p>******</p>
               </div>
-              <div className="column column-20">
+              <div className="column column-10">
                 <div className="highlight" id="view">
                   <div className="eye"></div>
                 </div>
