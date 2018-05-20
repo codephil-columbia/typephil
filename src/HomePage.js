@@ -3,8 +3,8 @@ import { Redirect, Link, Route, BrowserRouter as Router, Switch } from 'react-ro
 import { connect } from 'react-redux';
 import Header from './components/header';
 
-import "./style/styles.scss";
-import "./style/HomePage.scss";
+import "./style/styles.css";
+import "./style/HomePage.css";
 
 class HomePage extends Component {
   constructor(props) {
