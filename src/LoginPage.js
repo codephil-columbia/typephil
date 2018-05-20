@@ -47,17 +47,30 @@ class LoginPage extends Component {
     return (
       <div>
         <Header links={headerLinks} username=""/>
+        <div className="container">
         <div className="login-content">
           <div className="content-left">
             <div className="body">
               <div className="body-title">
-                <h2>A fun, customized way to learn how to type!</h2>
+                <h1>A fun, customized way to learn how to type!</h1>
               </div>
-              <div className="body-image">
-                <p>arrow</p>
-                <img src="images/universal/Landing_image1.svg" className="big-img"></img>
-                <p>arrow</p>
+
+              <div className="row jumbotron">
+                <div className="column column-20"> 
+                  <div className="arrow left"></div>
+                </div>
+
+                <div className="column column-60">
+                  <div className="body-image">
+                    <img src="images/universal/Landing_image1.svg" className="big-img"></img>
+                  </div>
+                </div>
+
+                <div className="column column-20"> 
+                  <div className="arrow right"></div>
+                </div>
               </div>
+
               <div className="footer">
                 <h3>We're partnering with the best and brightest!</h3>
                 <div className="footer-boxes">
@@ -76,17 +89,18 @@ class LoginPage extends Component {
             <div className="login">
               <form onSubmit={this.login}>
                   <div className="form-inputs">
-                    <input type="text" placeholder="Enter Your Username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
-                    <input type="password" placeholder="Enter Your Password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
+                    <input type="text" placeholder="Enter your username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
+                    <input type="password" placeholder="Enter your password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
                   </div>
                   <div className="form-buttons">
                     <input className="form-button button-primary solid" type="submit" value="SIGN IN"/>
-                    <p> OR </p>
-                    <input className="form-button button-primary solid" type="submit" value="SIGN UP"/>
+                    <p>or</p>
+                    <input className="form-button button-primary solid" id="signup" type="submit" value="SIGN UP"/>
                   </div>
               </form>
             </div>
           </div>
+        </div>
         </div>
       </div>
     )
