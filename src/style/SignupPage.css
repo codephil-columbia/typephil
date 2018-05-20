@@ -1,14 +1,30 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
-@import url("https://fonts.googleapis.com/css?family=Nunito+Sans");
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400");
+/*3.95em;*/
+.container {
+  width: 90% !important;
+  max-width: 100vw !important; }
+
 #container {
-  margin-top: 10vh;
+  font-weight: 400;
+  margin: 10vh auto 0 auto;
   height: 70vh;
   max-height: 70vh;
-  max-width: 65vw; }
+  width: 90%;
+  max-width: 100vw !important; }
+  #container h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 0.5em; }
+  #container label {
+    font-weight: 400; }
 
 .left-panel {
-  padding: 1em;
+  float: right;
+  padding: 1em 0 1em 1em;
   height: 70vh;
+  max-width: 18vw;
   text-align: justify; }
 
 /* A vertical-centering hack for the right panel. */
@@ -35,20 +51,22 @@
   border-left: 1px solid #52B094; }
 
 .dropdowns {
-  margin-left: 0; }
+  margin-left: 0;
+  min-width: 100%;
+  max-width: 100%; }
 
 .title {
   color: #2A2A2A;
   text-align: center; }
 
 .username {
-  margin-top: 1em; }
+  margin-top: 1.6em; }
 
 .password {
-  margin-top: 1em; }
+  margin-top: 0.4em; }
 
 .gender {
-  margin-top: 1em;
+  margin-top: 2em;
   margin-left: 0; }
 
 .gender-radios {
@@ -84,17 +102,8 @@
 .false {
   visibility: visible; }
 
-.hide-warning {
-  display: none;
-  /* visibility: hidden; TODO: scrap this */ }
-
 a {
   color: #52B094; }
-
-h2 {
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-  margin-bottom: 0.5em; }
 
 .hide {
   display: none; }
@@ -104,10 +113,10 @@ h2 {
   width: 99%; }
 
 input, input[type="text"], input[type="password"] {
-  -webkit-transition: all 0.1s ease-in-out;
-  -moz-transition: all 0.1s ease-in-out;
-  -ms-transition: all 0.1s ease-in-out;
-  -o-transition: all 0.1s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
   border-color: #52B094;
   border-radius: 0px;
   border-style: solid;
@@ -128,8 +137,8 @@ input[type="radio"] {
   -moz-appearance: none;
   appearance: none;
   display: inline-block;
-  height: 10px;
-  width: 10px;
+  height: 12px;
+  width: 12px;
   box-shadow: 0;
   border-radius: 50%;
   border: 1px solid #52B094 !important;
@@ -161,7 +170,8 @@ button:hover, button:active {
 .Dropdown-control {
   border: 1px solid #52B094;
   border-radius: 0;
-  color: #A2A3A4;
+  color: #555555;
+  /*$menu-gray;*/
   font-size: 70%;
   padding: 3px 5px 2.5px 6px;
   width: inherit; }
@@ -170,11 +180,11 @@ button:hover, button:active {
   border-color: #52B094 transparent transparent; }
 
 .Dropdown-menu {
-  width: 3.95em; }
+  width: 100%; }
 
 .Dropdown-root {
   margin: 0 1px;
-  width: 3.95em; }
+  width: 100%; }
 
 .Dropdown-arrow {
   right: 5px; }
