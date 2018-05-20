@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Line } from 'rc-progress';
 import Spinner from 'react-spinkit';
 
 import Header from './components/header';
@@ -9,7 +10,8 @@ import avgUserStats from './components/avgUserStats';
 
 import { 
   getCurrentLessonForUser,
-  getAverageStats
+  getAverageStats,
+  getChapterProgress
 } from './actions/homepage';
 
 import "./style/styles.scss";
@@ -21,6 +23,7 @@ class HomePage extends Component {
 
       this.props.getCurrentLessonForUser("bbu9uqje8cdm8j5109ug");
       this.props.getAverageStats("bbu9uqje8cdm8j5109ug");
+      this.props.getChapterProgress("bbu9uqje8cdm8j5109ug");
 
       this.state = {
         headerLinks: ["Learn", "Progress", "Home"],
@@ -61,12 +64,12 @@ class HomePage extends Component {
       imagePath,
       avgWPM,
       avgAccuracy,
-      isStatsLoading  
+      isStatsLoading,
+      percentageComplete,
+      isPercentageLoading
     } = this.props;
 
-    console.log(hasFinishedLoading, !isStatsLoading);
-
-    if(!hasFinishedLoading || isStatsLoading) {
+    if(!hasFinishedLoading || isStatsLoading || isPercentageLoading) {
       return <Spinner name='double-bounce' />
     }
 
@@ -95,18 +98,14 @@ class HomePage extends Component {
               <Link to="/learn">
                 <button className="button button-outline start">Start</button>
               </Link>
-              <div className="qs-progress">
-                <div className="progress">
-                  <div className="progress-bar w-25" 
-                    role="progressbar" 
-                    aria-valuenow="10" 
-                    aria-valuemin="0" 
-                    aria-valuemax="100">
-                  </div>
-                </div>
-                <div>
-                  <h4 className="qs-progress-info">Current Progress - 25%</h4>
-                </div>
+              <Line percent="10" 
+                strokeWidth="2" 
+                strokeColor="#77BFA3" 
+              />
+              <div>
+                <h4 className="qs-progress-info">
+                  Current Progress - {percentageComplete}%
+                </h4>
               </div>
             </div>
             <div className="qs-image">
@@ -121,7 +120,7 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = ({ app, statsForUser }) => {
+const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage }) => {
   return {
     lessonName: app.currentLesson.lessonName,
     chapterName: app.currentLesson.chapterName,
@@ -130,14 +129,17 @@ const mapStateToProps = ({ app, statsForUser }) => {
     imagePath: app.currentLesson.chapterImage,
     avgWPM: statsForUser.avgWPM,
     avgAccuracy: statsForUser.avgAccuracy,
-    isStatsLoading: statsForUser.isStatsLoading
+    isStatsLoading: statsForUser.isStatsLoading,
+    percentageComplete: chapterProgressPercentage.percentageComplete,
+    isPercentageLoading: chapterProgressPercentage.isPercentageLoading
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ 
     getCurrentLessonForUser,
-    getAverageStats 
+    getAverageStats,
+    getChapterProgress
   }, dispatch);
 }
 

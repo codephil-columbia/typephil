@@ -2,7 +2,10 @@ import {
   combineReducers
 } from 'redux';
 
-import statsForUser from './homepage';
+import {
+  statsForUser,
+  chapterProgressPercentage
+ } from './homepage';
 
 import {
   MOVE_INDEX_PTR,
@@ -315,6 +318,7 @@ const typephilApp = combineReducers({
   isLoggedIn,
   auth,
   statsForUser,
+  chapterProgressPercentage,
   app
 })
 

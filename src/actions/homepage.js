@@ -70,3 +70,32 @@ export const getAverageStats = (uid) => {
       })
   }
 }
+
+//getChapterProgress
+
+export const GET_CHAPTER_PROGRESS = "GET_CHAPTER_PROGRESS";
+export const GET_CHAPTER_PROGRESS_SUCCESS = "GET_CHAPTER_PROGRESS_SUCCESS";
+
+const getChapterProgressSuccess = (data) => {
+  return {
+    type: GET_CHAPTER_PROGRESS_SUCCESS,
+    data
+  }
+}
+
+const getChapterProgressReq = () => {
+  return {
+    type: GET_AVG_STATS_REQ
+  }
+}
+
+export const getChapterProgress = (uid) => {
+  return function(dispatch) {
+    dispatch(getChapterProgressReq());
+    return axios.post("http://localhost:5000/chapter/getChapterProgress", { uid })
+      .then(res => {
+        const { data } = res;
+        dispatch(getChapterProgressSuccess(data));
+      })
+  }
+}
