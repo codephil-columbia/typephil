@@ -91,11 +91,11 @@ $transition-delta2: 0.2s;
 }
 
 .username {
-  margin-top: 1em;
+  margin-top: 1.6em;
 }
 
 .password {
-  margin-top: 1em;
+  margin-top: 0.4em;
 }
 
 .gender {
@@ -141,10 +141,6 @@ $transition-delta2: 0.2s;
 }
 .false {
   visibility: visible;
-}
-.hide-warning {
-  display: none;
-  /* visibility: hidden; TODO: scrap this */
 }
 
 a {

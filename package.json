@@ -34,6 +34,8 @@
     "moment": "^2.22.1",
     "muicss": "^0.9.27",
     "object-assign": "4.1.1",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
