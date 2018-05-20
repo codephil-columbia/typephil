@@ -20,6 +20,7 @@ class SignupPage extends Component {
       year: 'Year', //moment().year(),
       option1: 'hide',
       option2: '',
+      usernameValid: true,
 
       firstname: '',
       lastname: '',
@@ -27,13 +28,14 @@ class SignupPage extends Component {
       password: '',
       password_c: '',
       occupation: '',
+      schoolyear: 'Select from options',
 
       headerLinks: ["Home"]
     }
 
     this.isEnabled = false;
-    this.usernameValid = true;
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this); // TODO clean up for dropdowns
+    this.handleSchoolyear = this.handleSchoolyear.bind(this);
     this.setMonth = this.setMonth.bind(this);
     this.setYear = this.setYear.bind(this);
     this.setOccupation = this.setOccupation.bind(this);
@@ -41,13 +43,17 @@ class SignupPage extends Component {
 
   handleInputChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
-    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.usernameValid && this.state.password.length > 5 && (this.state.password_c === this.state.password);
+    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.state.usernameValid && this.state.password.length > 5 && (this.state.password_c === this.state.password);
     console.log(this.isEnabled);
   }
 
   handleUsername = (e) => {
+
+    // TODO fix this https://medium.com/@rajaraodv/adding-a-robust-form-validation-to-react-redux-apps-616ca240c124
+    //
     const un = e.target.value;
-    this.usernameValid = fetch('http://localhost:5000/auth/validUsername', {
+    this.setState({ username : un });
+    fetch('http://localhost:5000/auth/validUsername', {
       method: 'POST', headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -55,10 +61,18 @@ class SignupPage extends Component {
       body: JSON.stringify({ username: un })
     }).then((response) => response.json())
     .then((responseJson) => {
-      this.usernameValid = responseJson;
-      this.setState({ username : un });
-      console.log(responseJson, this.usernameValid); // TODO this is very async, must fix
+      if(responseJson && this.state.username===un) {
+        this.setState({ usernameValid : true });
+        console.log("VALID ", this.state.usernameValid, un, this.state.username);
+      } else
+        this.setState({ usernameValid : false });
+        console.log("INVALID ", this.state.usernameValid, un, this.state.username);
     });
+  }
+
+  handleSchoolyear = (e) => {
+    const schoolyear = e.value;
+    this.setState({ schoolyear });
   }
 
   setPassword = (e) => {
@@ -103,7 +117,7 @@ class SignupPage extends Component {
 
   signup = (e) => {
     const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO db model
-    this.usernameValid = fetch('http://localhost:5000/auth/signup', {
+    fetch('http://localhost:5000/auth/signup', {
       method: 'POST', headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -189,7 +203,7 @@ class SignupPage extends Component {
                   <div className="column column-50">
                       <h2>USERNAME</h2>
                       <input placeholder="" name="username" type="text" onChange={this.handleUsername}/>
-                      <div className={"warning " + this.usernameValid}>Sorry, that username is taken.</div>
+                      <div className={"warning " + this.state.usernameValid}>Sorry, that username is taken.</div>
                   </div>
                   <div className="column column-50">
                       <h2>BIRTHDATE</h2>
@@ -242,7 +256,7 @@ class SignupPage extends Component {
                   <div className={"specify-schoolyear " + this.state.option1}>
                     <h2>SCHOOL YEAR</h2>
                     <div id="ddoccupation">
-                      <Dropdown options={schoolyears} onChange={this.updateSchoolYear} placeholder="Select from below"/>
+                      <Dropdown options={schoolyears} onChange={this.handleSchoolyear} placeholder={this.state.schoolyear}/>
                     </div>
                   </div>
 
