@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const URL = "http://ec2-18-236-94-235.us-west-2.compute.amazonaw.com:8081"
-
 export const GET_CURRENT_LESSON = "GET_CURRENT_LESSON";
 export const GET_CURRENT_LESSON_WAITING = "GET_CURRENT_LESSON_WAITING";
 export const GET_CURRENT_LESSON_FAILED = "GET_CURRENT_LESSON_FAILED";
@@ -27,12 +25,9 @@ const getCurrentLessonForUserFailed = err => {
 }
 
 export const getCurrentLessonForUser = uid => {
-  console.log("DISPATCHING")
   return function (dispatch) {
     dispatch(getCurrentLessonForUserWaiting());
-    return axios.post(`http://localhost:5000/lesson/getNext`, {
-        uid
-      })
+    return axios.post('http://localhost:5000/lesson/getNext', { uid })
       .then(res => {
         const {
           data
@@ -42,6 +37,36 @@ export const getCurrentLessonForUser = uid => {
       })
       .catch(err => {
         dispatch(getCurrentLessonForUserFailed(err));
+      })
+  }
+}
+
+export const GET_AVG_STATS_REQ = "GET_AVG_STATS";
+export const GET_AVG_STATS_SUCCESS = "GET_AVG_STATS_SUCCESS";
+
+const getAverageStatsSuccess = (data) => {
+  return {
+    type: GET_AVG_STATS_SUCCESS,
+    data
+  }
+}
+
+const getAverageStatsReq = () => {
+  return {
+    type: GET_AVG_STATS_REQ
+  }
+} 
+
+export const getAverageStats = (uid) => {
+  return function(dispatch) {
+    dispatch(getAverageStatsReq());
+    return axios.post('http://localhost:5000/hollisticStats', { uid })
+      .then(res => {
+        const { data } = res;
+        dispatch(getAverageStatsSuccess(data));
+      })
+      .catch(err => {
+        console.log('err');
       })
   }
 }

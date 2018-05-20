@@ -2,6 +2,8 @@ import {
   combineReducers
 } from 'redux';
 
+import statsForUser from './homepage';
+
 import {
   MOVE_INDEX_PTR,
   UNFREEZE,
@@ -23,15 +25,15 @@ import {
 } from '../actions/tutorialContent';
 
 import {
-  FETCH_ALL_PAIRS_REQUEST,
-  FETCH_ALL_PAIRS_SUCCESS,
-  FETCH_ALL_PAIRS_FAILED
-} from '../actions/learn';
-
-import {
   FETCH_ALL_CHAPTERS_REQUEST,
   FETCH_ALL_CHAPTERS_SUCCESS,
-  FETCH_ALL_CHAPTERS_FAILED
+  FETCH_ALL_CHAPTERS_FAILED,
+  FETCH_ALL_PAIRS_REQUEST,
+  FETCH_ALL_PAIRS_SUCCESS,
+  FETCH_ALL_PAIRS_FAILED,
+  FETCH_COMPLETED_LESSONS,
+  FETCH_COMPLETED_LESSONS_SUCCESS,
+  FETCH_COMPLETED_LESSONS_FAILED
 } from '../actions/learn';
 
 const authInitialState = {
@@ -69,6 +71,7 @@ const initialAppState = {
   },
   chapterLessonPairs: [],
   allChapters: [],
+  completedLessons: [],
   isLoading: false,
   shouldFreeze: true,
   tutorialFinished: false
@@ -133,7 +136,6 @@ const app = (state = initialAppState, action) => {
       state.currentLessonSession = lessonSession(state.currentLessonSession, action);
       return { ...state
       };
-
     case GET_CURRENT_LESSON:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state 
@@ -141,26 +143,36 @@ const app = (state = initialAppState, action) => {
     case FETCH_ALL_CHAPTERS_SUCCESS:
       state.allChapters = allChapters(state.allChapters, action);
       return {...state }
-
     case FETCH_ALL_CHAPTERS_REQUEST:
       return {...state, isLoading: true}
-
     case GET_CURRENT_LESSON_WAITING:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state 
       };
-
     case FETCH_ALL_PAIRS_REQUEST:
       state.isLoading = true;
       return { ...state };
-
     case FETCH_ALL_PAIRS_SUCCESS:
       const { data } = action;
-      console.log(data);
       state.chapterLessonPairs = data
       state.isLoading = false;
       return { ...state };
-      
+    case FETCH_COMPLETED_LESSONS:
+      return completedLessons(state, action);
+    case FETCH_COMPLETED_LESSONS_SUCCESS:
+      return completedLessons(state, action);
+    default:
+      return state;
+  }
+}
+
+const completedLessons = (state = app, action) => {
+  switch(action.type) {
+    case FETCH_COMPLETED_LESSONS:
+      return {...state, isLoading:true }
+    case FETCH_COMPLETED_LESSONS_SUCCESS:
+      const { data } = action;
+      return {...state, completedLessons:data}
     default:
       return state;
   }
@@ -302,6 +314,7 @@ const auth = (state = authInitialState, action) => {
 const typephilApp = combineReducers({
   isLoggedIn,
   auth,
+  statsForUser,
   app
 })
 
