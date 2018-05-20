@@ -26,12 +26,17 @@ class Profile extends Component {
         <div className="vert-container">
           <div className="panel">
             <div className="row top">
+              {/* 
               <div className="column column-50">
+
                 <div id="profile-pic">
                   <img src="images/universal/Profile_pic.svg"></img>
                 </div>
+
               </div>
               <div className="column column-50">
+              */}
+              <div className="column column-100">
                 <h2>Name</h2>
                 <h1>Phil Torres</h1>
               </div>
@@ -67,7 +72,7 @@ class Profile extends Component {
               <div className="column column-40">
                 <p>******</p>
               </div>
-              <div className="column column-20">
+              <div className="column column-10">
                 <div className="highlight" id="view">
                   <div className="eye"></div>
                 </div>

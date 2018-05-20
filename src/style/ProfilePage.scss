@@ -48,15 +48,16 @@ p {
   max-width: 30vw;
   margin: 0 auto;
   position: relative;
+  text-align: center;
+  width: 100%;
 }
 
 .vert-container {
   position: absolute;
   top: 50%;
-  right: 20px;
   margin-top: $container-height - 100vh;
   height: inherit;
-  width: inherit;
+  width: 100%;
 }
 
 .eye {
@@ -79,21 +80,10 @@ p {
   top: 3px;
 }
 
-.highlight {
-  -webkit-transition: border-left $transition-delta ease-in-out;
-  -moz-transition: border-left $transition-delta ease-in-out;
-  -ms-transition: border-left $transition-delta ease-in-out;
-  -o-transition: border-left $transition-delta ease-in-out;
-
-  padding-left: 10px;
-  &:hover {
-    border-left: solid 3px $palm-green;
-    padding-left: 7px;
-  }
-}
-
 .panel {
+  margin: 0 auto;
   position: relative;
+  width: 60%;
 }
 
 .top {
@@ -110,8 +100,27 @@ p {
     width: $image-dim;
   }
 }
+
+.highlight {
+  -webkit-transition: border-left $transition-delta ease-in-out;
+  -moz-transition: border-left $transition-delta ease-in-out;
+  -ms-transition: border-left $transition-delta ease-in-out;
+  -o-transition: border-left $transition-delta ease-in-out;
+  width: 40%;
+
+  padding-left: 10px;
+  &:hover {
+    border-left: solid 3px $palm-green;
+    padding-left: 7px;
+  }
+}
+
+#view {
+  float: left;
+}
 #edit {
-  display: inline-block;
+  float: right;
+  margin: -0.4em auto auto -1em;
   img {
     height: 13px;
     width: 13px;
