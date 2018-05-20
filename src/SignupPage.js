@@ -41,7 +41,7 @@ class SignupPage extends Component {
 
   handleInputChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
-    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.state.password.length > 5 && (this.state.password_c === this.state.password);
+    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.usernameValid && this.state.password.length > 5 && (this.state.password_c === this.state.password);
     console.log(this.isEnabled);
   }
 
@@ -132,7 +132,7 @@ class SignupPage extends Component {
             return index + (moment().year()-50);
           }).reverse();
     if (this.state.month === 'Month' || this.state.year === 'Year')
-      var days = this.getDays(moment().day(), moment().year());
+      var days = this.getDays(moment().month(), moment().year());
     else
       var days = this.getDays(this.state.month, this.state.year);
     const defaultMonth = months[0];
