@@ -24,14 +24,15 @@ class SignupPage extends Component {
       firstname: '',
       lastname: '',
       username: '',
-      password: '', // TODO make this less obvious
-      password2: '',
+      password: '',
+      password_c: '',
       occupation: '',
 
       headerLinks: ["Home"]
     }
 
     this.isEnabled = false;
+    this.usernameValid = true;
     this.handleInputChange = this.handleInputChange.bind(this);
     this.setMonth = this.setMonth.bind(this);
     this.setYear = this.setYear.bind(this);
@@ -40,8 +41,24 @@ class SignupPage extends Component {
 
   handleInputChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
-    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.state.password.length > 5 && (this.state.password2 === this.state.password);
+    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.state.password.length > 5 && (this.state.password_c === this.state.password);
     console.log(this.isEnabled);
+  }
+
+  handleUsername = (e) => {
+    const un = e.target.value;
+    this.usernameValid = fetch('http://localhost:5000/auth/validUsername', {
+      method: 'POST', headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username: un })
+    }).then((response) => response.json())
+    .then((responseJson) => {
+      this.usernameValid = responseJson;
+      this.setState({ username : un });
+      console.log(responseJson, this.usernameValid); // TODO this is very async, must fix
+    });
   }
 
   setPassword = (e) => {
@@ -49,6 +66,7 @@ class SignupPage extends Component {
     this.setState({ password });
   }
 
+  // TODO simplify
   setMonth = (e) => {
     this.setState({ month: e.value });
     this.refs.dddays.forceUpdate();
@@ -65,7 +83,6 @@ class SignupPage extends Component {
 
   getDays = (m, y) => {
     var days = [];
-    console.log(m, y);
     var daysInMonth = moment(y + "-" + m, "YYYY-MM").daysInMonth();
     while(daysInMonth) {
       days.push(daysInMonth);
@@ -146,20 +163,18 @@ class SignupPage extends Component {
                   <div className="column column-50">
                       <h2>FIRST NAME</h2>
                       <input placeholder="" name="firstname" type="text" onChange={this.handleInputChange}/>
-                      <div className="warning hide-warning">What's your first name?</div>
                   </div>
                   <div className="column column-50">
                       <h2>LAST NAME</h2>
                       <input placeholder="" name="lastname" type="text" onChange={this.handleInputChange}/>
-                      <div className="warning hide-warning">What's your last name?</div>
                   </div>
               </div>
 
               <div className="row username">
                   <div className="column column-50">
                       <h2>USERNAME</h2>
-                      <input placeholder="" name="username" type="text" onChange={this.handleInputChange}/>
-                      <div className="warning hide-warning">What username would you like?</div>
+                      <input placeholder="" name="username" type="text" onChange={this.handleUsername}/>
+                      <div className={"warning " + this.usernameValid}>Sorry, that username is already taken.</div>
                   </div>
                   <div className="column column-50">
                       <h2>BIRTHDATE</h2>
@@ -168,7 +183,6 @@ class SignupPage extends Component {
                           <Dropdown options={days} onChange={this.setDay} placeholder={this.state.day} ref="dddays"/>
                           <Dropdown options={years} onChange={this.setYear} placeholder={this.state.year} ref="ddyears"/>
                       </div>
-                      <div className="warning hide-warning">What's your birthday?</div>
                   </div>
               </div>
 
@@ -176,12 +190,10 @@ class SignupPage extends Component {
                   <div className="column column-50">
                       <h2>PASSWORD</h2>
                       <input placeholder="" name="password" type="password" onChange={this.handleInputChange}/>
-                      <div className="warning hide-warning">Please enter a password!</div>
                   </div>
                   <div className="column column-50">
                       <h2>RE-TYPE PASSWORD</h2>
-                      <input placeholder="" name="password2" type="password" onChange={this.handleInputChange}/>
-                      <div className="warning hide-warning">Please re-type your password!</div>
+                      <input placeholder="" name="password_c" type="password" onChange={this.handleInputChange}/>
                   </div>
               </div>
 
@@ -192,7 +204,6 @@ class SignupPage extends Component {
                 <div className="column column-20"><label><input type="radio" name="gender" value="male"></input>Male</label></div>
                 <div className="column column-25"><label><input type="radio" name="gender" value="female"></input>Female</label></div>
                 <div className="column column-20"><label><input type="radio" name="gender" value="other"></input>Other</label></div>
-              <div className="warning hide-warning">Please fill this in!</div>
               </div>
 
               <div className="row occupation">
@@ -209,7 +220,6 @@ class SignupPage extends Component {
                       <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</label></div>
                     </span>
                   </div>
-                  <div className="warning hide-warning">Please fill this in!</div>
                 </div>
 
                 <div className="column column-50">
@@ -219,13 +229,11 @@ class SignupPage extends Component {
                     <div id="ddoccupation">
                       <Dropdown options={schoolyears} onChange={this.updateSchoolYear} placeholder="Select from below"/>
                     </div>
-                    <div className="warning hide-warning">When do you graduate your current school?</div>
                   </div>
 
                   <div className={"specify-occupation " + this.state.option2}>
                     <h2>OCCUPATION</h2>
                     <input placeholder="" name="occupation" type="text" onChange={this.handleInputChange}/>
-                    <div className="warning hide-warning">What's your occupation?</div>
                   </div>
 
                 </div>
