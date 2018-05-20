@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Line } from 'rc-progress';
-import Spinner from 'react-spinkit';
 
+import ShowSpinner from './components/spinner';
 import Header from './components/header';
 import avgUserStats from './components/avgUserStats';
 
@@ -70,7 +70,7 @@ class HomePage extends Component {
     } = this.props;
 
     if(!hasFinishedLoading || isStatsLoading || isPercentageLoading) {
-      return <Spinner name='double-bounce' />
+      return ShowSpinner();
     }
 
     const { 
@@ -98,7 +98,7 @@ class HomePage extends Component {
               <Link to="/learn">
                 <button className="button button-outline start">Start</button>
               </Link>
-              <Line percent="10" 
+              <Line percent={percentageComplete} 
                 strokeWidth="2" 
                 strokeColor="#77BFA3" 
               />
@@ -113,9 +113,9 @@ class HomePage extends Component {
             </div>
           </div>
           <hr className="line"/>
-            {stats}
-          </div>
+          {stats}
         </div>
+      </div>
     )
   }
 }
