@@ -102,7 +102,22 @@ class SignupPage extends Component {
   }
 
   signup = (e) => {
-    const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n?
+    const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO db model
+    this.usernameValid = fetch('http://localhost:5000/auth/signup', {
+      method: 'POST', headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        email: '',
+        password: this.state.password,
+        occupation: this.state.occupation
+      })
+    }).then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+    });
     console.log(e);
   }
 
@@ -174,7 +189,7 @@ class SignupPage extends Component {
                   <div className="column column-50">
                       <h2>USERNAME</h2>
                       <input placeholder="" name="username" type="text" onChange={this.handleUsername}/>
-                      <div className={"warning " + this.usernameValid}>Sorry, that username is already taken.</div>
+                      <div className={"warning " + this.usernameValid}>Sorry, that username is taken.</div>
                   </div>
                   <div className="column column-50">
                       <h2>BIRTHDATE</h2>
