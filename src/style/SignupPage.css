@@ -15,7 +15,8 @@
       font-size: 1.5rem;
       font-weight: 300;
       letter-spacing: 1px;
-      margin-bottom: 0.5em; }
+      margin-bottom: 0.5em;
+      text-align: left; }
     .body > .container .subcontainer label {
       font-weight: 400; }
 
@@ -65,8 +66,7 @@
   margin-top: 0.4em; }
 
 .gender {
-  margin-top: 2em;
-  margin-left: 0; }
+  margin-top: 2em; }
 
 .gender-radios {
   font-size: 90%;

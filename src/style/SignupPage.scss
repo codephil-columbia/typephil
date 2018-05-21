@@ -37,6 +37,7 @@ $transition-delta2: 0.2s;
       font-weight: 300;
       letter-spacing: 1px;
       margin-bottom: 0.5em;
+      text-align: left;
     }
     label {
       font-weight: $text-weight;
@@ -100,7 +101,6 @@ $transition-delta2: 0.2s;
 
 .gender {
   margin-top: 2em;
-  margin-left: 0;
 }
 .gender-radios {
   font-size: $radio-fontsize;
