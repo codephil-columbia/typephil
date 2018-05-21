@@ -160,11 +160,11 @@ class SignupPage extends Component {
     }
 
     return (
-      <div>
+      <div className="body">
       <Header links={headerLinks} username=""/>
       
       <div className="container">
-        <div className="row" id="container">
+        <div className="row subcontainer">
           <div className="column column-33">
               <div className="left-panel">
                   <h1 className="title">Sign up - It's free!</h1>
@@ -227,7 +227,9 @@ class SignupPage extends Component {
               </div>
 
               <div className="row gender">
+                <div className="column column-20">
                   <h2>GENDER</h2>
+                </div>
               </div>
               <div className="row gender-radios">
                 <div className="column column-20"><label><input type="radio" name="gender" value="male"></input>Male</label></div>

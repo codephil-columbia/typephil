@@ -3,11 +3,9 @@ import { Redirect } from 'react-router-dom'
 import { dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import Header from './components/header';
 
 import './style/LoginPage.css'
-
 
 class LoginPage extends Component {
   constructor(props) {
@@ -26,6 +24,11 @@ class LoginPage extends Component {
       username,
       password
     )
+  }
+
+  signup = e => {
+    e.preventDefault();
+    window.location = '/signup';
   }
 
   getUsernameData = e => {
@@ -95,7 +98,7 @@ class LoginPage extends Component {
                   <div className="form-buttons">
                     <input className="form-button button-primary solid" type="submit" value="SIGN IN"/>
                     <p>or</p>
-                    <input className="form-button button-primary solid" id="signup" type="submit" value="SIGN UP"/>
+                    <input className="form-button button-primary solid" id="signup" onClick={this.signup} type="submit" value="SIGN UP"/>
                   </div>
               </form>
             </div>

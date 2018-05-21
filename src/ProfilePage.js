@@ -48,8 +48,8 @@ class Profile extends Component {
               <div className="column column-33">
                 <h3>Username</h3>
               </div>
-
-              <div className="column column-67">
+              <div className="column column-10"></div>
+              <div className="column column-50">
                 <p>p_torres</p>
               </div>
             </div>
@@ -58,8 +58,8 @@ class Profile extends Component {
               <div className="column column-33">
                 <h3>Email</h3>
               </div>
-
-              <div className="column column-67">
+              <div className="column column-10"></div>
+              <div className="column column-50">
                 <p>phil.torres@typephil.com</p>
               </div>
             </div>
@@ -68,8 +68,8 @@ class Profile extends Component {
               <div className="column column-33">
                 <h3>Password</h3>
               </div>
-
-              <div className="column column-40">
+              <div className="column column-10"></div>
+              <div className="column column-20">
                 <p>******</p>
               </div>
               <div className="column column-10">
