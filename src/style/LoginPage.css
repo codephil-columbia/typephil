@@ -99,13 +99,12 @@ body {
     border: white;
 }
 */
-.form-input, input[type="text"], input[type="password"] {
+.form-input, .form-inputs > input[type="text"], .form-inputs > input[type="password"] {
   height: 5rem;
   line-height: normal;
   margin: 1em auto;
-  padding: 1.5em 1em !important;
-  /* kludge */
-  width: 100% !important; }
+  padding: 1.5em 1em;
+  width: 100%; }
 
 .content-left {
   width: 60%;
