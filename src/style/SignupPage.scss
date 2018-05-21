@@ -22,25 +22,25 @@ $text-weight: 400;
 $transition-delta: 0.1s;
 $transition-delta2: 0.2s;
 
-.container {
-  width: $container-width !important;
-  max-width: $container-maxwidth !important;
-}
-#container {
-  font-weight: 400;
-  margin: 10vh auto 0 auto;
-  height: $container-height;
-  max-height: 70vh;
-  width: $container-width;
-  max-width: $container-maxwidth !important;
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 300;
-    letter-spacing: 1px;
-    margin-bottom: 0.5em;
-  }
-  label {
-    font-weight: $text-weight;
+.body > .container {
+  width: $container-width; 
+  max-width: $container-maxwidth;
+  .subcontainer {
+    font-weight: 400;
+    margin: 10vh auto 0 auto;
+    height: $container-height;
+    max-height: 70vh;
+    width: $container-width;
+    max-width: $container-maxwidth;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-bottom: 0.5em;
+    }
+    label {
+      font-weight: $text-weight;
+    }
   }
 }
 
@@ -191,7 +191,7 @@ input[type="radio"] {
   width: $radio-dim;
   box-shadow: 0;
   border-radius: 50%;
-  border: 1px solid $palm-green!important;
+  border: 1px solid $palm-green;
   outline: none;
   &:checked {
     background-color: $palm-green;
