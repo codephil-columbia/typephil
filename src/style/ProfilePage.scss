@@ -31,6 +31,9 @@ h3 {
   font-weight: 600;
   letter-spacing: 0.2px;
 }
+.panel h3 {
+  text-align: right; // kludge
+}
 
 hr {
   border-color: $palm-green;
@@ -40,6 +43,7 @@ hr {
 
 p {
   margin: 0 auto;
+  text-align: left;
 }
 
 .container {

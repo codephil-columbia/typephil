@@ -17,13 +17,17 @@ h3 {
   font-weight: 600;
   letter-spacing: 0.2px; }
 
+.panel h3 {
+  text-align: right; }
+
 hr {
   border-color: #52B094;
   margin: 5vh auto 8vh auto;
   width: 15%; }
 
 p {
-  margin: 0 auto; }
+  margin: 0 auto;
+  text-align: left; }
 
 .container {
   height: 70vh;
