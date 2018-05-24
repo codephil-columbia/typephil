@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {api_url} from '../constants'
 
 export const loginSuccess = () => {
     return {
@@ -13,26 +14,22 @@ export const loginError = err => {
   }
 }
 
-export const dispatchLogin = (email, password) => {
-  return {
-    type: "LOGGED_IN",
-    isLoggedIn: true,
-    currentUser: {
-      username: "cesar", 
-      uid: 1234, 
-      email: "ibarrac",
-      school: "columbia"
-    }
+export const dispatchLogin = (username, password) => {
+  const endpoint = api_url + '/auth/login';
+  console.log(endpoint, username, password);
+  return function(dispatch) {
+    return axios.post(endpoint, {username, password})
+    .then(res => {
+        if(res.status !== 200) {
+            dispatch(loginError());
+        } 
+        dispatch(loginSuccess());
+    }).catch(err => {
+        dispatch(loginError());
+    })
   }
-  // return function(dispatch) {
-  //   return axios.post('http://localhost:8081/auth/login', {email, password})
-  //   .then(res => {
-  //       if(res.status !== 200) {
-  //           dispatch(loginError());
-  //       } 
-  //       dispatch(loginSuccess());
-  //   }).catch(err => {
-  //       dispatch(loginError());
-  //   })
-  // }
+}
+
+export const dispatchSignup = () => {
+  // TODO
 }
