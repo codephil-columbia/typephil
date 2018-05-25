@@ -11,11 +11,11 @@ const avgUserStats = (
 ) => {
 
   return (
-    <div className="scores">
+    <div className="scores row">
       {badgeList.map((badge, i) => {
         const badgeDescSplit = splitBadgeDescriptionByLine(badgeDescriptions[i]);
         return (
-          <div className="badge" key={i}>
+          <div className="column badge" key={i}>
             <div className="badge-content">
               <h1>{stats[i]}</h1>
             </div>

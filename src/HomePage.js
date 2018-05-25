@@ -87,15 +87,15 @@ class HomePage extends Component {
     return (
       <div>
         <Header links={headerLinks}/>
-        <div className="content">
-          <div className="title">
+        <div className="container">
+          <div className="title row">
             <h1>Welcome Back, Phil!</h1>
           </div>
-          <div className="quickstart">
-            <div className="qs-lesson-info">
+          <div className="quickstart row">
+            <div className="qs-lesson-info column">
               <h3 className="qs-lesson-title">{title}</h3>
               <h3 className="qs-lesson-excersise">{lesson}</h3>
-              <Link to="/learn">
+              <Link to="/tutorial">
                 <button className="button button-outline start">Start</button>
               </Link>
               <Line percent={percentageComplete} 
@@ -108,11 +108,11 @@ class HomePage extends Component {
                 </h4>
               </div>
             </div>
-            <div className="qs-image">
+            <div className="qs-image column">
               <img src={imagePath} alt="lesson"></img>
             </div>
           </div>
-          <hr className="line"/>
+          <hr className="line row"/>
           {stats}
         </div>
       </div>
