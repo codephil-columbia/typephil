@@ -63,7 +63,7 @@
   margin-top: 1.6em; }
 
 .password {
-  margin-top: 1.5em; }
+  margin-top: 0.8em; }
 
 .gender {
   margin-top: 2em; }
@@ -93,14 +93,19 @@
 .warning {
   color: #D24D57;
   font-size: 0.8em;
-  text-align: center; }
-
-.true {
-  visibility: hidden; }
-
-.false {
+  text-align: center;
   visibility: visible; }
 
+.warning-hide {
+  font-size: 0.8em;
+  visibility: hidden; }
+
+/*.true {
+  visibility: hidden;
+}
+.false {
+  visibility: visible;
+}*/
 a {
   color: #52B094; }
 
