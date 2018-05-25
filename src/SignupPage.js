@@ -149,7 +149,7 @@ class SignupPage extends Component {
       firstname: firstname.length === 0,
       lastname: lastname.length === 0,
       username: username.length === 0,
-      password: password === password_c
+      password: password != password_c
     }
   }
 
@@ -294,8 +294,8 @@ class SignupPage extends Component {
 
               <div className="row next">
                 <div className="column column-50 column-offset-25 signup">
-                  <button id="btn-next" disabled={!this.isEnabled} onClick={this.signup}>SIGN UP</button>
-                  <div className={"warning " + this.isEnabled} ref="signup_warning">Please complete all fields.</div>
+                  <button id="btn-next" disabled={!isEnabled} onClick={this.signup}>SIGN UP</button>
+                  <div className={isEnabled ? "hide" : "warning"} >Please complete all fields.</div>
                 </div>
               </div>
             </div>
@@ -317,5 +317,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ dispatchLogin }, dispatch);
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);
