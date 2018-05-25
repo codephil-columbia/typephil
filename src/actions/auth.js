@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {api_url} from '../constants'
 
-export const usernameValid = (valid) => {
+/*export const usernameValid = (valid) => {
   return {
     type: valid ? 'USERNAME_VALID' : 'USERNAME_INVALID'
   }
-}
+}*/
 
 export const signupSuccess = () => {
   return {
@@ -63,7 +63,7 @@ export const dispatchSignup = (username, email, password, occupation) => {
   }
 }
 
-export const isUsernameValid = (username) => {
+/*export const dispatchUsername = (username) => {
   const endpoint = api_url + '/auth/usernameValid';
   return function(dispatch) {
     axios.post(endpoint, {username})
@@ -76,4 +76,4 @@ export const isUsernameValid = (username) => {
       dispatch(usernameValid(false));
     });
   }
-}
+}*/

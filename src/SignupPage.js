@@ -38,6 +38,7 @@ class SignupPage extends Component {
         password: false,
         password_c: false
       },
+      usernameValid: true,
 
       headerLinks: ["Home"]
     }
@@ -52,38 +53,31 @@ class SignupPage extends Component {
     this.setState({
       touched: {...this.state.touched, [field]: true}
     });
-  }
 
-  handleUsername = (e) => {
-    const username = e.target.value;
-    this.props.dispatchUsername(username);
+    if(field === 'username') {
+      const username = e.target.value;
+      //this.props.dispatchUsername(username);
+      fetch('http://localhost:5000/auth/usernameValid', { // TODO turn this over to middleware
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username })
+      }).then(res => res.json()
+      ).then((res) => {
+        console.log(res); // TODO remove
+        if(res && this.state.username === username)
+          this.setState({ usernameValid : true });
+        else
+          this.setState({ usernameValid : res });
+      });
+    }
   }
 
   handleInputChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
   }
-
-  /*
-  handleUsername = (e) => {
-    const un = e.target.value;
-    this.setState({ username : un });
-    fetch('http://localhost:5000/auth/validUsername', {
-      method: 'POST', headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username: un })
-    //}).then((response) => response.json())
-    }).then((responseJson) => {
-      if(responseJson && this.state.username===un) {
-        this.setState({ usernameValid : true });
-        console.log("VALID ", this.state.usernameValid, un, this.state.username);
-      } else
-        this.setState({ usernameValid : false });
-        console.log("INVALID ", this.state.usernameValid, un, this.state.username);
-    });
-  }
-  */
 
   handleSchoolyear = (e) => {
     const schoolyear = e.value;
@@ -184,7 +178,7 @@ class SignupPage extends Component {
     const { firstname, lastname, username, password, password_c } = this.state;
     const errors = this.validate(firstname, lastname, username, password, password_c);
     const isEnabled = !Object.keys(errors).some(e => errors[e]);
-    console.log(errors, isEnabled); // TODO remove
+    //console.log(errors, isEnabled); // TODO remove
 
     const markError = (field) => {
       return errors[field] ? this.state.touched[field] : false;
@@ -233,8 +227,8 @@ class SignupPage extends Component {
               <div className="row username">
                   <div className="column column-50">
                       <h2>USERNAME</h2>
-                      <input className={markError('username') ? "error" : ""} onBlur={this.handleBlur('username')} placeholder="" name="username" type="text" value={this.state.username} /> 
-                      {/*<div className={"warning " + this.state.usernameValid}>Sorry, that username is taken.</div>*/}
+                      <input className={markError('username') || !this.state.usernameValid ? "error" : ""} onBlur={this.handleBlur('username')} placeholder="" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}/> 
+                      <div className={this.state.usernameValid ? "warning-hide" : "warning"}>Sorry, that username is taken.</div>
                   </div>
                   <div className="column column-50">
                       <h2>BIRTHDATE</h2>
