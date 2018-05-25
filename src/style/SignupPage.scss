@@ -96,7 +96,7 @@ $transition-delta2: 0.2s;
 }
 
 .password {
-  margin-top: 0.4em;
+  margin-top: 1.5em;
 }
 
 .gender {
@@ -159,6 +159,9 @@ a {
   }
 }
 
+input[type="text"].error {
+  border-color: $chestnut-rose;
+}
 input, input[type="text"], input[type="password"] {
   -webkit-transition: all $transition-delta2 ease-in-out;
   -moz-transition: all $transition-delta2 ease-in-out;
