@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { dispatchLogin } from './actions/auth';
+import { dispatchSignup } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
 import Dropdown from 'react-dropdown';
 import moment from 'moment';
 import 'react-dropdown/style.css';
+//import './style/milligram.min.css'; // TODO for no connectivity only
 import './style/styles.css';
 import './style/SignupPage.css';
 
@@ -15,84 +16,66 @@ class SignupPage extends Component {
     super(props);
     this.state = {
       // Default month and year. User updates these values later.
-      month: 'Month', //moment().month(),
+      month: 'Month',
       day: 'Day',
-      year: 'Year', //moment().year(),
-      option1: 'hide',
-      option2: '',
-      usernameValid: true,
+      year: 'Year',
 
       firstname: '',
       lastname: '',
       username: '',
       password: '',
       password_c: '',
+      gender: '',
+      which_occupation: '',
       occupation: '',
       schoolyear: 'Select from options',
 
+      touched: {
+        firstname: false,
+        lastname: false,
+        username: false,
+        password: false,
+        password_c: false
+      },
+      usernameValid: true,
+
       headerLinks: ["Home"]
     }
+  }
 
-    this.isEnabled = false;
-    this.handleInputChange = this.handleInputChange.bind(this); // TODO clean up for dropdowns
-    this.handleSchoolyear = this.handleSchoolyear.bind(this);
-    this.setMonth = this.setMonth.bind(this);
-    this.setYear = this.setYear.bind(this);
-    this.setOccupation = this.setOccupation.bind(this);
+  handleBlur = (field) => (e) => {
+    this.setState({
+      touched: {...this.state.touched, [field]: true}
+    });
+
+    // TODO turn this over to middleware
+    if(field === 'username') {
+      const username = e.target.value;
+      //this.props.dispatchUsername(username);
+      fetch('http://localhost:5000/auth/usernameValid', { 
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username })
+      }).then(res => res.json()
+      ).then((res) => {
+        if(res && this.state.username === username)
+          this.setState({ usernameValid : true });
+        else
+          this.setState({ usernameValid : res });
+      });
+    }
   }
 
   handleInputChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
-    this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.state.usernameValid && this.state.password.length > 5 && (this.state.password_c === this.state.password);
-    console.log(this.isEnabled);
   }
 
-  handleUsername = (e) => {
-
-    // TODO fix this https://medium.com/@rajaraodv/adding-a-robust-form-validation-to-react-redux-apps-616ca240c124
-    //
-    const un = e.target.value;
-    this.setState({ username : un });
-    fetch('http://localhost:5000/auth/validUsername', {
-      method: 'POST', headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username: un })
-    }).then((response) => response.json())
-    .then((responseJson) => {
-      if(responseJson && this.state.username===un) {
-        this.setState({ usernameValid : true });
-        console.log("VALID ", this.state.usernameValid, un, this.state.username);
-      } else
-        this.setState({ usernameValid : false });
-        console.log("INVALID ", this.state.usernameValid, un, this.state.username);
-    });
-  }
-
-  handleSchoolyear = (e) => {
-    const schoolyear = e.value;
-    this.setState({ schoolyear });
-  }
-
-  setPassword = (e) => {
-    const password = e.target.value;
-    this.setState({ password });
-  }
-
-  // TODO simplify
-  setMonth = (e) => {
-    this.setState({ month: e.value });
-    this.refs.dddays.forceUpdate();
-  }
-
-  setDay = (e) => {
-    this.setState({ day: e.value });
-  }
-
-  setYear = (e) => {
-    this.setState({ year: e.value });
-    this.refs.dddays.forceUpdate();
+  handleOption = target => (e) => {
+    console.log(this.state.which_occupation);
+    this.setState({ [target] : e.value === undefined ? e.target.value : e.value });
   }
 
   getDays = (m, y) => {
@@ -116,7 +99,15 @@ class SignupPage extends Component {
   }
 
   signup = (e) => {
-    const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO db model
+    e.preventDefault();
+    const { username, password } = this.state;
+    var res = this.props.dispatchSignup(
+      username,
+      '', // email
+      password,
+      ''  // occupation
+    );
+    /*const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO db model
     fetch('http://localhost:5000/auth/signup', {
       method: 'POST', headers: {
         'Accept': 'application/json',
@@ -132,11 +123,24 @@ class SignupPage extends Component {
     .then((responseJson) => {
       console.log(responseJson);
     });
-    console.log(e);
+    console.log(e);*/
+  }
+
+  validate = (firstname, lastname, username, password, password_c) => {
+    return {
+      firstname: firstname.length === 0,
+      lastname: lastname.length === 0,
+      username: username.length === 0,
+      password: password !== password_c,
+      password_c: password !== password_c
+    }
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, isSignedUp, usernameValid } = this.props;
+    if(isLoggedIn) {
+        return <Redirect to="/home"/>
+    }
     const { headerLinks } = this.state;
 
     var months = moment.monthsShort();
@@ -149,14 +153,15 @@ class SignupPage extends Component {
       var days = this.getDays(moment().month(), moment().year());
     else
       var days = this.getDays(this.state.month, this.state.year);
-    const defaultMonth = months[0];
-    const defaultDay = days[0];
-    const defaultYear = years[0];
+    const schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
 
-    var schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
+    const { firstname, lastname, username, password, password_c } = this.state;
+    const errors = this.validate(firstname, lastname, username, password, password_c);
+    const isEnabled = !Object.keys(errors).some(e => errors[e]);
+    //console.log(errors, isEnabled); // TODO remove
 
-    if(isLoggedIn) {
-        return <Redirect to="/home"/>
+    const markError = (field) => {
+      return errors[field] ? this.state.touched[field] : false;
     }
 
     return (
@@ -191,26 +196,26 @@ class SignupPage extends Component {
               <div className="row">
                   <div className="column column-50">
                       <h2>FIRST NAME</h2>
-                      <input placeholder="" name="firstname" type="text" onChange={this.handleInputChange}/>
+                      <input className={markError('firstname') ? "error" : ""} onBlur={this.handleBlur('firstname')} placeholder="" name="firstname" type="text" value={this.state.firstname} onChange={this.handleInputChange}/>
                   </div>
                   <div className="column column-50">
                       <h2>LAST NAME</h2>
-                      <input placeholder="" name="lastname" type="text" onChange={this.handleInputChange}/>
+                      <input className={markError('lastname') ? "error" : ""} onBlur={this.handleBlur('lastname')} placeholder="" name="lastname" type="text" value={this.state.lastname} onChange={this.handleInputChange}/>
                   </div>
               </div>
 
               <div className="row username">
                   <div className="column column-50">
                       <h2>USERNAME</h2>
-                      <input placeholder="" name="username" type="text" onChange={this.handleUsername}/>
-                      <div className={"warning " + this.state.usernameValid}>Sorry, that username is taken.</div>
+                      <input className={markError('username') || !this.state.usernameValid ? "error" : ""} onBlur={this.handleBlur('username')} placeholder="" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}/> 
+                      <div className={this.state.usernameValid ? "warning-hide" : "warning"}>Sorry, that username is taken.</div>
                   </div>
                   <div className="column column-50">
                       <h2>BIRTHDATE</h2>
                       <div className="row dropdowns">
-                          <Dropdown options={months} onChange={this.setMonth} placeholder={this.state.month} ref="ddmonths"/>
-                          <Dropdown options={days} onChange={this.setDay} placeholder={this.state.day} ref="dddays"/>
-                          <Dropdown options={years} onChange={this.setYear} placeholder={this.state.year} ref="ddyears"/>
+                          <Dropdown options={months} onChange={this.handleOption('month')} placeholder={this.state.month}/>
+                          <Dropdown options={days} onChange={this.handleOption('day')} placeholder={this.state.day}/>
+                          <Dropdown options={years} onChange={this.handleOption('year')} placeholder={this.state.year}/>
                       </div>
                   </div>
               </div>
@@ -218,11 +223,11 @@ class SignupPage extends Component {
               <div className="row password">
                   <div className="column column-50">
                       <h2>PASSWORD</h2>
-                      <input placeholder="" name="password" type="password" onChange={this.handleInputChange}/>
+                      <input className={markError('password') ? "error" : ""} onBlur={this.handleBlur('password')} placeholder="" name="password" type="password" onChange={this.handleInputChange}/>
                   </div>
                   <div className="column column-50">
                       <h2>RE-TYPE PASSWORD</h2>
-                      <input placeholder="" name="password_c" type="password" onChange={this.handleInputChange}/>
+                      <input className={markError('password_c') ? "error" : ""} onBlur={this.handleBlur('password_c')} placeholder="" name="password_c" type="password" onChange={this.handleInputChange}/>
                   </div>
               </div>
 
@@ -232,9 +237,9 @@ class SignupPage extends Component {
                 </div>
               </div>
               <div className="row gender-radios">
-                <div className="column column-20"><label><input type="radio" name="gender" value="male"></input>Male</label></div>
-                <div className="column column-25"><label><input type="radio" name="gender" value="female"></input>Female</label></div>
-                <div className="column column-20"><label><input type="radio" name="gender" value="other"></input>Other</label></div>
+                <div className="column column-20"><label><input type="radio" name="gender" value="male" onChange={this.handleOption('gender')}></input>Male</label></div>
+                <div className="column column-25"><label><input type="radio" name="gender" value="female" onChange={this.handleOption('gender')}></input>Female</label></div>
+                <div className="column column-20"><label><input type="radio" name="gender" value="other" onChange={this.handleOption('gender')}></input>Other</label></div>
               </div>
 
               <div className="row occupation">
@@ -242,29 +247,29 @@ class SignupPage extends Component {
                   <h2>I AM CURRENTLY...</h2>
                   <div className="occupation-radios">
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.setOccupation}></input>A student</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.handleOption('which_occupation')}></input>Student</label></div>
                     </span>
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.setOccupation}></input>Employed</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.handleOption('which_occupation')}></input>Employed</label></div>
                     </span>
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.handleOption('which_occupation')}></input>Unemployed</label></div>
                     </span>
                   </div>
                 </div>
 
                 <div className="column column-50">
 
-                  <div className={"specify-schoolyear " + this.state.option1}>
+                  <div className={"specify-schoolyear " + (this.state.which_occupation !== "student") ? "hide" : ""}>
                     <h2>SCHOOL YEAR</h2>
                     <div id="ddoccupation">
-                      <Dropdown options={schoolyears} onChange={this.handleSchoolyear} placeholder={this.state.schoolyear}/>
+                      <Dropdown options={schoolyears} onChange={this.handleOption("schoolyear")} placeholder={this.state.schoolyear}/>
                     </div>
                   </div>
 
-                  <div className={"specify-occupation " + this.state.option2}>
+                  <div className={"specify-occupation " + (this.state.which_occupation !== "employed") ? "hide" : ""}>
                     <h2>OCCUPATION</h2>
-                    <input placeholder="" name="occupation" type="text" onChange={this.handleInputChange}/>
+                    <input placeholder="" name="occupation" type="text" onBlur={this.handleBlur} onChange={this.handleInputChange}/>
                   </div>
 
                 </div>
@@ -272,8 +277,8 @@ class SignupPage extends Component {
 
               <div className="row next">
                 <div className="column column-50 column-offset-25 signup">
-                  <button id="btn-next" disabled={!this.isEnabled} onClick={this.signup}>SIGN UP</button>
-                  <div className={"warning " + this.isEnabled} ref="signup_warning">Please complete all fields.</div>
+                  <button id="btn-next" disabled={!isEnabled} onClick={this.signup}>SIGN UP</button>
+                  <div className={isEnabled ? "hide" : "warning"}>Please complete all fields.</div>
                 </div>
               </div>
             </div>
@@ -288,12 +293,15 @@ class SignupPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.isLoggedIn
+    isLoggedIn: state.isLoggedIn,
+    isSignedUp: state.isSignedUp,
+    usernameValid: state.usernameValid
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchLogin }, dispatch);
+  return bindActionCreators({ dispatchSignup }, dispatch);
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);

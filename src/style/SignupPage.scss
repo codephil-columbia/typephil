@@ -96,7 +96,7 @@ $transition-delta2: 0.2s;
 }
 
 .password {
-  margin-top: 0.4em;
+  margin-top: 0.8em;
 }
 
 .gender {
@@ -135,12 +135,11 @@ $transition-delta2: 0.2s;
   color: $chestnut-rose;
   font-size: 0.8em;
   text-align: center;
-}
-.true {
-  visibility: hidden;
-}
-.false {
   visibility: visible;
+}
+.warning-hide {
+  font-size: 0.8em;
+  visibility: hidden;
 }
 
 a {
@@ -159,6 +158,9 @@ a {
   }
 }
 
+input[type="text"].error, input[type="password"].error {
+  border-color: $chestnut-rose;
+}
 input, input[type="text"], input[type="password"] {
   -webkit-transition: all $transition-delta2 ease-in-out;
   -moz-transition: all $transition-delta2 ease-in-out;

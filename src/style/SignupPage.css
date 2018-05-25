@@ -63,7 +63,7 @@
   margin-top: 1.6em; }
 
 .password {
-  margin-top: 0.4em; }
+  margin-top: 0.8em; }
 
 .gender {
   margin-top: 2em; }
@@ -93,13 +93,12 @@
 .warning {
   color: #D24D57;
   font-size: 0.8em;
-  text-align: center; }
-
-.true {
-  visibility: hidden; }
-
-.false {
+  text-align: center;
   visibility: visible; }
+
+.warning-hide {
+  font-size: 0.8em;
+  visibility: hidden; }
 
 a {
   color: #52B094; }
@@ -110,6 +109,9 @@ a {
 .specify-occupation input {
   margin: 0 0 0 -1px;
   width: 99%; }
+
+input[type="text"].error, input[type="password"].error {
+  border-color: #D24D57; }
 
 input, input[type="text"], input[type="password"] {
   -webkit-transition: all 0.2s ease-in-out;
