@@ -20,14 +20,13 @@ class SignupPage extends Component {
       day: 'Day',
       year: 'Year',
 
-      option1: 'hide',
-      option2: '',
-
       firstname: '',
       lastname: '',
       username: '',
       password: '',
       password_c: '',
+      gender: '',
+      which_occupation: '',
       occupation: '',
       schoolyear: 'Select from options',
 
@@ -42,11 +41,6 @@ class SignupPage extends Component {
 
       headerLinks: ["Home"]
     }
-
-    /*this.handleInputChange = this.handleInputChange.bind(this); // TODO clean up for dropdowns
-    this.handleSchoolyear = this.handleSchoolyear.bind(this);
-    this.setMonth = this.setMonth.bind(this);
-    this.setYear = this.setYear.bind(this);*/
   }
 
   handleBlur = (field) => (e) => {
@@ -54,10 +48,11 @@ class SignupPage extends Component {
       touched: {...this.state.touched, [field]: true}
     });
 
+    // TODO turn this over to middleware
     if(field === 'username') {
       const username = e.target.value;
       //this.props.dispatchUsername(username);
-      fetch('http://localhost:5000/auth/usernameValid', { // TODO turn this over to middleware
+      fetch('http://localhost:5000/auth/usernameValid', { 
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -66,7 +61,6 @@ class SignupPage extends Component {
         body: JSON.stringify({ username })
       }).then(res => res.json()
       ).then((res) => {
-        console.log(res); // TODO remove
         if(res && this.state.username === username)
           this.setState({ usernameValid : true });
         else
@@ -79,24 +73,9 @@ class SignupPage extends Component {
     this.setState({ [e.target.name] : e.target.value });
   }
 
-  handleSchoolyear = (e) => {
-    const schoolyear = e.value;
-    this.setState({ schoolyear });
-  }
-
-  // TODO simplify
-  setMonth = (e) => {
-    this.setState({ month: e.value });
-    this.refs.dddays.forceUpdate();
-  }
-
-  setDay = (e) => {
-    this.setState({ day: e.value });
-  }
-
-  setYear = (e) => {
-    this.setState({ year: e.value });
-    this.refs.dddays.forceUpdate();
+  handleOption = target => (e) => {
+    console.log(this.state.which_occupation);
+    this.setState({ [target] : e.value === undefined ? e.target.value : e.value });
   }
 
   getDays = (m, y) => {
@@ -152,7 +131,8 @@ class SignupPage extends Component {
       firstname: firstname.length === 0,
       lastname: lastname.length === 0,
       username: username.length === 0,
-      password: password != password_c
+      password: password !== password_c,
+      password_c: password !== password_c
     }
   }
 
@@ -233,9 +213,9 @@ class SignupPage extends Component {
                   <div className="column column-50">
                       <h2>BIRTHDATE</h2>
                       <div className="row dropdowns">
-                          <Dropdown options={months} onChange={this.setMonth} placeholder={this.state.month} ref="ddmonths"/>
-                          <Dropdown options={days} onChange={this.setDay} placeholder={this.state.day} ref="dddays"/>
-                          <Dropdown options={years} onChange={this.setYear} placeholder={this.state.year} ref="ddyears"/>
+                          <Dropdown options={months} onChange={this.handleOption('month')} placeholder={this.state.month}/>
+                          <Dropdown options={days} onChange={this.handleOption('day')} placeholder={this.state.day}/>
+                          <Dropdown options={years} onChange={this.handleOption('year')} placeholder={this.state.year}/>
                       </div>
                   </div>
               </div>
@@ -257,9 +237,9 @@ class SignupPage extends Component {
                 </div>
               </div>
               <div className="row gender-radios">
-                <div className="column column-20"><label><input type="radio" name="gender" value="male"></input>Male</label></div>
-                <div className="column column-25"><label><input type="radio" name="gender" value="female"></input>Female</label></div>
-                <div className="column column-20"><label><input type="radio" name="gender" value="other"></input>Other</label></div>
+                <div className="column column-20"><label><input type="radio" name="gender" value="male" onChange={this.handleOption('gender')}></input>Male</label></div>
+                <div className="column column-25"><label><input type="radio" name="gender" value="female" onChange={this.handleOption('gender')}></input>Female</label></div>
+                <div className="column column-20"><label><input type="radio" name="gender" value="other" onChange={this.handleOption('gender')}></input>Other</label></div>
               </div>
 
               <div className="row occupation">
@@ -267,29 +247,29 @@ class SignupPage extends Component {
                   <h2>I AM CURRENTLY...</h2>
                   <div className="occupation-radios">
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.setOccupation}></input>A student</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.handleOption('which_occupation')}></input>Student</label></div>
                     </span>
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.setOccupation}></input>Employed</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.handleOption('which_occupation')}></input>Employed</label></div>
                     </span>
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.setOccupation}></input>Unemployed</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.handleOption('which_occupation')}></input>Unemployed</label></div>
                     </span>
                   </div>
                 </div>
 
                 <div className="column column-50">
 
-                  <div className={"specify-schoolyear " + this.state.option1}>
+                  <div className={"specify-schoolyear " + (this.state.which_occupation !== "student") ? "hide" : ""}>
                     <h2>SCHOOL YEAR</h2>
                     <div id="ddoccupation">
-                      <Dropdown options={schoolyears} onChange={this.handleSchoolyear} placeholder={this.state.schoolyear}/>
+                      <Dropdown options={schoolyears} onChange={this.handleOption("schoolyear")} placeholder={this.state.schoolyear}/>
                     </div>
                   </div>
 
-                  <div className={"specify-occupation " + this.state.option2}>
+                  <div className={"specify-occupation " + (this.state.which_occupation !== "employed") ? "hide" : ""}>
                     <h2>OCCUPATION</h2>
-                    <input placeholder="" name="occupation" type="text" onChange={this.handleInputChange}/>
+                    <input placeholder="" name="occupation" type="text" onBlur={this.handleBlur} onChange={this.handleInputChange}/>
                   </div>
 
                 </div>
@@ -298,7 +278,7 @@ class SignupPage extends Component {
               <div className="row next">
                 <div className="column column-50 column-offset-25 signup">
                   <button id="btn-next" disabled={!isEnabled} onClick={this.signup}>SIGN UP</button>
-                  <div className={isEnabled ? "hide" : "warning"} >Please complete all fields.</div>
+                  <div className={isEnabled ? "hide" : "warning"}>Please complete all fields.</div>
                 </div>
               </div>
             </div>

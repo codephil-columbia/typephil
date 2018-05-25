@@ -141,12 +141,6 @@ $transition-delta2: 0.2s;
   font-size: 0.8em;
   visibility: hidden;
 }
-/*.true {
-  visibility: hidden;
-}
-.false {
-  visibility: visible;
-}*/ // TODO remove
 
 a {
   color: $palm-green;
@@ -164,7 +158,7 @@ a {
   }
 }
 
-input[type="text"].error {
+input[type="text"].error, input[type="password"].error {
   border-color: $chestnut-rose;
 }
 input, input[type="text"], input[type="password"] {
