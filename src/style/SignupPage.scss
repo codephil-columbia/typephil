@@ -96,7 +96,7 @@ $transition-delta2: 0.2s;
 }
 
 .password {
-  margin-top: 1.5em;
+  margin-top: 0.8em;
 }
 
 .gender {
@@ -135,13 +135,18 @@ $transition-delta2: 0.2s;
   color: $chestnut-rose;
   font-size: 0.8em;
   text-align: center;
+  visibility: visible;
 }
-.true {
+.warning-hide {
+  font-size: 0.8em;
+  visibility: hidden;
+}
+/*.true {
   visibility: hidden;
 }
 .false {
   visibility: visible;
-}
+}*/ // TODO remove
 
 a {
   color: $palm-green;
