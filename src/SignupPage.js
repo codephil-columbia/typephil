@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { dispatchLogin } from './actions/auth';
+import { dispatchSignup } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
 import Dropdown from 'react-dropdown';
 import moment from 'moment';
 import 'react-dropdown/style.css';
-import './style/milligram.min.css'; // TODO for no connectivity only
+//import './style/milligram.min.css'; // TODO for no connectivity only
 import './style/styles.css';
 import './style/SignupPage.css';
 
@@ -22,7 +22,6 @@ class SignupPage extends Component {
 
       option1: 'hide',
       option2: '',
-      //usernameValid: true,
 
       firstname: '',
       lastname: '',
@@ -31,6 +30,7 @@ class SignupPage extends Component {
       password_c: '',
       occupation: '',
       schoolyear: 'Select from options',
+
       touched: {
         firstname: false,
         lastname: false,
@@ -48,23 +48,23 @@ class SignupPage extends Component {
     this.setYear = this.setYear.bind(this);*/
   }
 
-    //this.isEnabled = this.state.firstname.length > 0 && this.state.lastname.length > 0 && this.state.username.length > 0 && this.state.usernameValid && this.state.password.length > 5 && (this.state.password_c === this.state.password);
-    //
-
   handleBlur = (field) => (e) => {
     this.setState({
       touched: {...this.state.touched, [field]: true}
     });
   }
 
+  handleUsername = (e) => {
+    const username = e.target.value;
+    this.props.dispatchUsername(username);
+  }
+
   handleInputChange = (e) => {
     this.setState({ [e.target.name] : e.target.value });
   }
 
+  /*
   handleUsername = (e) => {
-
-    // TODO fix this https://medium.com/@rajaraodv/adding-a-robust-form-validation-to-react-redux-apps-616ca240c124
-    //
     const un = e.target.value;
     this.setState({ username : un });
     fetch('http://localhost:5000/auth/validUsername', {
@@ -83,6 +83,7 @@ class SignupPage extends Component {
         console.log("INVALID ", this.state.usernameValid, un, this.state.username);
     });
   }
+  */
 
   handleSchoolyear = (e) => {
     const schoolyear = e.value;
@@ -125,7 +126,15 @@ class SignupPage extends Component {
   }
 
   signup = (e) => {
-    const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO db model
+    e.preventDefault();
+    const { username, password } = this.state;
+    var res = this.props.dispatchSignup(
+      username,
+      '', // email
+      password,
+      ''  // occupation
+    );
+    /*const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO db model
     fetch('http://localhost:5000/auth/signup', {
       method: 'POST', headers: {
         'Accept': 'application/json',
@@ -141,7 +150,7 @@ class SignupPage extends Component {
     .then((responseJson) => {
       console.log(responseJson);
     });
-    console.log(e);
+    console.log(e);*/
   }
 
   validate = (firstname, lastname, username, password, password_c) => {
@@ -154,7 +163,7 @@ class SignupPage extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, isSignedUp, usernameValid } = this.props;
     if(isLoggedIn) {
         return <Redirect to="/home"/>
     }
@@ -224,7 +233,7 @@ class SignupPage extends Component {
               <div className="row username">
                   <div className="column column-50">
                       <h2>USERNAME</h2>
-                      <input className={markError('username') ? "error" : ""} onBlur={this.handleBlur('username')} placeholder="" name="username" type="text" value={this.state.username} onChange={this.handleUsername}/>
+                      <input className={markError('username') ? "error" : ""} onBlur={this.handleBlur('username')} placeholder="" name="username" type="text" value={this.state.username} /> 
                       {/*<div className={"warning " + this.state.usernameValid}>Sorry, that username is taken.</div>*/}
                   </div>
                   <div className="column column-50">
@@ -310,12 +319,14 @@ class SignupPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.isLoggedIn
+    isLoggedIn: state.isLoggedIn,
+    isSignedUp: state.isSignedUp,
+    usernameValid: state.usernameValid
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchLogin }, dispatch);
+  return bindActionCreators({ dispatchSignup }, dispatch);
 }
 
 

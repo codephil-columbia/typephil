@@ -54,7 +54,6 @@ const auth = (state=authInitialState, action) => {
   }
 }
 
-
 const typephilApp = combineReducers({
   isLoggedIn,
   auth,
