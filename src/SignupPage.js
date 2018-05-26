@@ -37,7 +37,9 @@ class SignupPage extends Component {
         password: false,
         password_c: false
       },
+
       usernameValid: true,
+      passwordsMatch: true,
 
       headerLinks: ["Home"]
     }
@@ -66,6 +68,10 @@ class SignupPage extends Component {
         else
           this.setState({ usernameValid : res });
       });
+    }
+
+    if(field === 'password_c') {
+      this.setState({ passwordsMatch: (this.state.password === this.state.password_c) });
     }
   }
 
@@ -228,6 +234,7 @@ class SignupPage extends Component {
                   <div className="column column-50">
                       <h2>RE-TYPE PASSWORD</h2>
                       <input className={markError('password_c') ? "error" : ""} onBlur={this.handleBlur('password_c')} placeholder="" name="password_c" type="password" onChange={this.handleInputChange}/>
+                      <div className={this.state.passwordsMatch? "warning-hide" : "warning"}>Oops, your passwords don't match.</div>
                   </div>
               </div>
 
