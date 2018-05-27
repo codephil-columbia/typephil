@@ -43,7 +43,6 @@ class SignupPage extends Component {
         username: false,
         password: false,
         password_c: false,
-        schoolyear: false,
         occupation: false
       },
 
@@ -148,7 +147,7 @@ class SignupPage extends Component {
     if(isLoggedIn) {
       return <Redirect to="/home"/>
     }
-    const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(this.state.month, this.state.year);
+    const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(moment.monthsShort().indexOf(this.state.month)+1, this.state.year);
     const { firstname, lastname, username, password, password_c, schoolyear, occupation } = this.state;
     const errors = this.validate(firstname, lastname, username, password, password_c, schoolyear, occupation);
     const markError = (field) => {
@@ -256,16 +255,9 @@ class SignupPage extends Component {
                   <div className={"specify-schoolyear " + (this.state.whichOccupation !== "student" ? "hide" : "")}>
                     <h2>SCHOOL YEAR</h2>
                     <div id="ddoccupation">
-                      <Dropdown options={schoolyears} className={markError('schoolyear') ? "error" : ""} onChange={this.handleOption("schoolyear")} placeholder={this.state.schoolyear}/>
+                      <Dropdown options={schoolyears} onChange={this.handleOption("schoolyear")} placeholder={this.state.schoolyear}/>
                     </div>
                   </div>
-
-                  {
-/*
- *
-                      <input className={markError('firstname') ? "error" : ""} onBlur={this.handleBlur('firstname')} placeholder="" name="firstname" type="text" value={this.state.firstname} onChange={this.handleInputChange}/>
- */
-                  }
 
                   <div className={"specify-occupation " + (this.state.whichOccupation !== "employed" ? "hide" : "")}>
                     <h2>OCCUPATION</h2>
