@@ -11,6 +11,13 @@ import 'react-dropdown/style.css';
 import './style/styles.css';
 import './style/SignupPage.css';
 
+const schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
+const months = moment.monthsShort();
+const years = Array.apply(null, {length: 50}).map(
+      function(_, index) {
+        return index + (moment().year()-50);
+      }).reverse();
+
 class SignupPage extends Component {
   constructor(props) {
     super(props);
@@ -26,23 +33,24 @@ class SignupPage extends Component {
       password: '',
       password_c: '',
       gender: '',
-      which_occupation: '',
-      occupation: '',
+      whichOccupation: '',
       schoolyear: 'Select from options',
+      occupation: '',
 
       touched: {
         firstname: false,
         lastname: false,
         username: false,
         password: false,
-        password_c: false
+        password_c: false,
+        schoolyear: false,
+        occupation: false
       },
 
       usernameValid: true,
       passwordsMatch: true,
-
       headerLinks: ["Home"]
-    }
+    };
   }
 
   handleBlur = (field) => (e) => {
@@ -80,7 +88,6 @@ class SignupPage extends Component {
   }
 
   handleOption = target => (e) => {
-    console.log(this.state.which_occupation);
     this.setState({ [target] : e.value === undefined ? e.target.value : e.value });
   }
 
@@ -92,16 +99,6 @@ class SignupPage extends Component {
       daysInMonth--;
     }
     return days;
-  }
-
-  setOccupation = (e) => {
-    var occupation = e.target.value;
-    if (occupation === 'student')
-      this.setState({ option1: '', option2: 'hide' });
-    else if (occupation === 'employed')
-      this.setState({ option1: 'hide', option2: '' });
-    else
-      this.setState({ option1: 'hide', option2: 'hide' });
   }
 
   signup = (e) => {
@@ -132,43 +129,32 @@ class SignupPage extends Component {
     console.log(e);*/
   }
 
-  validate = (firstname, lastname, username, password, password_c) => {
+  // Conditions hold `true` iff there is an error.
+  validate = (firstname, lastname, username, password, password_c, schoolyear, occupation) => {
     return {
       firstname: firstname.length === 0,
       lastname: lastname.length === 0,
       username: username.length === 0,
       password: password !== password_c,
-      password_c: password !== password_c
+      password_c: password !== password_c,
+      schoolyear: this.state.whichOccupation === "student" ? !schoolyears.includes(schoolyear) : false,
+      occupation: this.state.whichOccupation === "employed" ? occupation.length === 0 : false 
     }
   }
 
   render() {
+    const { headerLinks } = this.state;
     const { isLoggedIn, isSignedUp, usernameValid } = this.props;
     if(isLoggedIn) {
-        return <Redirect to="/home"/>
+      return <Redirect to="/home"/>
     }
-    const { headerLinks } = this.state;
-
-    var months = moment.monthsShort();
-    var selectedMonth = months[0];
-    var years = Array.apply(null, {length: 50}).map(
-          function(_, index) {
-            return index + (moment().year()-50);
-          }).reverse();
-    if (this.state.month === 'Month' || this.state.year === 'Year')
-      var days = this.getDays(moment().month(), moment().year());
-    else
-      var days = this.getDays(this.state.month, this.state.year);
-    const schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
-
-    const { firstname, lastname, username, password, password_c } = this.state;
-    const errors = this.validate(firstname, lastname, username, password, password_c);
-    const isEnabled = !Object.keys(errors).some(e => errors[e]);
-    //console.log(errors, isEnabled); // TODO remove
-
+    const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(this.state.month, this.state.year);
+    const { firstname, lastname, username, password, password_c, schoolyear, occupation } = this.state;
+    const errors = this.validate(firstname, lastname, username, password, password_c, schoolyear, occupation);
     const markError = (field) => {
       return errors[field] ? this.state.touched[field] : false;
     }
+    const isEnabled = !Object.keys(errors).some(e => errors[e]);
 
     return (
       <div className="body">
@@ -213,7 +199,7 @@ class SignupPage extends Component {
               <div className="row username">
                   <div className="column column-50">
                       <h2>USERNAME</h2>
-                      <input className={markError('username') || !this.state.usernameValid ? "error" : ""} onBlur={this.handleBlur('username')} placeholder="" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}/> 
+                      <input className={(markError('username') || !this.state.usernameValid) ? "error" : ""} onBlur={this.handleBlur('username')} placeholder="" name="username" type="text" value={this.state.username} onChange={this.handleInputChange}/> 
                       <div className={this.state.usernameValid ? "warning-hide" : "warning"}>Sorry, that username is taken.</div>
                   </div>
                   <div className="column column-50">
@@ -254,31 +240,37 @@ class SignupPage extends Component {
                   <h2>I AM CURRENTLY...</h2>
                   <div className="occupation-radios">
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.handleOption('which_occupation')}></input>Student</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="student" onChange={this.handleOption('whichOccupation')}></input>Student</label></div>
                     </span>
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.handleOption('which_occupation')}></input>Employed</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="employed" onChange={this.handleOption('whichOccupation')}></input>Employed</label></div>
                     </span>
                     <span>
-                      <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.handleOption('which_occupation')}></input>Unemployed</label></div>
+                      <div className="row"><label><input type="radio" name="occupation" value="unemployed" onChange={this.handleOption('whichOccupation')}></input>Unemployed</label></div>
                     </span>
                   </div>
                 </div>
 
                 <div className="column column-50">
 
-                  <div className={"specify-schoolyear " + (this.state.which_occupation !== "student") ? "hide" : ""}>
+                  <div className={"specify-schoolyear " + (this.state.whichOccupation !== "student" ? "hide" : "")}>
                     <h2>SCHOOL YEAR</h2>
                     <div id="ddoccupation">
-                      <Dropdown options={schoolyears} onChange={this.handleOption("schoolyear")} placeholder={this.state.schoolyear}/>
+                      <Dropdown options={schoolyears} className={markError('schoolyear') ? "error" : ""} onChange={this.handleOption("schoolyear")} placeholder={this.state.schoolyear}/>
                     </div>
                   </div>
 
-                  <div className={"specify-occupation " + (this.state.which_occupation !== "employed") ? "hide" : ""}>
-                    <h2>OCCUPATION</h2>
-                    <input placeholder="" name="occupation" type="text" onBlur={this.handleBlur} onChange={this.handleInputChange}/>
-                  </div>
+                  {
+/*
+ *
+                      <input className={markError('firstname') ? "error" : ""} onBlur={this.handleBlur('firstname')} placeholder="" name="firstname" type="text" value={this.state.firstname} onChange={this.handleInputChange}/>
+ */
+                  }
 
+                  <div className={"specify-occupation " + (this.state.whichOccupation !== "employed" ? "hide" : "")}>
+                    <h2>OCCUPATION</h2>
+                    <input className={markError('occupation') ? "error" : ""} placeholder="" name="occupation" type="text" onBlur={this.handleBlur('occupation')} onChange={this.handleInputChange}/>
+                  </div>
                 </div>
               </div>
 
