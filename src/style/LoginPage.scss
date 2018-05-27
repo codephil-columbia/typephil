@@ -106,9 +106,11 @@ body {
       height: $submit-height;
       max-height: $submit-height;
       margin: 0.5em 0;
-      &:hover, &:active {
+      &:hover, &:active, &:focus, &::-moz-focus-inner {
         background-color: $silver-tree;
+        border: none;
         color: $hover-light;
+        outline: 0;
       }
     }
 }

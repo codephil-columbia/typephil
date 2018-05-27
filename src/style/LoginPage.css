@@ -80,9 +80,11 @@ body {
     height: 2.5em;
     max-height: 2.5em;
     margin: 0.5em 0; }
-    .form-buttons input[type="submit"]:hover, .form-buttons input[type="submit"]:active {
+    .form-buttons input[type="submit"]:hover, .form-buttons input[type="submit"]:active, .form-buttons input[type="submit"]:focus, .form-buttons input[type="submit"]::-moz-focus-inner {
       background-color: #68C3A3;
-      color: #DADFE1; }
+      border: none;
+      color: #DADFE1;
+      outline: 0; }
 
 #signup {
   background-color: #68C3A3;
