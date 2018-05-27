@@ -29,7 +29,8 @@ class LessonsView extends Component {
   render() {
     const { 
       lessons, 
-      completed 
+      completed,
+      chapterName
     } = this.props;
 
     const { 

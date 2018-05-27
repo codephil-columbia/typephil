@@ -51,27 +51,32 @@ const authInitialState = {
 
 const initialAppState = {
   currentLesson: {
-    name: "Lesson 1: The Importance of Touch Typing",
-    chapterID: "1",
-    lessonID: "2",
+    name: "",
+    chapterID: "",
+    lessonID: "",
     chapterImage: null,
     hasFinishedLoading: false,
     showSpinner: true,
-    lessonInformation: ["", "", ""],
-    lessonContent: ["here is the first line \n here is the second line \n here is the last line", "", ""],
+    lessonInformation: [
+      "Most keyboards have two Shift keys: one on the left and one on the right.",
+      `The Shift key is pressed using the pinky finger. Check out the illustration
+      below and press the Shift key to continue.`,
+      `Most keyboards have two shift keys: one on the left and one on the right.`,
+      `Shift keys can be tricky at first. It is recommended that you use the left 
+      shift key when you are typing on the right side of the keyboard and the right
+      shift key when are typing on the left side of the keyboard.`,
+      ""
+    ],
+    lessonContent: [
+      "",
+      "",
+      "",
+      "",
+      "aaa AAA aaa AAA ;;; ::: ;;; aA aS Aa Ss :; ;: Ll lL",
+    ],
     indexPtr: 0
   },
-  currentLessonSession: {
-    startTime: null,
-    endTime: null,
-    pressedKey: null,
-    missed: [],
-    correct: [],
-    charPtr: 0,
-    currentLessonContent: null,
-    shouldValidate: false,
-    isFirstChar: true
-  },
+
   chapterLessonPairs: [],
   allChapters: [],
   completedLessons: [],
@@ -80,7 +85,7 @@ const initialAppState = {
   tutorialFinished: false
 }
 
-const isLoggedIn = (state = false, action) => {
+export const isLoggedIn = (state = false, action) => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
       return true
@@ -91,7 +96,7 @@ const isLoggedIn = (state = false, action) => {
   }
 }
 
-const app = (state = initialAppState, action) => {
+export const app = (state = initialAppState, action) => {
   let {
     currentLesson
   } = state;
@@ -169,7 +174,7 @@ const app = (state = initialAppState, action) => {
   }
 }
 
-const completedLessons = (state = app, action) => {
+export const completedLessons = (state = app, action) => {
   switch(action.type) {
     case FETCH_COMPLETED_LESSONS:
       return {...state, isLoading:true }
@@ -181,7 +186,7 @@ const completedLessons = (state = app, action) => {
   }
 }
 
-const allChapters = (state = app.allChapters, action) => {
+export const allChapters = (state = app.allChapters, action) => {
   switch(action.type) {
     case FETCH_ALL_CHAPTERS_SUCCESS:
       const { data } = action;
@@ -191,7 +196,7 @@ const allChapters = (state = app.allChapters, action) => {
   }
 }
 
-const currentLessonReducer = (state = app.currentLesson, action) => {
+export const currentLessonReducer = (state = app.currentLesson, action) => {
   switch(action.type) {
     case GET_CURRENT_LESSON:
       const {
@@ -199,7 +204,7 @@ const currentLessonReducer = (state = app.currentLesson, action) => {
         chapterimage, 
         chaptername,
         lessonid,
-        lessonname
+        lessonname,
       } = action.data; 
       return { ...state,
         chapterID: chapterid,
@@ -220,7 +225,7 @@ const currentLessonReducer = (state = app.currentLesson, action) => {
   }
 }
 
-const lessonSession = (state = app.currentLessonSession, action) => {
+export const lessonSession = (state = app.currentLessonSession, action) => {
   const {
     time
   } = action
@@ -300,7 +305,7 @@ const lessonSession = (state = app.currentLessonSession, action) => {
   }
 }
 
-const auth = (state = authInitialState, action) => {
+export const auth = (state = authInitialState, action) => {
   switch (action.type) {
     case "LOGGED_IN":
       return {
@@ -314,12 +319,12 @@ const auth = (state = authInitialState, action) => {
 }
 
 
-const typephilApp = combineReducers({
-  isLoggedIn,
-  auth,
-  statsForUser,
-  chapterProgressPercentage,
-  app
-})
+// const typephilApp = combineReducers({
+//   isLoggedIn,
+//   auth,
+//   statsForUser,
+//   chapterProgressPercentage,
+//   app
+// })
 
-export default typephilApp;
+// export 

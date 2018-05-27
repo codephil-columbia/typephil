@@ -6,11 +6,17 @@ class ChaptersView extends Component {
     this.props.userDidClickChapter(chapterPos);
   }
 
+  removeChapterNumbers = (chapters) => {
+    return chapters.map(e => e.split(":")[1].trim());
+  }
+
   render() {
+    let { chapters } = this.props;
+    chapters = this.removeChapterNumbers(chapters);  
     return (
         <div className="block-info">
           <div className="chapter-info">
-          {this.props.chapters.map((chapter, i) => {
+          {chapters.map((chapter, i) => {
             return (
               <div className="chapter" key={i}>
                 <div className="chapter-num">

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
@@ -14,20 +15,21 @@ import LoginPage from './LoginPage';
 import './style/styles.scss';
 import './style/index.scss';
 
-import typephilApp from './reducers';
+import { store, persistor } from './store';
 
-let store = createStore(
-  typephilApp,
-  applyMiddleware(thunk),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const Something = () => {
+  return <div>Loading</div>
+}
+
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App/>
-    </BrowserRouter>
-  </Provider>,
+  <PersistGate loading={<Something />} persistor={persistor}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </Provider>
+  </PersistGate>,
   document.getElementById('root')
 );
 registerServiceWorker();

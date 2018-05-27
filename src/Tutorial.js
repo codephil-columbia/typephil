@@ -7,136 +7,134 @@ import {
   moveIndexPtr, 
   unFreeze, 
   freeze, 
-  completedTutorial 
+  completedTutorial,
+  fetchCurrentLessonIfNeeded
 } from './actions/tutorial';
 
 import TutorialContent from './TutorialContent';
+import LessonTutorialButtons from './components/LessonTutorialButtons';
+import SpeechBubble from './components/SpeechBubble';
+import LessonTutorialHandsKeyboard from './components/LessonTutorialHandsKeyboard';
+import LessonTutorialContent from './components/LessonTutorialContent';
 import Header from './components/header';
-import './style/Tutorial.scss'
+import './style/Tutorial.css'
 
 class Tutorial extends Component {
 
   constructor(props) {
     super(props);
 
+    // this.props.fetchCurrentLessonIfNeeded('bbu9uqje8cdm8j5109ug');
+
     const { currentLesson } = this.props
-    const { lessonContent, indexPtr } = currentLesson;
+    console.log(this.props);
+    const { 
+      lessonContent,
+      lessonInformation
+    } = currentLesson;
+
     const contentLength = lessonContent.length;
+    const infoLength = lessonInformation.length;
 
     this.state = {
-      headerLinks: ["Learn", "Progress", "Home"],
       contentLength,
-      indexPtr,
-    }
-  }
+      infoLength,
+      lessonContent,
+      lessonInformation,
+      indexPtr: 0,
+      isFinished: false,
 
-  componentWillMount = () => {
-    this.freezeTextIfLessonInfo();
+      headerLinks: ["Learn", "Progress", "Home"],
+    }
   }
 
   calculateTime = txt => {
     return (txt.length/5) * 60/200 * 1000;
   }
 
-  moveIndexPtr = () => {
-    const nextPtr = ++this.state.indexPtr;
-    const { contentLength } = this.state;
-    
-    if(nextPtr < contentLength) {
-      this.props.moveIndexPtr(nextPtr);
-      this.freezeTextIfLessonInfo();
+  next = () => {
+    let { indexPtr, contentLength } = this.state;
+    if(indexPtr + 1 < contentLength) {
+      indexPtr += 1;
+    }
+    this.setState({ indexPtr });
+  }
+
+  prev = () => {
+    let { indexPtr } = this.state;
+    if(indexPtr - 1 < 0) {
+      indexPtr = 0;
     } else {
-      this.props.completedTutorial();
+      indexPtr -= 1;
+    }
+
+    this.setState({ indexPtr });
+  }
+
+  getNextPair = () => {
+    const {
+      indexPtr,
+      lessonContent, 
+      lessonInformation,
+    } = this.state;
+
+    return { 
+      content: lessonContent[indexPtr],
+      nextContent: lessonContent[indexPtr+1],
+      info: lessonInformation[indexPtr]
     }
   }
 
-  freezeTextIfLessonInfo = () => {
-    const { lessonContent, indexPtr } = this.props.currentLesson;
+  render() { 
+    const { headerLinks, lessonContent, lessonInformation, indexPtr } = this.state;
+    const { content, nextContent, info } = this.getNextPair()
+    let isActive = true;
+    let isBubbleActive = false;
 
-    if(!lessonContent[indexPtr]) {
-      const { lessonInformation } = this.props.currentLesson;
-      const time = this.calculateTime(lessonInformation[indexPtr]);
-      this.props.freeze();
-      setTimeout(() => {
-        this.props.unFreeze();
-      }, time);
+    console.log(content, nextContent, indexPtr)
+
+    if(content === "") {
+      isActive = false;
+      isBubbleActive = true;
     } else {
-      this.props.unFreeze();
-    }
-  }
-
-  render() {
-    const { headerLinks } = this.state;
-    const { shouldFreeze, tutorialFinished } = this.props;
-    const { indexPtr, lessonInformation, lessonContent } = this.props.currentLesson;
-
-    const next = this.moveIndexPtr;
-    const userPressedKey = this.onUserPressedKey;
-
-    const currentLessonContent = lessonContent[indexPtr];
-    const currentInfoText = lessonInformation[indexPtr];
-
-    let content;
-
-    if(tutorialFinished) {
-      return <Redirect to="/home" />
-    }
-    
-    if(currentLessonContent) {
-      content = <TutorialContent info={currentInfoText} content={currentLessonContent} next={next} onUserPressedKey={userPressedKey} />
-    } else if(!currentLessonContent) {
-      content = tutorialInformationText(currentInfoText);
+      isBubbleActive = false;
+      isActive = true;
     }
 
     return (
       <div>
         <Header links={headerLinks}/>
-        <div className="container tutorial">
-          <div className="row tutorial-content">
-            {content}
-          </div>
-          <div className="row tutorial-keyboard">
-            {keyboard()}
-            {hands()}
-          </div>
-          <button onClick={next} disabled={shouldFreeze}>Next</button>
+        <div className="container">
+          <SpeechBubble text={info} active={isBubbleActive} />
+          <LessonTutorialContent
+            currentContent={content}
+            nextContent={nextContent}
+            isActive={isActive}
+          />
+          <LessonTutorialHandsKeyboard />
+          <LessonTutorialButtons 
+            next={this.next} 
+            prev={this.prev} 
+            isNextActive={!isActive}
+          />
         </div>
       </div>
     )
   }
 }
 
-const tutorialInformationText = text => {
-  return (
-    <div className="">
-      <p className="info-text">{text}</p>
-    </div>
-  )
-}
-
-const keyboard = () => {
-  return (
-    <div>
-      <img src="images/universal/Keyboard.svg" alt="keyboard-right" className=""></img>
-    </div>
-  )
-}
-
-const hands = () => {
-  return <img src="images/universal/Hands.svg" alt="keyboard-right" className=""></img>
-}
-
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators (
-    { moveIndexPtr, unFreeze, freeze, completedTutorial }, 
-    dispatch
-  )
+  return bindActionCreators ({ 
+    moveIndexPtr, 
+    unFreeze, 
+    freeze, 
+    completedTutorial, 
+    fetchCurrentLessonIfNeeded 
+  }, dispatch)
 }
 
 const mapStateToProps = ({ app }) => ({
-  currentLesson: app.currentLesson,
-  shouldFreeze: app.shouldFreeze,
-  tutorialFinished: app.tutorialFinished
+  currentLesson: app.currentLesson
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tutorial);

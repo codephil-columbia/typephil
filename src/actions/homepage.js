@@ -32,7 +32,6 @@ export const getCurrentLessonForUser = uid => {
         const {
           data
         } = res;
-        console.log(data);
         dispatch(getCurrentLessonForUserSuccess(data));
       })
       .catch(err => {

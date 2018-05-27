@@ -11,7 +11,7 @@ const avgUserStats = (
 ) => {
 
   return (
-    <div className="scores row">
+    <div className="row">
       {badgeList.map((badge, i) => {
         const badgeDescSplit = splitBadgeDescriptionByLine(badgeDescriptions[i]);
         return (

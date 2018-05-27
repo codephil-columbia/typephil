@@ -1,5 +1,6 @@
 .title {
     margin-top: 3%;
+    color: #77BFA3;
 }
 
 .title-content {
@@ -9,8 +10,11 @@
     line-height: 55px;
 }
 
+.lesson-stats-icon.row {
+    justify-content: none;
+}
+
 .block {
-    margin-top: 50px;
     text-align: center;
 }
 
@@ -32,7 +36,7 @@
     border-radius: 50%;
     width: 75px;
     height: 75px;
-    background-color: #97c9a3;
+    background-color: #DDE7C7;
 }
 
 .lesson-badge-content-txt {
@@ -143,6 +147,7 @@
 
 .chapter {
     display: flex;
+    justify-content: space-between;
     margin-bottom: 2%;
 }
 
