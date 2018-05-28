@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1113px" height="95px" viewBox="0 0 1113 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Speech Bubble </title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Tutorial-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-164.000000, -219.000000)" opacity="0.5">
+        <g id="Speech-bubble" transform="translate(164.000000, 219.000000)" fill="#B5DCCD">
+            <g id="Speech-Bubble-">
+                <rect id="Rectangle-12" x="0" y="0" width="1113" height="76.369863" rx="10"></rect>
+                <polygon id="Triangle-2" transform="translate(22.500000, 85.136986) scale(1, -1) translate(-22.500000, -85.136986) " points="7 75.2739726 38 95 15.1482349 95"></polygon>
+                <text id="myText" font-size="25" font-family="arial" fill="black">
+                    <tspan x="5" y="20">
+                    Now is the time for all good men to come to</tspan>
+                    <tspan x="5" dy="30">
+                    the aidsdfsdfsdfsdfsdfsdfsdfsdf
+                    </tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
