@@ -48,10 +48,10 @@ export const dispatchLogin = (username, password) => {
   }
 }
 
-export const dispatchSignup = (username, email, password, occupation) => {
+export const dispatchSignup = (data) => { 
   const endpoint = api_url + '/auth/signup';
   return function(dispatch) {
-    axios.post(endpoint, {username, email, password, occupation})
+    axios.post(endpoint, data)
     .then(res => {
       if(res.status !== 200) {
         dispatch(signupError());

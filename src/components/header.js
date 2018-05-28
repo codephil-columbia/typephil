@@ -23,7 +23,7 @@ const HeaderRight = props => {
     return (
         <ul className="navigation-list float-right">
             <li className="navigation-item">{props.username}</li>
-            {props.links.map((link, i) => {
+            { props.links === undefined ? "" : props.links.map((link, i) => {
                 const routePath = `/${link.toLowerCase()}`;
                 return (
                     <li className="navigation-item" key={i}>
