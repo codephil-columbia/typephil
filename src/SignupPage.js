@@ -96,29 +96,17 @@ class SignupPage extends Component {
 
   signup = (e) => {
     e.preventDefault();
-    const { firstname, lastname, username, password, occupation, gender } = this.state
-    //const { month, day, year, password_c, whichOccupation, touched, usernameValid, ...data } = this.state
-    const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO add firstname, lastname to db model
-    var res = this.props.dispatchSignup(
-        { firstname, lastname, username, password, occupation, gender, dob }
-    );
-    /*
-    fetch('http://localhost:5000/auth/signup', {
-      method: 'POST', headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        email: '',
-        password: this.state.password,
-        occupation: this.state.occupation
-      })
-    }).then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
+    const { firstname, lastname, username, password, occupation, gender } = this.state // TODO add firstname, lastname to db model (?)
+    const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
+    var res = this.props.dispatchSignup({ 
+      firstname,
+      lastname,
+      username,
+      password,
+      occupation,
+      gender,
+      dob
     });
-    console.log(e);*/
   }
 
   // Conditions hold `true` iff there is an error.
