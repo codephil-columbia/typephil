@@ -47,8 +47,6 @@ class SignupPage extends Component {
       },
 
       usernameValid: true,
-      passwordsMatch: true,
-      headerLinks: ["Home"]
     };
   }
 
@@ -76,10 +74,6 @@ class SignupPage extends Component {
           this.setState({ usernameValid : res });
       });
     }
-
-    if(field === 'password_c') {
-      this.setState({ passwordsMatch: (this.state.password === this.state.password_c) });
-    }
   }
 
   handleInputChange = (e) => {
@@ -102,14 +96,13 @@ class SignupPage extends Component {
 
   signup = (e) => {
     e.preventDefault();
-    const { username, password } = this.state;
+    const { firstname, lastname, username, password, occupation, gender } = this.state
+    //const { month, day, year, password_c, whichOccupation, touched, usernameValid, ...data } = this.state
+    const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO add firstname, lastname to db model
     var res = this.props.dispatchSignup(
-      username,
-      '', // email
-      password,
-      ''  // occupation
+        { firstname, lastname, username, password, occupation, gender, dob }
     );
-    /*const dob = "${this.state.month}${this.state.day}${this.state.year}"; // TODO valid y/n? TODO db model
+    /*
     fetch('http://localhost:5000/auth/signup', {
       method: 'POST', headers: {
         'Accept': 'application/json',
@@ -142,7 +135,6 @@ class SignupPage extends Component {
   }
 
   render() {
-    const { headerLinks } = this.state;
     const { isLoggedIn, isSignedUp, usernameValid } = this.props;
     if(isLoggedIn) {
       return <Redirect to="/home"/>
@@ -157,7 +149,7 @@ class SignupPage extends Component {
 
     return (
       <div className="body">
-      <Header links={headerLinks} username=""/>
+      <Header/>
       
       <div className="container">
         <div className="row subcontainer">
@@ -219,7 +211,7 @@ class SignupPage extends Component {
                   <div className="column column-50">
                       <h2>RE-TYPE PASSWORD</h2>
                       <input className={markError('password_c') ? "error" : ""} onBlur={this.handleBlur('password_c')} placeholder="" name="password_c" type="password" onChange={this.handleInputChange}/>
-                      <div className={this.state.passwordsMatch? "warning-hide" : "warning"}>Oops, your passwords don't match.</div>
+                      <div className={(this.state.password === this.state.password_c) ? "warning-hide" : "warning"}>Oops, your passwords don't match.</div>
                   </div>
               </div>
 
