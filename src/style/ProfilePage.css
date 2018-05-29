@@ -85,10 +85,10 @@ p {
   float: left;
   margin-top: -2px; }
   .options button {
-    -webkit-transition-duration: 0.08s;
-    -moz-transition-duration: 0.08s;
-    -ms-transition-duration: 0.08s;
-    -o-transition-duration: 0.08s;
+    -webkit-transition-duration: 0.06s;
+    -moz-transition-duration: 0.06s;
+    -ms-transition-duration: 0.06s;
+    -o-transition-duration: 0.06s;
     background-color: #A2A3A4;
     font-size: 60%;
     height: 25px;
@@ -98,8 +98,13 @@ p {
     margin: 0 2px;
     padding: 0 10px;
     text-align: center; }
-    .options button:hover, .options button:active {
-      background-color: #555555; }
+    .options button:hover {
+      background-color: #555555;
+      border: none;
+      color: #DADFE1; }
+    .options button:active, .options button:focus, .options button::-moz-focus-inner {
+      border: none;
+      outline: 0; }
 
 #view {
   float: left; }

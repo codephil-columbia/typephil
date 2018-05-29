@@ -11,7 +11,7 @@ $menu-gray: #A2A3A4;
 $container-height: 70vh;
 $image-dim: 100px;
 
-$transition-delta: 0.08s;
+$transition-delta: 0.06s;
 $button-width: 50px;
 
 body {
@@ -125,8 +125,14 @@ p {
     margin: 0 2px;
     padding: 0 $button-width / 5;
     text-align: center;
-    &:hover, &:active {
+    &:hover {
       background-color: $hover-dark;
+      border: none;
+      color: $hover-light;
+    }
+    &:active, &:focus, &::-moz-focus-inner {
+      border: none;
+      outline: 0;
     }
   }
 }
