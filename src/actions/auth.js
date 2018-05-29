@@ -63,6 +63,21 @@ export const dispatchSignup = (data) => {
   }
 }
 
+export const dispatchPassword = (username, password) => {
+  const endpoint = api_url + '/auth/newPassword';
+  return function(dispatch) {
+    axios.post(endpoint, {username, password})
+    .then(res => {
+      if(res.status !== 200) {
+        console.log('err'); // TODO fix
+      }
+      console.log('good');
+    }).catch(err => {
+      console.log('err');
+    });
+  }
+}
+
 /*export const dispatchUsername = (username) => {
   const endpoint = api_url + '/auth/usernameValid';
   return function(dispatch) {
