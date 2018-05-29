@@ -26,16 +26,7 @@ class Profile extends Component {
         <div className="vert-container">
           <div className="panel">
             <div className="row top">
-              {/* 
-              <div className="column column-50">
 
-                <div id="profile-pic">
-                  <img src="images/universal/Profile_pic.svg"></img>
-                </div>
-
-              </div>
-              <div className="column column-50">
-              */}
               <div className="column column-100">
                 <h2>Name</h2>
                 <h1>Phil Torres</h1>
@@ -69,17 +60,25 @@ class Profile extends Component {
                 <h3>Password</h3>
               </div>
               <div className="column column-10"></div>
-              <div className="column column-20">
+              <div className="column column-10">
                 <p>******</p>
               </div>
-              <div className="column column-10">
+
+              <div className="column column-20 options">
+                <div className="options">
+                  <button>EDIT</button>
+                  <button>VIEW</button>
+                </div>
+              </div>
+
+                {/*
                 <div className="highlight" id="view">
                   <div className="eye"></div>
                 </div>
                 <div className="highlight" id="edit">
                   <img src="images/universal/Pencil.png"></img>
                 </div>
-              </div>
+                */}
             </div>
           </div>
         </div>

@@ -81,16 +81,25 @@ p {
     height: 100px;
     width: 100px; }
 
-.highlight {
+.options {
   -webkit-transition: border-left 0.05s ease-in-out;
   -moz-transition: border-left 0.05s ease-in-out;
   -ms-transition: border-left 0.05s ease-in-out;
   -o-transition: border-left 0.05s ease-in-out;
-  width: 40%;
-  padding-left: 10px; }
-  .highlight:hover {
-    border-left: solid 3px #52B094;
-    padding-left: 7px; }
+  float: left;
+  margin-top: -2px; }
+  .options button {
+    background-color: #A2A3A4;
+    font-size: 60%;
+    height: 25px;
+    line-height: 25px;
+    width: 50px;
+    min-width: 50px;
+    margin: 0 2px;
+    padding: 0 10px;
+    text-align: center; }
+    .options button:hover, .options button:active {
+      background-color: #555555; }
 
 #view {
   float: left; }
