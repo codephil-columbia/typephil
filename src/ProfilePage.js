@@ -11,12 +11,47 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      headerLinks: ["Learn", "Progress", "Home"]
+      headerLinks: ["Learn", "Progress", "Home"],
+      editing: false,
+      password: " ",
+      touched: {
+        password: false
+      }
+    }
+  }
+
+  editPassword = () => {
+    this.setState({ editing: true });
+    // TODO call dispatch
+    console.log('edit');
+  }
+
+  viewPassword = () => {
+    console.log('view');
+  }
+
+  handleBlur = (e) => {
+    this.setState({
+      touched: { password : true }
+    });
+  }
+
+  handleInputChange = (e) => {
+    this.setState({ [e.target.name] : e.target.value });
+  }
+
+  validate = (password) => {
+    return {
+      password: password.length === 0
     }
   }
 
   render() {
     const { headerLinks } = this.state;
+    const errors = this.validate(this.state.password);
+    const markError = () => {
+      return errors['password'] ? this.state.touched['password'] : false;
+    }
 
     return (
       <div>
@@ -47,38 +82,25 @@ class Profile extends Component {
 
             <div className="row">
               <div className="column column-33">
-                <h3>Email</h3>
-              </div>
-              <div className="column column-10"></div>
-              <div className="column column-50">
-                <p>phil.torres@typephil.com</p>
-              </div>
-            </div>
-            
-            <div className="row">
-              <div className="column column-33">
                 <h3>Password</h3>
               </div>
-              <div className="column column-10"></div>
-              <div className="column column-10">
-                <p>******</p>
+              <div className="column column-20 column-offset-10 password-info">
+                <p className={ this.state.editing ? "hide" : ""}>
+                  ******
+                </p>
+                <input className={ this.state.editing ? (markError() ? "error" : "") : "hide" } placeholder="" name="password" type="password" onBlur={this.handleBlur} onChange={this.handleInputChange}/>
               </div>
 
-              <div className="column column-20 options">
+              <div className="column column-30 options">
                 <div className="options">
-                  <button>EDIT</button>
-                  <button>VIEW</button>
+                  <button onClick={this.editPassword}>
+                    <span className={this.state.editing ? "hide" : ""}>EDIT</span>
+                    <span className={this.state.editing ? "" : "hide"}>SUBMIT</span>
+                  </button>
+                  <button onClick={this.viewPassword}>VIEW</button>
                 </div>
               </div>
 
-                {/*
-                <div className="highlight" id="view">
-                  <div className="eye"></div>
-                </div>
-                <div className="highlight" id="edit">
-                  <img src="images/universal/Pencil.png"></img>
-                </div>
-                */}
             </div>
           </div>
         </div>
