@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { dispatchLogin } from './actions/auth';
+import { dispatchPassword } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
@@ -12,8 +12,11 @@ class Profile extends Component {
     super(props);
     this.state = {
       headerLinks: ["Learn", "Progress", "Home"],
+      edited: false,
       editing: false,
-      password: " ",
+      viewing: false,
+      username: "foobar", // TODO not hardcode 
+      password: "TEMP",
       touched: {
         password: false
       }
@@ -21,13 +24,21 @@ class Profile extends Component {
   }
 
   editPassword = () => {
-    this.setState({ editing: true });
-    // TODO call dispatch
-    console.log('edit');
+    if(!this.state.editing)
+      this.setState({ editing: true });
+    else {
+      const { username, password } = this.state;
+      var res = this.props.dispatchPassword(
+        username,
+        password
+      );
+      console.log(res);
+      this.setState({ editing: false, edited: true });
+    }
   }
 
-  viewPassword = () => {
-    console.log('view');
+  toggleViewing = () => {
+    this.setState({ viewing: !this.state.viewing });
   }
 
   handleBlur = (e) => {
@@ -76,7 +87,7 @@ class Profile extends Component {
               </div>
               <div className="column column-10"></div>
               <div className="column column-50">
-                <p>p_torres</p>
+                <p>{this.state.username}</p>
               </div>
             </div>
 
@@ -86,7 +97,10 @@ class Profile extends Component {
               </div>
               <div className="column column-20 column-offset-10 password-info">
                 <p className={ this.state.editing ? "hide" : ""}>
-                  ******
+                  { this.state.viewing ? this.state.password : '*'.repeat(this.state.password.length) }
+
+                  {/* TODO this is pretty egregiously insecure} */}
+
                 </p>
                 <input className={ this.state.editing ? (markError() ? "error" : "") : "hide" } placeholder="" name="password" type="password" onBlur={this.handleBlur} onChange={this.handleInputChange}/>
               </div>
@@ -94,10 +108,12 @@ class Profile extends Component {
               <div className="column column-30 options">
                 <div className="options">
                   <button onClick={this.editPassword}>
-                    <span className={this.state.editing ? "hide" : ""}>EDIT</span>
-                    <span className={this.state.editing ? "" : "hide"}>SUBMIT</span>
+                    <span className={ this.state.editing ? "hide" : "" }>EDIT</span>
+                    <span className={ this.state.editing ? "" : "hide" }>SUBMIT</span>
                   </button>
-                  <button onClick={this.viewPassword}>VIEW</button>
+                  <button className={ this.state.edited ? "" : "hide" } onClick={ this.toggleViewing }>
+                    { this.state.viewing ? "HIDE" : "VIEW" } 
+                  </button>
                 </div>
               </div>
 
@@ -118,7 +134,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchLogin }, dispatch);
+  return bindActionCreators({ dispatchPassword }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
