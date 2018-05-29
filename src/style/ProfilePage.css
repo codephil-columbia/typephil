@@ -29,6 +29,9 @@ p {
   margin: 0 auto;
   text-align: left; }
 
+input[type="password"] {
+  height: 24px; }
+
 .container {
   height: 70vh;
   max-height: 70vh;
@@ -45,14 +48,15 @@ p {
   height: inherit;
   width: 100%; }
 
+/*
 .eye {
   width: 13px;
   height: 13px;
   border: solid 1px #000;
-  border-radius: 75% 15%;
+  border-radius:  75% 15%;
   position: relative;
-  transform: rotate(45deg); }
-
+  transform: rotate(45deg);
+}
 .eye:before {
   content: '';
   display: inline-block;
@@ -62,12 +66,19 @@ p {
   border: solid 1px #000;
   border-radius: 50%;
   left: 3px;
-  top: 3px; }
+  top: 3px;
+}
+*/
+.hide {
+  display: none; }
 
 .panel {
   margin: 0 auto;
   position: relative;
   width: 60%; }
+
+.password-info {
+  margin-top: -2px; }
 
 .top {
   margin-bottom: 2vh;
@@ -83,26 +94,31 @@ p {
 
 .options {
   float: left;
-  margin-top: -2px; }
+  margin-left: -18px;
+  margin-top: -1px; }
   .options button {
     -webkit-transition-duration: 0.06s;
     -moz-transition-duration: 0.06s;
     -ms-transition-duration: 0.06s;
     -o-transition-duration: 0.06s;
-    background-color: #A2A3A4;
+    background-color: #52B094;
+    border: 1px solid #52B094;
+    border-radius: 0;
     font-size: 60%;
-    height: 25px;
-    line-height: 25px;
-    width: 50px;
+    height: 24px;
+    line-height: 24px;
     min-width: 50px;
     margin: 0 2px;
     padding: 0 10px;
     text-align: center; }
     .options button:hover {
-      background-color: #555555;
-      border: none;
+      background-color: #68C3A3;
+      border: 1px solid #68C3A3;
       color: #DADFE1; }
-    .options button:active, .options button:focus, .options button::-moz-focus-inner {
+    .options button:active, .options button:focus {
+      border: 1px solid #68C3A3;
+      outline: 0; }
+    .options button::-moz-focus-inner {
       border: none;
       outline: 0; }
 

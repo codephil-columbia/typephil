@@ -47,6 +47,10 @@ p {
   text-align: left;
 }
 
+input[type="password"] {
+  height: $button-width / 2 - 1px;
+}
+
 .container {
   height: $container-height;
   max-height: 70vh;
@@ -65,6 +69,7 @@ p {
   width: 100%;
 }
 
+/*
 .eye {
   width: 13px;
   height: 13px;
@@ -84,11 +89,20 @@ p {
   left: 3px;
   top: 3px;
 }
+*/
+
+.hide {
+  display: none;
+}
 
 .panel {
   margin: 0 auto;
   position: relative;
   width: 60%;
+}
+
+.password-info {
+  margin-top: -2px;
 }
 
 .top {
@@ -108,7 +122,8 @@ p {
 
 .options {
   float: left;
-  margin-top: -2px;
+  margin-left: -18px;
+  margin-top: -1px;
 
   button {
     -webkit-transition-duration: $transition-delta;
@@ -116,25 +131,31 @@ p {
     -ms-transition-duration: $transition-delta;
     -o-transition-duration: $transition-delta;
 
-    background-color: $menu-gray; //$palm-green;
+    background-color: $palm-green;
+    border: 1px solid $palm-green;
+    border-radius: 0;
     font-size: 60%;
-    height: $button-width / 2;
-    line-height: $button-width / 2;
-    width: $button-width;
+    height: $button-width / 2 - 1px;
+    line-height: $button-width / 2 - 1px;
+    //width: $button-width;
     min-width: $button-width;
     margin: 0 2px;
     padding: 0 $button-width / 5;
     text-align: center;
     &:hover {
-      background-color: $hover-dark;
-      border: none;
+      background-color: $silver-tree;
+      border: 1px solid $silver-tree;
       color: $hover-light;
     }
-    &:active, &:focus, &::-moz-focus-inner {
-      border: none;
+    &:active, &:focus {
+      border: 1px solid $silver-tree;
       outline: 0;
     }
-  }
+    &::-moz-focus-inner {
+      border:  none;
+      outline: 0;
+    }
+  } 
 }
 
 #view {
