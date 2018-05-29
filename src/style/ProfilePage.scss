@@ -11,7 +11,7 @@ $menu-gray: #A2A3A4;
 $container-height: 70vh;
 $image-dim: 100px;
 
-$transition-delta: 0.05s;
+$transition-delta: 0.08s;
 $button-width: 50px;
 
 body {
@@ -107,14 +107,15 @@ p {
 }
 
 .options {
-  -webkit-transition: border-left $transition-delta ease-in-out;
-  -moz-transition: border-left $transition-delta ease-in-out;
-  -ms-transition: border-left $transition-delta ease-in-out;
-  -o-transition: border-left $transition-delta ease-in-out;
   float: left;
   margin-top: -2px;
 
   button {
+    -webkit-transition-duration: $transition-delta;
+    -moz-transition-duration: $transition-delta;
+    -ms-transition-duration: $transition-delta;
+    -o-transition-duration: $transition-delta;
+
     background-color: $menu-gray; //$palm-green;
     font-size: 60%;
     height: $button-width / 2;

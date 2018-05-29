@@ -82,13 +82,13 @@ p {
     width: 100px; }
 
 .options {
-  -webkit-transition: border-left 0.05s ease-in-out;
-  -moz-transition: border-left 0.05s ease-in-out;
-  -ms-transition: border-left 0.05s ease-in-out;
-  -o-transition: border-left 0.05s ease-in-out;
   float: left;
   margin-top: -2px; }
   .options button {
+    -webkit-transition-duration: 0.08s;
+    -moz-transition-duration: 0.08s;
+    -ms-transition-duration: 0.08s;
+    -o-transition-duration: 0.08s;
     background-color: #A2A3A4;
     font-size: 60%;
     height: 25px;
