@@ -44,7 +44,7 @@ body {
   justify-content: center; }
 
 .big-img {
-  height: 500px; }
+  height: 400px; }
 
 .footer {
   margin-top: 3rem; }
@@ -116,7 +116,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-top: 3rem; }
+  margin-top: 8rem; }
 
 .login-content {
   display: flex;
