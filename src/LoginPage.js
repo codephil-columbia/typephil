@@ -13,7 +13,7 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
-      headerLinks: ["Learn", "Progress", "Home"]
+      headerLinks: [] //["Learn", "Progress", "Home"]
     };
   }
 
@@ -59,19 +59,24 @@ class LoginPage extends Component {
               </div>
 
               <div className="row jumbotron">
+
+                {/*
                 <div className="column column-20"> 
                   <div className="arrow left"></div>
                 </div>
+                */}
 
-                <div className="column column-60">
+                <div className="column column-100">
                   <div className="body-image">
                     <img src="images/universal/Landing_image1.svg" className="big-img"></img>
                   </div>
                 </div>
 
+                {/*
                 <div className="column column-20"> 
                   <div className="arrow right"></div>
                 </div>
+                */}
               </div>
 
               <div className="footer">
