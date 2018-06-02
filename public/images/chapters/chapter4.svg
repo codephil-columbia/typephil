@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="610px" height="292px" viewBox="0 0 610 292" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Chapter 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="14.8753559%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#52B094" offset="0%"></stop>
+            <stop stop-color="#97C9A3" offset="59.4210277%"></stop>
+            <stop stop-color="#D0E9D6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Chapter-4">
+            <rect id="Rectangle-8" fill="url(#linearGradient-1)" transform="translate(305.000000, 146.000000) scale(-1, 1) translate(-305.000000, -146.000000) " x="0" y="0" width="610" height="292" rx="14"></rect>
+            <text id="Bottom-Row" font-family="AvenirNext-DemiBold, Avenir Next" font-size="35" font-weight="500" fill="#FFFFFF">
+                <tspan x="269" y="155">Bottom Row</tspan>
+            </text>
+            <polyline id="Line" stroke="#FFFFFF" stroke-width="10" stroke-linecap="square" transform="translate(138.670040, 99.509581) scale(1, -1) translate(-138.670040, -99.509581) " points="88 126.019162 137.373909 73 189.34008 126.019162"></polyline>
+            <polyline id="Line" stroke="#FFFFFF" stroke-width="10" stroke-linecap="square" transform="translate(138.670040, 145.509581) scale(1, -1) translate(-138.670040, -145.509581) " points="88 172.019162 137.373909 119 189.34008 172.019162"></polyline>
+            <polyline id="Line" stroke="#FFFFFF" stroke-width="10" stroke-linecap="square" transform="translate(138.670040, 191.509581) scale(1, -1) translate(-138.670040, -191.509581) " points="88 218.019162 137.373909 165 189.34008 218.019162"></polyline>
+        </g>
+    </g>
+</svg>
