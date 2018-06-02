@@ -1,19 +1,35 @@
+import { getCurrentLessonForUser } from './homepage';
 
-export const GET_NEXT_TEXT = "GET_NEXT_TEXT";
-export const CAN_GET_NEXT_TEXT = "CAN_GET_NEXT_TEXT";
-export const START_TIMER_FOR_TEXT = "START_TIME_FOR_TEXT";
-export const TIMER_FINISED_FOR_TEXT = "TIMER_FINISED_FOR_TEXT";
+export const MOVE_INDEX_PTR = "MOVE_INDEX_PTR";
+export const TUTORIAL_COMPLETED = "TUTORIAL_COMPLETED"
+export const UNFREEZE = "UNFREEZE";
+export const FREEZE = "FREEZE";
 
-
-export const getNextText = () => ({
-  type: GET_NEXT_TEXT
+export const moveIndexPtr = indexPtr => ({
+  type: MOVE_INDEX_PTR,
+  indexPtr
 })
 
-export const canGetNextText = () => ({
-  type: CAN_GET_NEXT_TEXT
+export const completedTutorial = () => ({
+  type: TUTORIAL_COMPLETED
 })
 
-export const startTimer = () => ({
-  type: START_TIMER_FOR_TEXT
+export const unFreeze = () => ({
+  type: UNFREEZE 
 })
 
+export const freeze = () => ({
+  type: FREEZE
+})
+
+const shouldFetchCurrentLesson = (state) => {
+  return state.app.currentLesson.lessonID === "";
+}
+
+export const fetchCurrentLessonIfNeeded = (uid) => {
+  return function(dispatch, getState) {
+    if(shouldFetchCurrentLesson(getState())) {
+      dispatch(getCurrentLessonForUser(uid));
+    }
+  }
+}

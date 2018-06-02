@@ -46,6 +46,7 @@ class App extends Component {
 
     return (
       <div>
+        <BrowserRouter>
         <Switch>
           <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props}/>}/>
           <Route exact path="/home" component={HomePageSwitch}/>
@@ -54,6 +55,7 @@ class App extends Component {
           <Route exact path="/signup" component={SignupPage}/>
           <Route exact path="/profile" component={Profile}/>
         </Switch>
+        </BrowserRouter>
       </div>
     )
   }

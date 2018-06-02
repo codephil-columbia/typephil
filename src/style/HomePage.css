@@ -8,18 +8,34 @@
   font-size: 20px; }
 
 .badge {
-  margin: 0 auto;
-  display: flex; }
+    margin: 0 auto;
+    display: flex !important;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}
 
 .badge-content {
-  border-radius: 19px;
-  height: 150px;
-  width: 150px;
-  background-color: #97c9a3;
-  margin-right: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-around; }
+    margin-bottom: 0px;
+    border-radius: 19px;
+    height: 150px;
+    width: 150px;
+    background-color: #97c9a3;
+    margin-right: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.badge-content h1{
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+
+.badge-description {
+}
 
 .quickstart {
   margin-top: 5%;
@@ -42,20 +58,22 @@
   font-weight: 600;
   line-height: 48px; }
 
-.qs-image {
-  background-color: #77BFA3; }
+/* .qs-image {
+    background-color: #77BFA3;
+} */
 
 .qs-progress {
   margin-top: 1rem; }
 
-.qs-progress-info {
-  height: 25px;
-  color: #858485;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  line-height: 25px;
-  margin-top: .5rem; }
+/* .qs-progress-info {
+    height: 25px;
+    color: #858485;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 25px;
+    margin-top: .5rem;
+} */
 
 .scores {
   display: flex; }
@@ -64,53 +82,10 @@
   text-align: center; }
 
 .line {
-  display: block;
-  height: 50px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 2% 1%;
-  padding: 0; }
-
-/* Progress Bar CSS from Bootstrap 4 */
-/* https://getbootstrap.com/docs/4.0/components/progress/ */
-.progress {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  height: 1rem;
-  overflow: hidden;
-  font-size: 0.75rem;
-  background-color: #e9ecef;
-  border-radius: 0.25rem;
-  width: 495px; }
-
-.progress-bar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  background-color: #77BFA3;
-  transition: width 0.6s ease; }
-
-.w-25 {
-  width: 25% !important; }
-
-.w-50 {
-  width: 50% !important; }
-
-.w-75 {
-  width: 75% !important; }
-
-.w-100 {
-  width: 100% !important; }
-
-/*# sourceMappingURL=HomePage.css.map */
+    display: block;
+    height: 50px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 2% 1%;
+    padding: 0;
+}
