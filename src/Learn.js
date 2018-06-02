@@ -98,8 +98,8 @@ class ShowLessons extends Component {
             }
           })}
         </div>
-        <vl className="lesson-sep"/>
-        <div class="container lesson-right">
+        <div className="lesson-sep"></div>
+        <div className="container lesson-right">
           <div className="lesson-stats">
             { lessonStats }
           </div>

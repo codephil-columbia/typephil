@@ -40,14 +40,14 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn } = true;
+    const { isLoggedIn } = this.props;
     const app = isLoggedIn ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
-    console.log(this.props.location);
+    console.log(this.props)
 
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={LoginPage}/>
+          <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props}/>}/>
           <Route exact path="/home" component={HomePageSwitch}/>
           <Route exact path="/learn" component={Learn}/>
           <Route exact path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
@@ -59,8 +59,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => ({
-  auth
+const mapStateToProps = ({ isLoggedIn, auth, app }) => ({
+  isLoggedIn,
+  auth,
+  app
 })
 
 export default connect(mapStateToProps)(App)

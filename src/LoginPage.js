@@ -24,6 +24,7 @@ class LoginPage extends Component {
       username,
       password
     )
+    console.log(this.props);
   }
 
   signup = e => {
@@ -42,10 +43,8 @@ class LoginPage extends Component {
   }
 
   render() {
-    // const { isLoggedIn } = this.props;
-    const isLoggedIn = true;
+    const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
-  
 
     return (
       <div>
@@ -89,7 +88,7 @@ class LoginPage extends Component {
               </div>
             </div>
           </div>
-          <vl className="content-sep"/>
+          <div className="content-sep"></div>
           <div className="content-right">
             <div className="">
               <img src="images/universal/PalmTree.svg" className="img-right"></img>
