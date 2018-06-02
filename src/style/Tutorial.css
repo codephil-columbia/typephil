@@ -1,35 +1,11 @@
 .info-text p {
-    background-color: aquamarine;
-    font-size: 100px;
-}
-
-.tutorial-content {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10rem;
-}
+  background-color: aquamarine;
+  font-size: 100px; }
 
 .right-hand {
-    margin-left: 10px;
-}
+  margin-left: 10px; }
 
 .left-hand {
-    margin-right: 10px;
-}
+  margin-right: 10px; }
 
-.lesson-buttons {
-    margin-top: 30px;
-}
-
-.lesson-buttons.button.prev {
-    background-color: #AAAAAA;
-    border: 0.1rem solid #AAAAAA;
-}
-
-.tutorial-row {
-    font-size: 5rem;
-}
-
-.content-column {
-    text-align: center;
-}
+/*# sourceMappingURL=Tutorial.css.map */
