@@ -24,7 +24,7 @@ class LoginPage extends Component {
       username,
       password
     )
-    console.log(this.props);
+    console.log("FOO", this.props);
   }
 
   signup = e => {
@@ -88,7 +88,7 @@ class LoginPage extends Component {
               </div>
             </div>
           </div>
-          <div className="content-sep"></div>
+          <vl className="content-sep"/>
           <div className="content-right">
             <div className="">
               <img src="images/universal/PalmTree.svg" className="img-right"></img>
