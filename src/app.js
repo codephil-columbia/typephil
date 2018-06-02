@@ -46,16 +46,14 @@ class App extends Component {
 
     return (
       <div>
-        <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props}/>}/>
+          <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props.isLoggedIn}/>}/>
           <Route exact path="/home" component={HomePageSwitch}/>
           <Route exact path="/learn" component={Learn}/>
           <Route exact path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
           <Route exact path="/signup" component={SignupPage}/>
           <Route exact path="/profile" component={Profile}/>
         </Switch>
-        </BrowserRouter>
       </div>
     )
   }
