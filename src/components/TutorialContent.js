@@ -5,6 +5,10 @@ const BACKSPACE = "Backspace";
 const DEFAULT_STYLE = "default-character";
 const CORRECT_STYLE = "correct-character";
 const INCORRECT_STYLE = "incorrect-character";
+const HIGHLIGHTED = "highlighted";
+
+const CORRECT = "correct";
+const INCORRECT = "incorrect";
 
 class LessonTutorialContent extends Component {
   constructor(props) {
@@ -26,7 +30,8 @@ class LessonTutorialContent extends Component {
       charPtr: 0,
       correct: [],
       incorrect: [],
-      edited: []
+      edited: [],
+      previousCharCorrectness: false
     };
   }
 
@@ -54,16 +59,54 @@ class LessonTutorialContent extends Component {
   }
 
   registerUserKeyPress = ({ key: keyPressed }) => {
-    if(this.shouldCheckKey(keyPressed)) {
-      console.log("PRESSED")
-      this.validateUserKeyPress(keyPressed);
-    } else if(keyPressed === BACKSPACE) {
+    if(keyPressed === BACKSPACE) {
+      this.userDidPressBackspace();
+    } else if(this.shouldCheckKey(keyPressed)) {
+      this.validateUserKeyPressCorrectness(keyPressed);
     } else {
 
     }
   }
 
-  validateUserKeyPress = (keyPressed) => {
+  userDidPressBackspace = () => {
+    let { charPtr, rows, correct, incorrect, edited } = this.state;
+    const { previousCharCorrectness } = this.state;
+    
+    if(!charPtr - 1 < 0) {
+      // Set current indexPtr style to default
+      this.applyStyle(`${DEFAULT_STYLE}`, charPtr);
+      charPtr -= 1;
+      //highlight the previous character
+      this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr);
+
+      //we also want to pop previous result and add it to edited keys group
+      if(previousCharCorrectness === CORRECT) {
+        const prevChar = correct.pop();
+        edited.push(prevChar);
+      } else {
+        const prevChar = incorrect.pop();
+        edited.push(prevChar);
+
+      }
+
+      rows = this.buildRows();
+      this.setState({ charPtr, rows, correct, incorrect, edited });
+    }
+  }
+
+
+  applyStyle = (newStyle, forIndex=this.state.charPtr) => {
+    const { groupPtr } = this.state;
+    let { styleMapList } = this.state;
+
+    let styleMap = styleMapList[groupPtr];
+    styleMap = styleMap.set(forIndex, newStyle);
+    
+    styleMapList[groupPtr] = styleMap;
+    this.setState({ styleMapList });
+  }
+
+  validateUserKeyPressCorrectness = (keyPressed) => {
     let { 
       charPtr, 
       groupPtr, 
@@ -71,7 +114,8 @@ class LessonTutorialContent extends Component {
       characterMapList,
       rows,
       correct,
-      incorrect
+      incorrect,
+      previousCharCorrectness
     } = this.state;
 
     let characterMapForRow = characterMapList[groupPtr];
@@ -80,17 +124,19 @@ class LessonTutorialContent extends Component {
     const characterWanted = characterMapForRow.get(charPtr);
     if(characterWanted === keyPressed) {
       styleMapForRow = styleMapForRow.set(charPtr, CORRECT_STYLE);
+      previousCharCorrectness = CORRECT;
       correct.push(keyPressed);
     } else {
       styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
+      previousCharCorrectness = INCORRECT;
       incorrect.push(keyPressed);
     }
 
-
     styleMapList[groupPtr] = styleMapForRow;
     this.nextCharacter();
+
     rows = this.buildRows(characterMapList, styleMapList);
-    this.setState({ styleMapList, rows, correct, incorrect });
+    this.setState({ styleMapList, rows, correct, incorrect, previousCharCorrectness });
 
   }
 
