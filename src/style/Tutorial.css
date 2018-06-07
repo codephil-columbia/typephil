@@ -33,3 +33,19 @@
 .content-column {
     text-align: center;
 }
+
+.correct-character {
+    color: green;
+}
+
+.default-character {
+    color: grey;
+}
+
+.incorrect-character {
+    color: red;
+}
+
+.highlighted {
+    text-decoration: underline;
+}
