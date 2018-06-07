@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { OrderedMap } from 'immutable';
 
 const BACKSPACE = "Backspace";
-
 const DEFAULT_STYLE = "default-character";
 const CORRECT_STYLE = "correct-character";
 const INCORRECT_STYLE = "incorrect-character";
@@ -13,18 +12,26 @@ class LessonTutorialContent extends Component {
 
     const groupPtr = 0;
     const { currentContent } = this.props;
+
     const characterMapList = this.createCharacterMapLists(currentContent);
-    const styleMapList = this.createStyleMapLists(currentContent);
+    let styleMapList = this.createStyleMapLists(currentContent);
+    styleMapList[0] = styleMapList[0].set(0, 'default-letter highlighted');
+    const rows = this.buildRows(characterMapList, styleMapList);
 
     this.state = {
+      rows,
       characterMapList,
       styleMapList,
       groupPtr,
-      charPtr: 0
+      charPtr: 0,
+      correct: [],
+      incorrect: [],
+      edited: []
     };
   }
 
   componentWillMount = () => {
+    console.log("HERE")
     document.addEventListener("keydown", this.registerUserKeyPress);
   }
 
@@ -48,8 +55,8 @@ class LessonTutorialContent extends Component {
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     if(this.shouldCheckKey(keyPressed)) {
+      console.log("PRESSED")
       this.validateUserKeyPress(keyPressed);
-      this.nextCharacter();
     } else if(keyPressed === BACKSPACE) {
     } else {
 
@@ -61,7 +68,10 @@ class LessonTutorialContent extends Component {
       charPtr, 
       groupPtr, 
       styleMapList, 
-      characterMapList 
+      characterMapList,
+      rows,
+      correct,
+      incorrect
     } = this.state;
 
     let characterMapForRow = characterMapList[groupPtr];
@@ -70,11 +80,18 @@ class LessonTutorialContent extends Component {
     const characterWanted = characterMapForRow.get(charPtr);
     if(characterWanted === keyPressed) {
       styleMapForRow = styleMapForRow.set(charPtr, CORRECT_STYLE);
+      correct.push(keyPressed);
     } else {
       styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
+      incorrect.push(keyPressed);
     }
+
+
     styleMapList[groupPtr] = styleMapForRow;
-    this.setState({ styleMapList })
+    this.nextCharacter();
+    rows = this.buildRows(characterMapList, styleMapList);
+    this.setState({ styleMapList, rows, correct, incorrect });
+
   }
 
   /*
@@ -115,8 +132,9 @@ class LessonTutorialContent extends Component {
     } else {
       charPtr += 1;
     }
-    
-    this.setState({ charPtr })
+    let styleMapList = this.highlightCharacter(charPtr);
+    console.log(styleMapList)
+    this.setState({ charPtr, styleMapList });
   }
 
   nextGroup = () => {
@@ -124,7 +142,6 @@ class LessonTutorialContent extends Component {
     const currentGroupLength = characterMapList.length;
     
     if(groupPtr + 1 >= currentGroupLength) {
-      console.log("NEXT");
       groupPtr = 0;
     } else {
       groupPtr += 1;
@@ -144,8 +161,8 @@ class LessonTutorialContent extends Component {
     } else {
       charPtr -= 1;
     }
-    
-    this.setState({ charPtr })
+    let styleMapList = this.highlightCharacter(charPtr);
+    this.setState({ charPtr, styleMapList });
   }
 
   prevGroup = () => {
@@ -161,6 +178,16 @@ class LessonTutorialContent extends Component {
     this.setState({ groupPtr });
   }
 
+  highlightCharacter = (index) => {
+    let { styleMapList, groupPtr } = this.state;
+    let styleListForCurrentRow = styleMapList[groupPtr];
+    const currentStyle = styleListForCurrentRow.get(index);
+    styleListForCurrentRow = styleListForCurrentRow
+      .set(index, `${currentStyle} highlighted`);
+    styleMapList[groupPtr] = styleListForCurrentRow;
+    return styleMapList;
+  }
+
   shouldCheckKey = key => {
     if(key === "Meta" || key === "Shift" || 
       key === 'CapsLock' || key === 'Tab') {
@@ -174,19 +201,18 @@ class LessonTutorialContent extends Component {
   }
 
   render() {
-    const { currentGroup, } = this.state;
-    const { shouldShowContent } = this.props;
-    const currentRows = this.buildRows()
+    const { rows } = this.state;
+    const { isActive } = this.props;
     
     
-    if(!shouldShowContent) {
+    if(!isActive) {
       return <div>not active</div>
     }
 
     return (
       <div className="">
         <div>Hwllo</div>
-        {currentRows}
+        {rows}
       </div>
     )
   }

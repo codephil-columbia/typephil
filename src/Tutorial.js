@@ -11,11 +11,11 @@ import {
   fetchCurrentLessonIfNeeded
 } from './actions/tutorial';
 
-import TutorialContent from './TutorialContent';
+// import TutorialContent from './TutorialContent';
 import LessonTutorialButtons from './components/LessonTutorialButtons';
 import SpeechBubble from './components/SpeechBubble';
 import LessonTutorialHandsKeyboard from './components/LessonTutorialHandsKeyboard';
-import LessonTutorialContent from './components/LessonTutorialContent';
+import TutorialContent from './components/TutorialContent';
 import Header from './components/header';
 import './style/Tutorial.css'
 
@@ -27,7 +27,6 @@ class Tutorial extends Component {
     // this.props.fetchCurrentLessonIfNeeded('bbu9uqje8cdm8j5109ug');
 
     const { currentLesson } = this.props
-    console.log(this.props);
     const { 
       lessonContent,
       lessonInformation
@@ -71,6 +70,10 @@ class Tutorial extends Component {
     this.setState({ indexPtr });
   }
 
+  finishedLesson = () => {
+    this.setState({ isFinished: true });
+  }
+
   getNextPair = () => {
     const {
       indexPtr,
@@ -80,18 +83,26 @@ class Tutorial extends Component {
 
     return { 
       content: lessonContent[indexPtr],
-      nextContent: lessonContent[indexPtr+1],
       info: lessonInformation[indexPtr]
     }
   }
 
   render() { 
-    const { headerLinks, lessonContent, lessonInformation, indexPtr } = this.state;
-    const { content, nextContent, info } = this.getNextPair()
+    const { 
+      headerLinks, 
+      lessonContent, 
+      lessonInformation, 
+      indexPtr,
+      isFinished
+    } = this.state;
+
+    const { content, info } = this.getNextPair()
     let isActive = true;
     let isBubbleActive = false;
 
-    console.log(content, nextContent, indexPtr)
+    if(isFinished) {
+      return <h3>isFinished</h3>
+    }
 
     if(content === "") {
       isActive = false;
@@ -101,16 +112,17 @@ class Tutorial extends Component {
       isActive = true;
     }
 
+    console.log(isActive);
+
     return (
       <div>
         <Header links={headerLinks}/>
         <div className="container">
           <SpeechBubble text={info} active={isBubbleActive} />
-          <LessonTutorialContent
+          {isActive && <TutorialContent
             currentContent={content}
-            nextContent={nextContent}
             isActive={isActive}
-          />
+          />}
           <LessonTutorialHandsKeyboard />
           <LessonTutorialButtons 
             next={this.next} 
