@@ -13,7 +13,7 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
-      headerLinks: [], //["Learn", "Progress", "Home"]
+      headerLinks: ["Progress", "Learn"], //["Learn", "Progress", "Home"]
       touched: {
         signin: false
       }
