@@ -13,23 +13,32 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
-      headerLinks: [] //["Learn", "Progress", "Home"]
+      headerLinks: [], //["Learn", "Progress", "Home"]
+      touched: {
+        signin: false
+      }
     };
   }
 
   login = e => {
     e.preventDefault();
     const { username, password } = this.state;
+    //onLogin(username, password);
     this.props.dispatchLogin(
       username,
       password
     )
-    console.log("FOO", this.props);
   }
 
   signup = e => {
     e.preventDefault();
     window.location = '/signup';
+  }
+
+  handleBlur = (field) => (e) => {
+    this.setState({
+      touched: {...this.state.touched, [field]: true}
+    });
   }
 
   getUsernameData = e => {
@@ -45,6 +54,8 @@ class LoginPage extends Component {
   render() {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
+
+    console.log("LOGGED IN: %s", isLoggedIn);
 
     return (
       <div>
@@ -98,11 +109,12 @@ class LoginPage extends Component {
                   <div className="form-inputs">
                     <input type="text" placeholder="Enter your username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
                     <input type="password" placeholder="Enter your password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
+                    <div className={this.state.touched['signin'] ? (this.props.isLoggedIn ? "warning-hide" : "warning") : "warning-hide"}>Sorry, your username or password is incorrect.</div>
                   </div>
                   <div className="form-buttons">
-                    <input className="form-button button-primary solid" type="submit" value="SIGN IN"/>
+                    <button className="form-button button-primary solid" onBlur={this.handleBlur('signin')}>SIGN IN</button>
                     <p>or</p>
-                    <input className="form-button button-primary solid" id="signup" onClick={this.signup} type="submit" value="SIGN UP"/>
+                    <button className="form-button button-primary solid" id="signup" onClick={this.signup}>SIGN UP</button>
                   </div>
               </form>
             </div>
@@ -121,6 +133,11 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
+  /*return {
+    onLogin: (username, password) => {
+      return bindActionCreators({ dispatchLogin }, dispatch);
+    }
+  }*/
   return bindActionCreators({ dispatchLogin }, dispatch);
 }
 
