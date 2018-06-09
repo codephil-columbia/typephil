@@ -97,7 +97,7 @@ body {
     font-weight: 400;
     margin: 2em auto;
     text-align: center;
-    input[type="submit"] {
+    button {
       background-color: $palm-green;
       border: none;
       font-size: 1em;
@@ -170,4 +170,15 @@ body {
 .login {
     margin-top: -5em;
     width: 60%;
+}
+
+.warning-hide {
+  font-size: 0.8em;
+  visibility: hidden;
+}
+.warning {
+  color: $chestnut-rose;
+  font-size: 0.8em;
+  text-align: center;
+  visibility: visible;
 }
