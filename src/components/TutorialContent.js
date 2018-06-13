@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { OrderedMap } from 'immutable';
 
+import "../style/TutorialContent.css"
+
 const BACKSPACE = "Backspace";
 const DEFAULT_STYLE = "default-character";
 const CORRECT_STYLE = "correct-character";
@@ -15,12 +17,14 @@ class LessonTutorialContent extends Component {
     super(props);
 
     const groupPtr = 0;
-    const { currentContent } = this.props;
+    let { currentContent } = this.props;
+    currentContent = currentContent.trim();
 
     const characterMapList = this.createCharacterMapLists(currentContent);
     let styleMapList = this.createStyleMapLists(currentContent);
     styleMapList[0] = styleMapList[0].set(0, 'default-letter highlighted');
-    const rows = this.buildRows(characterMapList, styleMapList);
+
+    const rows = this.buildRows(characterMapList, styleMapList, 0);
 
     this.state = {
       rows,
@@ -36,75 +40,93 @@ class LessonTutorialContent extends Component {
   }
 
   componentWillMount = () => {
-    console.log("HERE")
     document.addEventListener("keydown", this.registerUserKeyPress);
-  }
+  };
 
   createCharacterMapLists = (chars) => {
     chars = this.breakInto30CharacterLists(chars);
-    let characterMaps = []
+    let characterMaps = [];
     chars.forEach(([...ch], i) => {
       characterMaps.push(OrderedMap(ch.map((c, i) => [i, c])))
-    })
+    });
     return characterMaps;
-  }
+  };
 
   createStyleMapLists = (chars) => {
     chars = this.breakInto30CharacterLists(chars);
-    let styleMaps = []
+    let styleMaps = [];
     chars.forEach(([...ch], i) => {
       styleMaps.push(OrderedMap(ch.map((c, i) => [i, DEFAULT_STYLE])))
-    })
+    });
     return styleMaps;
-  }
+  };
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     if(keyPressed === BACKSPACE) {
       this.userDidPressBackspace();
     } else if(this.shouldCheckKey(keyPressed)) {
       this.validateUserKeyPressCorrectness(keyPressed);
-    } else {
-
     }
-  }
+  };
 
   userDidPressBackspace = () => {
-    let { charPtr, rows, correct, incorrect, edited } = this.state;
-    const { previousCharCorrectness } = this.state;
+    let { charPtr, rows, correct, incorrect, edited, groupPtr } = this.state;
+    const { previousCharCorrectness, styleMapList, characterMapList } = this.state;
+
+    // Set current indexPtr style to default
+    this.applyStyle(`${DEFAULT_STYLE}`, charPtr, groupPtr);
     
-    if(!charPtr - 1 < 0) {
-      // Set current indexPtr style to default
-      this.applyStyle(`${DEFAULT_STYLE}`, charPtr);
+    if(charPtr - 1 >= 0) {
       charPtr -= 1;
       //highlight the previous character
-      this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr);
-
-      //we also want to pop previous result and add it to edited keys group
-      if(previousCharCorrectness === CORRECT) {
-        const prevChar = correct.pop();
-        edited.push(prevChar);
-      } else {
-        const prevChar = incorrect.pop();
-        edited.push(prevChar);
-
+      this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr, groupPtr);
+      rows = this.buildRows(characterMapList, styleMapList, groupPtr);
+    } else {
+      if(groupPtr !== 0) {
+        groupPtr -= 1;
+        charPtr = styleMapList[groupPtr].size - 1;
+        this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr, groupPtr);
+        rows = this.buildRows(characterMapList, styleMapList, groupPtr);
       }
-
-      rows = this.buildRows();
-      this.setState({ charPtr, rows, correct, incorrect, edited });
     }
-  }
+    //we also want to pop previous result and add it to edited keys group
+    if(previousCharCorrectness === CORRECT) {
+      const prevChar = correct.pop();
+      edited.push(prevChar);
+    } else {
+      const prevChar = incorrect.pop();
+      edited.push(prevChar);
+    } 
 
+    this.setState({ charPtr, rows, correct, incorrect, edited, groupPtr });
+  };
 
-  applyStyle = (newStyle, forIndex=this.state.charPtr) => {
-    const { groupPtr } = this.state;
+  applyStyle = (newStyle, forIndex, forGroup) => {
     let { styleMapList } = this.state;
 
-    let styleMap = styleMapList[groupPtr];
+    let styleMap = styleMapList[forGroup];
     styleMap = styleMap.set(forIndex, newStyle);
     
-    styleMapList[groupPtr] = styleMap;
+    styleMapList[forGroup] = styleMap;
     this.setState({ styleMapList });
-  }
+  };
+
+  nextCharacter = () => {
+      let { charPtr, characterMapList, groupPtr } = this.state;
+      let newCharPtr, newGroupPtr;
+      const characterMap = characterMapList[groupPtr];
+      const currentRowLength = characterMap.size;
+
+      if(charPtr + 1 > currentRowLength - 1) {
+          newGroupPtr = groupPtr + 1;
+          newCharPtr = 0;
+      } else {
+          newGroupPtr = groupPtr;
+          newCharPtr = charPtr + 1;
+      }
+
+      return { newCharPtr, newGroupPtr };
+  };
 
   validateUserKeyPressCorrectness = (keyPressed) => {
     let { 
@@ -133,118 +155,73 @@ class LessonTutorialContent extends Component {
     }
 
     styleMapList[groupPtr] = styleMapForRow;
-    this.nextCharacter();
 
-    rows = this.buildRows(characterMapList, styleMapList);
-    this.setState({ styleMapList, rows, correct, incorrect, previousCharCorrectness });
+    const { newCharPtr, newGroupPtr } = this.nextCharacter();
+    const newStyleMapList = this.highlightCharacter(newCharPtr, newGroupPtr);
 
-  }
+    rows = this.buildRows(characterMapList, newStyleMapList, newGroupPtr);
+
+    this.setState({ 
+      rows, 
+      correct, 
+      incorrect, 
+      previousCharCorrectness, 
+      styleMapList: newStyleMapList, 
+      charPtr: newCharPtr, 
+      groupPtr: newGroupPtr 
+    });
+  };
+
 
   /*
     Builds rows of characters for Tutorial's current indexPtr. 
     NOTE: If the amount of characters in Tutorial's current indexPtr > 30, 
           then we will group them into chunks of 30 character rows 
   */
-  buildRows = (
-    characterMapList=this.state.characterMapList, 
-    styleMapList=this.state.styleMapList
-  ) => {
+  buildRows = (characterMapList, styleMapList, groupPtr) => {
     let row = [];
     let rows = [];
-    [...Array(characterMapList.length)].forEach((_, i) => {
+
+    let groupIterator = [groupPtr];
+    // We always include 2 rows if possible, if not just show one
+    if(groupPtr + 1 <= characterMapList.length - 1) {
+      groupIterator.push(groupPtr+1);
+    }
+    
+    groupIterator.forEach((i) => {
       const styleMapListForRow = styleMapList[i];
       const characterMapListForRow = characterMapList[i];
       characterMapListForRow.mapKeys((index) => {
         const char = characterMapListForRow.get(index);
         const style = styleMapListForRow.get(index);
         row.push(<span className={style}>{char}</span>);
-      })
+      });
       rows.push(row);
       row = [];
-    })
+    });
 
     rows = rows.map(row => <div>{[...row]}</div>);
     return rows;
-  }
+  };
 
-  nextCharacter = () => {
-    let { charPtr, characterMapList, groupPtr } = this.state;
-    const characterMap = characterMapList[groupPtr];
-    const currentRowLength = characterMap.size;
-    
-    if(charPtr + 1 >= currentRowLength) {
-      this.nextGroup();
-      charPtr = 0;
-    } else {
-      charPtr += 1;
-    }
-    let styleMapList = this.highlightCharacter(charPtr);
-    console.log(styleMapList)
-    this.setState({ charPtr, styleMapList });
-  }
-
-  nextGroup = () => {
-    let { characterMapList, groupPtr } = this.state;
-    const currentGroupLength = characterMapList.length;
-    
-    if(groupPtr + 1 >= currentGroupLength) {
-      groupPtr = 0;
-    } else {
-      groupPtr += 1;
-    }
-
-    this.setState({ groupPtr });
-  }
-
-  prevCharacter = () => {
-    let { charPtr, characterMapList, groupPtr } = this.state;
-    const characterMap = characterMapList[groupPtr];
-    const currentRowLength = characterMap.size;
-    
-    if(charPtr - 1 < 0) {
-      this.prevGroup();
-      charPtr = 0;
-    } else {
-      charPtr -= 1;
-    }
-    let styleMapList = this.highlightCharacter(charPtr);
-    this.setState({ charPtr, styleMapList });
-  }
-
-  prevGroup = () => {
-    let { groupPtr } = this.state;
-    
-    if(groupPtr - 1 < 0) {
-      console.log("Prev");
-      groupPtr = 0;
-    } else {
-      groupPtr -= 1;
-    }
-
-    this.setState({ groupPtr });
-  }
-
-  highlightCharacter = (index) => {
-    let { styleMapList, groupPtr } = this.state;
+  highlightCharacter = (index, groupPtr) => {
+    let { styleMapList } = this.state;
     let styleListForCurrentRow = styleMapList[groupPtr];
     const currentStyle = styleListForCurrentRow.get(index);
-    styleListForCurrentRow = styleListForCurrentRow
-      .set(index, `${currentStyle} highlighted`);
+
+    styleListForCurrentRow = styleListForCurrentRow.set(index, `${currentStyle} highlighted`);
     styleMapList[groupPtr] = styleListForCurrentRow;
+
     return styleMapList;
-  }
+  };
 
   shouldCheckKey = key => {
-    if(key === "Meta" || key === "Shift" || 
-      key === 'CapsLock' || key === 'Tab') {
-      return false;
-    }
-    return true;
-  }
+    return !(key === "Meta" || key === "Shift" || key === 'CapsLock' || key === 'Tab')
+  };
 
   breakInto30CharacterLists = (line) => {
     return line.match(/.{1,30}/g);
-  }
+  };
 
   render() {
     const { rows } = this.state;
@@ -257,7 +234,7 @@ class LessonTutorialContent extends Component {
 
     return (
       <div className="">
-        <div>Hwllo</div>
+        <div>Hello</div>
         {rows}
       </div>
     )
