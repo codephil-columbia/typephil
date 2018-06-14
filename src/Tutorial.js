@@ -24,13 +24,8 @@ class Tutorial extends Component {
   constructor(props) {
     super(props);
 
-    // this.props.fetchCurrentLessonIfNeeded('bbu9uqje8cdm8j5109ug');
-
-    const { currentLesson } = this.props
-    const { 
-      lessonContent,
-      lessonInformation
-    } = currentLesson;
+    const { currentLesson } = this.props;
+    const { lessonContent, lessonInformation } = currentLesson;
 
     const contentLength = lessonContent.length;
     const infoLength = lessonInformation.length;
@@ -42,22 +37,26 @@ class Tutorial extends Component {
       lessonInformation,
       indexPtr: 0,
       isFinished: false,
+      shouldFreeze: true,
 
       headerLinks: ["Learn", "Progress", "Home"],
-    }
+    };
+
+    this.startTutorial(lessonInformation);
   }
 
   calculateTime = txt => {
     return (txt.length/5) * 60/200 * 1000;
-  }
+  };
 
   next = () => {
     let { indexPtr, contentLength } = this.state;
     if(indexPtr + 1 < contentLength) {
       indexPtr += 1;
+      this.freezeTimerIfIsLessonInfo();
     }
     this.setState({ indexPtr });
-  }
+  };
 
   prev = () => {
     let { indexPtr } = this.state;
@@ -68,11 +67,11 @@ class Tutorial extends Component {
     }
 
     this.setState({ indexPtr });
-  }
+  };
 
   finishedLesson = () => {
     this.setState({ isFinished: true });
-  }
+  };
 
   getNextPair = () => {
     const {
@@ -85,6 +84,27 @@ class Tutorial extends Component {
       content: lessonContent[indexPtr],
       info: lessonInformation[indexPtr]
     }
+  };
+
+  freezeTimerIfIsLessonInfo = () => {
+    const { indexPtr, lessonInformation } = this.state;
+    if(!lessonInformation[indexPtr]) {
+      return;
+    }
+
+    const totalTime = this.calculateTime(lessonInformation[indexPtr]);
+    this.setState({ shouldFreeze: true });
+    setTimeout(() => {
+      this.setState({ shouldFreeze: false });
+    }, totalTime);
+  };
+
+  startTutorial = (intialContent) => {
+    
+  };
+
+  componentWillMount = () => {
+    this.freezeTimerIfIsLessonInfo();
   }
 
   render() { 
@@ -94,7 +114,8 @@ class Tutorial extends Component {
       lessonInformation, 
       indexPtr,
       contentLength,
-      isFinished
+      isFinished,
+      shouldFreeze
     } = this.state;
 
     if(indexPtr >= contentLength)
@@ -116,7 +137,7 @@ class Tutorial extends Component {
       isActive = true;
     }
 
-    console.log(isActive);
+
 
     return (
       <div>
@@ -131,7 +152,7 @@ class Tutorial extends Component {
           <LessonTutorialButtons 
             next={this.next} 
             prev={this.prev} 
-            isNextActive={!isActive}
+            isNextActive={shouldFreeze}
           />
         </div>
       </div>

@@ -64,7 +64,6 @@ class LessonTutorialContent extends Component {
 
   isNotFinished = () => {
     const {indexPtr, groupPtr, LESSON_LENGTH, characterMapList} = this.state;
-
     return !(indexPtr >= characterMapList.length && groupPtr >= LESSON_LENGTH);
   };
 
