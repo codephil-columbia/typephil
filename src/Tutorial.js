@@ -77,8 +77,8 @@ class Tutorial extends Component {
   getNextPair = () => {
     const {
       indexPtr,
-      lessonContent, 
-      lessonInformation,
+      lessonContent,
+      lessonInformation
     } = this.state;
 
     return { 
@@ -93,10 +93,14 @@ class Tutorial extends Component {
       lessonContent, 
       lessonInformation, 
       indexPtr,
+      contentLength,
       isFinished
     } = this.state;
 
-    const { content, info } = this.getNextPair()
+    if(indexPtr >= contentLength)
+      return <h1>done!</h1>;
+
+    const { content, info } = this.getNextPair();
     let isActive = true;
     let isBubbleActive = false;
 

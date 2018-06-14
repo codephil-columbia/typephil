@@ -35,7 +35,8 @@ class LessonTutorialContent extends Component {
       correct: [],
       incorrect: [],
       edited: [],
-      previousCharCorrectness: false
+      previousCharCorrectness: false,
+      LESSON_LENGTH: characterMapList.length
     };
   }
 
@@ -61,10 +62,17 @@ class LessonTutorialContent extends Component {
     return styleMaps;
   };
 
+  isNotFinished = () => {
+    const {indexPtr, groupPtr, LESSON_LENGTH, characterMapList} = this.state;
+
+    return !(indexPtr >= characterMapList.length && groupPtr >= LESSON_LENGTH);
+  };
+
   registerUserKeyPress = ({ key: keyPressed }) => {
     if(keyPressed === BACKSPACE) {
       this.userDidPressBackspace();
-    } else if(this.shouldCheckKey(keyPressed)) {
+      // TODO: Make sure this doesn't fire after group and index ptr have reached the end
+    } else if(this.shouldCheckKey(keyPressed) && this.isNotFinished()) {
       this.validateUserKeyPressCorrectness(keyPressed);
     }
   };
@@ -112,14 +120,14 @@ class LessonTutorialContent extends Component {
   };
 
   nextCharacter = () => {
-      let { charPtr, characterMapList, groupPtr } = this.state;
+      let { charPtr, characterMapList, groupPtr, LESSON_LENGTH } = this.state;
       let newCharPtr, newGroupPtr;
       const characterMap = characterMapList[groupPtr];
       const currentRowLength = characterMap.size;
 
-      if(charPtr + 1 > currentRowLength - 1) {
-          newGroupPtr = groupPtr + 1;
-          newCharPtr = 0;
+      if(charPtr + 1 > currentRowLength - 1 && groupPtr + 1 <= LESSON_LENGTH) {
+        newGroupPtr = groupPtr + 1;
+        newCharPtr = 0;
       } else {
           newGroupPtr = groupPtr;
           newCharPtr = charPtr + 1;
@@ -200,7 +208,7 @@ class LessonTutorialContent extends Component {
       row = [];
     });
 
-    rows = rows.map(row => <div>{[...row]}</div>);
+    rows = rows.map(row => <div className="words">{[...row]}</div>);
     return rows;
   };
 
@@ -234,7 +242,7 @@ class LessonTutorialContent extends Component {
 
     return (
       <div className="">
-        <div>Hello</div>
+        <div>start typing!</div>
         {rows}
       </div>
     )
