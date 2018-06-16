@@ -33,20 +33,24 @@ export const loginError = err => {
   }
 }
 
-export const dispatchLogin = (username, password) => {
-  const endpoint = api_url + '/auth/login';
-  return function(dispatch) {
+export const dispatchLogin = (username, password) => (dispatch) =>
+  new Promise(function(resolve, reject) {
+    const endpoint = api_url + '/auth/login';
     axios.post(endpoint, {username, password})
     .then(res => {
+      console.log("RES: ", res);
         if(res.status !== 200) {
-            dispatch(loginError());
-        } 
-        dispatch(loginSuccess());
+          dispatch(loginError());
+          reject();
+        } else {
+          dispatch(loginSuccess());
+          resolve();
+        }
     }).catch(err => {
         dispatch(loginError());
+        reject();
     })
-  }
-}
+  });
 
 export const dispatchSignup = (data) => { 
   const endpoint = api_url + '/auth/signup';
