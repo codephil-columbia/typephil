@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
+
+import './style/Tutorial.css'
 
 import { 
   moveIndexPtr, 
@@ -13,11 +14,10 @@ import {
 
 // import TutorialContent from './TutorialContent';
 import LessonTutorialButtons from './components/LessonTutorialButtons';
-import SpeechBubble from './components/SpeechBubble';
 import LessonTutorialHandsKeyboard from './components/LessonTutorialHandsKeyboard';
+import SpeechBubble from './components/SpeechBubble';
 import TutorialContent from './components/TutorialContent';
 import Header from './components/header';
-import './style/Tutorial.css'
 
 class Tutorial extends Component {
 
@@ -41,12 +41,16 @@ class Tutorial extends Component {
 
       headerLinks: ["Learn", "Progress", "Home"],
     };
+  }
 
-    this.startTutorial(lessonInformation);
+  componentWillMount = () => {
+    this.freezeTimerIfIsLessonInfo();
   }
 
   calculateTime = txt => {
-    return (txt.length/5) * 60/200 * 1000;
+    // Sang's ~magical algorithm~
+    // return (txt.length/5) * 60/200 * 1000;
+    return (txt.length/5) * 60/200 * 1;
   };
 
   next = () => {
@@ -99,14 +103,6 @@ class Tutorial extends Component {
     }, totalTime);
   };
 
-  startTutorial = (intialContent) => {
-    
-  };
-
-  componentWillMount = () => {
-    this.freezeTimerIfIsLessonInfo();
-  }
-
   render() { 
     const { 
       headerLinks, 
@@ -137,8 +133,7 @@ class Tutorial extends Component {
       isActive = true;
     }
 
-
-
+    //TODO: decouple keyboard & hands from this component to be apart of TutorialContent}
     return (
       <div>
         <Header links={headerLinks}/>
@@ -148,7 +143,7 @@ class Tutorial extends Component {
             currentContent={content}
             isActive={isActive}
           />}
-          <LessonTutorialHandsKeyboard />
+          {!isActive && <LessonTutorialHandsKeyboard />}
           <LessonTutorialButtons 
             next={this.next} 
             prev={this.prev} 

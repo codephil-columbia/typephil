@@ -4,11 +4,11 @@ import Keyboard from './Keyboard';
 import RightHand from './RightHand';
 import LeftHand from './LeftHand';
 
-const LessonTutorialHandsKeyboard = (props) => {
+const LessonTutorialHandsKeyboard = ({ currentKey }) => {
   return (
     <div className="keyboard-hands row">
       <LeftHand />
-      <Keyboard />
+      <Keyboard currentKey={currentKey}/>
       <RightHand />
     </div>
   )

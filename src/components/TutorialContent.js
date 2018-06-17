@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { OrderedMap } from 'immutable';
 
+import LessonTutorialHandsKeyboard from './LessonTutorialHandsKeyboard';
+
+
 import "../style/TutorialContent.css"
 
 const BACKSPACE = "Backspace";
@@ -16,28 +19,37 @@ class LessonTutorialContent extends Component {
   constructor(props) {
     super(props);
 
-    const groupPtr = 0;
-    let { currentContent } = this.props;
-    currentContent = currentContent.trim();
+    console.log(this.props.isActive);
 
-    const characterMapList = this.createCharacterMapLists(currentContent);
-    let styleMapList = this.createStyleMapLists(currentContent);
-    styleMapList[0] = styleMapList[0].set(0, 'default-letter highlighted');
+    if(this.props.isActive) {
+      const groupPtr = 0;
+      let { currentContent } = this.props;
+      currentContent = currentContent.trim();
 
-    const rows = this.buildRows(characterMapList, styleMapList, 0);
+      const characterMapList = this.createCharacterMapLists(currentContent);
+      let styleMapList = this.createStyleMapLists(currentContent);
+      styleMapList[0] = styleMapList[0].set(0, 'default-letter highlighted');
 
-    this.state = {
-      rows,
-      characterMapList,
-      styleMapList,
-      groupPtr,
-      charPtr: 0,
-      correct: [],
-      incorrect: [],
-      edited: [],
-      previousCharCorrectness: false,
-      LESSON_LENGTH: characterMapList.length
-    };
+      const currentKey = characterMapList[0].get(0);
+
+      const rows = this.buildRows(characterMapList, styleMapList, 0);
+
+      this.state = {
+        rows,
+        characterMapList,
+        styleMapList,
+        groupPtr,
+        currentKey,
+        charPtr: 0,
+        correct: [],
+        incorrect: [],
+        edited: [],
+        previousCharCorrectness: false,
+        LESSON_LENGTH: characterMapList.length
+      };
+    } else { 
+      this.state = { rows: [] };
+    }
   }
 
   componentWillMount = () => {
@@ -131,7 +143,8 @@ class LessonTutorialContent extends Component {
           newGroupPtr = groupPtr;
           newCharPtr = charPtr + 1;
       }
-
+      
+      // Apply highlight key
       return { newCharPtr, newGroupPtr };
   };
 
@@ -165,6 +178,7 @@ class LessonTutorialContent extends Component {
 
     const { newCharPtr, newGroupPtr } = this.nextCharacter();
     const newStyleMapList = this.highlightCharacter(newCharPtr, newGroupPtr);
+    const newCurrentCharacter = characterMapList[newGroupPtr].get(newCharPtr);
 
     rows = this.buildRows(characterMapList, newStyleMapList, newGroupPtr);
 
@@ -175,7 +189,8 @@ class LessonTutorialContent extends Component {
       previousCharCorrectness, 
       styleMapList: newStyleMapList, 
       charPtr: newCharPtr, 
-      groupPtr: newGroupPtr 
+      groupPtr: newGroupPtr,
+      currentKey: newCurrentCharacter
     });
   };
 
@@ -222,7 +237,7 @@ class LessonTutorialContent extends Component {
     return styleMapList;
   };
 
-  shouldCheckKey = key => {
+  shouldCheckKey = (key) => {
     return !(key === "Meta" || key === "Shift" || key === 'CapsLock' || key === 'Tab')
   };
 
@@ -231,18 +246,21 @@ class LessonTutorialContent extends Component {
   };
 
   render() {
-    const { rows } = this.state;
     const { isActive } = this.props;
     
-    
     if(!isActive) {
-      return <div>not active</div>
-    }
+      return <LessonTutorialHandsKeyboard />
+    } 
+
+    const { rows } = this.state;
+    let { currentKey } = this.state;
+    currentKey = (currentKey === " ") ? "spacebar" : currentKey;
+    console.log(currentKey, "outside");
 
     return (
       <div className="">
-        <div>start typing!</div>
         {rows}
+        <LessonTutorialHandsKeyboard currentKey={currentKey}/>
       </div>
     )
   }
