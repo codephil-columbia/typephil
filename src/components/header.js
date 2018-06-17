@@ -31,6 +31,8 @@ const HeaderRight = props => {
                     </li>
                 )
             })}
+
+            { props.isLoggedIn ? <div>some dropdown</div> : "" }
         </ul>
     )
 }
