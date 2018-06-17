@@ -85,14 +85,14 @@ const initialAppState = {
   tutorialFinished: false
 }
 
-export const isLoggedIn = (state = false, action) => {
+export const isLoggedIn = (state, action) => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
       return true
-    case 'LOGIN_FAILED':
+    case 'LOGIN_FAILED': // unnecessary
       return false
     default:
-      return state
+      return false 
   }
 }
 
