@@ -89,8 +89,8 @@ class LessonTutorialContent extends Component {
   };
 
   userDidPressBackspace = () => {
-    let { charPtr, rows, correct, incorrect, edited, groupPtr } = this.state;
-    const { previousCharCorrectness, styleMapList, characterMapList } = this.state;
+    let { charPtr, rows, correct, incorrect, edited, groupPtr, characterMapList } = this.state;
+    const { previousCharCorrectness, styleMapList } = this.state;
 
     // Set current indexPtr style to default
     this.applyStyle(`${DEFAULT_STYLE}`, charPtr, groupPtr);
@@ -117,7 +117,10 @@ class LessonTutorialContent extends Component {
       edited.push(prevChar);
     } 
 
-    this.setState({ charPtr, rows, correct, incorrect, edited, groupPtr });
+    const newCurrentKey = characterMapList[groupPtr].get(charPtr);
+    console.log(newCurrentKey);
+
+    this.setState({ charPtr, rows, correct, incorrect, edited, groupPtr, currentKey: newCurrentKey });
   };
 
   applyStyle = (newStyle, forIndex, forGroup) => {
@@ -178,7 +181,7 @@ class LessonTutorialContent extends Component {
 
     const { newCharPtr, newGroupPtr } = this.nextCharacter();
     const newStyleMapList = this.highlightCharacter(newCharPtr, newGroupPtr);
-    const newCurrentCharacter = characterMapList[newGroupPtr].get(newCharPtr);
+    const newCurrentKey = characterMapList[newGroupPtr].get(newCharPtr);
 
     rows = this.buildRows(characterMapList, newStyleMapList, newGroupPtr);
 
@@ -190,7 +193,7 @@ class LessonTutorialContent extends Component {
       styleMapList: newStyleMapList, 
       charPtr: newCharPtr, 
       groupPtr: newGroupPtr,
-      currentKey: newCurrentCharacter
+      currentKey: newCurrentKey
     });
   };
 
