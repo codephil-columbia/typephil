@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
 
-import './style/LoginPage.css'
+import './style/LoginPage.css';
+import './style/styles.css';
+import './style/milligram.min.css';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -16,21 +18,28 @@ class LoginPage extends Component {
       headerLinks: ["Progress", "Learn"], //["Learn", "Progress", "Home"]
       touched: {
         signin: false
-      }
+      },
+      loginWasSuccessful: false
     };
   }
 
-  login = e => {
+  handleLogin = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
-    //onLogin(username, password);
     this.props.dispatchLogin(
       username,
       password
-    )
+    ).then((res) => this.handleAfterLogin(res));
   }
 
-  signup = e => {
+  handleAfterLogin = (res) => {
+    if(res) { // res = 1 means successful login TODO unhack this since props are passed
+      //this.setState({ loginWasSuccessful: true });
+      window.location = '/home';
+    }
+  }
+
+  handleSignup = e => {
     e.preventDefault();
     window.location = '/signup';
   }
@@ -55,11 +64,9 @@ class LoginPage extends Component {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
 
-    console.log("LOGGED IN: %s", isLoggedIn);
-
     return (
       <div>
-        <Header links={headerLinks} username=""/>
+        <Header links={ isLoggedIn? headerLinks : [] } username=""/>
         <div className="container">
         <div className="login-content">
           <div className="content-left">
@@ -105,7 +112,7 @@ class LoginPage extends Component {
               <img src="images/universal/PalmTree.svg" className="img-right"></img>
             </div>
             <div className="login">
-              <form onSubmit={this.login}>
+              <form onSubmit={this.handleLogin}>
                   <div className="form-inputs">
                     <input type="text" placeholder="Enter your username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
                     <input type="password" placeholder="Enter your password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
@@ -114,7 +121,7 @@ class LoginPage extends Component {
                   <div className="form-buttons">
                     <button className="form-button button-primary solid" onBlur={this.handleBlur('signin')}>SIGN IN</button>
                     <p>or</p>
-                    <button className="form-button button-primary solid" id="signup" onClick={this.signup}>SIGN UP</button>
+                    <button className="form-button button-primary solid" id="signup" onClick={this.handleSignup}>SIGN UP</button>
                   </div>
               </form>
             </div>
