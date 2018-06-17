@@ -41,14 +41,14 @@ export const dispatchLogin = (username, password) => (dispatch) =>
       console.log("RES: ", res);
         if(res.status !== 200) {
           dispatch(loginError());
-          reject();
+          reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
           dispatch(loginSuccess());
-          resolve();
+          resolve(1); // 1 : successful login
         }
     }).catch(err => {
         dispatch(loginError());
-        reject();
+        reject(0);
     })
   });
 
