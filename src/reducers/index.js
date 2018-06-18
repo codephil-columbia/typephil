@@ -306,10 +306,12 @@ export const lessonSession = (state = app.currentLessonSession, action) => {
 }
 
 export const auth = (state = authInitialState, action) => {
+  console.log("ACTION", action);
   switch (action.type) {
     case "LOGGED_IN":
       return {
-        currentUser: { ...action.currentUser
+        currentUser: {
+          ...action.currentUser
         },
         isLoggedIn: action.isLoggedIn
       }

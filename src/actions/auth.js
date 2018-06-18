@@ -26,6 +26,12 @@ export const loginSuccess = () => {
   }
 }
 
+export const loggedIn = () => {
+  return {
+    type: 'LOGGED_IN'
+  }
+}
+
 export const loginError = err => {
   return {
     type: 'LOGIN_FAILED',
@@ -44,6 +50,7 @@ export const dispatchLogin = (username, password) => (dispatch) =>
           reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
           dispatch(loginSuccess());
+          dispatch(loggedIn()); // TEMP for auth compatibility
           resolve(1); // 1 : successful login
         }
     }).catch(err => {

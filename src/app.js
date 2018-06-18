@@ -25,7 +25,7 @@ class App extends Component {
         <Route path="/home" component={HomePageSwitch}/>
         <Route path="/learn" component={Learn}/>
         <Route path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
-        <Route path="/profile" component={() => <Tutorial print={this.printName}/>}/>
+        <Route path="/profile" component={Profile}/>
       </Switch>
     )
   }
@@ -40,26 +40,25 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn } = false;//true; //this.props; TODO true just for frontend testing
-    const app = isLoggedIn ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
+    //const { isLoggedIn } = false;//true; //this.props; TODO true just for frontend testing
+    const app = this.props.auth.isLoggedIn ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
 
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props.isLoggedIn}/>}/>
+          <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/home" component={HomePageSwitch}/>
-          <Route exact path="/learn" component={() => <Learn isLoggedIn={this.props.isLoggedIn}/>}/>
-          <Route exact path="/tutorial" component={() => <Tutorial print={this.printName} isLoggedIn={this.props.isLoggedIn}/>}/>
+          <Route exact path="/learn" component={() => <Learn isLoggedIn={this.props.auth.isLoggedIn}/>}/>
+          <Route exact path="/tutorial" component={() => <Tutorial print={this.printName} isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/signup" component={SignupPage}/>
-          <Route exact path="/profile" component={Profile}/>
+          <Route exact path="/profile" component={() => <Profile auth={this.props.auth}/>}/>
         </Switch>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ isLoggedIn, auth, app }) => ({
-  isLoggedIn,
+const mapStateToProps = ({ auth, app }) => ({
   auth,
   app
 })
