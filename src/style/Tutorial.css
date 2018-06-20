@@ -35,6 +35,8 @@
 
 .tutorial-hands-keyboard {
     margin-top: 10vh;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .info-text {

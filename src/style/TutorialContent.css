@@ -40,7 +40,7 @@
 
 .keyboard-hands.row {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .modal-text {

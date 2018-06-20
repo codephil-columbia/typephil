@@ -5,7 +5,7 @@ import '../style/LessonTutorialButtons.css'
 
 const LessonTutorialButtons = ({ isNextActive, next, prev}) => {
   if(isNextActive)
-    return "frozen";
+    return "";
 
   return (
     <div className="lesson-buttons">
