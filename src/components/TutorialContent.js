@@ -280,9 +280,9 @@ class LessonTutorialContent extends Component {
     return (
       <div class="content-wrapper">
         <Modal isOpen={this.state.shouldShowModal} className="tutorial-modal">
-          <p>You missed more than <strong>5 keys</strong> in a row!</p>
-          <p>Please go back and correct the mistyped keys!</p>
-          <button className="button-primary solid" type="submit" value="CLOSE" onClick={this.closeModal}>CLOSE</button>
+          <p className="modal-text">You missed more than <strong>5 keys</strong> in a row!</p>
+          <p className="modal-text">Please go back and correct the mistyped keys!</p>
+          <button className="button-primary solid modal-button" type="submit" value="CLOSE" onClick={this.closeModal}>CLOSE</button>
         </Modal>
         {rows}  
         <LessonTutorialHandsKeyboard currentKey={currentKey}/>

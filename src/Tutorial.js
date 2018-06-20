@@ -52,8 +52,7 @@ class Tutorial extends Component {
 
   calculateTime = txt => {
     // Sang's ~magical algorithm~
-    // return (txt.length/5) * 60/200 * 1000;
-    return (txt.length/5) * 60/200 * 1;
+    return (txt.length/5) * 60/200 * 1000;
   };
 
   next = () => {

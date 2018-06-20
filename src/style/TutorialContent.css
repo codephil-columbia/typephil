@@ -28,6 +28,10 @@
 
 .tutorial-modal {
     background-color: #52B094;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 25%;
+    color: #ffffff
 }
 
 .form-buttons {
@@ -37,4 +41,14 @@
 .keyboard-hands.row {
     display: flex;
     justify-content: center;
+}
+
+.modal-text {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.button-primary.solid.modal-button {
+    margin-left: 40%;
 }
