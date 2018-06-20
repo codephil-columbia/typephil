@@ -12,10 +12,7 @@ import {
   fetchCurrentLessonIfNeeded
 } from './actions/tutorial';
 
-// import TutorialContent from './TutorialContent';
-import LessonTutorialButtons from './components/LessonTutorialButtons';
-import LessonTutorialHandsKeyboard from './components/LessonTutorialHandsKeyboard';
-import SpeechBubble from './components/SpeechBubble';
+import LessonTutorialButtons from './components/TutorialButtons';
 import TutorialContent from './components/TutorialContent';
 import Header from './components/header';
 import Keyboard from './components/Keyboard';

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { OrderedMap } from 'immutable';
 import Modal from 'react-modal';
 
-import LessonTutorialHandsKeyboard from './LessonTutorialHandsKeyboard';
-import modal from './modal';
+import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
 
 import "../style/TutorialContent.css"
 
