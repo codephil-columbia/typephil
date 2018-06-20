@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Line } from 'rc-progress';
 
-import ShowSpinner from './components/spinner';
+import ShowSpinner from './components/Spinner';
 import Header from './components/header';
 import avgUserStats from './components/avgUserStats';
 

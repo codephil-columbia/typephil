@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
+
+import './style/Tutorial.css'
 
 import { 
   moveIndexPtr, 
@@ -11,27 +12,23 @@ import {
   fetchCurrentLessonIfNeeded
 } from './actions/tutorial';
 
-import TutorialContent from './TutorialContent';
+// import TutorialContent from './TutorialContent';
 import LessonTutorialButtons from './components/LessonTutorialButtons';
-import SpeechBubble from './components/SpeechBubble';
 import LessonTutorialHandsKeyboard from './components/LessonTutorialHandsKeyboard';
-import LessonTutorialContent from './components/LessonTutorialContent';
+import SpeechBubble from './components/SpeechBubble';
+import TutorialContent from './components/TutorialContent';
 import Header from './components/header';
-import './style/Tutorial.css'
+import Keyboard from './components/Keyboard';
+import RightHand from './components/RightHand';
+import LeftHand from './components/LeftHand';
 
 class Tutorial extends Component {
 
   constructor(props) {
     super(props);
 
-    // this.props.fetchCurrentLessonIfNeeded('bbu9uqje8cdm8j5109ug');
-
-    const { currentLesson } = this.props
-    console.log(this.props);
-    const { 
-      lessonContent,
-      lessonInformation
-    } = currentLesson;
+    const { currentLesson } = this.props;
+    const { lessonContent, lessonInformation } = currentLesson;
 
     const contentLength = lessonContent.length;
     const infoLength = lessonInformation.length;
@@ -43,22 +40,30 @@ class Tutorial extends Component {
       lessonInformation,
       indexPtr: 0,
       isFinished: false,
+      shouldFreeze: true,
 
       headerLinks: ["Learn", "Progress", "Home"],
-    }
+    };
+  }
+
+  componentWillMount = () => {
+    this.freezeTimerIfIsLessonInfo();
   }
 
   calculateTime = txt => {
-    return (txt.length/5) * 60/200 * 1000;
-  }
+    // Sang's ~magical algorithm~
+    // return (txt.length/5) * 60/200 * 1000;
+    return (txt.length/5) * 60/200 * 1;
+  };
 
   next = () => {
     let { indexPtr, contentLength } = this.state;
     if(indexPtr + 1 < contentLength) {
       indexPtr += 1;
+      this.freezeTimerIfIsLessonInfo();
     }
     this.setState({ indexPtr });
-  }
+  };
 
   prev = () => {
     let { indexPtr } = this.state;
@@ -69,29 +74,59 @@ class Tutorial extends Component {
     }
 
     this.setState({ indexPtr });
-  }
+  };
+
+  finishedLesson = () => {
+    this.setState({ isFinished: true });
+  };
 
   getNextPair = () => {
     const {
       indexPtr,
-      lessonContent, 
-      lessonInformation,
+      lessonContent,
+      lessonInformation
     } = this.state;
 
     return { 
       content: lessonContent[indexPtr],
-      nextContent: lessonContent[indexPtr+1],
       info: lessonInformation[indexPtr]
     }
-  }
+  };
+
+  freezeTimerIfIsLessonInfo = () => {
+    const { indexPtr, lessonInformation } = this.state;
+    if(!lessonInformation[indexPtr]) {
+      return;
+    }
+
+    const totalTime = this.calculateTime(lessonInformation[indexPtr]);
+    this.setState({ shouldFreeze: true });
+    setTimeout(() => {
+      this.setState({ shouldFreeze: false });
+    }, totalTime);
+  };
 
   render() { 
-    const { headerLinks, lessonContent, lessonInformation, indexPtr } = this.state;
-    const { content, nextContent, info } = this.getNextPair()
+    const { 
+      headerLinks, 
+      lessonContent, 
+      lessonInformation, 
+      indexPtr,
+      contentLength,
+      isFinished,
+      shouldFreeze
+    } = this.state;
+
+    if(indexPtr >= contentLength)
+      return <h1>done!</h1>;
+
+    const { content, info } = this.getNextPair();
     let isActive = true;
     let isBubbleActive = false;
 
-    console.log(content, nextContent, indexPtr)
+    if(isFinished) {
+      return <h3>isFinished</h3>
+    }
 
     if(content === "") {
       isActive = false;
@@ -101,21 +136,28 @@ class Tutorial extends Component {
       isActive = true;
     }
 
+    //TODO: decouple keyboard & hands from this component to be apart of TutorialContent}
     return (
       <div>
         <Header links={headerLinks}/>
-        <div className="container">
-          <SpeechBubble text={info} active={isBubbleActive} />
-          <LessonTutorialContent
+        <div className="container tutorial">
+          {/* <SpeechBubble text={info} active={isBubbleActive} /> */}
+          {!isActive && <div className="info-text">
+            <h4>{info}</h4>
+          </div>}
+          {isActive && <TutorialContent
             currentContent={content}
-            nextContent={nextContent}
             isActive={isActive}
-          />
-          <LessonTutorialHandsKeyboard />
+          />}
+          {!isActive && <div className="tutorial-hands-keyboard">
+            <LeftHand />
+            <Keyboard />
+            <RightHand />
+          </div>}
           <LessonTutorialButtons 
             next={this.next} 
             prev={this.prev} 
-            isNextActive={!isActive}
+            isNextActive={shouldFreeze}
           />
         </div>
       </div>

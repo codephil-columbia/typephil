@@ -6,9 +6,9 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import Profile from './ProfilePage';
-import HomePageSwitch from './HomePage';
 import Learn from './Learn';
 import Tutorial from './Tutorial';                               
+import HomePage from './HomePage';
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class App extends Component {
   userHasBeenAuthenticated = () => {
     return (
       <Switch>
-        <Route path="/home" component={HomePageSwitch}/>
+        <Route path="/home" component={HomePage}/>
         <Route path="/learn" component={Learn}/>
         <Route path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
         <Route path="/profile" component={() => <Tutorial print={this.printName}/>}/>
@@ -45,18 +45,16 @@ class App extends Component {
     console.log(this.props.location);
 
     return (
-      <div>
-        <BrowserRouter>
+      <BrowserRouter>
         <Switch>
           <Route exact path="/" component={LoginPage}/>
-          <Route exact path="/home" component={HomePageSwitch}/>
+          <Route exact path="/home" component={HomePage}/>
           <Route exact path="/learn" component={Learn}/>
           <Route exact path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
           <Route exact path="/signup" component={SignupPage}/>
           <Route exact path="/profile" component={Profile}/>
         </Switch>
-        </BrowserRouter>
-      </div>
+      </BrowserRouter>
     )
   }
 }

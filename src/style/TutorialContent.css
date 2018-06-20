@@ -10,15 +10,31 @@
     color: black;
 }
 
-
 .words {
     border-bottom: 1px solid grey;
-    font-size: 5rem;
-    width: 500px;
-    line-height: 6rem;
+    font-size: 3.5rem;
     margin-bottom: 5rem;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.content-wrapper {
+    margin-top: 60px;
 }
 
 .highlighted {
     background: #DAEEE6;
+}
+
+.tutorial-modal {
+    background-color: #52B094;
+}
+
+.form-buttons {
+    background-color: #BFD8BD;
+}
+
+.keyboard-hands.row {
+    display: flex;
+    justify-content: center;
 }

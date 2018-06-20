@@ -8,4 +8,36 @@
 .left-hand {
   margin-right: 10px; }
 
+.content-column {
+    text-align: center;
+}
+
+.correct-character {
+    color: green;
+}
+
+.default-character {
+    color: grey;
+}
+
+.incorrect-character {
+    color: red;
+}
+
+.highlighted {
+    text-decoration: underline;
+}
+
+.tutorial {
+    display: flex;
+    flex-direction: column;
+}
+
+.tutorial-hands-keyboard {
+    margin-top: 10vh;
+}
+
+.info-text {
+    margin-top: 10vh;
+}
 /*# sourceMappingURL=Tutorial.css.map */
