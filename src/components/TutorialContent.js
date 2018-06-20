@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { OrderedMap } from 'immutable';
+import Modal from 'react-modal';
 
 import LessonTutorialHandsKeyboard from './LessonTutorialHandsKeyboard';
-
+import modal from './modal';
 
 import "../style/TutorialContent.css"
 
@@ -45,7 +46,9 @@ class LessonTutorialContent extends Component {
         incorrect: [],
         edited: [],
         previousCharCorrectness: false,
-        LESSON_LENGTH: characterMapList.length
+        LESSON_LENGTH: characterMapList.length,
+        consecutiveIncorrectCount: 0,
+        shouldShowModal: false
       };
     } else { 
       this.state = { rows: [] };
@@ -89,7 +92,7 @@ class LessonTutorialContent extends Component {
   };
 
   userDidPressBackspace = () => {
-    let { charPtr, rows, correct, incorrect, edited, groupPtr, characterMapList } = this.state;
+    let { charPtr, rows, correct, incorrect, edited, groupPtr, characterMapList, consecutiveIncorrectCount } = this.state;
     const { previousCharCorrectness, styleMapList } = this.state;
 
     // Set current indexPtr style to default
@@ -118,9 +121,12 @@ class LessonTutorialContent extends Component {
     } 
 
     const newCurrentKey = characterMapList[groupPtr].get(charPtr);
-    console.log(newCurrentKey);
+    
+    if(consecutiveIncorrectCount - 1 >= 0) {
+      consecutiveIncorrectCount -= 1;
+    }
 
-    this.setState({ charPtr, rows, correct, incorrect, edited, groupPtr, currentKey: newCurrentKey });
+    this.setState({ consecutiveIncorrectCount, charPtr, rows, correct, incorrect, edited, groupPtr, currentKey: newCurrentKey });
   };
 
   applyStyle = (newStyle, forIndex, forGroup) => {
@@ -160,7 +166,9 @@ class LessonTutorialContent extends Component {
       rows,
       correct,
       incorrect,
-      previousCharCorrectness
+      previousCharCorrectness,
+      consecutiveIncorrectCount,
+      shouldShowModal
     } = this.state;
 
     let characterMapForRow = characterMapList[groupPtr];
@@ -168,10 +176,12 @@ class LessonTutorialContent extends Component {
 
     const characterWanted = characterMapForRow.get(charPtr);
     if(characterWanted === keyPressed) {
+      consecutiveIncorrectCount = 0;
       styleMapForRow = styleMapForRow.set(charPtr, CORRECT_STYLE);
       previousCharCorrectness = CORRECT;
       correct.push(keyPressed);
     } else {
+      consecutiveIncorrectCount += 1;
       styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
       previousCharCorrectness = INCORRECT;
       incorrect.push(keyPressed);
@@ -185,6 +195,8 @@ class LessonTutorialContent extends Component {
 
     rows = this.buildRows(characterMapList, newStyleMapList, newGroupPtr);
 
+    shouldShowModal = (consecutiveIncorrectCount > 4) ? true : false;
+
     this.setState({ 
       rows, 
       correct, 
@@ -193,10 +205,11 @@ class LessonTutorialContent extends Component {
       styleMapList: newStyleMapList, 
       charPtr: newCharPtr, 
       groupPtr: newGroupPtr,
-      currentKey: newCurrentKey
+      currentKey: newCurrentKey,
+      consecutiveIncorrectCount,
+      shouldShowModal
     });
   };
-
 
   /*
     Builds rows of characters for Tutorial's current indexPtr. 
@@ -248,6 +261,10 @@ class LessonTutorialContent extends Component {
     return line.match(/.{1,30}/g);
   };
 
+  closeModal = () => {
+    this.setState({ shouldShowModal: false });
+  }
+
   render() {
     const { isActive } = this.props;
     
@@ -261,9 +278,15 @@ class LessonTutorialContent extends Component {
     console.log(currentKey, "outside");
 
     return (
-      <div className="">
-        {rows}
+      <div class="content-wrapper">
+        <Modal isOpen={this.state.shouldShowModal} className="tutorial-modal">
+          <p>You missed more than <strong>5 keys</strong> in a row!</p>
+          <p>Please go back and correct the mistyped keys!</p>
+          <button className="button-primary solid" type="submit" value="CLOSE" onClick={this.closeModal}>CLOSE</button>
+        </Modal>
+        {rows}  
         <LessonTutorialHandsKeyboard currentKey={currentKey}/>
+        <modal />
       </div>
     )
   }

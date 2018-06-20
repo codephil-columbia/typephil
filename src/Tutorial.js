@@ -18,6 +18,9 @@ import LessonTutorialHandsKeyboard from './components/LessonTutorialHandsKeyboar
 import SpeechBubble from './components/SpeechBubble';
 import TutorialContent from './components/TutorialContent';
 import Header from './components/header';
+import Keyboard from './components/Keyboard';
+import RightHand from './components/RightHand';
+import LeftHand from './components/LeftHand';
 
 class Tutorial extends Component {
 
@@ -137,13 +140,20 @@ class Tutorial extends Component {
     return (
       <div>
         <Header links={headerLinks}/>
-        <div className="container">
-          <SpeechBubble text={info} active={isBubbleActive} />
+        <div className="container tutorial">
+          {/* <SpeechBubble text={info} active={isBubbleActive} /> */}
+          {!isActive && <div className="info-text">
+            <h4>{info}</h4>
+          </div>}
           {isActive && <TutorialContent
             currentContent={content}
             isActive={isActive}
           />}
-          {!isActive && <LessonTutorialHandsKeyboard />}
+          {!isActive && <div className="tutorial-hands-keyboard">
+            <LeftHand />
+            <Keyboard />
+            <RightHand />
+          </div>}
           <LessonTutorialButtons 
             next={this.next} 
             prev={this.prev} 

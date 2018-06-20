@@ -45,8 +45,7 @@ class App extends Component {
     console.log(this.props.location);
 
     return (
-      <div>
-        <BrowserRouter>
+      <BrowserRouter>
         <Switch>
           <Route exact path="/" component={LoginPage}/>
           <Route exact path="/home" component={HomePage}/>
@@ -55,8 +54,7 @@ class App extends Component {
           <Route exact path="/signup" component={SignupPage}/>
           <Route exact path="/profile" component={Profile}/>
         </Switch>
-        </BrowserRouter>
-      </div>
+      </BrowserRouter>
     )
   }
 }
