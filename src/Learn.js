@@ -27,7 +27,7 @@ class Learn extends Component {
       currentChapterIndex: -1,
       shouldShowLessons: false,
       carouselTitle: "Chapter Overview",
-      carouselDesc: "Something",
+      carouselDesc: "",
       headerLinks: ["Learn", "Progress", "Home"],
     }
   }
@@ -126,20 +126,18 @@ class Learn extends Component {
             </div>
             <div className="block">
               <div className="carousel row">
-                <div className="arrow-left column column-10" onClick={this.prevChapter}>
-                  <h3>a</h3>
-                </div>
+                <div className="arrow-left column column-10" onClick={this.prevChapter} />
                 <div className="carousel-content column">
                   <div className="carousel-title">
-                    <h2 className="title">{title}</h2>
+                    <div onClick={this.prevChapter} className="learn-carousel-buttons">prev</div>
+                    <h2 className="chapter-title">{title}</h2>
+                    <div onClick={this.nextChapter} className="learn-carousel-buttons">next</div>
                   </div>
                   <div className="carousel-desc">
                     <h3 className="desc">{carouselDesc}</h3>
                   </div>
                 </div>
-                <div className="arrow-right column column-10" onClick={this.nextChapter}>
-                  <h3>n</h3>
-                </div>
+                <div className="arrow-right column column-10" onClick={this.nextChapter}/>
               </div>
               { body }
             </div>

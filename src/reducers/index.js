@@ -72,7 +72,7 @@ const initialAppState = {
       "",
       "",
       "",
-      "aaa AAA aaa AAA ;;; ::: ;;; aA aS Aa Ss :; ;: Ll lL THERE IS MORE SHIT HERE PLEASE WORK LOL LOL LOL",
+      "aaa AAA aaa AAA ;;; ::: ;;; aA aS Aa Ss :; ;: Ll lL",
     ],
     indexPtr: 0
   },
