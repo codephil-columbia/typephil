@@ -5,6 +5,8 @@
 
 .chapter-title {
     color: #77BFA3;
+    width: 25%;
+    margin-top: 1.5%; /* TODO: Make this more stable. Eyeballed it sj. */
 }
 
 .carousel-title {

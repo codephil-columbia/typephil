@@ -129,9 +129,13 @@ class Learn extends Component {
                 <div className="arrow-left column column-10" onClick={this.prevChapter} />
                 <div className="carousel-content column">
                   <div className="carousel-title">
-                    <div onClick={this.prevChapter} className="learn-carousel-buttons">prev</div>
+                    <div onClick={this.prevChapter} className="learn-carousel-buttons">
+                      <img src="images/buttons/Left_Arrow_Thin.svg"></img>
+                    </div>
                     <h2 className="chapter-title">{title}</h2>
-                    <div onClick={this.nextChapter} className="learn-carousel-buttons">next</div>
+                    <div onClick={this.nextChapter} className="learn-carousel-buttons">
+                      <img src="images/buttons/Right_Arrow_Thin.svg"></img>
+                    </div>
                   </div>
                   <div className="carousel-desc">
                     <h3 className="desc">{carouselDesc}</h3>

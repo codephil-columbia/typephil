@@ -23,7 +23,8 @@
     height: 150px;
     width: 150px;
     background-color: #97c9a3;
-    margin-right: 3rem;
+/*    margin-right: 3rem;*/
+    margin-right: 25%;
     display: flex;
     align-items: center;
     justify-content: space-around;

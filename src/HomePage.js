@@ -27,11 +27,12 @@ class HomePage extends Component {
 
       this.state = {
         headerLinks: ["Learn", "Progress", "Home"],
-        badges: ["WPM", "Accuracy", "Badges"],
+        // badges: ["WPM", "Accuracy", "Badges"],
+        badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
-          "Accuracy is how \n accurately you type \n words that appear.",
-          "The number of badges \n you have \n earned so far."
+          "Accuracy is how \n accurately you type \n words that appear." //,
+          // "The number of badges \n you have \n earned so far."
         ]
       }
   }
@@ -81,7 +82,7 @@ class HomePage extends Component {
     const stats = avgUserStats(
       badges, 
       badgeDescriptions, 
-      [avgWPM, avgAccuracy, 0 ]
+      [avgWPM, avgAccuracy] //, 0]
     );
 
     return (
