@@ -7,7 +7,7 @@ import './style/Learn.css';
 
 import LessonsView from './LessonsView';
 import ChaptersView from './ChaptersView';
-import ShowSpinner from './components/Spinner';
+import ShowSpinner from './components/spinner';
 
 import { 
   fetchAllChapterNames, 

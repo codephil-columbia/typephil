@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import showLessonStats from './components/lessonStats';
-import Lock from './components/Lock';
+import Lock from './components/lock';
 
 
 class LessonsView extends Component {
