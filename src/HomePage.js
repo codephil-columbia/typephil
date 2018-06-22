@@ -90,15 +90,16 @@ class HomePage extends Component {
         <Header links={headerLinks}/>
         <div className="container">
           <div className="title row">
-            <h1>Welcome Back, Phil!</h1>
+            <h1 class="homepage-welcome">Welcome Back, Phil!</h1>
           </div>
           <div className="quickstart row">
-            <div className="qs-lesson-info column">
+            <div className="qs-lesson-info column" align="left">
               <h3 className="qs-lesson-title">{title}</h3>
               <h3 className="qs-lesson-excersise">{lesson}</h3>
               <Link to="/tutorial">
-                <button className="button button-outline start">Start</button>
+                <img src="images/buttons/Start-button.svg"/> 
               </Link>
+              <div className="homepage-spacing"> </div>
               <Line percent={percentageComplete} 
                 strokeWidth="2" 
                 strokeColor="#77BFA3" 

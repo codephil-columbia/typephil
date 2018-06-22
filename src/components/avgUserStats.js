@@ -19,8 +19,8 @@ const avgUserStats = (
             <div className="badge-content">
               <h1>{stats[i]}</h1>
             </div>
-            <div className="badge-description">
-              <h3><strong>{badge}</strong></h3>
+            <div className="badge-description" align="left">
+              <h3 className="badge-name">{badge}</h3>
               <p>
                 {badgeDescSplit.map(desc => {
                   return <span>{desc}<br></br></span>

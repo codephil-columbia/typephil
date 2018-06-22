@@ -17,14 +17,26 @@
     justify-content: center;
 }
 
+.homepage-welcome {
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.badge-name {
+  font-weight: bold;
+  font-size: 1.75em;
+  margin-bottom: 1rem;
+}
+
 .badge-content {
+    font-size: 3rem;
     margin-bottom: 0px;
     border-radius: 19px;
     height: 150px;
     width: 150px;
     background-color: #97c9a3;
-/*    margin-right: 3rem;*/
-    margin-right: 25%;
+    margin-right: 3rem;
+/*    margin-right: 25%;*/
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -36,6 +48,7 @@
 }
 
 .badge-description {
+  margin-top: 1rem;
 }
 
 .quickstart {
@@ -44,7 +57,8 @@
   justify-content: space-around; }
 
 .title {
-  margin-top: 70px; }
+  margin-top: 70px; 
+}
 
 .qs-lesson-title {
   font-size: 24px;
@@ -63,8 +77,16 @@
     background-color: #77BFA3;
 } */
 
+.homepage-spacing {
+  margin: 1rem;
+}
+
 .qs-progress {
   margin-top: 1rem; }
+
+.qs-progress-info {
+    color: #D8D7D8;
+} 
 
 /* .qs-progress-info {
     height: 25px;
