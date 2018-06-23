@@ -26,7 +26,7 @@ class HomePage extends Component {
       this.props.getChapterProgress("bbu9uqje8cdm8j5109ug");
 
       this.state = {
-        headerLinks: ["Learn", "Progress", "Home"],
+        headerLinks: ["Learn", "Progress" ], //"Home"],
         badges: ["WPM", "Accuracy", "Badges"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
