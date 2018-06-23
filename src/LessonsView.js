@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import showLessonStats from './components/lessonStats';
-import lock from './components/lock';
+import Lock from './components/lock';
 
 
 class LessonsView extends Component {
@@ -40,7 +40,7 @@ class LessonsView extends Component {
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
     const lessonStatView = lessonStats
       ? showLessonStats(currentSelectedLesson, lessonStats)
-      : lock()
+      : <Lock />
 
     return (
       <div className="container lesson-wrapper"> 

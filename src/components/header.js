@@ -15,14 +15,16 @@ const Header = props => {
 
 const HeaderLeft = _ => {
     return (
-        <a className="navigation-title" href="/">TypePhil</a>
+        <a href="/">
+        <img className="navigation-title" src="images/universal/TypePhil_Header_Logo.svg"/>
+        </a>
     )
 }
 
 const HeaderRight = props => {
     console.log(props);
     return (
-        <ul className="navigation-list float-right">
+        <ul className="navigation-list float-right nav-right-list">
             <li className="navigation-item">{props.username}</li>
             { props.links === undefined ? "" : props.links.map((link, i) => {
                 const routePath = `/${link.toLowerCase()}`;

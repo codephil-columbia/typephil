@@ -1,6 +1,5 @@
 .navigation {
-/*    background-color: #86E2D5;*/
-    background-color: #77BFA3;
+    background-color: #52B094;
     padding: 1rem;
 }
 
@@ -11,6 +10,7 @@
 .navigation-title {
     font-size: 3rem;
     margin-left: 2rem;
+    margin-top: 1rem;
 }
 .navigation-title:hover, .navigation-title:active {
     color: #6C7A89;
@@ -27,10 +27,13 @@
     border-bottom: 4px solid transparent;
     transition: border-bottom-color 20ms linear 0s;
 
-    margin-top: 5px;
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 .navigation-item:hover, .navigation-item:active {
     border-bottom-color: #FAFAFA;
+}
+
+.nav-right-list {
+    margin-top: 1rem;
 }
