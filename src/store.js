@@ -28,6 +28,7 @@ localforage.config({
 const persistConfig = {
   storage: localforage,
   blacklist: ['currentLesson'],
+  whitelist: ['isLoggedIn', 'currentUser'],
   key: 'root',
   debug: true
 }

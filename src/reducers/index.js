@@ -43,9 +43,8 @@ const authInitialState = {
   isLoggedIn: false,
   currentUser: {
     username: null,
+    password: null,
     uid: null,
-    email: null,
-    school: null
   }
 }
 
@@ -308,7 +307,7 @@ export const lessonSession = (state = app.currentLessonSession, action) => {
 export const auth = (state = authInitialState, action) => {
   console.log("ACTION", action);
   switch (action.type) {
-    case "LOGGED_IN":
+    case "LOGIN_SUCCESS":
       return {
         currentUser: {
           ...action.currentUser
