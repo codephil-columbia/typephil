@@ -7,7 +7,7 @@ const Header = props => {
         <nav className="navigation">
             <div className="">
                 <HeaderLeft/>
-                <HeaderRight links={props.links} username={props.username}/>
+                <HeaderRight links={props.links} isLoggedIn={props.isLoggedIn} username={props.username}/>
             </div>
         </nav>
     )
@@ -22,6 +22,7 @@ const HeaderLeft = _ => {
 }
 
 const HeaderRight = props => {
+    console.log(props);
     return (
         <ul className="navigation-list float-right nav-right-list">
             <li className="navigation-item">{props.username}</li>
@@ -33,8 +34,19 @@ const HeaderRight = props => {
                     </li>
                 )
             })}
+            <li className="navigation-item">{ props.isLoggedIn ? <ProfileOptions/> : "" }</li>
         </ul>
     )
+}
+
+const ProfileOptions = _ => {
+  return (
+    <select>
+      <option selected hidden disabled id="user-option">P</option>
+      <option>My Account</option>
+      <option>Log Out</option>
+    </select>
+  )
 }
 
 export default Header;

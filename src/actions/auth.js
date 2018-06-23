@@ -26,6 +26,12 @@ export const loginSuccess = () => {
   }
 }
 
+export const loggedIn = () => {
+  return {
+    type: 'LOGGED_IN'
+  }
+}
+
 export const loginError = err => {
   return {
     type: 'LOGIN_FAILED',
@@ -33,20 +39,25 @@ export const loginError = err => {
   }
 }
 
-export const dispatchLogin = (username, password) => {
-  const endpoint = api_url + '/auth/login';
-  return function(dispatch) {
+export const dispatchLogin = (username, password) => (dispatch) =>
+  new Promise(function(resolve, reject) {
+    const endpoint = api_url + '/auth/login';
     axios.post(endpoint, {username, password})
     .then(res => {
+      console.log("RES: ", res);
         if(res.status !== 200) {
-            dispatch(loginError());
-        } 
-        dispatch(loginSuccess());
+          dispatch(loginError());
+          reject(0); // 0 : failed login. TODO unhack this since props are passed
+        } else {
+          dispatch(loginSuccess());
+          dispatch(loggedIn()); // TEMP for auth compatibility
+          resolve(1); // 1 : successful login
+        }
     }).catch(err => {
         dispatch(loginError());
+        reject(0);
     })
-  }
-}
+  });
 
 export const dispatchSignup = (data) => { 
   const endpoint = api_url + '/auth/signup';

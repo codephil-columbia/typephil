@@ -32,6 +32,11 @@ p {
 input[type="password"] {
   height: 24px; }
 
+select > #user-option {
+  background-color: #52B094;
+  border: 1px solid #68C3A3;
+  border-radius: 50%; }
+
 .container {
   height: 70vh;
   max-height: 70vh;
