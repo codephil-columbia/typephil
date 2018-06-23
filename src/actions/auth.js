@@ -20,17 +20,24 @@ export const signupError = err => {
   }
 }
 
-export const loginSuccess = () => {
+export const loginSuccess = ( username, password ) => { // TODO replace password with call to backend (unsafe)
   return {
-    type: 'LOGIN_SUCCESS'
+    type: 'LOGIN_SUCCESS',
+    isLoggedIn: true,
+    currentUser: {
+      username: username,
+      password: password
+    }
   }
 }
 
+/*
 export const loggedIn = () => {
   return {
     type: 'LOGGED_IN'
   }
 }
+*/
 
 export const loginError = err => {
   return {
@@ -49,13 +56,13 @@ export const dispatchLogin = (username, password) => (dispatch) =>
           dispatch(loginError());
           reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
-          dispatch(loginSuccess());
-          dispatch(loggedIn()); // TEMP for auth compatibility
+          dispatch(loginSuccess( username, password ));
+          //dispatch(loggedIn()); // TEMP for auth compatibility
           resolve(1); // 1 : successful login
         }
     }).catch(err => {
-        dispatch(loginError());
-        reject(0);
+      dispatch(loginError());
+      reject(0);
     })
   });
 
