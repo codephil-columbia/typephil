@@ -25,7 +25,7 @@ class App extends Component {
         <Route path="/home" component={HomePage}/>
         <Route path="/learn" component={Learn}/>
         <Route path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
-        <Route path="/profile" component={() => <Tutorial print={this.printName}/>}/>
+        <Route path="/profile" component={Profile}/>
       </Switch>
     )
   }
@@ -40,27 +40,27 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn } = true;
-    const app = isLoggedIn ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
-    console.log(this.props.location);
+    //const { isLoggedIn } = false;//true; //this.props; TODO true just for frontend testing
+    const app = this.props.auth.isLoggedIn ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
 
     return (
-      <BrowserRouter>
+      <div>
         <Switch>
-          <Route exact path="/" component={LoginPage}/>
+          <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/home" component={HomePage}/>
-          <Route exact path="/learn" component={Learn}/>
-          <Route exact path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
+          <Route exact path="/learn" component={() => <Learn isLoggedIn={this.props.auth.isLoggedIn}/>}/>
+          <Route exact path="/tutorial" component={() => <Tutorial print={this.printName} isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/signup" component={SignupPage}/>
-          <Route exact path="/profile" component={Profile}/>
+          <Route exact path="/profile" component={() => <Profile auth={this.props.auth}/>}/>
         </Switch>
-      </BrowserRouter>
+      </div>
     )
   }
 }
 
-const mapStateToProps = ({ auth }) => ({
-  auth
+const mapStateToProps = ({ auth, app }) => ({
+  auth,
+  app
 })
 
 export default connect(mapStateToProps)(App)

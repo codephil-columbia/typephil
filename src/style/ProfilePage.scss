@@ -51,6 +51,12 @@ input[type="password"] {
   height: $button-width / 2 - 1px;
 }
 
+select > #user-option {
+  background-color: $palm-green;
+  border: 1px solid $silver-tree;
+  border-radius: 50%;
+}
+
 .container {
   height: $container-height;
   max-height: 70vh;

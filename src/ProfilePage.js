@@ -58,6 +58,8 @@ class Profile extends Component {
   }
 
   render() {
+    console.log( "USERNAME: %s", this.props.username );
+
     const { headerLinks } = this.state;
     const errors = this.validate(this.state.password);
     const markError = () => {
@@ -66,7 +68,7 @@ class Profile extends Component {
 
     return (
       <div>
-      <Header links={headerLinks} username=""/>
+      <Header links={headerLinks} isLoggedIn={true} username=""/>
 
       <div className="container">
         <div className="vert-container">
@@ -127,10 +129,8 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.isLoggedIn
-  }
+const mapStateToProps = ({ auth }) => {
+  return { username: auth.currentUser.username }
 }
 
 const mapDispatchToProps = dispatch => {

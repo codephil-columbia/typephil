@@ -4,6 +4,8 @@ const splitBadgeDescriptionByLine = desc => {
   return desc.split('\n');
 }
 
+const contentClass = ['square', 'circle', 'badge'];
+
 const avgUserStats = (
   badgeList, 
   badgeDescriptions, 
@@ -16,11 +18,11 @@ const avgUserStats = (
         const badgeDescSplit = splitBadgeDescriptionByLine(badgeDescriptions[i]);
         return (
           <div className="column badge" key={i}>
-            <div className="badge-content">
+            <div className="badge-content" id={contentClass[i]}>
               <h1>{stats[i]}</h1>
             </div>
-            <div className="badge-description">
-              <h3><strong>{badge}</strong></h3>
+            <div className="badge-description" align="left">
+              <h3 className="badge-name">{badge}</h3>
               <p>
                 {badgeDescSplit.map(desc => {
                   return <span>{desc}<br></br></span>

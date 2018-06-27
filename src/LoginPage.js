@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
 
-import './style/LoginPage.css'
+import './style/LoginPage.css';
+import './style/styles.css';
+// import './style/milligram.min.css';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -13,22 +15,39 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
-      headerLinks: [] //["Learn", "Progress", "Home"]
+      headerLinks: ["Progress", "Learn"], //["Learn", "Progress", "Home"]
+      touched: {
+        signin: false
+      },
+      loginWasSuccessful: false
     };
   }
 
-  login = e => {
+  handleLogin = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
     this.props.dispatchLogin(
       username,
       password
-    )
+    ).then((res) => this.handleAfterLogin(res));
   }
 
-  signup = e => {
+  handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
+    if(res) { // res = 1 means successful login TODO unhack this since props are passed
+      //this.setState({ loginWasSuccessful: true });
+      window.location = '/home';
+    }
+  }
+
+  handleSignup = e => {
     e.preventDefault();
     window.location = '/signup';
+  }
+
+  handleBlur = (field) => (e) => {
+    this.setState({
+      touched: {...this.state.touched, [field]: true}
+    });
   }
 
   getUsernameData = e => {
@@ -42,14 +61,12 @@ class LoginPage extends Component {
   }
 
   render() {
-    // const { isLoggedIn } = this.props;
-    const isLoggedIn = true;
+    const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
-  
 
     return (
       <div>
-        <Header links={headerLinks} username=""/>
+        <Header links={ isLoggedIn? headerLinks : [] } username=""/>
         <div className="container">
         <div className="login-content">
           <div className="content-left">
@@ -95,15 +112,16 @@ class LoginPage extends Component {
               <img src="images/universal/PalmTree.svg" className="img-right"></img>
             </div>
             <div className="login">
-              <form onSubmit={this.login}>
+              <form onSubmit={this.handleLogin}>
                   <div className="form-inputs">
                     <input type="text" placeholder="Enter your username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
                     <input type="password" placeholder="Enter your password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
+                    <div className={this.state.touched['signin'] ? (this.props.isLoggedIn ? "warning-hide" : "warning") : "warning-hide"}>Sorry, your username or password is incorrect.</div>
                   </div>
                   <div className="form-buttons">
-                    <input className="form-button button-primary solid" type="submit" value="SIGN IN"/>
+                    <button className="form-button button-primary solid" onBlur={this.handleBlur('signin')}>SIGN IN</button>
                     <p>or</p>
-                    <input className="form-button button-primary solid" id="signup" onClick={this.signup} type="submit" value="SIGN UP"/>
+                    <button className="form-button button-primary solid" id="signup" onClick={this.handleSignup}>SIGN UP</button>
                   </div>
               </form>
             </div>
@@ -122,6 +140,11 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
+  /*return {
+    onLogin: (username, password) => {
+      return bindActionCreators({ dispatchLogin }, dispatch);
+    }
+  }*/
   return bindActionCreators({ dispatchLogin }, dispatch);
 }
 
