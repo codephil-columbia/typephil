@@ -144,9 +144,14 @@ class LessonTutorialContent extends Component {
       const characterMap = characterMapList[groupPtr];
       const currentRowLength = characterMap.size;
 
-      if(charPtr + 1 > currentRowLength - 1 && groupPtr + 1 <= LESSON_LENGTH) {
-        newGroupPtr = groupPtr + 1;
+      if(charPtr + 1 >= currentRowLength) {
         newCharPtr = 0;
+        if(groupPtr + 1 < LESSON_LENGTH) {
+          newGroupPtr = groupPtr + 1;
+        } else {
+          this.props.completed();
+          newGroupPtr = groupPtr;
+        }
       } else {
           newGroupPtr = groupPtr;
           newCharPtr = charPtr + 1;
@@ -194,7 +199,7 @@ class LessonTutorialContent extends Component {
 
     rows = this.buildRows(characterMapList, newStyleMapList, newGroupPtr);
 
-    shouldShowModal = (consecutiveIncorrectCount > 4) ? true : false;
+    shouldShowModal = consecutiveIncorrectCount > 4;
 
     this.setState({ 
       rows, 
@@ -262,7 +267,7 @@ class LessonTutorialContent extends Component {
 
   closeModal = () => {
     this.setState({ shouldShowModal: false });
-  }
+  };
 
   render() {
     const { isActive } = this.props;
@@ -274,7 +279,7 @@ class LessonTutorialContent extends Component {
     const { rows } = this.state;
     let { currentKey } = this.state;
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
-    console.log(currentKey, "outside");
+    console.log(this.state);
 
     return (
       <div class="content-wrapper">

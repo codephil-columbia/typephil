@@ -49,7 +49,7 @@ class Tutorial extends Component {
 
   calculateTime = txt => {
     // Sang's ~magical algorithm~
-    return (txt.length/5) * 60/200 * 1000;
+    return (txt.length/5) * 60/200 * 100;
   };
 
   next = () => {
@@ -73,6 +73,7 @@ class Tutorial extends Component {
   };
 
   finishedLesson = () => {
+    console.log("FINISHED");
     this.setState({ isFinished: true });
   };
 
@@ -82,6 +83,10 @@ class Tutorial extends Component {
       lessonContent,
       lessonInformation
     } = this.state;
+
+    if(indexPtr >= lessonContent.length) {
+      this.finishedLesson();
+    }
 
     return { 
       content: lessonContent[indexPtr],
@@ -94,12 +99,15 @@ class Tutorial extends Component {
     if(!lessonInformation[indexPtr]) {
       return;
     }
-
     const totalTime = this.calculateTime(lessonInformation[indexPtr]);
     this.setState({ shouldFreeze: true });
     setTimeout(() => {
       this.setState({ shouldFreeze: false });
     }, totalTime);
+  };
+
+  showTutorialStats = () => {
+    console.log("tutorialstats");
   };
 
   render() { 
@@ -113,39 +121,28 @@ class Tutorial extends Component {
       shouldFreeze
     } = this.state;
 
-    if(indexPtr >= contentLength)
-      return <h1>done!</h1>;
-
-    const { content, info } = this.getNextPair();
-    let isActive = true;
-    let isBubbleActive = false;
-
     if(isFinished) {
       return <h3>isFinished</h3>
     }
 
-    if(content === "") {
-      isActive = false;
-      isBubbleActive = true;
-    } else {
-      isBubbleActive = false;
-      isActive = true;
-    }
+    const { content, info } = this.getNextPair();
+    const isActive = content !== "";
 
     //TODO: decouple keyboard & hands from this component to be apart of TutorialContent}
     return (
       <div>
         <Header links={headerLinks}/>
         <div className="container tutorial">
-          {/* <SpeechBubble text={info} active={isBubbleActive} /> */}
           {!isActive && <div className="info-text">
             <h4>{info}</h4>
           </div>}
           {isActive && <TutorialContent
             currentContent={content}
             isActive={isActive}
+            completed={this.finishedLesson}
+            // onCompletion={}
           />}
-          {!isActive && <div className="tutorial-hands-keyboard">
+          {!isActive && !isFinished && <div className="tutorial-hands-keyboard">
             <LeftHand />
             <Keyboard />
             <RightHand />
