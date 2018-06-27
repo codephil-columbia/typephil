@@ -7,7 +7,7 @@ import Header from './components/header';
 
 import './style/LoginPage.css';
 import './style/styles.css';
-import './style/milligram.min.css';
+// import './style/milligram.min.css';
 
 class LoginPage extends Component {
   constructor(props) {

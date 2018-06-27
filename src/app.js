@@ -47,7 +47,7 @@ class App extends Component {
       <div>
         <Switch>
           <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props.auth.isLoggedIn}/>}/>
-          <Route exact path="/home" component={HomePageSwitch}/>
+          <Route exact path="/home" component={HomePage}/>
           <Route exact path="/learn" component={() => <Learn isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/tutorial" component={() => <Tutorial print={this.printName} isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/signup" component={SignupPage}/>
