@@ -54,6 +54,7 @@ class HomePage extends Component {
     const { 
       badges, 
       headerLinks, 
+      username,
       badgeDescriptions 
     } = this.state;
 
@@ -86,7 +87,7 @@ class HomePage extends Component {
 
     return (
       <div>
-        <Header links={headerLinks}/>
+        <Header links={headerLinks} isLoggedIn={true} username={this.props.username}/>
         <div className="container">
           <div className="title row">
             <h1>Welcome Back, Phil!</h1>
@@ -120,7 +121,7 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage }) => {
+const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage }) => {
   return {
     lessonName: app.currentLesson.lessonName,
     chapterName: app.currentLesson.chapterName,
@@ -131,7 +132,8 @@ const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage }) => {
     avgAccuracy: statsForUser.avgAccuracy,
     isStatsLoading: statsForUser.isStatsLoading,
     percentageComplete: chapterProgressPercentage.percentageComplete,
-    isPercentageLoading: chapterProgressPercentage.isPercentageLoading
+    isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
+    username: auth.username
   }
 }
 

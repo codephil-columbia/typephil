@@ -34,7 +34,7 @@ class LoginPage extends Component {
 
   handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
     if(res) { // res = 1 means successful login TODO unhack this since props are passed
-      //this.setState({ loginWasSuccessful: true });
+      this.setState({ loginWasSuccessful: true });
       window.location = '/home';
     }
   }
