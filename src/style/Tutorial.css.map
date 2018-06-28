@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,YAAa;EACT,gBAAgB,EAAE,UAAU;EAC5B,SAAS,EAAE,KAAK;;AAGpB,WAAY;EACR,WAAW,EAAE,IAAI;;AAGrB,UAAW;EACP,YAAY,EAAE,IAAI",
-"sources": ["Tutorial.scss"],
-"names": [],
-"file": "Tutorial.css"
-}
