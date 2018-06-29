@@ -42,6 +42,15 @@
     justify-content: space-around;
 }
 
+#square {
+  background-color: #97C9A3;
+}
+
+#circle {
+  border-radius: 50%;
+  background-color: #DDE7C7;
+}
+
 .badge-content h1{
     margin-bottom: 0px;
     font-weight: bold;
