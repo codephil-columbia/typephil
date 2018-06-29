@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400');
+
+$palm-green: #52B094;
+$hover-light: #DADFE1;
+$hover-dark: #555555;
+$silver-tree: #68C3A3;
+$chestnut-rose: #D24D57;
+$menu-gray: #A2A3A4;
+
+$container-height: 70vh;
+$container-width: 90%;
+$container-maxwidth: 100vw;
+
+$dropdown-width: 100%; /*3.95em;*/
+$void-height: 21vh;
+$input-thickness: 1px;
+$radio-dim: 12px;
+$radio-fontsize: 90%;
+$text-weight: 400;
+
+$transition-delta: 0.1s;
+$transition-delta2: 0.2s;
+
+.body > .container {
+  width: $container-width; 
+  max-width: $container-maxwidth;
+  .subcontainer {
+    font-weight: 400;
+    margin: 10vh auto 0 auto;
+    height: $container-height;
+    max-height: 70vh;
+    width: $container-width;
+    max-width: $container-maxwidth;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    label {
+      font-weight: $text-weight;
+    }
+  }
+}
+
+.left-panel {
+  float: right;
+  padding: 1em 0 1em 1em;
+  height: $container-height;
+  max-width: 18vw;
+  text-align: justify;
+}
+
+/* A vertical-centering hack for the right panel. */
+.right-panel-container {
+  position: relative;
+}
+.right-panel {
+  position: absolute;
+  top: 50%;
+  margin-top: $container-height - 100vh;
+}
+
+.void {
+  min-height: $void-height;
+  height: $void-height;
+}
+.bottom {
+  margin-top: $container-height - 77vh;
+}
+
+.center {
+  position: relative;
+  text-align: center;
+}
+
+.vertical-line {
+  border-left: $input-thickness solid $palm-green;
+}
+
+.dropdowns {
+  margin-left: 0;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.title {
+  color: #2A2A2A;
+  text-align: center;
+}
+
+.username {
+  margin-top: 1.6em;
+}
+
+.password {
+  margin-top: 0.4em;
+}
+
+.gender {
+  margin-top: 2em;
+}
+.gender-radios {
+  font-size: $radio-fontsize;
+  margin-bottom: 2em;
+  .column {
+    padding: 0;
+  }
+  .column-20 {
+    padding: 0;
+  }
+  .warning {
+    font-size: 1em;
+  }
+}
+
+.occupation {
+  margin: -2em 0 0 -0.5em;
+}
+.occupation-radios {
+  font-size: $radio-fontsize;
+  input[type="radio"] {
+    margin-top: 5px;
+  }
+}
+
+.next {
+  margin-top: $container-height - 65vh;
+  height: 10vh;
+}
+
+.warning {
+  color: $chestnut-rose;
+  font-size: 0.8em;
+  text-align: center;
+  visibility: visible;
+}
+.warning-hide {
+  font-size: 0.8em;
+  visibility: hidden;
+}
+
+a {
+  color: $palm-green;
+}
+
+.hide {
+  display: none;
+}
+.specify-schoolyear {
+}
+.specify-occupation {
+  input {
+    margin: 0 0 0 -1px;
+    width: 99%;
+  }
+}
+
+input[type="text"].error, input[type="password"].error {
+  border-color: $chestnut-rose;
+}
+input, input[type="text"], input[type="password"] {
+  -webkit-transition: all $transition-delta2 ease-in-out;
+  -moz-transition: all $transition-delta2 ease-in-out;
+  -ms-transition: all $transition-delta2 ease-in-out;
+  -o-transition: all $transition-delta2 ease-in-out;
+
+  border-color: $palm-green;
+  border-radius: 0px;
+  border-style: solid;
+  border-width: $input-thickness;
+  color: $hover-dark;
+  font-size: 90%;
+  font-family: 'Nunito Sans', 'Open Sans', 'sans-serif';
+  margin-bottom: 1px;
+  padding-left: 5px;
+  max-height: 25px;
+  width: inherit;
+  &:focus {
+    border-color: $hover-light;
+  }
+}
+input[type="radio"] {
+  margin: 0 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  display: inline-block;
+  height: $radio-dim;
+  width: $radio-dim;
+  box-shadow: 0;
+  border-radius: 50%;
+  border: 1px solid $palm-green;
+  outline: none;
+  &:checked {
+    background-color: $palm-green;
+    outline: none;
+  }
+}
+
+button {
+  background-color: #BFD8BD;/*#EFEFEF;*/
+  border: none;
+  color: white;
+}
+.signup {
+  text-align: center;
+}
+#btn-next {
+  background-color: $palm-green;
+  &:hover {
+    background-color: $silver-tree;
+    color: $hover-light;
+  }
+}
+
+button:hover, button:active {
+  background-color: $silver-tree;
+  color: $hover-light;
+}
+
+/********* DROPDOWN MENU (BIRTHDATE) *********/
+.Dropdown-control {
+  border: $input-thickness solid $palm-green;
+  border-radius: 0;
+  color: $hover-dark; /*$menu-gray;*/
+  font-size: 70%;
+  padding: 3px 5px 2.5px 6px;
+  width: inherit;
+}
+.Dropdown-arrow {
+  border-color: $palm-green transparent transparent;
+}
+.Dropdown-menu {
+  width: $dropdown-width;
+}
+.Dropdown-root {
+  margin: 0 $input-thickness;
+  width: $dropdown-width;
+}
+.Dropdown-arrow {
+  right: 5px;
+}
+#ddoccupation {
+  margin: 0 2px 0 -2px;
+  > .Dropdown-root { /* Special case for full-width dropdown. */
+    width: inherit;
+    > .Dropdown-menu {
+      width: 100%;
+    }
+  }
+}

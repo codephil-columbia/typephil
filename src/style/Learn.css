@@ -1,0 +1,190 @@
+.title {
+    margin-top: 3%;
+    color: #77BFA3;
+}
+
+.chapter-title {
+    color: #77BFA3;
+    width: 25%;
+    margin-top: 1.5%; /* TODO: Make this more stable. Eyeballed it sj. */
+}
+
+.carousel-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.learn-carousel-buttons {
+    background-color: white;
+    border: white;
+    color: #77BFA3;
+}
+
+.title-content {
+    width: 586px;
+    color: #77BFA3;
+    margin-left: 40px;
+    line-height: 55px;
+}
+
+.lesson-stats-icon.row {
+    justify-content: none;
+}
+
+.block {
+    text-align: center;
+}
+
+.carousel {
+    display: flex;
+    justify-content: center;
+}
+
+.left-arrow {
+    display: inline-block;
+    width: 4em;
+    height: 4em;
+    border: 0.5em solid #333;
+    border-radius: 50%;
+    margin-right: 1.5em;
+  }
+
+.lesson-badge-content-circle {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    background-color: #DDE7C7;
+}
+
+.lesson-badge-content-txt {
+    font-size: 3rem;
+    padding-top: 1.3rem;
+}
+
+.lesson-badge-link {
+    color: #606c76;
+    font-size: 2.5rem;
+    padding-top: 2.2rem;
+    margin-left: 2rem;
+}
+
+.lesson-stats-icon {
+    margin-bottom: 3rem;
+}
+
+.lesson-right {
+    margin-left: 5rem;
+}
+
+.lesson-badge-desc {
+    padding-top: 1.5rem;
+    margin-left: 2rem;
+}
+
+.lesson-badge-content-txt-circle {
+    font-size: 2.5rem;
+    padding-top: 1.5rem;
+}
+
+.lesson-badge-content-square {
+    border-radius: 10%;
+    width: 75px;
+    height: 75px;
+    background-color: #97c9a3;
+}
+
+.resume-button {
+    width: 75px;
+    height: 75px;
+}
+
+.left-arrow::after {
+    margin-top: 2%;
+    margin-right: 10%;
+    content: '';
+	display: inline-block;
+    margin-top: 1.05em;
+    margin-left: 0.6em;
+    width: 1.4em;
+    height: 1.4em;
+    border-top: 0.5em solid #333;
+    border-right: 0.5em solid #333;
+    -moz-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+
+.right-arrow {
+    margin-top: 2%;
+    margin-left: 10%;
+    content: '';
+	display: inline-block;
+    margin-top: 1.05em;
+    margin-left: 0.6em;
+    width: 1.4em;
+    height: 1.4em;
+    border-top: 0.5em solid #333;
+    border-right: 0.5em solid #333;
+    -moz-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+
+.lesson-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.lesson-sep {
+    width: 1px;
+    border: 1px solid #979797;
+}
+
+.title {
+    font-size: 3rem;
+}
+
+.desc {
+    font-size: 2rem;
+}
+
+.chapter-info {
+    display: flex;   
+    flex-direction: column;
+}
+
+.chapter-num {
+    margin-right: 40px;
+    background-color: #77BFA3;
+    border-radius: 40px;
+    width: 35px;
+    height: 35px;
+    color: white;
+}
+
+.chapter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2%;
+}
+
+.num {
+    margin-top: 1px;
+    margin-right: 1px;
+}
+
+.block-info {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 3%;
+    color: #4a4a4a;
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 60px;    
+}
+
+.link {
+    color: #77BFA3;
+}
