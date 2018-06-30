@@ -42,9 +42,9 @@ import {
 const authInitialState = {
   isLoggedIn: false,
   currentUser: {
-    username: null,
-    password: null,
-    uid: null,
+    username: "",
+    password: "",
+    uid: "",
   }
 }
 
