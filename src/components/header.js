@@ -34,7 +34,8 @@ const HeaderRight = props => {
                     </li>
                 )
             })}
-            <li className="navigation-item profile-bubble">{ props.isLoggedIn ? <ProfileOptions username={props.username} /> : "" }</li>
+
+            { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} /></li> }
         </ul>
     )
 }
