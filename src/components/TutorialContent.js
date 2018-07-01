@@ -54,7 +54,8 @@ class LessonTutorialContent extends Component {
         LESSON_LENGTH: characterMapList.length,
         consecutiveIncorrectCount: 0,
         shouldShowModal: false,
-        isFirstCharacter: true
+        isFirstCharacter: true,
+        hasPostedResults: false
       };
     } else { 
       this.state = { rows: [] };
@@ -272,11 +273,13 @@ class LessonTutorialContent extends Component {
   postResults = () => {
     const { startTime, totalLength, correct } = this.state;
     const { chapterID, lessonID } = this.props;
+    const { uid } = this.props.currentUser;
     const totalTime = (Date.now() - startTime) / 1000;
+
     this.props.postTutorialResults({
       wpm: Math.trunc((totalLength / 5) / (totalTime / 60)),
       accuracy: (correct.length/totalLength) * 100,
-      uid: 'bb9ujujrjhg4fj8sa41g',
+      uid,
       chapterID,
       lessonID
     });
@@ -296,15 +299,14 @@ class LessonTutorialContent extends Component {
 
   render() {
     const { isActive, isFinished } = this.props;
-  
-    
+
     if(!isActive) {
       return <LessonTutorialHandsKeyboard />
     } 
 
     if(isFinished) {
       document.removeEventListener("keydown", this.registerUserKeyPress);
-      this.postResults()
+      this.postResults();
     }
 
     const { rows, correct, incorrect, totalLength, startTime } = this.state;
@@ -319,7 +321,7 @@ class LessonTutorialContent extends Component {
           <p className="modal-text">Please go back and correct the mistyped keys!</p>
           <button className="button-primary solid modal-button" type="submit" value="CLOSE" onClick={this.closeModal}>CLOSE</button>
         </Modal>
-        {rows}  
+        { rows }
         {isFinished 
           ? <TutorialStats 
             correct={(correct.length/totalLength) * 100} 

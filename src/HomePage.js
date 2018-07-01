@@ -20,10 +20,10 @@ import "./style/HomePage.css";
 class HomePage extends Component {
   constructor(props) {
       super(props);
-
-      this.props.getCurrentLessonForUser("bbu9uqje8cdm8j5109ug");
-      this.props.getAverageStats("bbu9uqje8cdm8j5109ug");
-      this.props.getChapterProgress("bbu9uqje8cdm8j5109ug");
+      const { uid } = this.props.currentUser;
+      this.props.getCurrentLessonForUser(uid);
+      this.props.getAverageStats(uid);
+      this.props.getChapterProgress(uid);
 
       this.state = {
         headerLinks: ["Learn", "Progress", "Home"],
@@ -67,22 +67,20 @@ class HomePage extends Component {
       avgAccuracy,
       isStatsLoading,
       percentageComplete,
-      isPercentageLoading
+      isPercentageLoading,
+      currentUser
     } = this.props;
 
     if(!hasFinishedLoading || isStatsLoading || isPercentageLoading) {
       return ShowSpinner();
     }
 
-    const { 
-      title, 
-      lesson 
-    } = this.formatText(chapterName, lessonName);
+    const { title, lesson } = this.formatText(chapterName, lessonName);
 
     const stats = avgUserStats(
       badges, 
       badgeDescriptions, 
-      [avgWPM, avgAccuracy] //, 0]
+      [avgWPM, avgAccuracy]
     );
 
     return (
@@ -90,23 +88,23 @@ class HomePage extends Component {
         <Header links={headerLinks}/>
         <div className="container">
           <div className="title row">
-            <h1 class="homepage-welcome">Welcome Back, Phil!</h1>
+            <h1 class="homepage-welcome">Welcome Back, {currentUser.username}!</h1>
           </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
-              <h3 className="qs-lesson-title">{title}</h3>
-              <h3 className="qs-lesson-excersise">{lesson}</h3>
+              <h3 className="qs-lesson-title">{ title }</h3>
+              <h3 className="qs-lesson-excersise">{ lesson }</h3>
               <Link to="/tutorial">
                 <img src="images/buttons/Start-button.svg"/> 
               </Link>
               <div className="homepage-spacing"> </div>
-              <Line percent={percentageComplete} 
+              <Line percent={ percentageComplete } 
                 strokeWidth="2" 
                 strokeColor="#77BFA3" 
               />
               <div>
                 <h4 className="qs-progress-info">
-                  Current Progress - {percentageComplete}%
+                  Current Progress - { percentageComplete }%
                 </h4>
               </div>
             </div>
@@ -122,7 +120,7 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage }) => {
+const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage, auth }) => {
   return {
     lessonName: app.currentLesson.lessonName,
     chapterName: app.currentLesson.chapterName,
@@ -133,7 +131,8 @@ const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage }) => {
     avgAccuracy: statsForUser.avgAccuracy,
     isStatsLoading: statsForUser.isStatsLoading,
     percentageComplete: chapterProgressPercentage.percentageComplete,
-    isPercentageLoading: chapterProgressPercentage.isPercentageLoading
+    isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
+    currentUser: auth.currentUser
   }
 }
 

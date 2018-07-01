@@ -10,6 +10,7 @@ import 'react-dropdown/style.css';
 //import './style/milligram.min.css'; // TODO for no connectivity only
 import './style/styles.css';
 import './style/SignupPage.css';
+import HomePage from './HomePage';
 
 const schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
 const months = moment.monthsShort();
@@ -96,14 +97,16 @@ class SignupPage extends Component {
 
   signup = (e) => {
     e.preventDefault();
-    const { firstname, lastname, username, password, occupation, gender } = this.state // TODO add firstname, lastname to db model (?)
+    const { firstname, lastname, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstname, lastname to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
-    var res = this.props.dispatchSignup({ 
+    this.props.dispatchSignup({ 
       firstname,
       lastname,
       username,
       password,
       occupation,
+      whichOccupation,
+      schoolyear,
       gender,
       dob
     });

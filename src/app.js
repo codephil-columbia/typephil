@@ -15,8 +15,8 @@ class App extends Component {
     super(props);
   }
 
-  printName = () => {
-    console.log('name')
+  onSuccessfulAuth = () => {
+    this.setState({ isAuthenticated: true });
   }
 
   userHasBeenAuthenticated = () => {
@@ -49,7 +49,7 @@ class App extends Component {
           <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/home" component={HomePage}/>
           <Route exact path="/learn" component={() => <Learn isLoggedIn={this.props.auth.isLoggedIn}/>}/>
-          <Route exact path="/tutorial" component={() => <Tutorial print={this.printName} isLoggedIn={this.props.auth.isLoggedIn}/>}/>
+          <Route exact path="/tutorial" component={() => <Tutorial isLoggedIn={this.props.auth.isLoggedIn}/>}/>
           <Route exact path="/signup" component={SignupPage}/>
           <Route exact path="/profile" component={() => <Profile auth={this.props.auth}/>}/>
         </Switch>

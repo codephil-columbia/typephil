@@ -11,7 +11,8 @@ import {
   MOVE_INDEX_PTR,
   UNFREEZE,
   FREEZE,
-  TUTORIAL_COMPLETED
+  TUTORIAL_COMPLETED,
+  POST_TUTORIAL_SUCCESS
 } from "../actions/tutorial";
 
 import {
@@ -40,12 +41,11 @@ import {
 } from '../actions/learn';
 
 const authInitialState = {
-  isLoggedIn: false,
+  isLoggedIn: true,
   currentUser: {
-    username: null,
-    uid: null,
-    email: null,
-    school: null
+    username: "cesaribarra2",
+    uid: "bb9ujujrjhg4fj8sa41g",
+    email: "cfi2103@columbia.edu"
   }
 }
 
@@ -74,7 +74,7 @@ const initialAppState = {
       "",
       "hhhhhhhhhhhhh lL",
     ],
-    indexPtr: 0
+    hasPostedResults: false
   },
 
   chapterLessonPairs: [],
@@ -138,8 +138,7 @@ export const app = (state = initialAppState, action) => {
       return {...state, isLoading: true}
     case GET_CURRENT_LESSON_WAITING:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
-      return { ...state 
-      };
+      return { ...state };
     case FETCH_ALL_PAIRS_REQUEST:
       state.isLoading = true;
       return { ...state };
@@ -152,6 +151,9 @@ export const app = (state = initialAppState, action) => {
       return completedLessons(state, action);
     case FETCH_COMPLETED_LESSONS_SUCCESS:
       return completedLessons(state, action);
+    case POST_TUTORIAL_SUCCESS:
+      state.currentLesson = currentLessonReducer(state.currentLesson, action)
+      return { ...state };
     default:
       return state;
   }

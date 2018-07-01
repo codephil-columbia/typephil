@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 
 const TutorialStats = ({ wpm, accuracy, time, correct, incorrect, totalLength, startTime, endTime }) => {
-  console.log(correct, totalLength)
-  console.log(endTime, startTime);
   const totalTime = (Date.now() - startTime) / 1000;
   return (
     <Fragment>

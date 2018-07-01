@@ -131,8 +131,6 @@ class Tutorial extends Component {
     const { content, info } = this.getNextPair();
     const isActive = content !== "";
 
-    console.log(isActive, isFinished);
-
     //TODO: decouple keyboard & hands from this component to be apart of TutorialContent
     return (
       <div>
@@ -147,6 +145,7 @@ class Tutorial extends Component {
             completed={this.finishedLesson}
             completedStats={this.setTutorialStats}
             isFinished={isFinished}
+            currentUser={this.props.auth.currentUser}
           />}
           {!isActive && !isFinished && <div className="tutorial-hands-keyboard">
             <LeftHand />
@@ -174,8 +173,9 @@ const mapDispatchToProps = dispatch => {
   }, dispatch)
 }
 
-const mapStateToProps = ({ app }) => ({
-  currentLesson: app.currentLesson
+const mapStateToProps = ({ app, auth }) => ({
+  currentLesson: app.currentLesson,
+  auth
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tutorial);
