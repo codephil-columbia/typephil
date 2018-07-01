@@ -37,16 +37,12 @@ export const fetchCurrentLessonIfNeeded = (uid) => {
 }
 
 export const POST_TUTORIAL = "POST_TUTORIAL";
-export const postTutorial = (tutorialResult) => (dispatch) => {
+export const postTutorialResults = (tutorialResult) => (dispatch) => {
   axios.post(`${api_url}/lesson/finished`, tutorialResult)
     .then(res => {
-      if(res.status === 200) {
-        dispatch(postTutorialSuccess())
-      } else {
-        dispatch(postTutorialError());
-      }
+      dispatch(postTutorialSuccess());
     }).catch(_ => {
-      dispatch(postTutorialError())
+      dispatch(postTutorialError());
     })
 }
 

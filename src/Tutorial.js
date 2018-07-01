@@ -14,6 +14,7 @@ import {
 
 import LessonTutorialButtons from './components/TutorialButtons';
 import TutorialContent from './components/TutorialContent';
+import TutorialStats from './components/TutorialStats';
 import Header from './components/header';
 import Keyboard from './components/Keyboard';
 import RightHand from './components/RightHand';
@@ -38,6 +39,8 @@ class Tutorial extends Component {
       indexPtr: 0,
       isFinished: false,
       shouldFreeze: true,
+      wpm: 0,
+      totalTime: 0,
 
       headerLinks: ["Learn", "Progress", "Home"],
     };
@@ -45,6 +48,10 @@ class Tutorial extends Component {
 
   componentWillMount = () => {
     this.freezeTimerIfIsLessonInfo();
+  }
+
+  setTutorialStats = ({ wpm, time, accuracy }) => {
+    this.setState({ wpm, accuracy, time });
   }
 
   calculateTime = txt => {
@@ -121,14 +128,12 @@ class Tutorial extends Component {
       shouldFreeze
     } = this.state;
 
-    if(isFinished) {
-      return <h3>isFinished</h3>
-    }
-
     const { content, info } = this.getNextPair();
     const isActive = content !== "";
 
-    //TODO: decouple keyboard & hands from this component to be apart of TutorialContent}
+    console.log(isActive, isFinished);
+
+    //TODO: decouple keyboard & hands from this component to be apart of TutorialContent
     return (
       <div>
         <Header links={headerLinks}/>
@@ -140,7 +145,8 @@ class Tutorial extends Component {
             currentContent={content}
             isActive={isActive}
             completed={this.finishedLesson}
-            // onCompletion={}
+            completedStats={this.setTutorialStats}
+            isFinished={isFinished}
           />}
           {!isActive && !isFinished && <div className="tutorial-hands-keyboard">
             <LeftHand />

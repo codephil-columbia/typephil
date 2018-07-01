@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
 import { OrderedMap } from 'immutable';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
 
 import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
+import TutorialStats from './TutorialStats';
+
+import { postTutorialResults } from '../actions/tutorial';
 
 import "../style/TutorialContent.css"
 
@@ -19,8 +24,6 @@ class LessonTutorialContent extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.isActive);
-
     if(this.props.isActive) {
       const groupPtr = 0;
       let { currentContent } = this.props;
@@ -34,12 +37,15 @@ class LessonTutorialContent extends Component {
 
       const rows = this.buildRows(characterMapList, styleMapList, 0);
 
+      const totalLength = currentContent.length;
+
       this.state = {
         rows,
         characterMapList,
         styleMapList,
         groupPtr,
         currentKey,
+        totalLength,
         charPtr: 0,
         correct: [],
         incorrect: [],
@@ -47,7 +53,8 @@ class LessonTutorialContent extends Component {
         previousCharCorrectness: false,
         LESSON_LENGTH: characterMapList.length,
         consecutiveIncorrectCount: 0,
-        shouldShowModal: false
+        shouldShowModal: false,
+        isFirstCharacter: true
       };
     } else { 
       this.state = { rows: [] };
@@ -77,11 +84,16 @@ class LessonTutorialContent extends Component {
   };
 
   isNotFinished = () => {
-    const {indexPtr, groupPtr, LESSON_LENGTH, characterMapList} = this.state;
+    const { indexPtr, groupPtr, LESSON_LENGTH, characterMapList } = this.state;
     return !(indexPtr >= characterMapList.length && groupPtr >= LESSON_LENGTH);
   };
 
   registerUserKeyPress = ({ key: keyPressed }) => {
+    // Starts timer once user presses first key
+    if(this.state.isFirstCharacter) {
+      this.setState({ startTime: Date.now(), isFirstCharacter: false });
+    }
+
     if(keyPressed === BACKSPACE) {
       this.userDidPressBackspace();
       // TODO: Make sure this doesn't fire after group and index ptr have reached the end
@@ -257,6 +269,19 @@ class LessonTutorialContent extends Component {
     return styleMapList;
   };
 
+  postResults = () => {
+    const { startTime, totalLength, correct } = this.state;
+    const { chapterID, lessonID } = this.props;
+    const totalTime = (Date.now() - startTime) / 1000;
+    this.props.postTutorialResults({
+      wpm: Math.trunc((totalLength / 5) / (totalTime / 60)),
+      accuracy: (correct.length/totalLength) * 100,
+      uid: 'bb9ujujrjhg4fj8sa41g',
+      chapterID,
+      lessonID
+    });
+  }
+
   shouldCheckKey = (key) => {
     return !(key === "Meta" || key === "Shift" || key === 'CapsLock' || key === 'Tab')
   };
@@ -270,16 +295,22 @@ class LessonTutorialContent extends Component {
   };
 
   render() {
-    const { isActive } = this.props;
+    const { isActive, isFinished } = this.props;
+  
     
     if(!isActive) {
       return <LessonTutorialHandsKeyboard />
     } 
 
-    const { rows } = this.state;
+    if(isFinished) {
+      document.removeEventListener("keydown", this.registerUserKeyPress);
+      this.postResults()
+    }
+
+    const { rows, correct, incorrect, totalLength, startTime } = this.state;
     let { currentKey } = this.state;
+
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
-    console.log(this.state);
 
     return (
       <div class="content-wrapper">
@@ -289,11 +320,27 @@ class LessonTutorialContent extends Component {
           <button className="button-primary solid modal-button" type="submit" value="CLOSE" onClick={this.closeModal}>CLOSE</button>
         </Modal>
         {rows}  
-        <LessonTutorialHandsKeyboard currentKey={currentKey}/>
+        {isFinished 
+          ? <TutorialStats 
+            correct={(correct.length/totalLength) * 100} 
+            incorrect={incorrect} 
+            totalLength={totalLength}
+            startTime={startTime}
+            /> 
+          : <LessonTutorialHandsKeyboard currentKey={currentKey}/>}
         <modal />
       </div>
     )
   }
 }
 
-export default LessonTutorialContent;
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ postTutorialResults }, dispatch)
+}
+
+const mapStateToProps = ({ app }) => ({
+  chapterID: app.currentLesson.chapterID,
+  lessonID: app.currentLesson.lessonID
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LessonTutorialContent);

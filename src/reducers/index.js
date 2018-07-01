@@ -52,8 +52,8 @@ const authInitialState = {
 const initialAppState = {
   currentLesson: {
     name: "",
-    chapterID: "",
-    lessonID: "",
+    chapterID: "e6a18785-98c5-41bc-ad98-ec5d3a243d15",
+    lessonID: "d3f9c2a3-1edf-42a6-a24d-3a4ad4683036",
     chapterImage: null,
     hasFinishedLoading: false,
     showSpinner: true,
@@ -72,7 +72,7 @@ const initialAppState = {
       "",
       "",
       "",
-      "aaa AAA aaa AAA ;;; ::: ;;; aA aS Aa Ss :; ;: Ll lL",
+      "hhhhhhhhhhhhh lL",
     ],
     indexPtr: 0
   },
@@ -127,23 +127,6 @@ export const app = (state = initialAppState, action) => {
       return { ...state,
         tutorialFinished: true
       }
-    case USER_PRESSED_KEY:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      return { ...state
-      }
-    case VALIDATE_PRESSED_KEY:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      return { ...state
-      }
-    case START_LESSON:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      state.currentLessonSession.currentLessonContent = currentLesson.lessonContent[currentLesson.indexPtr];
-      return { ...state
-      }
-    case STOP_LESSON:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      return { ...state
-      };
     case GET_CURRENT_LESSON:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state 
@@ -220,86 +203,6 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         showSpinner: true,
         hasFinishedLoading: false
       }  
-    default:
-      return state;
-  }
-}
-
-export const lessonSession = (state = app.currentLessonSession, action) => {
-  const {
-    time
-  } = action
-  switch (action.type) {
-    case USER_PRESSED_KEY:
-      const {
-        key
-      } = action;
-      console.log(key);
-      if (key === "Meta" || key === "Shift" ||
-        key === 'CapsLock' || key === 'Tab') {
-        return { ...state,
-          pressedKey: null,
-          shouldValidate: false
-        };
-      } else if (key === "Backspace") {
-        let newCharPtr = state.charPtr === 0 ? state.charPtr : --state.charPtr;
-        const wasMissedChar = state.missedChar;
-        if (wasMissedChar) {
-          state.missed.pop();
-          return { ...state,
-            missed: state.missed,
-            charPtr: newCharPtr,
-            shouldValidate: false
-          }
-        } else {
-          state.correct.pop();
-          return { ...state,
-            correct: state.correct,
-            charPtr: newCharPtr,
-            shouldValidate: false
-          }
-        }
-      } else {
-        return { ...state,
-          pressedKey: key,
-          shouldValidate: true
-        };
-      }
-    case VALIDATE_PRESSED_KEY:
-      const {
-        got
-      } = action;
-      let {
-        charPtr,
-        currentLessonContent
-      } = state;
-      console.log(got);
-      if (got !== currentLessonContent[charPtr]) {
-        const missed = [...state.missed, got]
-        return {
-          ...state,
-          missed,
-          charPtr: ++charPtr,
-          missedChar: true
-        }
-      } else {
-        const correct = [...state.correct, got];
-        return {
-          ...state,
-          correct,
-          charPtr: ++charPtr,
-          missedChar: false
-        }
-      }
-    case START_LESSON:
-      return { ...state,
-        startTime: time,
-        isFirstChar: false
-      }
-    case STOP_LESSON:
-      return { ...state,
-        endTime: time
-      }
     default:
       return state;
   }

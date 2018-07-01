@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-const TutorialStats = ({ wpm, accuracy, time }) => {
+const TutorialStats = ({ wpm, accuracy, time, correct, incorrect, totalLength, startTime, endTime }) => {
+  console.log(correct, totalLength)
+  console.log(endTime, startTime);
+  const totalTime = (Date.now() - startTime) / 1000;
   return (
-    <div class="row">
-      <div class="column">
-        <div>
-          <h1>{wpm}</h1>
+    <Fragment>
+      <div className="row">
+        <div className="column">
+          <h1>{Math.trunc((totalLength / 5) / (totalTime / 60))}</h1>
         </div>
-        <div>
-          <h1>{accuracy}</h1>
+        <div className="column">
+          <h1>{totalTime}</h1>
+        </div>
+        <div className="column">
+          <h1>{correct}%</h1>
         </div>
       </div>
-      <div class="column">
-        <h1>{time}</h1>
+      <div className="row">
+        <div className="column">
+          <h1>Words per Minute</h1>
+        </div>
+        <div className="column">
+          <h1>Total Seconds</h1>
+        </div>
+        <div className="column">
+          <h1>Accuracy</h1>
+        </div>
       </div>
-      <div class="column">
-
-      </div>
-    </div>
+    </Fragment>
   )
 };
 
