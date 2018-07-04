@@ -16,8 +16,8 @@ export const statsForUser = (state = {}, action) => {
 
     case GET_AVG_STATS_SUCCESS: {
       const {
-        avgaccuracy: avgAccuracy,
-        avgwpm: avgWPM
+        avgAccuracy,
+        avgWPM
       } = action.data;
 
       return { 

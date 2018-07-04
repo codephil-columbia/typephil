@@ -15,8 +15,6 @@ class Profile extends Component {
       edited: false,
       editing: false,
       viewing: false,
-      username: "foobar", // TODO not hardcode 
-      password: "TEMP",
       touched: {
         password: false
       }
@@ -27,7 +25,7 @@ class Profile extends Component {
     if(!this.state.editing)
       this.setState({ editing: true });
     else {
-      const { username, password } = this.state;
+      const { username, password } = this.props.auth.currentUser;
       var res = this.props.dispatchPassword(
         username,
         password
@@ -58,17 +56,16 @@ class Profile extends Component {
   }
 
   render() {
-    console.log( "USERNAME: %s", this.props.username );
-
     const { headerLinks } = this.state;
-    const errors = this.validate(this.state.password);
+    const { auth } = this.props;
+    const errors = this.validate(auth.currentUser.password);
     const markError = () => {
       return errors['password'] ? this.state.touched['password'] : false;
     }
 
     return (
       <div>
-      <Header links={headerLinks} isLoggedIn={true} username=""/>
+      <Header links={headerLinks} auth={auth}/> 
 
       <div className="container">
         <div className="vert-container">
@@ -99,7 +96,7 @@ class Profile extends Component {
               </div>
               <div className="column column-20 column-offset-10 password-info">
                 <p className={ this.state.editing ? "hide" : ""}>
-                  { this.state.viewing ? this.state.password : '*'.repeat(this.state.password.length) }
+                  { this.state.viewing ? auth.currentUser.password : '*'.repeat(auth.currentUser.password.length) }
 
                   {/* TODO this is pretty egregiously insecure} */}
 
@@ -130,7 +127,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = ({ auth }) => {
-  return { username: auth.currentUser.username }
+  return { auth: auth };
 }
 
 const mapDispatchToProps = dispatch => {

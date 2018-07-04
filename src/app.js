@@ -42,6 +42,7 @@ class App extends Component {
   render() {
     //const { isLoggedIn } = false;//true; //this.props; TODO true just for frontend testing
     const app = this.props.auth.isLoggedIn ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
+    console.log( "AUTH: ", this.props.auth );
 
     return (
       <div>

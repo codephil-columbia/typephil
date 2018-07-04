@@ -40,15 +40,6 @@ import {
   FETCH_COMPLETED_LESSONS_FAILED
 } from '../actions/learn';
 
-const authInitialState = {
-  isLoggedIn: true,
-  currentUser: {
-    username: "cesaribarra2",
-    uid: "bb9ujujrjhg4fj8sa41g",
-    email: "cfi2103@columbia.edu"
-  }
-}
-
 const initialAppState = {
   currentLesson: {
     name: "",
@@ -210,18 +201,83 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
   }
 }
 
-export const auth = (state = authInitialState, action) => {
-  console.log("ACTION", action);
+export const lessonSession = (state = app.currentLessonSession, action) => {
+  const {
+    time
+  } = action
   switch (action.type) {
-    case "LOGGED_IN":
-      return {
-        currentUser: {
-          ...action.currentUser
-        },
-        isLoggedIn: action.isLoggedIn
+    case USER_PRESSED_KEY:
+      const {
+        key
+      } = action;
+      console.log(key);
+      if (key === "Meta" || key === "Shift" ||
+        key === 'CapsLock' || key === 'Tab') {
+        return { ...state,
+          pressedKey: null,
+          shouldValidate: false
+        };
+      } else if (key === "Backspace") {
+        let newCharPtr = state.charPtr === 0 ? state.charPtr : --state.charPtr;
+        const wasMissedChar = state.missedChar;
+        if (wasMissedChar) {
+          state.missed.pop();
+          return { ...state,
+            missed: state.missed,
+            charPtr: newCharPtr,
+            shouldValidate: false
+          }
+        } else {
+          state.correct.pop();
+          return { ...state,
+            correct: state.correct,
+            charPtr: newCharPtr,
+            shouldValidate: false
+          }
+        }
+      } else {
+        return { ...state,
+          pressedKey: key,
+          shouldValidate: true
+        };
+      }
+    case VALIDATE_PRESSED_KEY:
+      const {
+        got
+      } = action;
+      let {
+        charPtr,
+        currentLessonContent
+      } = state;
+      console.log(got);
+      if (got !== currentLessonContent[charPtr]) {
+        const missed = [...state.missed, got]
+        return {
+          ...state,
+          missed,
+          charPtr: ++charPtr,
+          missedChar: true
+        }
+      } else {
+        const correct = [...state.correct, got];
+        return {
+          ...state,
+          correct,
+          charPtr: ++charPtr,
+          missedChar: false
+        }
+      }
+    case START_LESSON:
+      return { ...state,
+        startTime: time,
+        isFirstChar: false
+      }
+    case STOP_LESSON:
+      return { ...state,
+        endTime: time
       }
     default:
-      return state
+      return state;
   }
 }
 

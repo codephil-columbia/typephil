@@ -16,33 +16,40 @@ import {
 
 import "./style/styles.css";
 import "./style/HomePage.css";
+import { METHODS } from 'http';
 
 class HomePage extends Component {
   constructor(props) {
       super(props);
+<<<<<<< HEAD
       const { uid } = this.props.currentUser;
       this.props.getCurrentLessonForUser(uid);
       this.props.getAverageStats(uid);
       this.props.getChapterProgress(uid);
+=======
+
+      const { uid } = this.props.currentUser;
+      this.setup(uid);
+>>>>>>> master
 
       this.state = {
-        headerLinks: ["Learn", "Progress", "Home"],
-        // badges: ["WPM", "Accuracy", "Badges"],
+        headerLinks: ["Learn", "Progress" ], //"Home"],
         badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
-          "Accuracy is how \n accurately you type \n words that appear." //,
-          // "The number of badges \n you have \n earned so far."
+          "Accuracy is how \n accurately you type \n words that appear."
         ]
       }
   }
 
-  redirectLesson = () => {
-      this.setState({redirectLesson: true})
+  setup(uid) {
+    this.props.getCurrentLessonForUser(uid);
+    this.props.getAverageStats(uid);
+    this.props.getChapterProgress(uid);
   }
 
-  splitBadgeDescriptionByLine = desc => {
-    return desc.split('\n');
+  redirectLesson = () => {
+      this.setState({redirectLesson: true})
   }
 
   formatText = (chapterName, lessonName) => {
@@ -68,7 +75,10 @@ class HomePage extends Component {
       isStatsLoading,
       percentageComplete,
       isPercentageLoading,
+<<<<<<< HEAD
       currentUser
+=======
+>>>>>>> master
     } = this.props;
 
     if(!hasFinishedLoading || isStatsLoading || isPercentageLoading) {
@@ -83,12 +93,18 @@ class HomePage extends Component {
       [avgWPM, avgAccuracy]
     );
 
+    const { username } = this.props.currentUser
+
     return (
       <div>
-        <Header links={headerLinks}/>
+        <Header links={headerLinks} isLoggedIn={true} username={this.props.username}/>
         <div className="container">
           <div className="title row">
+<<<<<<< HEAD
             <h1 class="homepage-welcome">Welcome Back, {currentUser.username}!</h1>
+=======
+            <h1 class="homepage-welcome">Welcome Back, { username }!</h1>
+>>>>>>> master
           </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
@@ -120,7 +136,11 @@ class HomePage extends Component {
   }
 }
 
+<<<<<<< HEAD
 const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage, auth }) => {
+=======
+const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage }) => {
+>>>>>>> master
   return {
     lessonName: app.currentLesson.lessonName,
     chapterName: app.currentLesson.chapterName,
@@ -132,7 +152,12 @@ const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage, auth })
     isStatsLoading: statsForUser.isStatsLoading,
     percentageComplete: chapterProgressPercentage.percentageComplete,
     isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
+<<<<<<< HEAD
     currentUser: auth.currentUser
+=======
+    currentUser: auth.currentUser,
+    isLoggedIn: auth.isLoggedIn
+>>>>>>> master
   }
 }
 
