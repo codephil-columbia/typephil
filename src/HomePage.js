@@ -27,11 +27,10 @@ class HomePage extends Component {
 
       this.state = {
         headerLinks: ["Learn", "Progress" ], //"Home"],
-        badges: ["WPM", "Accuracy", "Badges"],
+        badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
-          "Accuracy is how \n accurately you type \n words that appear." //,
-          // "The number of badges \n you have \n earned so far."
+          "Accuracy is how \n accurately you type \n words that appear."
         ]
       }
   }
@@ -46,10 +45,6 @@ class HomePage extends Component {
       this.setState({redirectLesson: true})
   }
 
-  splitBadgeDescriptionByLine = desc => {
-    return desc.split('\n');
-  }
-
   formatText = (chapterName, lessonName) => {
     const title = `${chapterName.split(":")[0]} | ${lessonName.split(":")[0]}`
     const lesson = lessonName.split(":")[1];
@@ -60,7 +55,6 @@ class HomePage extends Component {
     const { 
       badges, 
       headerLinks, 
-      username,
       badgeDescriptions 
     } = this.state;
 
@@ -73,7 +67,7 @@ class HomePage extends Component {
       avgAccuracy,
       isStatsLoading,
       percentageComplete,
-      isPercentageLoading
+      isPercentageLoading,
     } = this.props;
 
     if(!hasFinishedLoading || isStatsLoading || isPercentageLoading) {
@@ -88,15 +82,17 @@ class HomePage extends Component {
     const stats = avgUserStats(
       badges, 
       badgeDescriptions, 
-      [avgWPM, avgAccuracy] //, 0]
+      [avgWPM, avgAccuracy]
     );
+
+    const { username } = this.props.currentUser
 
     return (
       <div>
         <Header links={headerLinks} isLoggedIn={true} username={this.props.username}/>
         <div className="container">
           <div className="title row">
-            <h1 class="homepage-welcome">Welcome Back, Phil!</h1>
+            <h1 class="homepage-welcome">Welcome Back, { username }!</h1>
           </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
