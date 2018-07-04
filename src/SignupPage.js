@@ -96,16 +96,18 @@ class SignupPage extends Component {
 
   signup = (e) => {
     e.preventDefault();
-    const { firstname, lastname, username, password, occupation, gender } = this.state // TODO add firstname, lastname to db model (?)
+    const { firstname, lastname, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstname, lastname to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
-    var res = this.props.dispatchSignup({ 
+    const res = this.props.dispatchSignup({ 
       firstname,
       lastname,
       username,
       password,
       occupation,
+      whichOccupation,
       gender,
-      dob
+      dob,
+      schoolyear
     });
   }
 
@@ -264,7 +266,7 @@ class SignupPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.isLoggedIn,
+    isLoggedIn: state.auth.isLoggedIn,
     isSignedUp: state.isSignedUp,
     usernameValid: state.usernameValid
   }

@@ -34,15 +34,16 @@ const HeaderRight = props => {
                     </li>
                 )
             })}
-            <li className="navigation-item">{ props.isLoggedIn ? <ProfileOptions/> : "" }</li>
+
+            { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} /></li> }
         </ul>
     )
 }
 
-const ProfileOptions = _ => {
+const ProfileOptions = props => {
   return (
     <select>
-      <option selected hidden disabled id="user-option">P</option>
+      <option selected hidden disabled id="user-option">{ props.username } </option>
       <option>My Account</option>
       <option>Log Out</option>
     </select>

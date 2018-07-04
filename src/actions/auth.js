@@ -1,12 +1,6 @@
 import axios from 'axios';
 import {api_url} from '../constants'
 
-/*export const usernameValid = (valid) => {
-  return {
-    type: valid ? 'USERNAME_VALID' : 'USERNAME_INVALID'
-  }
-}*/
-
 export const signupSuccess = () => {
   return {
     type: 'SIGNUP_SUCCESS'
@@ -20,15 +14,22 @@ export const signupError = err => {
   }
 }
 
-export const loginSuccess = () => {
+export const loginSuccess = ( username, password ) => { // TODO replace password with call to backend (unsafe)
   return {
-    type: 'LOGIN_SUCCESS'
+    type: 'LOGIN_SUCCESS',
+    isLoggedIn: true,
+    currentUser: {
+      username: username,
+      password: password
+    }
   }
 }
 
-export const loggedIn = () => {
+export const LOGGED_IN = 'LOGGED_IN';
+export const loggedIn = ({ data }) => {
   return {
-    type: 'LOGGED_IN'
+    type: LOGGED_IN,
+    data
   }
 }
 
@@ -49,13 +50,13 @@ export const dispatchLogin = (username, password) => (dispatch) =>
           dispatch(loginError());
           reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
-          dispatch(loginSuccess());
-          dispatch(loggedIn()); // TEMP for auth compatibility
+          dispatch(loginSuccess( username, password ));
+          //dispatch(loggedIn()); // TEMP for auth compatibility
           resolve(1); // 1 : successful login
         }
     }).catch(err => {
-        dispatch(loginError());
-        reject(0);
+      dispatch(loginError());
+      reject(0);
     })
   });
 
@@ -68,6 +69,7 @@ export const dispatchSignup = (data) => {
         dispatch(signupError());
       }
       dispatch(signupSuccess());
+      dispatch(loggedIn(res));
     }).catch(err => {
       dispatch(signupError());
     });
@@ -103,3 +105,4 @@ export const dispatchPassword = (username, password) => {
     });
   }
 }*/
+
