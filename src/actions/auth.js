@@ -1,12 +1,6 @@
 import axios from 'axios';
 import {api_url} from '../constants'
 
-/*export const usernameValid = (valid) => {
-  return {
-    type: valid ? 'USERNAME_VALID' : 'USERNAME_INVALID'
-  }
-}*/
-
 export const signupSuccess = () => {
   return {
     type: 'SIGNUP_SUCCESS'
@@ -31,13 +25,13 @@ export const loginSuccess = ( username, password ) => { // TODO replace password
   }
 }
 
-/*
-export const loggedIn = () => {
+export const LOGGED_IN = 'LOGGED_IN';
+export const loggedIn = ({ data }) => {
   return {
-    type: 'LOGGED_IN'
+    type: LOGGED_IN,
+    data
   }
 }
-*/
 
 export const loginError = err => {
   return {
@@ -75,6 +69,7 @@ export const dispatchSignup = (data) => {
         dispatch(signupError());
       }
       dispatch(signupSuccess());
+      dispatch(loggedIn(res));
     }).catch(err => {
       dispatch(signupError());
     });

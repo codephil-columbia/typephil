@@ -16,14 +16,14 @@ import {
 
 import "./style/styles.css";
 import "./style/HomePage.css";
+import { METHODS } from 'http';
 
 class HomePage extends Component {
   constructor(props) {
       super(props);
 
-      this.props.getCurrentLessonForUser("bbu9uqje8cdm8j5109ug");
-      this.props.getAverageStats("bbu9uqje8cdm8j5109ug");
-      this.props.getChapterProgress("bbu9uqje8cdm8j5109ug");
+      const { uid } = this.props.currentUser;
+      this.setup(uid);
 
       this.state = {
         headerLinks: ["Learn", "Progress" ], //"Home"],
@@ -34,6 +34,12 @@ class HomePage extends Component {
           // "The number of badges \n you have \n earned so far."
         ]
       }
+  }
+
+  setup(uid) {
+    this.props.getCurrentLessonForUser(uid);
+    this.props.getAverageStats(uid);
+    this.props.getChapterProgress(uid);
   }
 
   redirectLesson = () => {
@@ -134,7 +140,8 @@ const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage })
     isStatsLoading: statsForUser.isStatsLoading,
     percentageComplete: chapterProgressPercentage.percentageComplete,
     isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
-    username: auth.username
+    currentUser: auth.currentUser,
+    isLoggedIn: auth.isLoggedIn
   }
 }
 

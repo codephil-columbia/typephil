@@ -7,7 +7,6 @@ import { combineReducers } from 'redux';
 
 import {
   isLoggedIn,
-  auth,
   app
 } from './reducers';
 
@@ -16,6 +15,9 @@ import {
   chapterProgressPercentage
 } from './reducers/homepage';
 
+import {
+  auth
+} from './reducers/auth'
 
 localforage.config({
   driver      : localforage.WEBSQL,
@@ -33,9 +35,16 @@ const persistConfig = {
   debug: true
 }
 
+const persistAuthConfig = {
+  storage: localforage,
+  whitelist: ['isLoggedIn', 'currentUser'],
+  key: 'root',
+  debug: true
+}
+
 const TypePhilApp = combineReducers({
   isLoggedIn,
-  auth,
+  auth: persistReducer(persistAuthConfig, auth),
   statsForUser,
   chapterProgressPercentage,
   app: persistReducer(persistConfig, app)

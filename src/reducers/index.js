@@ -39,15 +39,6 @@ import {
   FETCH_COMPLETED_LESSONS_FAILED
 } from '../actions/learn';
 
-const authInitialState = {
-  isLoggedIn: false,
-  currentUser: {
-    username: "",
-    password: "",
-    uid: "",
-  }
-}
-
 const initialAppState = {
   currentLesson: {
     name: "",
@@ -301,21 +292,6 @@ export const lessonSession = (state = app.currentLessonSession, action) => {
       }
     default:
       return state;
-  }
-}
-
-export const auth = (state = authInitialState, action) => {
-  console.log("ACTION", action);
-  switch (action.type) {
-    case "LOGIN_SUCCESS":
-      return {
-        currentUser: {
-          ...action.currentUser
-        },
-        isLoggedIn: action.isLoggedIn
-      }
-    default:
-      return state
   }
 }
 
