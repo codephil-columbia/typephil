@@ -51,6 +51,7 @@ export const dispatchLogin = (username, password) => (dispatch) =>
           reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
           dispatch(loginSuccess( username, password ));
+          dispatch(loggedIn(res));
           //dispatch(loggedIn()); // TEMP for auth compatibility
           resolve(1); // 1 : successful login
         }

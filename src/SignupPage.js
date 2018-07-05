@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { dispatchSignup } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -99,7 +99,7 @@ class SignupPage extends Component {
     e.preventDefault();
     const { firstname, lastname, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstname, lastname to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
-    const res = this.props.dispatchSignup({ 
+    this.props.dispatchSignup({ 
       firstname,
       lastname,
       username,
@@ -126,10 +126,12 @@ class SignupPage extends Component {
   }
 
   render() {
-    const { isLoggedIn, isSignedUp, usernameValid } = this.props;
+    const { isLoggedIn } = this.props;
+    
     if(isLoggedIn) {
-      return <Redirect to="/home"/>
+      this.props.onSuccessfulAuth();
     }
+
     const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(moment.monthsShort().indexOf(this.state.month)+1, this.state.year);
     const { firstname, lastname, username, password, password_c, schoolyear, occupation } = this.state;
     const errors = this.validate(firstname, lastname, username, password, password_c, schoolyear, occupation);

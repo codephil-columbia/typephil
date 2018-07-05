@@ -21,16 +21,9 @@ import { METHODS } from 'http';
 class HomePage extends Component {
   constructor(props) {
       super(props);
-<<<<<<< HEAD
-      const { uid } = this.props.currentUser;
-      this.props.getCurrentLessonForUser(uid);
-      this.props.getAverageStats(uid);
-      this.props.getChapterProgress(uid);
-=======
 
       const { uid } = this.props.currentUser;
       this.setup(uid);
->>>>>>> master
 
       this.state = {
         headerLinks: ["Learn", "Progress" ], //"Home"],
@@ -75,10 +68,6 @@ class HomePage extends Component {
       isStatsLoading,
       percentageComplete,
       isPercentageLoading,
-<<<<<<< HEAD
-      currentUser
-=======
->>>>>>> master
     } = this.props;
 
     if(!hasFinishedLoading || isStatsLoading || isPercentageLoading) {
@@ -100,11 +89,7 @@ class HomePage extends Component {
         <Header links={headerLinks} isLoggedIn={true} username={this.props.username}/>
         <div className="container">
           <div className="title row">
-<<<<<<< HEAD
-            <h1 class="homepage-welcome">Welcome Back, {currentUser.username}!</h1>
-=======
             <h1 class="homepage-welcome">Welcome Back, { username }!</h1>
->>>>>>> master
           </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
@@ -136,11 +121,7 @@ class HomePage extends Component {
   }
 }
 
-<<<<<<< HEAD
-const mapStateToProps = ({ app, statsForUser, chapterProgressPercentage, auth }) => {
-=======
 const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage }) => {
->>>>>>> master
   return {
     lessonName: app.currentLesson.lessonName,
     chapterName: app.currentLesson.chapterName,
@@ -152,12 +133,8 @@ const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage })
     isStatsLoading: statsForUser.isStatsLoading,
     percentageComplete: chapterProgressPercentage.percentageComplete,
     isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
-<<<<<<< HEAD
-    currentUser: auth.currentUser
-=======
     currentUser: auth.currentUser,
     isLoggedIn: auth.isLoggedIn
->>>>>>> master
   }
 }
 

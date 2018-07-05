@@ -35,7 +35,7 @@ class LoginPage extends Component {
   handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
     if(res) { // res = 1 means successful login TODO unhack this since props are passed
       this.setState({ loginWasSuccessful: true });
-      window.location = '/home';
+      this.props.onSuccessfulAuth();
     }
   }
 
@@ -63,6 +63,9 @@ class LoginPage extends Component {
   render() {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
+
+    if(isLoggedIn) 
+      return <Redirect to="home"/>
 
     return (
       <div>
@@ -133,9 +136,9 @@ class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth }) => {
   return {
-    isLoggedIn: state.isLoggedIn
+    isLoggedIn: auth.isLoggedIn
   }
 }
 
