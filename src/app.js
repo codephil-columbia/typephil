@@ -3,7 +3,6 @@ import { Connect, connect } from 'react-redux';
 import { withRouter } from 'react-router'
 
 import { Route, Switch, Redirect } from 'react-router-dom'
-import ProtectedRoute from './routes/ProtectedRoute';
 
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
