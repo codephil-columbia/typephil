@@ -16,7 +16,6 @@ import {
 
 import "./style/styles.css";
 import "./style/HomePage.css";
-import { METHODS } from 'http';
 
 class HomePage extends Component {
   constructor(props) {

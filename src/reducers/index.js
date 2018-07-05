@@ -43,27 +43,14 @@ import {
 const initialAppState = {
   currentLesson: {
     name: "",
-    chapterID: "e6a18785-98c5-41bc-ad98-ec5d3a243d15",
-    lessonID: "d3f9c2a3-1edf-42a6-a24d-3a4ad4683036",
+    chapterID: "",
+    lessonID: "",
     chapterImage: null,
     hasFinishedLoading: false,
     showSpinner: true,
     lessonInformation: [
-      "Most keyboards have two Shift keys: one on the left and one on the right.",
-      `The Shift key is pressed using the pinky finger. Check out the illustration
-      below and press the Shift key to continue.`,
-      `Most keyboards have two shift keys: one on the left and one on the right.`,
-      `Shift keys can be tricky at first. It is recommended that you use the left 
-      shift key when you are typing on the right side of the keyboard and the right
-      shift key when are typing on the left side of the keyboard.`,
-      ""
     ],
     lessonContent: [
-      "",
-      "",
-      "",
-      "",
-      "hhhhhhhhhhhhh lL",
     ],
     hasPostedResults: false
   },
@@ -181,6 +168,8 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         chaptername,
         lessonid,
         lessonname,
+        lessontext,
+        lessondescriptions
       } = action.data; 
       return { ...state,
         chapterID: chapterid,
@@ -188,6 +177,8 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         chapterName: chaptername,
         lessondID: lessonid,
         lessonName: lessonname,
+        lessonText: lessontext,
+        lessonDescriptions: lessondescriptions,
         hasFinishedLoading: true,
         showSpinner: false
       }

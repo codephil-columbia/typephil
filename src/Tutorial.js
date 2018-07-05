@@ -14,7 +14,6 @@ import {
 
 import LessonTutorialButtons from './components/TutorialButtons';
 import TutorialContent from './components/TutorialContent';
-import TutorialStats from './components/TutorialStats';
 import Header from './components/header';
 import Keyboard from './components/Keyboard';
 import RightHand from './components/RightHand';
@@ -24,6 +23,8 @@ class Tutorial extends Component {
 
   constructor(props) {
     super(props);
+    
+    this.props.fetchCurrentLessonIfNeeded(this.props.currentUser.uid);
 
     const { currentLesson } = this.props;
     const { lessonContent, lessonInformation } = currentLesson;
@@ -145,7 +146,7 @@ class Tutorial extends Component {
             completed={this.finishedLesson}
             completedStats={this.setTutorialStats}
             isFinished={isFinished}
-            currentUser={this.props.auth.currentUser}
+            currentUser={this.props.currentUser}
           />}
           {!isActive && !isFinished && <div className="tutorial-hands-keyboard">
             <LeftHand />
@@ -175,7 +176,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = ({ app, auth }) => ({
   currentLesson: app.currentLesson,
-  auth
+  currentUser: auth.currentUser
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tutorial);

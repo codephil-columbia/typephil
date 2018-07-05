@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { api_url } from '../constants';
 
 export const FETCH_ALL_CHAPTERS_REQUEST = "FETCH_ALL_CHAPTERS_REQUEST"
 export const FETCH_ALL_CHAPTERS_SUCCESS = "FETCH_ALL_CHAPTERS_SUCCESS";
@@ -27,7 +28,7 @@ const fetchAllChapterNamesFailed = err => {
 export const fetchAllChapterNames = _ => {
   return function(dispatch) {
     dispatch(fetchAllChapterNamesRequest());
-    return axios.get("http://localhost:5000/chapter/getAllNames")
+    return axios.get(`${api_url}/chapter/getAllNames`)
       .then(res => {
         const {
           data
@@ -67,7 +68,7 @@ const fetchAllPairsFailed = err => {
 export const fetchAllPairs = uid => {
   return function(dispatch) {
     dispatch(fetchAllPairsRequest());
-    return axios.get("http://localhost:5000/chapter/getAllInfo")
+    return axios.get(`${api_url}/chapter/getAllInfo`)
       .then(res => {
         const {
           data
@@ -108,7 +109,7 @@ const fetchCompletedLessonsFailed = err => {
 export const fetchCompletedLessons = uid => {
   return function(dispatch) {
     dispatch(fetchCompletedLessonsRequest());
-    return axios.post("http://localhost:5000/lesson/getCompletedLessons", { uid })
+    return axios.post(`${api_url}/lesson/getCompletedLessons`, { uid })
       .then(res => {
         const { data } = res;
         dispatch(fetchCompletedLessonsSuccess(data));
