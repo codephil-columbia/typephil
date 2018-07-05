@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { api_url } from '../constants';
 import { getCurrentLessonForUser } from './homepage';
 
 export const MOVE_INDEX_PTR = "MOVE_INDEX_PTR";
@@ -33,3 +35,23 @@ export const fetchCurrentLessonIfNeeded = (uid) => {
     }
   }
 }
+
+export const POST_TUTORIAL = "POST_TUTORIAL";
+export const postTutorialResults = (tutorialResult) => (dispatch) => {
+  axios.post(`${api_url}/lesson/finished`, tutorialResult)
+    .then(res => {
+      dispatch(postTutorialSuccess());
+    }).catch(_ => {
+      dispatch(postTutorialError());
+    })
+}
+
+export const POST_TUTORIAL_ERROR = "POST_TUTORIAL_ERROR";
+export const postTutorialError = () => ({
+  type: POST_TUTORIAL_ERROR
+})
+
+export const POST_TUTORIAL_SUCCESS = "POST_TUTORIAL_SUCCESS";
+export const postTutorialSuccess = () => ({
+  type: POST_TUTORIAL_SUCCESS
+})

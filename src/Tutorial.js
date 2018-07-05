@@ -14,6 +14,7 @@ import {
 
 import LessonTutorialButtons from './components/TutorialButtons';
 import TutorialContent from './components/TutorialContent';
+import TutorialStats from './components/TutorialStats';
 import Header from './components/header';
 import Keyboard from './components/Keyboard';
 import RightHand from './components/RightHand';
@@ -38,6 +39,8 @@ class Tutorial extends Component {
       indexPtr: 0,
       isFinished: false,
       shouldFreeze: true,
+      wpm: 0,
+      totalTime: 0,
 
       headerLinks: ["Learn", "Progress", "Home"],
     };
@@ -47,9 +50,13 @@ class Tutorial extends Component {
     this.freezeTimerIfIsLessonInfo();
   }
 
+  setTutorialStats = ({ wpm, time, accuracy }) => {
+    this.setState({ wpm, accuracy, time });
+  }
+
   calculateTime = txt => {
     // Sang's ~magical algorithm~
-    return (txt.length/5) * 60/200 * 1000;
+    return (txt.length/5) * 60/200 * 100;
   };
 
   next = () => {
@@ -73,6 +80,7 @@ class Tutorial extends Component {
   };
 
   finishedLesson = () => {
+    console.log("FINISHED");
     this.setState({ isFinished: true });
   };
 
@@ -82,6 +90,10 @@ class Tutorial extends Component {
       lessonContent,
       lessonInformation
     } = this.state;
+
+    if(indexPtr >= lessonContent.length) {
+      this.finishedLesson();
+    }
 
     return { 
       content: lessonContent[indexPtr],
@@ -94,12 +106,15 @@ class Tutorial extends Component {
     if(!lessonInformation[indexPtr]) {
       return;
     }
-
     const totalTime = this.calculateTime(lessonInformation[indexPtr]);
     this.setState({ shouldFreeze: true });
     setTimeout(() => {
       this.setState({ shouldFreeze: false });
     }, totalTime);
+  };
+
+  showTutorialStats = () => {
+    console.log("tutorialstats");
   };
 
   render() { 
@@ -113,39 +128,26 @@ class Tutorial extends Component {
       shouldFreeze
     } = this.state;
 
-    if(indexPtr >= contentLength)
-      return <h1>done!</h1>;
-
     const { content, info } = this.getNextPair();
-    let isActive = true;
-    let isBubbleActive = false;
+    const isActive = content !== "";
 
-    if(isFinished) {
-      return <h3>isFinished</h3>
-    }
-
-    if(content === "") {
-      isActive = false;
-      isBubbleActive = true;
-    } else {
-      isBubbleActive = false;
-      isActive = true;
-    }
-
-    //TODO: decouple keyboard & hands from this component to be apart of TutorialContent}
+    //TODO: decouple keyboard & hands from this component to be apart of TutorialContent
     return (
       <div>
         <Header links={headerLinks}/>
         <div className="container tutorial">
-          {/* <SpeechBubble text={info} active={isBubbleActive} /> */}
           {!isActive && <div className="info-text">
             <h4>{info}</h4>
           </div>}
           {isActive && <TutorialContent
             currentContent={content}
             isActive={isActive}
+            completed={this.finishedLesson}
+            completedStats={this.setTutorialStats}
+            isFinished={isFinished}
+            currentUser={this.props.auth.currentUser}
           />}
-          {!isActive && <div className="tutorial-hands-keyboard">
+          {!isActive && !isFinished && <div className="tutorial-hands-keyboard">
             <LeftHand />
             <Keyboard />
             <RightHand />
@@ -171,8 +173,9 @@ const mapDispatchToProps = dispatch => {
   }, dispatch)
 }
 
-const mapStateToProps = ({ app }) => ({
-  currentLesson: app.currentLesson
+const mapStateToProps = ({ app, auth }) => ({
+  currentLesson: app.currentLesson,
+  auth
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tutorial);

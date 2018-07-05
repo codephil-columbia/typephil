@@ -74,10 +74,7 @@ class HomePage extends Component {
       return ShowSpinner();
     }
 
-    const { 
-      title, 
-      lesson 
-    } = this.formatText(chapterName, lessonName);
+    const { title, lesson } = this.formatText(chapterName, lessonName);
 
     const stats = avgUserStats(
       badges, 
@@ -96,19 +93,19 @@ class HomePage extends Component {
           </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
-              <h3 className="qs-lesson-title">{title}</h3>
-              <h3 className="qs-lesson-excersise">{lesson}</h3>
+              <h3 className="qs-lesson-title">{ title }</h3>
+              <h3 className="qs-lesson-excersise">{ lesson }</h3>
               <Link to="/tutorial">
                 <img src="images/buttons/Start-button.svg"/> 
               </Link>
               <div className="homepage-spacing"> </div>
-              <Line percent={percentageComplete} 
+              <Line percent={ percentageComplete } 
                 strokeWidth="2" 
                 strokeColor="#77BFA3" 
               />
               <div>
                 <h4 className="qs-progress-info">
-                  Current Progress - {percentageComplete}%
+                  Current Progress - { percentageComplete }%
                 </h4>
               </div>
             </div>

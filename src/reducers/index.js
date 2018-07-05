@@ -11,7 +11,8 @@ import {
   MOVE_INDEX_PTR,
   UNFREEZE,
   FREEZE,
-  TUTORIAL_COMPLETED
+  TUTORIAL_COMPLETED,
+  POST_TUTORIAL_SUCCESS
 } from "../actions/tutorial";
 
 import {
@@ -42,8 +43,8 @@ import {
 const initialAppState = {
   currentLesson: {
     name: "",
-    chapterID: "",
-    lessonID: "",
+    chapterID: "e6a18785-98c5-41bc-ad98-ec5d3a243d15",
+    lessonID: "d3f9c2a3-1edf-42a6-a24d-3a4ad4683036",
     chapterImage: null,
     hasFinishedLoading: false,
     showSpinner: true,
@@ -62,9 +63,9 @@ const initialAppState = {
       "",
       "",
       "",
-      "aaa AAA aaa AAA ;;; ::: ;;; aA aS Aa Ss :; ;: Ll lL",
+      "hhhhhhhhhhhhh lL",
     ],
-    indexPtr: 0
+    hasPostedResults: false
   },
 
   chapterLessonPairs: [],
@@ -117,23 +118,6 @@ export const app = (state = initialAppState, action) => {
       return { ...state,
         tutorialFinished: true
       }
-    case USER_PRESSED_KEY:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      return { ...state
-      }
-    case VALIDATE_PRESSED_KEY:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      return { ...state
-      }
-    case START_LESSON:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      state.currentLessonSession.currentLessonContent = currentLesson.lessonContent[currentLesson.indexPtr];
-      return { ...state
-      }
-    case STOP_LESSON:
-      state.currentLessonSession = lessonSession(state.currentLessonSession, action);
-      return { ...state
-      };
     case GET_CURRENT_LESSON:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state 
@@ -145,8 +129,7 @@ export const app = (state = initialAppState, action) => {
       return {...state, isLoading: true}
     case GET_CURRENT_LESSON_WAITING:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
-      return { ...state 
-      };
+      return { ...state };
     case FETCH_ALL_PAIRS_REQUEST:
       state.isLoading = true;
       return { ...state };
@@ -159,6 +142,9 @@ export const app = (state = initialAppState, action) => {
       return completedLessons(state, action);
     case FETCH_COMPLETED_LESSONS_SUCCESS:
       return completedLessons(state, action);
+    case POST_TUTORIAL_SUCCESS:
+      state.currentLesson = currentLessonReducer(state.currentLesson, action)
+      return { ...state };
     default:
       return state;
   }

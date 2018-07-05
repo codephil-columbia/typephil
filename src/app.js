@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Connect, connect } from 'react-redux';
+import { withRouter } from 'react-router'
 
-import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import ProtectedRoute from './routes/ProtectedRoute';
 
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
@@ -9,52 +11,60 @@ import Profile from './ProfilePage';
 import Learn from './Learn';
 import Tutorial from './Tutorial';                               
 import HomePage from './HomePage';
+import FourOhFour from './components/FourOhFour';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = { isAuthenticated: false };
   }
 
-  printName = () => {
-    console.log('name')
+  /**
+   * Passed down to components in charge of auth, when successdful, we manually retrigger React router to change the 
+   * url to the Home component.
+   */
+  onSuccessfulAuth = () => {
+    this.props.history.push("/home");
+    this.setState({ isAuthenticated: true })
   }
 
+  /**
+   * Routes for an authenticated user. Has a default 404 component that can show text or just redirect back to home.
+   * We need to keep the signup route here since App's render method will rerender signup after we have logged in, 
+   * and from Signup we use onSuccessfulAuth to trigger a url change to /home once the app is ready.
+   */
   userHasBeenAuthenticated = () => {
     return (
       <Switch>
         <Route path="/home" component={HomePage}/>
         <Route path="/learn" component={Learn}/>
-        <Route path="/tutorial" component={() => <Tutorial print={this.printName}/>}/>
+        <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
+        <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
+        <Route path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
+        <Route component={FourOhFour} />
       </Switch>
     )
   }
-
+  /**
+   * Routes for a non authenticated user.
+   */
   userHasNotBeenAuthenticated = () => {
     return (
       <Switch>
-        <Route exact path="/" component={LoginPage}/>
+        <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
+        <Route component={FourOhFour} />
       </Switch>
     )
   }
 
   render() {
-    //const { isLoggedIn } = false;//true; //this.props; TODO true just for frontend testing
-    const app = this.props.auth.isLoggedIn ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
-    console.log( "AUTH: ", this.props.auth );
-
+    const App = (this.props.auth.isLoggedIn) ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
     return (
-      <div>
-        <Switch>
-          <Route exact path="/" component={() => <LoginPage isLoggedIn={this.props.auth.isLoggedIn}/>}/>
-          <Route exact path="/home" component={HomePage}/>
-          <Route exact path="/learn" component={() => <Learn isLoggedIn={this.props.auth.isLoggedIn}/>}/>
-          <Route exact path="/tutorial" component={() => <Tutorial print={this.printName} isLoggedIn={this.props.auth.isLoggedIn}/>}/>
-          <Route exact path="/signup" component={SignupPage}/>
-          <Route exact path="/profile" component={() => <Profile auth={this.props.auth}/>}/>
-        </Switch>
-      </div>
+      <React.Fragment>
+        { App }
+      </React.Fragment>
     )
   }
 }
@@ -64,4 +74,4 @@ const mapStateToProps = ({ auth, app }) => ({
   app
 })
 
-export default connect(mapStateToProps)(App)
+export default withRouter(connect(mapStateToProps)(App));
