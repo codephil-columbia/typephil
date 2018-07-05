@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { api_url } from '../constants';
 
 export const GET_CURRENT_LESSON = "GET_CURRENT_LESSON";
 export const GET_CURRENT_LESSON_WAITING = "GET_CURRENT_LESSON_WAITING";
@@ -27,7 +28,7 @@ const getCurrentLessonForUserFailed = err => {
 export const getCurrentLessonForUser = uid => {
   return function (dispatch) {
     dispatch(getCurrentLessonForUserWaiting());
-    return axios.post('http://localhost:5000/lesson/getNext', { uid })
+    return axios.post(`${api_url}/lesson/getNext`, { uid })
       .then(res => {
         const {
           data
@@ -59,7 +60,7 @@ const getAverageStatsReq = () => {
 export const getAverageStats = (uid) => {
   return function(dispatch) {
     dispatch(getAverageStatsReq());
-    return axios.post('http://localhost:5000/hollisticStats', { uid })
+    return axios.post(`${api_url}/hollisticStats`, { uid })
       .then(res => {
         const { data } = res;
         dispatch(getAverageStatsSuccess(data));
@@ -91,7 +92,7 @@ const getChapterProgressReq = () => {
 export const getChapterProgress = (uid) => {
   return function(dispatch) {
     dispatch(getChapterProgressReq());
-    return axios.post("http://localhost:5000/chapter/getChapterProgress", { uid })
+    return axios.post(`${api_url}/chapter/getChapterProgress`, { uid })
       .then(res => {
         const { data } = res;
         dispatch(getChapterProgressSuccess(data));
