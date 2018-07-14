@@ -20,8 +20,8 @@ class Learn extends Component {
     super(props);
 
     this.props.fetchAllChapterNames();
-    this.props.fetchAllPairs("bbu9uqje8cdm8j5109ug");
-    this.props.fetchCompletedLessons("bbu9uqje8cdm8j5109ug");
+    this.props.fetchAllPairs(this.props.currentUser.uid);
+    this.props.fetchCompletedLessons(this.props.currentUser.uid);
 
     this.state = {
       currentChapterIndex: -1,
@@ -62,14 +62,9 @@ class Learn extends Component {
   }
 
   prevChapter = () => {
-    let {  
-      currentChapterIndex,
-      shouldShowLessons
-    } = this.state;
-
+    let { currentChapterIndex,shouldShowLessons } = this.state;
     const { chapterLessonPairs } = this.props;
     const chapterCount = chapterLessonPairs.length;
-
     currentChapterIndex = Number(currentChapterIndex);
     
     if (currentChapterIndex - 1 === -1) {
@@ -91,7 +86,8 @@ class Learn extends Component {
       isLoading, 
       chapterLessonPairs, 
       allChapters, 
-      completedLessons 
+      completedLessons,
+      currentLessonName
     } = this.props;
 
     if(isLoading) {
@@ -108,12 +104,16 @@ class Learn extends Component {
     let title;
     let body;
     if (shouldShowLessons) {
-      body = <LessonsView lessons={chapterLessonPairs[currentChapterIndex].lessons} 
-      completed={completedLessons} />
+      body = (
+        <LessonsView 
+          lessons={chapterLessonPairs[currentChapterIndex].lessons} 
+          completed={completedLessons} 
+          mostRecentLessonName={currentLessonName}
+        />
+      );
       title = chapterLessonPairs[currentChapterIndex]['chapterName']
     } else {
-      body = <ChaptersView chapters={allChapters} 
-      userDidClickChapter={this.userDidClickChapter} />
+      body = <ChaptersView chapters={allChapters} userDidClickChapter={this.userDidClickChapter} />
       title = "Chapter Overview"
     }
 
@@ -143,7 +143,7 @@ class Learn extends Component {
                 </div>
                 <div className="arrow-right column column-10" onClick={this.nextChapter}/>
               </div>
-              { body }
+              {body}
             </div>
           </div>
         </div>
@@ -159,12 +159,14 @@ const mapDispatchToProps = dispatch => {
   }, dispatch);
 }
 
-const mapStateToProps = ({ app }) => {
+const mapStateToProps = ({ app, auth }) => {
   return {
     allChapters: app.allChapters,
     isLoading: app.isLoading,
     chapterLessonPairs: app.chapterLessonPairs,
     completedLessons: app.completedLessons,
+    currentUser: auth.currentUser,
+    currentLessonName: app.currentLesson.lessonName
   }
 }
 

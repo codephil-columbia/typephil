@@ -7,17 +7,11 @@ import Lock from './components/lock';
 class LessonsView extends Component {
   constructor(props) {
     super(props);
-
-    const firstLesson = this.props.lessons[0];
-    this.state = {
-      currentSelectedLesson: firstLesson,
-    }
+    this.state = { currentSelectedLesson: this.props.lessons[0] };
   }
 
   userDidChangeLesson = (clickedLesson) => {
-    this.setState({
-      currentSelectedLesson: clickedLesson
-    })
+    this.setState({ currentSelectedLesson: clickedLesson });
   }
 
   hasCompletedLesson = (currentLesson, completed) => {
@@ -30,47 +24,53 @@ class LessonsView extends Component {
     const { 
       lessons, 
       completed,
-      chapterName
     } = this.props;
-
-    const { 
-      currentSelectedLesson, 
-    } = this.state;
-
+    const { currentSelectedLesson } = this.state;
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
-    const lessonStatView = lessonStats
-      ? showLessonStats(currentSelectedLesson, lessonStats)
-      : <Lock />
+
+    let lessonStatView;
+    if(lessonStats) {
+      lessonStatView = showLessonStats(currentSelectedLesson, lessonStats);
+    } else {
+      lessonStatView = <Lock isMostRecentLesson={this.props.mostRecentLessonName === currentSelectedLesson.LessonName} />
+    }
 
     return (
       <div className="container lesson-wrapper"> 
         <div className="container lesson-left">
           {lessons.map((lesson, i) => {
             if(lesson.LessonName === currentSelectedLesson.LessonName) { 
-              return (<h4 style={{color: 'green'}} 
-                key={i}
-                onClick={() => this.userDidChangeLesson(lesson)}>
-                {lesson.LessonName}
-              </h4>)
+              return (
+                <h4 
+                  style={{color: 'green'}} 
+                  key={i}
+                  onClick={() => this.userDidChangeLesson(lesson)}>
+                  {lesson.LessonName}
+                </h4>
+              )
           } else if (this.hasCompletedLesson(lesson, completed)) {
-              return (<h4 style={{color: 'black'}}
-                key={i} 
-                onClick={() => this.userDidChangeLesson(lesson)}>
-                {lesson.LessonName}
-              </h4>)
+              return (
+                <h4 style={{color: 'black'}}
+                  key={i} 
+                  onClick={() => this.userDidChangeLesson(lesson)}>
+                  {lesson.LessonName}
+                </h4>
+              )
           } else {
-              return (<h4 style={{color: 'grey'}} 
-                key={i}
-                onClick={() => this.userDidChangeLesson(lesson)}>
-                {lesson.LessonName}
-              </h4>)
+              return (
+                <h4 style={{color: 'grey'}} 
+                  key={i}
+                  onClick={() => this.userDidChangeLesson(lesson)}>
+                  {lesson.LessonName}
+                </h4>
+              )
             }
           })}
         </div>
         <vl className="lesson-sep"/>
         <div className="container lesson-right">
           <div className="lesson-stats">
-            { lessonStatView }
+            {lessonStatView}
           </div>
         </div>
       </div>
