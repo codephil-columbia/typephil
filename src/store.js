@@ -37,7 +37,7 @@ const persistConfig = {
 
 const persistAuthConfig = {
   storage: localforage,
-  whitelist: ['isLoggedIn', 'currentUser'],
+  whitelist: ['auth', 'isLoggedIn', 'currentUser'],
   key: 'root',
   debug: true
 }
@@ -50,9 +50,16 @@ const TypePhilApp = combineReducers({
   app: persistReducer(persistConfig, app)
 })
 
-export let store = createStore(
+const persistedReducer = persistReducer(
+    persistConfig,
+    TypePhilApp
+);
+
+export let store = createStore( persistedReducer, composeWithDevTools(applyMiddleware(thunk)) );
+/*
     TypePhilApp,
     composeWithDevTools(applyMiddleware(thunk))
 );
+*/
 
-export let persistor = persistStore(store);
+export let persistor = persistStore( store );
