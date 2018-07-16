@@ -15,7 +15,7 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
-      headerLinks: ["Progress", "Learn"], //["Learn", "Progress", "Home"]
+      headerLinks: ["Progress", "Learn"],
       touched: {
         signin: false
       },
@@ -33,6 +33,7 @@ class LoginPage extends Component {
   }
 
   handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
+    console.log("handle after login");
     if(res) { // res = 1 means successful login TODO unhack this since props are passed
       this.setState({ loginWasSuccessful: true });
       this.props.onSuccessfulAuth();
@@ -64,8 +65,8 @@ class LoginPage extends Component {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
 
-    if(isLoggedIn) 
-      return <Redirect to="home"/>
+    //if(isLoggedIn) 
+      //return <Redirect to="home"/>
 
     return (
       <div>
@@ -138,17 +139,17 @@ class LoginPage extends Component {
 
 const mapStateToProps = ({ auth }) => {
   return {
+    currentUser: auth.currentUser,
     isLoggedIn: auth.isLoggedIn
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  /*return {
-    onLogin: (username, password) => {
-      return bindActionCreators({ dispatchLogin }, dispatch);
-    }
-  }*/
   return bindActionCreators({ dispatchLogin }, dispatch);
+}
+
+const componentWillUnmount = () => {
+  // TODO fill in to prevent memory leak
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
