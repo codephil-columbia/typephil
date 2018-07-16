@@ -30,22 +30,20 @@ localforage.config({
 const persistConfig = {
   storage: localforage,
   blacklist: ['currentLesson'],
-  whitelist: ['auth', 'isLoggedIn', 'currentUser'],
+  whitelist: ['auth'],
   key: 'root',
   debug: true
 }
 
 const persistAuthConfig = {
   storage: localforage,
-  whitelist: ['auth', 'isLoggedIn', 'currentUser'],
+  whitelist: ['auth' ],
   key: 'root',
   debug: true
 }
 
 const TypePhilApp = combineReducers({
-  isLoggedIn,
   auth: persistReducer(persistAuthConfig, auth),
-  statsForUser,
   chapterProgressPercentage,
   app: persistReducer(persistConfig, app)
 })
