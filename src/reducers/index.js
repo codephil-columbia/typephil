@@ -171,11 +171,12 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         lessontext,
         lessondescriptions
       } = action.data; 
+      console.log(action.data.chapterid);
       return { ...state,
         chapterID: chapterid,
         chapterImage: chapterimage,
         chapterName: chaptername,
-        lessondID: lessonid,
+        lessonID: lessonid,
         lessonName: lessonname,
         lessonText: lessontext,
         lessonDescriptions: lessondescriptions,
