@@ -159,9 +159,10 @@ class Tutorial extends Component {
   };
 
   postTutotialResultsAndRedirectToNextLesson = () => {
+    console.log(this.state.results);
     this.props.postTutorialResults({
-      wpm: Math.trunc((this.state.totalContentLength / 5) / (this.state.totalTime / 60)),
-      accuracy: (this.state.correctCount / this.state.totalContentLength) * 100,
+      wpm: Math.trunc((this.state.results.totalLength / 5) / ((this.state.results.totalTime)/60)),
+      accuracy: ((this.state.results.totalLength - this.state.results.totalIncorrect) / this.state.results.totalLength) * 100,
       uid: this.props.currentUser.uid,
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
