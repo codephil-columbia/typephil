@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Header from './components/header'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Spinner from 'react-spinkit';
+import { Redirect } from 'react-router-dom';
 import './style/Learn.css';
 
+import Header from './components/header'
 import LessonsView from './LessonsView';
 import ChaptersView from './ChaptersView';
 import ShowSpinner from './components/spinner';
@@ -12,7 +12,8 @@ import ShowSpinner from './components/spinner';
 import { 
   fetchAllChapterNames, 
   fetchAllPairs, 
-  fetchCompletedLessons 
+  fetchCompletedLessons,
+  restartLesson
 } from './actions/learn'
 
 class Learn extends Component {
@@ -24,12 +25,18 @@ class Learn extends Component {
     this.props.fetchCompletedLessons(this.props.currentUser.uid);
 
     this.state = {
+      shouldRedirectToLesson: false,
       currentChapterIndex: -1,
       shouldShowLessons: false,
       carouselTitle: "Chapter Overview",
       carouselDesc: "",
       headerLinks: ["Learn", "Progress", "Home"],
     }
+  }
+  
+  doRestartLesson = lessonID => {
+    this.props.restartLesson(lessonID);
+    this.setState({ shouldRedirectToLesson: true });
   }
 
   userDidClickChapter = i =>  {
@@ -98,8 +105,13 @@ class Learn extends Component {
       headerLinks, 
       shouldShowLessons, 
       currentChapterIndex,  
-      carouselDesc 
+      carouselDesc,
+      shouldRedirectToLesson
     } = this.state;
+
+    if(shouldRedirectToLesson) {
+      return <Redirect to="/tutorial" />
+    }
 
     let title;
     let body;
@@ -109,6 +121,7 @@ class Learn extends Component {
           lessons={chapterLessonPairs[currentChapterIndex].lessons} 
           completed={completedLessons} 
           mostRecentLessonName={currentLessonName}
+          doRestartLesson={this.doRestartLesson}
         />
       );
       title = chapterLessonPairs[currentChapterIndex]['chapterName']
@@ -155,7 +168,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ 
     fetchAllChapterNames, 
     fetchAllPairs, 
-    fetchCompletedLessons 
+    fetchCompletedLessons,
+    restartLesson
   }, dispatch);
 }
 

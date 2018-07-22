@@ -2,30 +2,25 @@ import axios from 'axios';
 import { api_url } from '../constants';
 import { getCurrentLessonForUser } from './homepage';
 
-export const MOVE_INDEX_PTR = "MOVE_INDEX_PTR";
-export const TUTORIAL_COMPLETED = "TUTORIAL_COMPLETED"
-export const UNFREEZE = "UNFREEZE";
-export const FREEZE = "FREEZE";
-
-export const moveIndexPtr = indexPtr => ({
-  type: MOVE_INDEX_PTR,
-  indexPtr
-})
-
-export const completedTutorial = () => ({
-  type: TUTORIAL_COMPLETED
-})
-
-export const unFreeze = () => ({
-  type: UNFREEZE 
-})
-
-export const freeze = () => ({
-  type: FREEZE
-})
-
 const shouldFetchCurrentLesson = (state) => {
   return state.app.currentLesson.lessonID === "";
+}
+
+export const FETCH_LESSON_SUCCESS = "FETCH_LESSON_SUCCESS";
+const fetchLessonSuccess = ({ lesson }) => ({
+  lesson,
+  type: FETCH_LESSON_SUCCESS
+});
+
+export const FETCH_LESSON = "FETCH_LESSON";
+export const fetchLesson = (lessonId) => dispatch => {
+  axios.post(`${api_url}/lesson/get`, {lessonid: lessonId})
+    .then(res => {
+      dispatch(fetchLessonSuccess(res.lesson));
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
 export const fetchCurrentLessonIfNeeded = (uid) => {

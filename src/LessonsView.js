@@ -21,16 +21,17 @@ class LessonsView extends Component {
   }
 
   render() {
-    const { 
-      lessons, 
+    const {
+      lessons,
       completed,
+      doRestartLesson
     } = this.props;
     const { currentSelectedLesson } = this.state;
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
 
     let lessonStatView;
     if(lessonStats) {
-      lessonStatView = showLessonStats(currentSelectedLesson, lessonStats);
+      lessonStatView = showLessonStats(currentSelectedLesson, lessonStats, doRestartLesson);
     } else {
       lessonStatView = <Lock isMostRecentLesson={this.props.mostRecentLessonName === currentSelectedLesson.LessonName} />
     }

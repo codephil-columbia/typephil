@@ -1,6 +1,7 @@
 import React from 'react';
+import Redirect from 'react-router-dom';
 
-const showLessonStats = (currentSelectedLesson, { Accuracy, WPM, LessonID}) => {
+const showLessonStats = (currentSelectedLesson, { Accuracy, WPM, lessonID}, doRestartLesson) => {
   return (
     <div>
       <div className="lesson-stats-icon row">
@@ -15,8 +16,10 @@ const showLessonStats = (currentSelectedLesson, { Accuracy, WPM, LessonID}) => {
         </div>
         <h3 className="lesson-badge-desc col">Accuracy</h3>
       </div>
-      <div className="lesson-stats-icon row">
-        <img 
+      <div 
+        className="lesson-stats-icon row" 
+        onClick={() => doRestartLesson(lessonID)}>
+        <img
           src="/images/buttons/ResumeButtonSquare.svg" 
           className="resume-button"
           alt="resume button">
@@ -25,6 +28,6 @@ const showLessonStats = (currentSelectedLesson, { Accuracy, WPM, LessonID}) => {
       </div>
     </div>
   )
-}
+};
 
 export default showLessonStats;

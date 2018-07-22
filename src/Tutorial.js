@@ -11,12 +11,9 @@ import RightHand from './components/RightHand';
 import LeftHand from './components/LeftHand';
 
 import { 
-  moveIndexPtr, 
-  unFreeze, 
-  freeze, 
-  completedTutorial,
   fetchCurrentLessonIfNeeded,
-  postTutorialResults
+  postTutorialResults,
+  fetchLesson
 } from './actions/tutorial';
 
 import { getCurrentLessonForUser } from './actions/homepage';
@@ -24,7 +21,8 @@ import { getCurrentLessonForUser } from './actions/homepage';
 class Tutorial extends Component {
   constructor(props) {
     super(props);
-    this.props.getCurrentLessonForUser(this.props.currentUser.uid);
+    this.props.fetchLesson(this.props.currentLesson.lessonID);
+    console.log(this.props);
 
     const { currentLesson } = this.props;
     const { lessonDescriptions, lessonText } = currentLesson;
@@ -239,13 +237,10 @@ class Tutorial extends Component {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators ({ 
-    moveIndexPtr, 
-    unFreeze, 
-    freeze, 
-    completedTutorial, 
     fetchCurrentLessonIfNeeded,
     postTutorialResults,
-    getCurrentLessonForUser
+    getCurrentLessonForUser,
+    fetchLesson
   }, dispatch)
 }
 
