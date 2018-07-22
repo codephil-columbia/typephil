@@ -15,8 +15,8 @@ class LessonsView extends Component {
   }
 
   hasCompletedLesson = (currentLesson, completed) => {
-    return completed.find(({ LessonID }) => {
-      return currentLesson.LessonID === LessonID;
+    return completed.find(({ lessonID }) => {
+      return currentLesson.LessonID === lessonID;
     });
   }
 

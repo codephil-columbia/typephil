@@ -117,38 +117,38 @@ class Learn extends Component {
       title = "Chapter Overview"
     }
 
-      return (
-        <div>
-          <Header links={headerLinks}/>
-          <div className="content container">
-            <div className="title">
-              <h2>Fundamentals of Typing Tutorial</h2>
-            </div>
-            <div className="block">
-              <div className="carousel row">
-                <div className="arrow-left column column-10" onClick={this.prevChapter} />
-                <div className="carousel-content column">
-                  <div className="carousel-title">
-                    <div onClick={this.prevChapter} className="learn-carousel-buttons">
-                      <img src="images/buttons/Left_Arrow_Thin.svg"></img>
-                    </div>
-                    <h2 className="chapter-title">{title}</h2>
-                    <div onClick={this.nextChapter} className="learn-carousel-buttons">
-                      <img src="images/buttons/Right_Arrow_Thin.svg"></img>
-                    </div>
+    return (
+      <div>
+        <Header links={headerLinks}/>
+        <div className="content container">
+          <div className="title">
+            <h2>Fundamentals of Typing Tutorial</h2>
+          </div>
+          <div className="block">
+            <div className="carousel row">
+              <div className="arrow-left column column-10" onClick={this.prevChapter} />
+              <div className="carousel-content column">
+                <div className="carousel-title">
+                  <div onClick={this.prevChapter} className="learn-carousel-buttons">
+                    <img src="images/buttons/Left_Arrow_Thin.svg"></img>
                   </div>
-                  <div className="carousel-desc">
-                    <h3 className="desc">{carouselDesc}</h3>
+                  <h2 className="chapter-title">{title}</h2>
+                  <div onClick={this.nextChapter} className="learn-carousel-buttons">
+                    <img src="images/buttons/Right_Arrow_Thin.svg"></img>
                   </div>
                 </div>
-                <div className="arrow-right column column-10" onClick={this.nextChapter}/>
+                <div className="carousel-desc">
+                  <h3 className="desc">{carouselDesc}</h3>
+                </div>
               </div>
-              {body}
+              <div className="arrow-right column column-10" onClick={this.nextChapter}/>
             </div>
+            {body}
           </div>
         </div>
-      )
-    }
+      </div>
+    )
+  }
 }
 
 const mapDispatchToProps = dispatch => {

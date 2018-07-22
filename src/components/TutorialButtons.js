@@ -3,7 +3,6 @@ import '../style/LessonTutorialButtons.css'
 
 
 const LessonTutorialButtons = ({ shouldFreeze, next, prev, isLastContent, redirectToNextLesson }) => {
-  console.log(isLastContent);  
   if(shouldFreeze)
     return "";
   return (
