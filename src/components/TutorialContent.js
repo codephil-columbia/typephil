@@ -10,7 +10,6 @@ import TutorialStats from './TutorialStats';
 import { postTutorialResults } from '../actions/tutorial';
 
 import "../style/TutorialContent.css"
-import { throws } from 'assert';
 
 const BACKSPACE = "Backspace";
 const DEFAULT_STYLE = "default-character";
