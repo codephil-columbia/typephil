@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { dispatchLogout } from '../actions/auth';
 import { Link } from 'react-router-dom';
 import '../style/navbar.css'
 
@@ -47,12 +51,17 @@ const ProfileOptions = props => {
 				<div> 
 					<Link to="/profile">My Account</Link>
 				</div>
-				<div><span>
+				<div onClick={dispatchLogout()}>
 					Log Out
-				</span></div>
+				</div>
 			</div>
     </div>
   )
 }
 
-export default Header;
+const mapDispatchToProps = dispatch => {
+	return bindActionCreators({ dispatchLogout }, dispatch);
+}
+
+export default connect(mapDispatchToProps)(Header);
+//export default Header;
