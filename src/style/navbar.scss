@@ -1,3 +1,6 @@
+$mountain-meadow: #1BBC9B;
+$turquoise: #36D7B7;
+
 .navigation {
 /*    background-color: #86E2D5;*/
     background-color: #77BFA3;
@@ -38,3 +41,35 @@
 .navigation-item:hover, .navigation-item:active {
     border-bottom-color: #FAFAFA;
 }
+
+.dropbtn {
+    color: white;
+    padding: 0 1em 1em 1em;
+    font-size: 16px;
+    border-radius: 50%;
+		height: 2.5em;
+		width: 2.5em;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+		background-color: $mountain-meadow;
+		color: #000;
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		right: 0;
+    z-index: 1;
+
+		div {
+			padding: 0.2em 0 0.2em 0.5em;
+		}
+}
+
+.dropdown-content div:hover {background-color: $turquoise;}
+.dropdown:hover .dropdown-content {display: block;}

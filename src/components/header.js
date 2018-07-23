@@ -25,7 +25,7 @@ const HeaderRight = props => {
     console.log(props);
     return (
         <ul className="navigation-list float-right nav-right-list">
-            <li className="navigation-item">{props.username}</li>
+            <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} /></li>
             { props.links === undefined ? "" : props.links.map((link, i) => {
                 const routePath = `/${link.toLowerCase()}`;
                 return (
@@ -35,18 +35,23 @@ const HeaderRight = props => {
                 )
             })}
 
-            { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} /></li> }
         </ul>
     )
 }
 
 const ProfileOptions = props => {
   return (
-    <select>
-      <option selected hidden disabled id="user-option">{ props.username } </option>
-      <option>My Account</option>
-      <option>Log Out</option>
-    </select>
+    <div className="dropdown">
+      <button className="dropbtn">{ props.username ? props.username.charAt(0) : '' }</button>
+			<div className="dropdown-content">
+				<div> 
+					<Link to="/profile">My Account</Link>
+				</div>
+				<div><span>
+					Log Out
+				</span></div>
+			</div>
+    </div>
   )
 }
 

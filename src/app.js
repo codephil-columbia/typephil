@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   /**
-   * Passed down to components in charge of auth, when successdful, we manually retrigger React router to change the 
+   * Passed down to components in charge of auth, when successful, we manually retrigger React router to change the 
    * url to the Home component.
    */
   onSuccessfulAuth = () => {
