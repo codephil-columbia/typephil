@@ -4,10 +4,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import localforage from 'localforage';
 import { combineReducers } from 'redux';
+ import logger from 'redux-logger'
 
 import {
   isLoggedIn,
-  app
+  app as appReducer
 } from './reducers';
 
 import {
@@ -16,7 +17,7 @@ import {
 } from './reducers/homepage';
 
 import {
-  auth
+  auth as authReducer
 } from './reducers/auth'
 
 localforage.config({
@@ -30,7 +31,6 @@ localforage.config({
 const persistConfig = {
   storage: localforage,
   blacklist: ['currentLesson'],
-  whitelist: ['auth'],
   key: 'root',
   debug: true
 }
@@ -38,14 +38,14 @@ const persistConfig = {
 const persistAuthConfig = {
   storage: localforage,
   whitelist: ['auth' ],
-  key: 'root',
+  key: 'auth',
   debug: true
 }
 
 const TypePhilApp = combineReducers({
-  auth: persistReducer(persistAuthConfig, auth),
+  auth: persistReducer(persistAuthConfig, authReducer),
   chapterProgressPercentage,
-  app: persistReducer(persistConfig, app)
+  app: persistReducer(persistConfig, appReducer)
 })
 
 const persistedReducer = persistReducer(
@@ -53,7 +53,12 @@ const persistedReducer = persistReducer(
     TypePhilApp
 );
 
-export let store = createStore( persistedReducer, composeWithDevTools(applyMiddleware(thunk)) );
+export let store = createStore( 
+    persistedReducer,
+    composeWithDevTools(applyMiddleware(thunk)),
+    applyMiddleware(logger)
+);
+
 /*
     TypePhilApp,
     composeWithDevTools(applyMiddleware(thunk))

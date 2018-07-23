@@ -15,6 +15,8 @@ import FourOhFour from './components/FourOhFour';
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this._isMounted = false;
     this.state = { isAuthenticated: false };
   }
 
@@ -66,6 +68,16 @@ class App extends Component {
       </React.Fragment>
     )
   }
+}
+
+/**
+ * Prevent memory leaks from unmounted components.
+ */
+const componentDidMount = () => {
+  this._isMounted = true;
+}
+const componentWillUnmount = () => {
+  this._isMounted = false;
 }
 
 const mapStateToProps = ({ auth, app }) => ({

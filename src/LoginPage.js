@@ -12,6 +12,7 @@ import './style/styles.css';
 class LoginPage extends Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
     this.state = {
       username: "",
       password: "",
@@ -34,7 +35,7 @@ class LoginPage extends Component {
 
   handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
     console.log("handle after login");
-    if(res) { // res = 1 means successful login TODO unhack this since props are passed
+    if(res && this._isMounted) { // res = 1 means successful login TODO unhack this since props are passed
       this.setState({ loginWasSuccessful: true });
       this.props.onSuccessfulAuth();
     }
@@ -62,6 +63,9 @@ class LoginPage extends Component {
   }
 
   render() {
+
+    console.log( this.props );
+
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
 
@@ -137,19 +141,31 @@ class LoginPage extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    isloggedIn: state.auth.isLoggedIn,
+    currentUser: state.auth.currentUser
+  }
+}
+
+/*
 const mapStateToProps = ({ auth }) => {
   return {
     currentUser: auth.currentUser,
     isLoggedIn: auth.isLoggedIn
   }
 }
+*/
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ dispatchLogin }, dispatch);
 }
 
+const componentDidMount = () => {
+  this._isMounted = true;
+}
 const componentWillUnmount = () => {
-  // TODO fill in to prevent memory leak
+  this._isMounted = false;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

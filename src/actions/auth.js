@@ -1,5 +1,9 @@
 import axios from 'axios';
 import {api_url} from '../constants'
+import {store} from '../store'
+
+export const LOG_IN = 'LOG_IN';
+export const LOGGED_IN = 'LOGGED_IN';
 
 export const signupSuccess = () => {
   return {
@@ -14,22 +18,22 @@ export const signupError = err => {
   }
 }
 
-export const loginSuccess = ( username, password ) => { // TODO replace password with call to backend (unsafe)
+export const login = ( username ) => {
   return {
-    type: 'LOGIN_SUCCESS',
-    isLoggedIn: true,
-    currentUser: {
+    type: LOG_IN,
+    payload: {
       username: username,
-      password: password
+      uid: "",
+      firstName: "",
+      lastName: "",
     }
   }
 }
 
-export const LOGGED_IN = 'LOGGED_IN';
 export const loggedIn = ({ data }) => {
   return {
     type: LOGGED_IN,
-    data
+    payload: data
   }
 }
 
@@ -50,9 +54,9 @@ export const dispatchLogin = (username, password) => (dispatch) =>
           dispatch(loginError());
           reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
-          dispatch(loginSuccess( username, password ));
+          dispatch(login(username));
           dispatch(loggedIn(res));
-          //dispatch(loggedIn()); // TEMP for auth compatibility
+          store.dispatch(login(username));
           resolve(1); // 1 : successful login
         }
     }).catch(err => {
