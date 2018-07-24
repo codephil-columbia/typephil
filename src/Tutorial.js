@@ -48,7 +48,7 @@ class Tutorial extends Component {
       totalContentLength,
       content: contentList[0],
       correctCount: 0,
-      headerLinks: ["Learn", "Progress", "Home"],
+      headerLinks: ["Learn", "Home"],
       indexPtr: 0,
       shouldFreeze: true,
       totalTime: 0,

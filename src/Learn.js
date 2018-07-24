@@ -30,7 +30,7 @@ class Learn extends Component {
       shouldShowLessons: false,
       carouselTitle: "Chapter Overview",
       carouselDesc: "",
-      headerLinks: ["Learn", "Progress", "Home"],
+      headerLinks: ["Learn", "Home"],
     }
   }
   
