@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { dispatchLogout } from '../actions/auth';
+import { store } from '../store.js';
 import { Link } from 'react-router-dom';
 import '../style/navbar.css'
 
@@ -51,7 +52,7 @@ const ProfileOptions = props => {
 				<div> 
 					<Link to="/profile">My Account</Link>
 				</div>
-				<div onClick={dispatchLogout()}>
+				<div onClick={store.dispatch(dispatchLogout())}>
 					Log Out
 				</div>
 			</div>
@@ -59,9 +60,4 @@ const ProfileOptions = props => {
   )
 }
 
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({ dispatchLogout }, dispatch);
-}
-
-export default connect(mapDispatchToProps)(Header);
-//export default Header;
+export default Header;

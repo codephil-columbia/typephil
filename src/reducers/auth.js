@@ -1,4 +1,4 @@
-import { LOG_IN, LOGGED_IN } from '../actions/auth';
+import { LOG_IN, LOGGED_IN, LOG_OUT } from '../actions/auth';
 
 export const auth = (state = authInitialState, action) => {
     const { payload } = action;
@@ -16,6 +16,11 @@ export const auth = (state = authInitialState, action) => {
             lastName: payload.lastName
           },
           isLoggedIn: state.isLoggedIn
+        }
+      case LOG_OUT:
+        return {
+          currentUser: payload,
+          isLoggedIn: false 
         }
       default:
         return state
