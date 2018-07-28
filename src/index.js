@@ -10,12 +10,12 @@ import './style/index.scss';
 
 import { store, persistor } from './store';
 
-const Something = () => {
+const Loading = () => {
   return <div>Loading</div>
 }
 
 ReactDOM.render(
-  <PersistGate loading={<Something />} persistor={persistor}>
+  <PersistGate loading={<Loading/>} persistor={persistor}>
     <Provider store={store}>
       <BrowserRouter>
         <App/>
