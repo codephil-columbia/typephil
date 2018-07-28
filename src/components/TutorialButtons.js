@@ -69,8 +69,8 @@ const NextButton = ({ next, shouldRedirectToNextLesson }) => (
                         fontSize="25" 
                         fontWeight="500" 
                         fill="#52B094">
-                        <tspan y="31" x={shouldRedirectToNextLesson ? "-15" : "0"}>
-                            {shouldRedirectToNextLesson ? "Next Lesson" : "Next"}
+                        <tspan y="31" x="0">
+                            {shouldRedirectToNextLesson ? "Next" : "Next"}
                         </tspan>
                       </text>
                       <polygon 

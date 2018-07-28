@@ -15,7 +15,6 @@ class LessonsView extends Component {
   }
 
   hasCompletedLesson = (currentLesson, completed) => {
-    console.log(currentLesson, completed);
     if (completed === null) {
       return;
     }

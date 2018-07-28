@@ -2,19 +2,9 @@ import axios from 'axios';
 import { api_url } from '../constants';
 import { getCurrentLessonForUser } from './homepage';
 
-const shouldFetchCurrentLesson = (state) => {
-  return state.app.currentLesson.lessonID === "";
-}
-
-export const FETCH_LESSON_SUCCESS = "FETCH_LESSON_SUCCESS";
-const fetchLessonSuccess = (data) => ({
-  data,
-  type: FETCH_LESSON_SUCCESS
-});
-
-export const FETCH_LESSON = "FETCH_LESSON";
-const fetchLessonRequest = () => ({
-  type: FETCH_LESSON
+export const REDIRECT_TO_NEXT_LESSON = "REDIRECT_TO_NEXT_LESSON";
+export const redirectToNextLesson = () => ({
+  type: REDIRECT_TO_NEXT_LESSON
 });
 
 export const fetchLesson = (lessonId) => dispatch => {
@@ -28,19 +18,23 @@ export const fetchLesson = (lessonId) => dispatch => {
     })
 }
 
-export const fetchCurrentLessonIfNeeded = (uid) => {
-  return function(dispatch, getState) {
-    if(shouldFetchCurrentLesson(getState())) {
-      dispatch(getCurrentLessonForUser(uid));
-    }
-  }
-}
+export const FETCH_LESSON_SUCCESS = "FETCH_LESSON_SUCCESS";
+const fetchLessonSuccess = (data) => ({
+  data,
+  type: FETCH_LESSON_SUCCESS
+});
+
+export const FETCH_LESSON = "FETCH_LESSON";
+const fetchLessonRequest = () => ({
+  type: FETCH_LESSON
+});
 
 export const POST_TUTORIAL = "POST_TUTORIAL";
 export const postTutorialResults = (tutorialResult) => (dispatch) => {
   axios.post(`${api_url}/lesson/test`, tutorialResult)
     .then(res => {
       dispatch(postTutorialSuccess());
+      dispatch(getCurrentLessonForUser(tutorialResult.uid));
     }).catch(_ => {
       dispatch(postTutorialError());
     })

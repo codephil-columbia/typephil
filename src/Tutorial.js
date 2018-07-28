@@ -11,19 +11,14 @@ import RightHand from './components/RightHand';
 import LeftHand from './components/LeftHand';
 import ShowSpinner from './components/spinner';
 
-import { 
-  fetchCurrentLessonIfNeeded,
-  postTutorialResults,
-  fetchLesson
-} from './actions/tutorial';
-
+import { postTutorialResults, fetchLesson, redirectToNextLesson } from './actions/tutorial';
 import { getCurrentLessonForUser } from './actions/homepage';
 
 class Tutorial extends Component {
   constructor(props) {
     super(props);
-    this.props.fetchLesson(this.props.currentLesson.lessonID);
 
+    this.props.fetchLesson(this.props.currentLesson.lessonID);
     const { currentLesson } = this.props;
     const { lessonDescriptions, lessonText } = currentLesson;
 
@@ -40,7 +35,7 @@ class Tutorial extends Component {
       }
     });
     const totalContentLength = contentList.length;
-    
+
     this.state = {
       contentList,
       contentTypeList,
@@ -62,6 +57,56 @@ class Tutorial extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.currentLesson.lessonID != prevProps.currentLesson.lessonID) {
+      console.log(prevProps.currentLesson, this.props.currentLesson);
+      this.setUp(this.props.currentLesson);
+    }
+  }
+
+  componentWillMount = () => {
+    this.freezeTimerIfIsLessonText();
+  }
+
+  setUp = (currentLesson) => {
+    const { lessonDescriptions, lessonText } = currentLesson;
+
+    const contentList = [];
+    const contentTypeList = [];
+    lessonText.forEach((val, i) => {
+      if(val !== "") {
+        contentList.push(val);
+        contentTypeList.push(this.contentType.TEXT)
+      }
+      if(lessonDescriptions[i] !== "") {
+        contentList.push(lessonDescriptions[i]);
+        contentTypeList.push(this.contentType.DESCRIPTION);
+      }
+    });
+    const totalContentLength = contentList.length;
+
+    this.setState({
+      contentList,
+      contentTypeList,
+      lessonDescriptions,
+      totalContentLength,
+      content: contentList[0],
+      correctCount: 0,
+      indexPtr: 0,
+      shouldFreeze: true,
+      totalTime: 0,
+      userState: this.appState.READING,
+      wpm: 0,
+      results: {
+        totalTime: 0,
+        totalLength: 0,
+        totalIncorrect: 0,
+      }
+    })
+
+    this.freezeTimerIfIsLessonText();
+  }
+
   appState = Object.freeze({
     COMPLETED_TUTORIAL: "completed",
     READING: "reading",
@@ -74,10 +119,6 @@ class Tutorial extends Component {
     DESCRIPTION: "description",
     TEXT: "text"
   })
-
-  componentWillMount = () => {
-    this.freezeTimerIfIsLessonText();
-  }
 
   updateResults = ({ time, length, incorrect }) => {
     console.log("getting results", time, length, incorrect);
@@ -157,7 +198,6 @@ class Tutorial extends Component {
   };
 
   postTutotialResultsAndRedirectToNextLesson = () => {
-    console.log(this.state.results);
     this.props.postTutorialResults({
       wpm: Math.trunc((this.state.results.totalLength / 5) / ((this.state.results.totalTime)/60)),
       accuracy: ((this.state.results.totalLength - this.state.results.totalIncorrect) / this.state.results.totalLength) * 100,
@@ -165,7 +205,6 @@ class Tutorial extends Component {
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
     })
-    this.props.getCurrentLessonForUser(this.props.currentUser.uid);
   }
 
   // In the case the last rendered content is text, we still want to make sure we record the lesson, 
@@ -178,7 +217,6 @@ class Tutorial extends Component {
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
     })
-    this.props.getCurrentLessonForUser(this.props.currentUser.uid);
   }
 
   render() { 
@@ -189,7 +227,6 @@ class Tutorial extends Component {
       totalContentLength,
     } = this.state;
 
-    console.log(this.props.currentLesson.showSpinner);
     if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
       return ShowSpinner();
     }
@@ -242,10 +279,10 @@ class Tutorial extends Component {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators ({ 
-    fetchCurrentLessonIfNeeded,
     postTutorialResults,
     getCurrentLessonForUser,
-    fetchLesson
+    fetchLesson,
+    redirectToNextLesson,
   }, dispatch)
 }
 

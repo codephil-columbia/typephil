@@ -38,6 +38,7 @@
     "object-assign": "4.1.1",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
+    "popmotion-pose": "^2.1.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
