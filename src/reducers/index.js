@@ -1,5 +1,6 @@
 import {
-  POST_TUTORIAL_SUCCESS
+  POST_TUTORIAL_SUCCESS,
+  FETCH_LESSON_SUCCESS
 } from "../actions/tutorial";
 
 import {
@@ -14,7 +15,7 @@ import {
   FETCH_ALL_PAIRS_SUCCESS,
   FETCH_COMPLETED_LESSONS,
   FETCH_COMPLETED_LESSONS_SUCCESS,
-  RESET_CURRENT_LESSON
+  RESET_CURRENT_LESSON,
 } from '../actions/learn';
 
 const initialAppState = {
@@ -85,6 +86,9 @@ export const app = (state = initialAppState, action) => {
     case RESET_CURRENT_LESSON:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state };
+    case FETCH_LESSON_SUCCESS:
+      state.currentLesson = currentLessonReducer(state.currentLesson, action);
+      return { ...state };
     default:
       return state;
   }
@@ -113,11 +117,13 @@ export const allChapters = (state = app.allChapters, action) => {
 }
 
 export const currentLessonReducer = (state = app.currentLesson, action) => {
+  console.log(action);
   switch(action.type) {
     case RESET_CURRENT_LESSON:
       const { lessonID } = action;
-      return { ...state, lessonID };
+      return { ...state, lessonID, showSpinner: true };
     case GET_CURRENT_LESSON:
+      console.log(action.type, action.data);
       const {
         chapterid, 
         chapterimage, 
@@ -138,6 +144,8 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         hasFinishedLoading: true,
         showSpinner: false
       }
+    case FETCH_LESSON_SUCCESS: 
+      return currentLessonHelper(state, action.data)
     case GET_CURRENT_LESSON_WAITING:
       return {...state,
         showSpinner: true,
@@ -145,5 +153,17 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
       }  
     default:
       return state;
+  }
+}
+
+const currentLessonHelper = (state, data) => {
+  return { ...state,
+    chapterID: data.ChapterID,
+    lessonID: data.LessonID,
+    lessonName: data.LessonName,
+    lessonText: data.LessonText,
+    lessonDescriptions: data.LessonDescriptions,
+    hasFinishedLoading: true,
+    showSpinner: false
   }
 }

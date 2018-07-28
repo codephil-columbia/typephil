@@ -7,16 +7,16 @@ const shouldFetchCurrentLesson = (state) => {
 }
 
 export const FETCH_LESSON_SUCCESS = "FETCH_LESSON_SUCCESS";
-const fetchLessonSuccess = ({ lesson }) => ({
-  lesson,
+const fetchLessonSuccess = (data) => ({
+  data,
   type: FETCH_LESSON_SUCCESS
 });
 
-export const FETCH_LESSON = "FETCH_LESSON";
 export const fetchLesson = (lessonId) => dispatch => {
+  console.log("fetching lesson")
   axios.post(`${api_url}/lesson/get`, {lessonid: lessonId})
     .then(res => {
-      dispatch(fetchLessonSuccess(res.lesson));
+      dispatch(fetchLessonSuccess(res.data));
     })
     .catch(err => {
       console.log(err);
@@ -33,7 +33,6 @@ export const fetchCurrentLessonIfNeeded = (uid) => {
 
 export const POST_TUTORIAL = "POST_TUTORIAL";
 export const postTutorialResults = (tutorialResult) => (dispatch) => {
-  console.log(tutorialResult);
   axios.post(`${api_url}/lesson/test`, tutorialResult)
     .then(res => {
       dispatch(postTutorialSuccess());

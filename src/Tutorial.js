@@ -17,12 +17,12 @@ import {
 } from './actions/tutorial';
 
 import { getCurrentLessonForUser } from './actions/homepage';
+import ShowSpinner from './components/spinner';
 
 class Tutorial extends Component {
   constructor(props) {
     super(props);
     this.props.fetchLesson(this.props.currentLesson.lessonID);
-    console.log(this.props);
 
     const { currentLesson } = this.props;
     const { lessonDescriptions, lessonText } = currentLesson;
@@ -188,6 +188,12 @@ class Tutorial extends Component {
       indexPtr,
       totalContentLength,
     } = this.state;
+
+    console.log(this.props.currentLesson.showSpinner);
+    if(this.props.currentLesson.showSpinner) {
+      console.log("SHOW SPINNER");
+      return ShowSpinner();
+    }
 
     const { content, userState } = this.getContent(indexPtr);
 
