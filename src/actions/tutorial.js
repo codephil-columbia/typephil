@@ -12,8 +12,13 @@ const fetchLessonSuccess = (data) => ({
   type: FETCH_LESSON_SUCCESS
 });
 
+export const FETCH_LESSON = "FETCH_LESSON";
+const fetchLessonRequest = () => ({
+  type: FETCH_LESSON
+});
+
 export const fetchLesson = (lessonId) => dispatch => {
-  console.log("fetching lesson")
+  dispatch(fetchLessonRequest())
   axios.post(`${api_url}/lesson/get`, {lessonid: lessonId})
     .then(res => {
       dispatch(fetchLessonSuccess(res.data));

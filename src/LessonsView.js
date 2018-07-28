@@ -15,11 +15,13 @@ class LessonsView extends Component {
   }
 
   hasCompletedLesson = (currentLesson, completed) => {
+    console.log(currentLesson, completed);
     if (completed === null) {
       return;
     }
-    return completed.find(({ LessonID }) => {
-      return currentLesson.LessonID === LessonID;
+
+    return completed.find(({ lessonID }) => {
+      return currentLesson.LessonID === lessonID;
     });
   }
 
@@ -30,8 +32,6 @@ class LessonsView extends Component {
       doRestartLesson
     } = this.props;
 
-
-    console.log(this.state, this.props);
     const { currentSelectedLesson } = this.state;
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
 

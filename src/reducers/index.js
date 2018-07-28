@@ -1,6 +1,7 @@
 import {
   POST_TUTORIAL_SUCCESS,
-  FETCH_LESSON_SUCCESS
+  FETCH_LESSON_SUCCESS,
+  FETCH_LESSON
 } from "../actions/tutorial";
 
 import {
@@ -86,6 +87,9 @@ export const app = (state = initialAppState, action) => {
     case RESET_CURRENT_LESSON:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state };
+    case FETCH_LESSON: 
+      state.currentLesson = currentLessonReducer(state.currentLesson, action);
+      return { ...state }
     case FETCH_LESSON_SUCCESS:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state };
@@ -117,13 +121,13 @@ export const allChapters = (state = app.allChapters, action) => {
 }
 
 export const currentLessonReducer = (state = app.currentLesson, action) => {
-  console.log(action);
   switch(action.type) {
     case RESET_CURRENT_LESSON:
       const { lessonID } = action;
       return { ...state, lessonID, showSpinner: true };
+    case FETCH_LESSON:
+      return { ...state, hasFinishedLoading: false };
     case GET_CURRENT_LESSON:
-      console.log(action.type, action.data);
       const {
         chapterid, 
         chapterimage, 

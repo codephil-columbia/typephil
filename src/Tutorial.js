@@ -9,6 +9,7 @@ import Header from './components/header';
 import Keyboard from './components/Keyboard';
 import RightHand from './components/RightHand';
 import LeftHand from './components/LeftHand';
+import ShowSpinner from './components/spinner';
 
 import { 
   fetchCurrentLessonIfNeeded,
@@ -17,7 +18,6 @@ import {
 } from './actions/tutorial';
 
 import { getCurrentLessonForUser } from './actions/homepage';
-import ShowSpinner from './components/spinner';
 
 class Tutorial extends Component {
   constructor(props) {
@@ -190,8 +190,7 @@ class Tutorial extends Component {
     } = this.state;
 
     console.log(this.props.currentLesson.showSpinner);
-    if(this.props.currentLesson.showSpinner) {
-      console.log("SHOW SPINNER");
+    if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
       return ShowSpinner();
     }
 
