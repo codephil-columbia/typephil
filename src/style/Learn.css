@@ -1,18 +1,23 @@
 .title {
     margin-top: 3%;
     color: #77BFA3;
+    font-weight: 900;
+    font-size: 3.5rem;
 }
 
 .chapter-title {
     color: #77BFA3;
-    width: 25%;
+    width: 40%;
     margin-top: 1.5%; /* TODO: Make this more stable. Eyeballed it sj. */
+    font-weight: 500;
+    font-size: 3rem;
 }
 
 .carousel-title {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-top: -3rem;
 }
 
 .learn-carousel-buttons {
@@ -153,6 +158,7 @@
 .chapter-info {
     display: flex;   
     flex-direction: column;
+    align-items: center;
 }
 
 .chapter-num {
@@ -164,9 +170,12 @@
     color: white;
 }
 
+.chapter-name {
+
+}
+
 .chapter {
     display: flex;
-    justify-content: space-between;
     margin-bottom: 2%;
 }
 
@@ -188,4 +197,8 @@
 
 .link {
     color: #77BFA3;
+}
+
+.lesson-view-text {
+    font-weight: 500;
 }

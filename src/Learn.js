@@ -135,7 +135,7 @@ class Learn extends Component {
         <Header links={headerLinks}/>
         <div className="content container">
           <div className="title">
-            <h2>Fundamentals of Typing Tutorial</h2>
+            <h2 className="title">Fundamentals of Typing Tutorial</h2>
           </div>
           <div className="block">
             <div className="carousel row">
