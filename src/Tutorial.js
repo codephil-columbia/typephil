@@ -130,9 +130,8 @@ class Tutorial extends Component {
     totalTime += time;
     totalLength += length;
 
-    const accuracy = Math.trunc((totalLength - totalIncorrect) / totalLength);
-    console.log(accuracy);
-    if(accuracy < .7) {
+    const accuracy = (totalLength - totalIncorrect) / totalLength;
+    if(accuracy < .69) {
       this.setState({ 
         didUserPassLesson: false,
         results: {
@@ -147,7 +146,8 @@ class Tutorial extends Component {
           totalTime,
           totalLength,
           totalIncorrect
-        }
+        },
+        didUserPassLesson: true
       });
     }
   }

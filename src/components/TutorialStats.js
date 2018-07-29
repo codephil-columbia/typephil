@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-const TutorialStats = ({ totalTime, totalLength, totalIncorrect }) => {
+const TutorialStats = ({ totalTime, totalLength, totalIncorrect, didUserPassLesson }) => {
   console.log(totalIncorrect, totalLength, totalTime);
   return (
   <div className="tutorial-stats">
@@ -20,7 +20,8 @@ const TutorialStats = ({ totalTime, totalLength, totalIncorrect }) => {
           <h1>WPM</h1>
         </div>
         <div className="column">
-          <h1>Accuracy</h1>
+          <h1 style={didUserPassLesson ? {"color": "black"} : {"color": "4A4A4A"}}>Accuracy</h1>
+          {!didUserPassLesson && <h5 style={didUserPassLesson ? {"color": "black"} : {"color": "red"}}>You scored too low on Accuracy, please go back and re-do the lesson.</h5>}
         </div>
         <div className="column">
           <h1>Seconds</h1>

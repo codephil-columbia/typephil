@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Modal from 'react-modal';
 
 import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
-import TutorialStats from './TutorialStats';
 
 import { postTutorialResults } from '../actions/tutorial';
 
