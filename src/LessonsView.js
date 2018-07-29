@@ -50,6 +50,7 @@ class LessonsView extends Component {
             if(lesson.LessonName === currentSelectedLesson.LessonName) { 
               return (
                 <h4 
+                  className='lesson-view-text'
                   style={{color: 'green'}} 
                   key={i}
                   onClick={() => this.userDidChangeLesson(lesson)}>
@@ -58,7 +59,9 @@ class LessonsView extends Component {
               )
           } else if (this.hasCompletedLesson(lesson, completed)) {
               return (
-                <h4 style={{color: 'black'}}
+                <h4
+                  className='lesson-view-text' 
+                  style={{color: 'black'}}
                   key={i} 
                   onClick={() => this.userDidChangeLesson(lesson)}>
                   {lesson.LessonName}
@@ -66,7 +69,9 @@ class LessonsView extends Component {
               )
           } else {
               return (
-                <h4 style={{color: 'grey'}} 
+                <h4 
+                  className='lesson-view-text'
+                  style={{color: 'grey'}} 
                   key={i}
                   onClick={() => this.userDidChangeLesson(lesson)}>
                   {lesson.LessonName}
