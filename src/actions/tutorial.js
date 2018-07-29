@@ -29,12 +29,18 @@ const fetchLessonRequest = () => ({
   type: FETCH_LESSON
 });
 
+export const RESET_TUTORIAL = "RESET_TUTORIAL";
+export const resetTutorial = () => ({
+  type: RESET_TUTORIAL
+})
+
 export const POST_TUTORIAL = "POST_TUTORIAL";
 export const postTutorialResults = (tutorialResult) => (dispatch) => {
   axios.post(`${api_url}/lesson/test`, tutorialResult)
     .then(res => {
       dispatch(postTutorialSuccess());
       dispatch(getCurrentLessonForUser(tutorialResult.uid));
+      dispatch(resetTutorial())
     }).catch(_ => {
       dispatch(postTutorialError());
     })

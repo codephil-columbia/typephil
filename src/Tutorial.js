@@ -99,6 +99,7 @@ class Tutorial extends Component {
       totalTime: 0,
       userState: this.appState.READING,
       wpm: 0,
+      shouldShowStats: false,
       results: {
         totalTime: 0,
         totalLength: 0,

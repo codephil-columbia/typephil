@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 import localforage from 'localforage';
 import { combineReducers } from 'redux';
 
+import requestTextConverter from './middleware/requestTextConverter';
+
 import {
   isLoggedIn,
   app
@@ -51,7 +53,7 @@ const TypePhilApp = combineReducers({
 
 export let store = createStore(
     TypePhilApp,
-    composeWithDevTools(applyMiddleware(thunk))
+    composeWithDevTools(applyMiddleware(requestTextConverter, thunk))
 );
 
 export let persistor = persistStore(store);

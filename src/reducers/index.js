@@ -1,7 +1,8 @@
 import {
   POST_TUTORIAL_SUCCESS,
   FETCH_LESSON_SUCCESS,
-  FETCH_LESSON
+  FETCH_LESSON,
+  RESET_TUTORIAL
 } from "../actions/tutorial";
 
 import {
@@ -91,6 +92,9 @@ export const app = (state = initialAppState, action) => {
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state }
     case FETCH_LESSON_SUCCESS:
+      state.currentLesson = currentLessonReducer(state.currentLesson, action);
+      return { ...state };
+    case RESET_TUTORIAL:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state };
     default:
