@@ -119,7 +119,7 @@ class Learn extends Component {
 
       return (
         <div>
-          <Header links={headerLinks}/>
+          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn}/>
           <div className="content container">
             <div className="title">
               <h2>Fundamentals of Typing Tutorial</h2>

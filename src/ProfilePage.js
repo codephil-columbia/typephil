@@ -66,7 +66,7 @@ class Profile extends Component {
 
     return (
       <div>
-      <Header links={headerLinks} username={this.props.currentUser.username}/> 
+      <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/> 
 
       <div className="container">
         <div className="vert-container">

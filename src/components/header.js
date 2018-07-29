@@ -27,7 +27,6 @@ const HeaderLeft = (_) => {
 };
 
 const HeaderRight = (props) => {
-    console.log(props);
     return (
         <ul className="navigation-list float-right nav-right-list">
             { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} dispatch={props.dispatch}/></li>}
@@ -45,7 +44,6 @@ const HeaderRight = (props) => {
 };
 
 const logout = (dispatch) => {
-  // redirect here...
   dispatch();
   window.location.href = '/';
 }
@@ -58,7 +56,7 @@ const ProfileOptions = (props) => {
 				<div> 
 					<Link to="/profile">My Account</Link>
 				</div>
-				<div onClick={logout(props.dispatch)}>
+				<div onClick={() => logout(props.dispatch)}>
 					Log Out
 				</div>
 			</div>

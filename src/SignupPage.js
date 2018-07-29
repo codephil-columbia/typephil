@@ -142,7 +142,7 @@ class SignupPage extends Component {
 
     return (
       <div className="body">
-      <Header/>
+      <Header isLoggedIn={false}/>
       
       <div className="container">
         <div className="row subcontainer">

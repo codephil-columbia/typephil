@@ -70,7 +70,7 @@ class LoginPage extends Component {
 
     return (
       <div>
-        <Header links={ isLoggedIn? headerLinks : [] } username=""/>
+        <Header links={isLoggedIn? headerLinks : []} isLoggedIn={this.props.isLoggedIn} username=""/>
         <div className="container">
         <div className="login-content">
           <div className="content-left">
