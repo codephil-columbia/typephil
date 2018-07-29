@@ -30,7 +30,7 @@ const HeaderRight = (props) => {
     console.log(props);
     return (
         <ul className="navigation-list float-right nav-right-list">
-            <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} dispatch={props.dispatch}/></li>
+            { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} dispatch={props.dispatch}/></li>}
             { props.links === undefined ? "" : props.links.map((link, i) => {
                 const routePath = `/${link.toLowerCase()}`;
                 return (
