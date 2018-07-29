@@ -30,6 +30,8 @@ function convertPlaceholdersToActualText(text, action) {
     );
 }
 
+// 34 => ""
+
 /**
  * Put hard coded special characters inside the regex, and what it maps to as the text
  */
@@ -37,7 +39,8 @@ const CONVERTERS = {
     GET_CURRENT_LESSON: {
         regex: /&#59/g,
         text: ';'
-    }
+    },
+    
 }
 
 export default requestTextConverter;

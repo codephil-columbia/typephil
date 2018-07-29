@@ -113,6 +113,8 @@ class Learn extends Component {
       return <Redirect to="/tutorial" />
     }
 
+    console.log(completedLessons);
+
     let title;
     let body;
     if (shouldShowLessons) {
