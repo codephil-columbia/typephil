@@ -13,6 +13,7 @@ import ShowSpinner from './components/spinner';
 
 import { postTutorialResults, fetchLesson, redirectToNextLesson } from './actions/tutorial';
 import { getCurrentLessonForUser } from './actions/homepage';
+import TutorialStats from './components/TutorialStats';
 
 class Tutorial extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class Tutorial extends Component {
       totalTime: 0,
       userState: this.appState.READING,
       wpm: 0,
+      shouldShowStats: false,
       results: {
         totalTime: 0,
         totalLength: 0,
@@ -147,7 +149,7 @@ class Tutorial extends Component {
       indexPtr += 1;
       this.freezeTimerIfIsLessonText();
     }
-    this.setState({ indexPtr });
+    this.setState({ indexPtr, shouldShowStats: false });
   };
 
   prev = () => {
@@ -157,7 +159,7 @@ class Tutorial extends Component {
     } else {
       indexPtr -= 1;
     }
-    this.setState({ indexPtr });
+    this.setState({ indexPtr, shouldShowStats: false });
   };
 
   finishedLesson = () => {
@@ -219,12 +221,19 @@ class Tutorial extends Component {
     })
   }
 
+  showStats = () => {
+    console.log('showing stats');
+    this.setState({ shouldShowStats: true });
+  }
+
   render() { 
     const { 
       headerLinks,
       shouldFreeze,
       indexPtr,
       totalContentLength,
+      shouldShowStats,
+      results
     } = this.state;
 
     if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
@@ -256,6 +265,13 @@ class Tutorial extends Component {
               completedStats={this.setTutorialStats}
               updateResults={this.updateResults}
               currentUser={this.props.currentUser}
+              showStats={this.showStats}
+            />
+          )}{shouldShowStats && (
+            <TutorialStats 
+              totalTime={results.totalTime}
+              totalLength={results.totalLength}
+              totalIncorrect={results.totalIncorrect}
             />
           )}
           <LessonTutorialButtons 

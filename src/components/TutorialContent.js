@@ -322,6 +322,7 @@ class LessonTutorialContent extends Component {
         length: this.state.totalLength,
         incorrect: this.state.incorrect.length
       })
+      this.props.showStats();
     }
 
     const { rows } = this.state;

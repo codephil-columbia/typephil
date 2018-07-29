@@ -1,32 +1,31 @@
 import React, { Fragment } from 'react';
 
-const TutorialStats = ({ wpm, accuracy, time, correct, incorrect, totalLength, startTime, endTime }) => {
-  const totalTime = (Date.now() - startTime) / 1000;
+const TutorialStats = ({ totalTime, totalLength, totalIncorrect }) => {
   return (
-    <Fragment>
-      <div className="row">
+  <div className="tutorial-stats">
+    <div className="row">
         <div className="column">
           <h1>{Math.trunc((totalLength / 5) / (totalTime / 60))}</h1>
         </div>
         <div className="column">
-          <h1>{totalTime}</h1>
+          <h1>{Math.trunc((totalLength - totalIncorrect) / totalLength * 100)}%</h1>
         </div>
         <div className="column">
-          <h1>{correct}%</h1>
+          <h1>{Math.trunc(totalTime)}</h1>
         </div>
       </div>
       <div className="row">
         <div className="column">
-          <h1>Words per Minute</h1>
-        </div>
-        <div className="column">
-          <h1>Total Seconds</h1>
+          <h1>WPM</h1>
         </div>
         <div className="column">
           <h1>Accuracy</h1>
         </div>
+        <div className="column">
+          <h1>Seconds</h1>
+        </div>
       </div>
-    </Fragment>
+    </div>
   )
 };
 
