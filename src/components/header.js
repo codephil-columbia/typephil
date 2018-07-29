@@ -44,6 +44,12 @@ const HeaderRight = (props) => {
     )
 };
 
+const logout = (dispatch) => {
+  // redirect here...
+  dispatch();
+  window.location.href = '/';
+}
+
 const ProfileOptions = (props) => {
   return (
     <div className="dropdown">
@@ -52,7 +58,7 @@ const ProfileOptions = (props) => {
 				<div> 
 					<Link to="/profile">My Account</Link>
 				</div>
-				<div onClick={props.dispatch}>
+				<div onClick={logout(props.dispatch)}>
 					Log Out
 				</div>
 			</div>
