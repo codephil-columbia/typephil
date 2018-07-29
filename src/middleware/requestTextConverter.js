@@ -9,13 +9,17 @@ import { GET_CURRENT_LESSON } from '../actions/homepage';
 const requestTextConverter = _ => next => action => {
      switch(action.type) {
          case GET_CURRENT_LESSON:
-            const { lessondescriptions } = action.data;
+            const { lessondescriptions, lessontext } = action.data;
+
             action.data.lessondescriptions = lessondescriptions.map(
                 (desc) => convertPlaceholdersToActualText(desc, GET_CURRENT_LESSON)
             );
+            action.data.lessontext = lessontext.map(
+                (text) => convertPlaceholdersToActualText(text, GET_CURRENT_LESSON)
+            );
             action.data.lessonname = convertPlaceholdersToActualText(action.data.lessonname, GET_CURRENT_LESSON);
+            break;            
      }
-
      return next(action);
 }
 
