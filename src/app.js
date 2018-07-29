@@ -15,11 +15,13 @@ import FourOhFour from './components/FourOhFour';
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this._isMounted = false;
     this.state = { isAuthenticated: false };
   }
 
   /**
-   * Passed down to components in charge of auth, when successdful, we manually retrigger React router to change the 
+   * Passed down to components in charge of auth, when successful, we manually retrigger React router to change the 
    * url to the Home component.
    */
   onSuccessfulAuth = () => {
@@ -66,6 +68,16 @@ class App extends Component {
       </React.Fragment>
     )
   }
+}
+
+/**
+ * Prevent memory leaks from unmounted components.
+ */
+const componentDidMount = () => {
+  this._isMounted = true;
+}
+const componentWillUnmount = () => {
+  this._isMounted = false;
 }
 
 const mapStateToProps = ({ auth, app }) => ({

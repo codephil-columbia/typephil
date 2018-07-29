@@ -1,27 +1,40 @@
-import { LOGGED_IN } from '../actions/auth';
+import { LOG_IN, LOGGED_IN, LOG_OUT } from '../actions/auth';
 
 export const auth = (state = authInitialState, action) => {
-    const { data } = action;
+    const { payload } = action;
     switch (action.type) {
       case LOGGED_IN:
         return {
-          currentUser: {
-            username: data.username,
-            uid: data.uid,
-            firstName: data.firstName,
-            lastName: data.lastName,
-          },
           isLoggedIn: true
+        }
+      case LOG_IN:
+        return {
+          currentUser: {
+            username: payload.username,
+            uid: payload.uid,
+            firstName: payload.firstName,
+            lastName: payload.lastName
+          },
+          isLoggedIn: state.isLoggedIn
+        }
+      case LOG_OUT:
+        return {
+          currentUser: payload,
+          isLoggedIn: false 
         }
       default:
         return state
     }
-  }
+  };
 
-  const authInitialState = {
-    isLoggedIn: false,
-    currentUser: {
-      username: "",
-      uid: "",
-    }
-  }
+const authInitialState = {
+  currentUser: {
+    username: "",
+    uid: "",
+    firstName: "",
+    lastName: "",
+  },
+  isLoggedIn: false
+};
+
+export default auth;

@@ -12,6 +12,7 @@ import './style/styles.css';
 class LoginPage extends Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
     this.state = {
       username: "",
       password: "",
@@ -64,12 +65,12 @@ class LoginPage extends Component {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
 
-    if(isLoggedIn) 
-      return <Redirect to="home"/>
+    //if(isLoggedIn) 
+      //return <Redirect to="home"/>
 
     return (
       <div>
-        <Header links={ isLoggedIn? headerLinks : [] } username=""/>
+        <Header links={isLoggedIn? headerLinks : []} isLoggedIn={this.props.isLoggedIn} username=""/>
         <div className="container">
         <div className="login-content">
           <div className="content-left">
@@ -102,9 +103,15 @@ class LoginPage extends Component {
               <div className="footer">
                 <h3>We're partnering with the best and brightest!</h3>
                 <div className="footer-boxes">
-                  <img src="images/universal/DICT_logo.png" className="logo"></img>
-                  <img src="images/universal/Columbia_logo.png" className="logo"></img>
-                  <img src="images/universal/MIT_logo.png" className="logo"></img>
+                  <a href="http://dict.gov.ph/" target="_blank">
+                    <img src="images/universal/dict_logo.png" className="logo"></img>
+                  </a>
+                  <a href="https://www.cc-seas.columbia.edu/studentlife/abp/codephil-0" target="_blank">
+                    <img src="images/universal/columbia_logo.png" className="logo"></img>
+                  </a>
+                  <a href="http://mitgpi.weebly.com/codephil-project.html" target="_blank">
+                    <img src="images/universal/mit_logo.jpg" className="logo"></img>
+                  </a>
                 </div> 
               </div>
             </div>
@@ -136,19 +143,31 @@ class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = state => {
   return {
-    isLoggedIn: auth.isLoggedIn
+    isloggedIn: state.auth.isLoggedIn,
+    currentUser: state.auth.currentUser
   }
 }
 
+/*
+const mapStateToProps = ({ auth }) => {
+  return {
+    currentUser: auth.currentUser,
+    isLoggedIn: auth.isLoggedIn
+  }
+}
+*/
+
 const mapDispatchToProps = dispatch => {
-  /*return {
-    onLogin: (username, password) => {
-      return bindActionCreators({ dispatchLogin }, dispatch);
-    }
-  }*/
   return bindActionCreators({ dispatchLogin }, dispatch);
+}
+
+const componentDidMount = () => {
+  this._isMounted = true;
+}
+const componentWillUnmount = () => {
+  this._isMounted = false;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

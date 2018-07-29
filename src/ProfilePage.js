@@ -4,12 +4,14 @@ import { dispatchPassword } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
+import localforage from 'localforage';
 import './style/styles.css';
 import './style/ProfilePage.css';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       headerLinks: ["Learn", "Home"],
       edited: false,
@@ -25,7 +27,7 @@ class Profile extends Component {
     if(!this.state.editing)
       this.setState({ editing: true });
     else {
-      const { username, password } = this.props.auth.currentUser;
+      const { username, password } = this.props.currentUser;
       var res = this.props.dispatchPassword(
         username,
         password
@@ -51,21 +53,20 @@ class Profile extends Component {
 
   validate = (password) => {
     return {
-      password: password.length === 0
+      password: password.length > 0
     }
   }
 
   render() {
     const { headerLinks } = this.state;
-    const { auth } = this.props;
-    const errors = this.validate(auth.currentUser.password);
+    const errors = true; //this.validate(this.state.currentUser.password);
     const markError = () => {
       return errors['password'] ? this.state.touched['password'] : false;
     }
 
     return (
       <div>
-      <Header links={headerLinks} auth={auth}/> 
+      <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/> 
 
       <div className="container">
         <div className="vert-container">
@@ -86,7 +87,7 @@ class Profile extends Component {
               </div>
               <div className="column column-10"></div>
               <div className="column column-50">
-                <p>{this.state.username}</p>
+                <p>{this.props.currentUser.username}</p>
               </div>
             </div>
 
@@ -95,10 +96,10 @@ class Profile extends Component {
                 <h3>Password</h3>
               </div>
               <div className="column column-20 column-offset-10 password-info">
-                <p className={ this.state.editing ? "hide" : ""}>
-                  { this.state.viewing ? auth.currentUser.password : '*'.repeat(auth.currentUser.password.length) }
+                <p className={ this.state.editing ? "hide" : "" }>
+                  {/*{ this.state.viewing ? auth.currentUser.password : '*'.repeat(auth.currentUser.password.length) } // TODO put this back
 
-                  {/* TODO this is pretty egregiously insecure} */}
+                   TODO this is pretty egregiously insecure} */}
 
                 </p>
                 <input className={ this.state.editing ? (markError() ? "error" : "") : "hide" } placeholder="" name="password" type="password" onBlur={this.handleBlur} onChange={this.handleInputChange}/>
@@ -127,7 +128,10 @@ class Profile extends Component {
 }
 
 const mapStateToProps = ({ auth }) => {
-  return { auth: auth };
+  return { 
+    currentUser: auth.currentUser,
+    isLoggedIn: auth.isLoggedIn
+  }
 }
 
 const mapDispatchToProps = dispatch => {
