@@ -309,7 +309,7 @@ class LessonTutorialContent extends Component {
    */
   calculateTutorialTime = () => {
     let time = this.state.finishTime - this.state.startTime;
-    return this.state.pauses.reduce((accum, currVal) => currVal - accum, time) / 1000;
+    return this.state.pauses.reduce((accum, currVal) => accum - (currVal - this.state.startTime), time) / 1000;
   }
 
   render() {
