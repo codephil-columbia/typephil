@@ -25,7 +25,7 @@ class HomePage extends Component {
       this.setup(uid);
 
       this.state = {
-        headerLinks: ["Learn", "Progress" ],
+        headerLinks: ["Learn", "Home" ],
         badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
