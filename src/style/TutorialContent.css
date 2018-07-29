@@ -10,9 +10,12 @@
     color: black;
 }
 
+.character {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 .words {
-    display: flex;
-    justify-content: space-around;
     font-weight: 600;
     border-bottom: 1px solid grey;
     font-size: 3.5rem;

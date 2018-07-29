@@ -12,10 +12,10 @@ import { postTutorialResults } from '../actions/tutorial';
 import "../style/TutorialContent.css"
 
 const BACKSPACE = "Backspace";
-const DEFAULT_STYLE = "default-character";
-const CORRECT_STYLE = "correct-character";
-const INCORRECT_STYLE = "incorrect-character";
-const HIGHLIGHTED = "highlighted";
+const DEFAULT_STYLE = "default-character character";
+const CORRECT_STYLE = "correct-character character";
+const INCORRECT_STYLE = "incorrect-character character";
+const HIGHLIGHTED = "highlighted character";
 
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
@@ -279,7 +279,7 @@ class LessonTutorialContent extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    return line.match(/.{1,30}/g);
+    return line.match(/.{1,20}/g);
   };
 
   closeModal = () => {
@@ -295,11 +295,11 @@ class LessonTutorialContent extends Component {
   }
 
   removeEventListener = () => {
-    document.removeEventListener("keypress", this.registerUserKeyPress);
+    document.removeEventListener("keydown", this.registerUserKeyPress);
   }
 
   attachEventListener = () => {
-    document.addEventListener("keypress", this.registerUserKeyPress);
+    document.addEventListener("keydown", this.registerUserKeyPress);
   }
 
   /**

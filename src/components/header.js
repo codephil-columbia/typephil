@@ -22,7 +22,6 @@ const HeaderLeft = _ => {
 }
 
 const HeaderRight = props => {
-    console.log(props);
     return (
         <ul className="navigation-list float-right nav-right-list">
             <li className="navigation-item">{props.username}</li>
