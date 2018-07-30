@@ -56,19 +56,35 @@ class Tutorial extends Component {
         totalTime: 0,
         totalLength: 0,
         totalIncorrect: 0,
+      },
+      resultsForCurrentLesson: {
+        time: 0,
+        length: 0,
+        incorrect: 0
       }
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.currentLesson.lessonID != prevProps.currentLesson.lessonID) {
-      console.log(prevProps.currentLesson, this.props.currentLesson);
       this.setUp(this.props.currentLesson);
     }
   }
 
   componentWillMount = () => {
     this.freezeTimerIfIsLessonText();
+  }
+
+  componentDidMount() {
+    this.setState({
+      results: {
+        totalTime: 0,
+        totalLength: 0,
+        totalIncorrect: 0,
+      },
+      wpm: 0,
+      totalTime: 0,
+    })
   }
 
   setUp = (currentLesson) => {
@@ -106,6 +122,11 @@ class Tutorial extends Component {
         totalTime: 0,
         totalLength: 0,
         totalIncorrect: 0,
+      }, 
+      resultsForCurrentLesson: {
+        time: 0, 
+        length: 0,
+        incorrect: 0
       }
     })
     this.freezeTimerIfIsLessonText();
@@ -138,6 +159,10 @@ class Tutorial extends Component {
           totalTime,
           totalIncorrect,
           totalLength
+        }, resultsForCurrentLesson: {
+          time,
+          length,
+          incorrect
         }
       });
     } else {
@@ -146,6 +171,10 @@ class Tutorial extends Component {
           totalTime,
           totalLength,
           totalIncorrect
+        }, resultsForCurrentLesson: {
+          time, 
+          length, 
+          incorrect
         },
         didUserPassLesson: true
       });
@@ -171,12 +200,31 @@ class Tutorial extends Component {
 
   prev = () => {
     let { indexPtr } = this.state;
+    const { time, length, incorrect} = this.state.resultsForCurrentLesson;
+    const { totalIncorrect, totalTime, totalLength } = this.state.results;
     if(indexPtr - 1 < 0) {
       indexPtr = 0;
     } else {
       indexPtr -= 1;
     }
-    this.setState({ indexPtr, shouldShowStats: false });
+
+    console.log(this.state.resultsForCurrentLesson);
+    this.setState({ 
+      indexPtr, 
+      shouldShowStats: false,
+      results: {
+        totalTime: totalTime - (time *2),
+        totalLength: totalLength - (length*2),
+        totalIncorrect: totalIncorrect - (incorrect*2)
+      }, 
+      resultsForCurrentLesson: {
+        time: 0,
+        length: 0,
+        incorrect: 0
+      },
+    });
+
+    console.log(this.state);
   };
 
   finishedLesson = () => {
