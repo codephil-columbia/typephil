@@ -26,7 +26,7 @@ const HeaderLeft = (_) => {
     )
 };
 
-const HeaderRight = (props) => {
+const HeaderRight = props => {
     return (
         <ul className="navigation-list float-right nav-right-list">
             { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} dispatch={props.dispatch}/></li>}

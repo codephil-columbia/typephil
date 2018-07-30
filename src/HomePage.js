@@ -16,7 +16,6 @@ import {
 
 import "./style/styles.css";
 import "./style/HomePage.css";
-import { METHODS } from 'http';
 
 class HomePage extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class HomePage extends Component {
       this.setup(uid);
 
       this.state = {
-        headerLinks: ["Learn", "Progress" ], //"Home"],
+        headerLinks: ["Learn", "Home" ],
         badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
@@ -57,7 +56,6 @@ class HomePage extends Component {
       headerLinks, 
       badgeDescriptions 
     } = this.state;
-
     const { 
       chapterName, 
       lessonName, 
@@ -75,13 +73,7 @@ class HomePage extends Component {
     }
 
     const { title, lesson } = this.formatText(chapterName, lessonName);
-
-    const stats = avgUserStats(
-      badges, 
-      badgeDescriptions, 
-      [avgWPM, avgAccuracy]
-    );
-
+    const stats = avgUserStats(badges, badgeDescriptions, [avgWPM, avgAccuracy]);
     const { username } = this.props.currentUser
 
     return (
@@ -89,23 +81,24 @@ class HomePage extends Component {
         <Header links={headerLinks} isLoggedIn={true} username={this.props.username}/>
         <div className="container">
           <div className="title row">
-            <h1 class="homepage-welcome">Welcome Back, { username }!</h1>
+            <h1 class="homepage-welcome">Welcome Back, {username}!</h1>
           </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
-              <h3 className="qs-lesson-title">{ title }</h3>
-              <h3 className="qs-lesson-excersise">{ lesson }</h3>
+              <h3 className="qs-lesson-title">{title}</h3>
+              <h3 className="qs-lesson-excersise">{lesson}</h3>
               <Link to="/tutorial">
                 <img src="images/buttons/Start-button.svg"/> 
               </Link>
               <div className="homepage-spacing"> </div>
-              <Line percent={ percentageComplete } 
+              <Line 
+                percent={percentageComplete} 
                 strokeWidth="2" 
                 strokeColor="#77BFA3" 
               />
               <div>
                 <h4 className="qs-progress-info">
-                  Current Progress - { percentageComplete }%
+                  Current Progress - {percentageComplete}%
                 </h4>
               </div>
             </div>

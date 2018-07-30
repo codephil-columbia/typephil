@@ -10,7 +10,13 @@
     color: black;
 }
 
+.character {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 .words {
+    font-weight: 600;
     border-bottom: 1px solid grey;
     font-size: 3.5rem;
     margin-bottom: 5rem;
@@ -24,6 +30,9 @@
 
 .highlighted {
     background: #DAEEE6;
+    background-origin: content-box;
+    width: 40px;
+    border-radius: 10px;
 }
 
 .tutorial-modal {

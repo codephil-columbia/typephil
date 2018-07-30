@@ -1,53 +1,138 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import './style/Tutorial.css'
-
-import { 
-  moveIndexPtr, 
-  unFreeze, 
-  freeze, 
-  completedTutorial,
-  fetchCurrentLessonIfNeeded
-} from './actions/tutorial';
 
 import LessonTutorialButtons from './components/TutorialButtons';
 import TutorialContent from './components/TutorialContent';
-import TutorialStats from './components/TutorialStats';
 import Header from './components/header';
 import Keyboard from './components/Keyboard';
 import RightHand from './components/RightHand';
 import LeftHand from './components/LeftHand';
+import ShowSpinner from './components/spinner';
+
+import { postTutorialResults, fetchLesson, redirectToNextLesson } from './actions/tutorial';
+import { getCurrentLessonForUser } from './actions/homepage';
+import TutorialStats from './components/TutorialStats';
 
 class Tutorial extends Component {
-
   constructor(props) {
     super(props);
 
+    this.props.fetchLesson(this.props.currentLesson.lessonID);
     const { currentLesson } = this.props;
-    const { lessonContent, lessonInformation } = currentLesson;
+    const { lessonDescriptions, lessonText } = currentLesson;
 
-    const contentLength = lessonContent.length;
-    const infoLength = lessonInformation.length;
+    const contentList = [];
+    const contentTypeList = [];
+    lessonText.forEach((val, i) => {
+      if(val !== "") {
+        contentList.push(val);
+        contentTypeList.push(this.contentType.TEXT)
+      }
+      if(lessonDescriptions[i] !== "") {
+        contentList.push(lessonDescriptions[i]);
+        contentTypeList.push(this.contentType.DESCRIPTION);
+      }
+    });
+    const totalContentLength = contentList.length;
 
     this.state = {
-      contentLength,
-      infoLength,
-      lessonContent,
-      lessonInformation,
+      contentList,
+      contentTypeList,
+      lessonDescriptions,
+      totalContentLength,
+      content: contentList[0],
+      correctCount: 0,
+      headerLinks: ["Learn", "Home"],
       indexPtr: 0,
-      isFinished: false,
       shouldFreeze: true,
-      wpm: 0,
       totalTime: 0,
-
-      headerLinks: ["Learn", "Progress", "Home"],
+      userState: this.appState.READING,
+      wpm: 0,
+      shouldShowStats: false,
+      results: {
+        totalTime: 0,
+        totalLength: 0,
+        totalIncorrect: 0,
+      }
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.currentLesson.lessonID != prevProps.currentLesson.lessonID) {
+      console.log(prevProps.currentLesson, this.props.currentLesson);
+      this.setUp(this.props.currentLesson);
+    }
+  }
+
   componentWillMount = () => {
-    this.freezeTimerIfIsLessonInfo();
+    this.freezeTimerIfIsLessonText();
+  }
+
+  setUp = (currentLesson) => {
+    const { lessonDescriptions, lessonText } = currentLesson;
+
+    const contentList = [];
+    const contentTypeList = [];
+    lessonText.forEach((val, i) => {
+      if(val !== "") {
+        contentList.push(val);
+        contentTypeList.push(this.contentType.TEXT)
+      }
+      if(lessonDescriptions[i] !== "") {
+        contentList.push(lessonDescriptions[i]);
+        contentTypeList.push(this.contentType.DESCRIPTION);
+      }
+    });
+    const totalContentLength = contentList.length;
+
+    this.setState({
+      contentList,
+      contentTypeList,
+      lessonDescriptions,
+      totalContentLength,
+      content: contentList[0],
+      correctCount: 0,
+      indexPtr: 0,
+      shouldFreeze: true,
+      totalTime: 0,
+      userState: this.appState.READING,
+      wpm: 0,
+      shouldShowStats: false,
+      results: {
+        totalTime: 0,
+        totalLength: 0,
+        totalIncorrect: 0,
+      }
+    })
+
+    this.freezeTimerIfIsLessonText();
+  }
+
+  appState = Object.freeze({
+    COMPLETED_TUTORIAL: "completed",
+    READING: "reading",
+    TYPING: "typing",
+  });
+
+  // As specified in the database, lesson descriptions is what people type, 
+  // and lesson text is what people read
+  contentType = Object.freeze({
+    DESCRIPTION: "description",
+    TEXT: "text"
+  })
+
+  updateResults = ({ time, length, incorrect }) => {
+    console.log("getting results", time, length, incorrect);
+    let { totalTime, totalLength, totalIncorrect } = this.state.results;
+    this.setState({
+      results: {
+        totalTime: totalTime + time,
+        totalLength: totalLength + length,
+        totalIncorrect: totalIncorrect + incorrect
+      }
+    });
   }
 
   setTutorialStats = ({ wpm, time, accuracy }) => {
@@ -60,12 +145,12 @@ class Tutorial extends Component {
   };
 
   next = () => {
-    let { indexPtr, contentLength } = this.state;
-    if(indexPtr + 1 < contentLength) {
+    let { indexPtr, totalContentLength } = this.state;
+    if(indexPtr < totalContentLength) {
       indexPtr += 1;
-      this.freezeTimerIfIsLessonInfo();
+      this.freezeTimerIfIsLessonText();
     }
-    this.setState({ indexPtr });
+    this.setState({ indexPtr, shouldShowStats: false });
   };
 
   prev = () => {
@@ -75,107 +160,152 @@ class Tutorial extends Component {
     } else {
       indexPtr -= 1;
     }
-
-    this.setState({ indexPtr });
+    this.setState({ indexPtr, shouldShowStats: false });
   };
 
   finishedLesson = () => {
-    console.log("FINISHED");
     this.setState({ isFinished: true });
   };
 
-  getNextPair = () => {
-    const {
-      indexPtr,
-      lessonContent,
-      lessonInformation
-    } = this.state;
+  getContent = (indexPtr) => {
+    const { contentList, contentTypeList } = this.state;
 
-    if(indexPtr >= lessonContent.length) {
-      this.finishedLesson();
+    if(indexPtr >= contentList.length) {
+      return { 
+        content: null, 
+        userState: this.appState.COMPLETED_TUTORIAL
+      };
+    }
+    
+    let userState;
+    if(contentTypeList[indexPtr] === this.contentType.TEXT) {
+      userState = this.appState.READING;
+    } else {
+      userState = this.appState.TYPING 
     }
 
-    return { 
-      content: lessonContent[indexPtr],
-      info: lessonInformation[indexPtr]
-    }
+    const content = contentList[indexPtr];
+    return { content, userState };
   };
 
-  freezeTimerIfIsLessonInfo = () => {
-    const { indexPtr, lessonInformation } = this.state;
-    if(!lessonInformation[indexPtr]) {
+  freezeTimerIfIsLessonText = () => {
+    const { indexPtr, contentList } = this.state;
+    if(!contentList[indexPtr]) {
       return;
     }
-    const totalTime = this.calculateTime(lessonInformation[indexPtr]);
+    const totalTime = this.calculateTime(contentList[indexPtr]);
     this.setState({ shouldFreeze: true });
     setTimeout(() => {
       this.setState({ shouldFreeze: false });
     }, totalTime);
   };
 
-  showTutorialStats = () => {
-    console.log("tutorialstats");
-  };
+  postTutotialResultsAndRedirectToNextLesson = () => {
+    this.props.postTutorialResults({
+      wpm: Math.trunc((this.state.results.totalLength / 5) / ((this.state.results.totalTime)/60)),
+      accuracy: ((this.state.results.totalLength - this.state.results.totalIncorrect) / this.state.results.totalLength) * 100,
+      uid: this.props.currentUser.uid,
+      chapterID: this.props.currentLesson.chapterID,
+      lessonID: this.props.currentLesson.lessonID
+    })
+  }
+
+  // In the case the last rendered content is text, we still want to make sure we record the lesson, 
+  // but without any speed/accuracy
+  redirectToNextLesson = () => {
+    this.props.postTutorialResults({
+      wpm: null, 
+      accuracy: null,
+      uid: this.props.currentUser.uid,
+      chapterID: this.props.currentLesson.chapterID,
+      lessonID: this.props.currentLesson.lessonID
+    })
+  }
+
+  showStats = () => {
+    console.log('showing stats');
+    this.setState({ shouldShowStats: true });
+  }
 
   render() { 
     const { 
-      headerLinks, 
-      lessonContent, 
-      lessonInformation, 
+      headerLinks,
+      shouldFreeze,
       indexPtr,
-      contentLength,
-      isFinished,
-      shouldFreeze
+      totalContentLength,
+      shouldShowStats,
+      results
     } = this.state;
 
-    const { content, info } = this.getNextPair();
-    const isActive = content !== "";
+    if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
+      return ShowSpinner();
+    }
 
-    //TODO: decouple keyboard & hands from this component to be apart of TutorialContent
+    const { content, userState } = this.getContent(indexPtr);
+
+    if(userState === this.appState.COMPLETED_TUTORIAL) {
+      return "done"
+    }
+
     return (
-      <div>
+      <React.Fragment>
         <Header links={headerLinks}/>
         <div className="container tutorial">
-          {!isActive && <div className="info-text">
-            <h4>{info}</h4>
-          </div>}
-          {isActive && <TutorialContent
-            currentContent={content}
-            isActive={isActive}
-            completed={this.finishedLesson}
-            completedStats={this.setTutorialStats}
-            isFinished={isFinished}
-            currentUser={this.props.auth.currentUser}
-          />}
-          {!isActive && !isFinished && <div className="tutorial-hands-keyboard">
-            <LeftHand />
-            <Keyboard />
-            <RightHand />
-          </div>}
+          {userState === this.appState.READING ? (
+            <div className="info-text">
+              <h4>{content}</h4>
+              <div className="tutorial-hands-keyboard">
+                <LeftHand />
+                <Keyboard />
+                <RightHand />
+              </div>
+            </div>
+          ) : (
+            <TutorialContent
+              currentContent={content}
+              completedStats={this.setTutorialStats}
+              updateResults={this.updateResults}
+              currentUser={this.props.currentUser}
+              showStats={this.showStats}
+            />
+          )}{shouldShowStats && (
+            <TutorialStats 
+              totalTime={results.totalTime}
+              totalLength={results.totalLength}
+              totalIncorrect={results.totalIncorrect}
+            />
+          )}
           <LessonTutorialButtons 
-            next={this.next} 
+            next={this.next}
             prev={this.prev} 
-            isNextActive={shouldFreeze}
+            isLastContent={indexPtr + 1 >= totalContentLength}
+            redirectToNextLesson={
+              userState === this.appState.READING ? (
+                this.redirectToNextLesson
+              ) : (
+                this.postTutotialResultsAndRedirectToNextLesson
+              )}
+            shouldFreeze={shouldFreeze}
+            userState={userState}
           />
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators ({ 
-    moveIndexPtr, 
-    unFreeze, 
-    freeze, 
-    completedTutorial, 
-    fetchCurrentLessonIfNeeded 
+    postTutorialResults,
+    getCurrentLessonForUser,
+    fetchLesson,
+    redirectToNextLesson,
   }, dispatch)
 }
 
 const mapStateToProps = ({ app, auth }) => ({
   currentLesson: app.currentLesson,
-  auth
+  currentUser: auth.currentUser
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tutorial);

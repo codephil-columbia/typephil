@@ -1,0 +1,28 @@
+.fourOhFourWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fourOhFourImageDiv {
+	float: left;
+}
+
+.oops {
+	font-size: 3em;
+    font-weight: 400;
+    margin-top: 1%;
+    margin-bottom: 0%;
+}
+
+.pageNotFound {
+	font-size: 2em;
+    font-weight: 200;
+    margin-bottom: 2%;
+}
+
+.pageNotFoundText {
+	font-size: 1em;
+	font-weight: 1;
+	letter-spacing: 0.1px;
+}

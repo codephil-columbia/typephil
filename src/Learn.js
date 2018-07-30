@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Header from './components/header'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Spinner from 'react-spinkit';
+import { Redirect } from 'react-router-dom';
 import './style/Learn.css';
 
+import Header from './components/header'
 import LessonsView from './LessonsView';
 import ChaptersView from './ChaptersView';
 import ShowSpinner from './components/spinner';
@@ -12,7 +12,8 @@ import ShowSpinner from './components/spinner';
 import { 
   fetchAllChapterNames, 
   fetchAllPairs, 
-  fetchCompletedLessons 
+  fetchCompletedLessons,
+  restartLesson
 } from './actions/learn'
 
 class Learn extends Component {
@@ -20,16 +21,22 @@ class Learn extends Component {
     super(props);
 
     this.props.fetchAllChapterNames();
-    this.props.fetchAllPairs("bbu9uqje8cdm8j5109ug");
-    this.props.fetchCompletedLessons("bbu9uqje8cdm8j5109ug");
+    this.props.fetchAllPairs(this.props.currentUser.uid);
+    this.props.fetchCompletedLessons(this.props.currentUser.uid);
 
     this.state = {
+      shouldRedirectToLesson: false,
       currentChapterIndex: -1,
       shouldShowLessons: false,
       carouselTitle: "Chapter Overview",
       carouselDesc: "",
-      headerLinks: ["Learn", "Progress", "Home"],
+      headerLinks: ["Learn", "Home"],
     }
+  }
+  
+  doRestartLesson = lessonID => {
+    this.props.restartLesson(lessonID);
+    this.setState({ shouldRedirectToLesson: true });
   }
 
   userDidClickChapter = i =>  {
@@ -62,14 +69,9 @@ class Learn extends Component {
   }
 
   prevChapter = () => {
-    let {  
-      currentChapterIndex,
-      shouldShowLessons
-    } = this.state;
-
+    let { currentChapterIndex,shouldShowLessons } = this.state;
     const { chapterLessonPairs } = this.props;
     const chapterCount = chapterLessonPairs.length;
-
     currentChapterIndex = Number(currentChapterIndex);
     
     if (currentChapterIndex - 1 === -1) {
@@ -91,7 +93,8 @@ class Learn extends Component {
       isLoading, 
       chapterLessonPairs, 
       allChapters, 
-      completedLessons 
+      completedLessons,
+      currentLessonName
     } = this.props;
 
     if(isLoading) {
@@ -102,69 +105,82 @@ class Learn extends Component {
       headerLinks, 
       shouldShowLessons, 
       currentChapterIndex,  
-      carouselDesc 
+      carouselDesc,
+      shouldRedirectToLesson
     } = this.state;
+
+    if(shouldRedirectToLesson) {
+      return <Redirect to="/tutorial" />
+    }
 
     let title;
     let body;
     if (shouldShowLessons) {
-      body = <LessonsView lessons={chapterLessonPairs[currentChapterIndex].lessons} 
-      completed={completedLessons} />
+      body = (
+        <LessonsView 
+          lessons={chapterLessonPairs[currentChapterIndex].lessons} 
+          completed={completedLessons} 
+          mostRecentLessonName={currentLessonName}
+          doRestartLesson={this.doRestartLesson}
+        />
+      );
       title = chapterLessonPairs[currentChapterIndex]['chapterName']
     } else {
-      body = <ChaptersView chapters={allChapters} 
-      userDidClickChapter={this.userDidClickChapter} />
+      body = <ChaptersView chapters={allChapters} userDidClickChapter={this.userDidClickChapter} />
       title = "Chapter Overview"
     }
 
-      return (
-        <div>
-          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn}/>
-          <div className="content container">
-            <div className="title">
-              <h2>Fundamentals of Typing Tutorial</h2>
-            </div>
-            <div className="block">
-              <div className="carousel row">
-                <div className="arrow-left column column-10" onClick={this.prevChapter} />
-                <div className="carousel-content column">
-                  <div className="carousel-title">
-                    <div onClick={this.prevChapter} className="learn-carousel-buttons">
-                      <img src="images/buttons/Left_Arrow_Thin.svg"></img>
-                    </div>
-                    <h2 className="chapter-title">{title}</h2>
-                    <div onClick={this.nextChapter} className="learn-carousel-buttons">
-                      <img src="images/buttons/Right_Arrow_Thin.svg"></img>
-                    </div>
+    return (
+      <div>
+        <Header links={headerLinks}/>
+        <div className="content container">
+          <div className="title">
+            <h2 className="title">Fundamentals of Typing Tutorial</h2>
+          </div>
+          <div className="block">
+            <div className="carousel row">
+              <div className="arrow-left column column-10" onClick={this.prevChapter} />
+              <div className="carousel-content column">
+                <div className="carousel-title">
+                  <div onClick={this.prevChapter} className="learn-carousel-buttons">
+                    <img src="images/buttons/Left_Arrow_Thin.svg"></img>
                   </div>
-                  <div className="carousel-desc">
-                    <h3 className="desc">{carouselDesc}</h3>
+                  <h2 className="chapter-title">{title}</h2>
+                  <div onClick={this.nextChapter} className="learn-carousel-buttons">
+                    <img src="images/buttons/Right_Arrow_Thin.svg"></img>
                   </div>
                 </div>
-                <div className="arrow-right column column-10" onClick={this.nextChapter}/>
+                <div className="carousel-desc">
+                  <h3 className="desc">{carouselDesc}</h3>
+                </div>
               </div>
-              { body }
+              <div className="arrow-right column column-10" onClick={this.nextChapter}/>
             </div>
+            {body}
           </div>
         </div>
-      )
-    }
+      </div>
+    )
+  }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ 
     fetchAllChapterNames, 
     fetchAllPairs, 
-    fetchCompletedLessons 
+    fetchCompletedLessons,
+    restartLesson
   }, dispatch);
 }
 
-const mapStateToProps = ({ app }) => {
+const mapStateToProps = ({ app, auth }) => {
   return {
     allChapters: app.allChapters,
     isLoading: app.isLoading,
     chapterLessonPairs: app.chapterLessonPairs,
     completedLessons: app.completedLessons,
+    currentUser: auth.currentUser,
+    currentLessonName: app.currentLesson.lessonName
   }
 }
 

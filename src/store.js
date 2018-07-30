@@ -6,6 +6,8 @@ import localforage from 'localforage';
 import { combineReducers } from 'redux';
  import logger from 'redux-logger'
 
+import requestTextConverter from './middleware/requestTextConverter';
+
 import {
   isLoggedIn,
   app as appReducer
@@ -45,6 +47,7 @@ const persistAuthConfig = {
 const TypePhilApp = combineReducers({
   auth: persistReducer(persistAuthConfig, authReducer),
   chapterProgressPercentage,
+  statsForUser,
   app: persistReducer(persistConfig, appReducer)
 })
 
@@ -58,12 +61,6 @@ export let store = createStore(
     composeWithDevTools(applyMiddleware(thunk)),
     applyMiddleware(logger)
 );
-
-/*
-    TypePhilApp,
-    composeWithDevTools(applyMiddleware(thunk))
-);
-*/
 
 export let persistor = persistStore( store );
 export default persistor;
