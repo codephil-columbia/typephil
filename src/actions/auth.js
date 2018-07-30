@@ -71,7 +71,7 @@ export const dispatchSignup = (data) => {
         dispatch(signupError());
       }
       dispatch(signupSuccess());
-      store.dispatch(login(data.username)); // isusername correct key? dispatch vs store.dispatch?
+      store.dispatch(login(res)); // isusername correct key? dispatch vs store.dispatch?
     }).catch(err => {
       dispatch(signupError());
     });
