@@ -47,6 +47,7 @@ const persistAuthConfig = {
 const TypePhilApp = combineReducers({
   auth: persistReducer(persistAuthConfig, authReducer),
   chapterProgressPercentage,
+  statsForUser,
   app: persistReducer(persistConfig, appReducer)
 })
 
