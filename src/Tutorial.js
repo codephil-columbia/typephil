@@ -51,23 +51,40 @@ class Tutorial extends Component {
       userState: this.appState.READING,
       wpm: 0,
       shouldShowStats: false,
+      didUserPassLesson: true,
       results: {
         totalTime: 0,
         totalLength: 0,
         totalIncorrect: 0,
+      },
+      resultsForCurrentLesson: {
+        time: 0,
+        length: 0,
+        incorrect: 0
       }
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.currentLesson.lessonID != prevProps.currentLesson.lessonID) {
-      console.log(prevProps.currentLesson, this.props.currentLesson);
       this.setUp(this.props.currentLesson);
     }
   }
 
   componentWillMount = () => {
     this.freezeTimerIfIsLessonText();
+  }
+
+  componentDidMount() {
+    this.setState({
+      results: {
+        totalTime: 0,
+        totalLength: 0,
+        totalIncorrect: 0,
+      },
+      wpm: 0,
+      totalTime: 0,
+    })
   }
 
   setUp = (currentLesson) => {
@@ -100,13 +117,18 @@ class Tutorial extends Component {
       userState: this.appState.READING,
       wpm: 0,
       shouldShowStats: false,
+      didUserPassLesson: false,
       results: {
         totalTime: 0,
         totalLength: 0,
         totalIncorrect: 0,
+      }, 
+      resultsForCurrentLesson: {
+        time: 0, 
+        length: 0,
+        incorrect: 0
       }
     })
-
     this.freezeTimerIfIsLessonText();
   }
 
@@ -124,15 +146,39 @@ class Tutorial extends Component {
   })
 
   updateResults = ({ time, length, incorrect }) => {
-    console.log("getting results", time, length, incorrect);
     let { totalTime, totalLength, totalIncorrect } = this.state.results;
-    this.setState({
-      results: {
-        totalTime: totalTime + time,
-        totalLength: totalLength + length,
-        totalIncorrect: totalIncorrect + incorrect
-      }
-    });
+    totalIncorrect += incorrect;
+    totalTime += time;
+    totalLength += length;
+
+    const accuracy = (totalLength - totalIncorrect) / totalLength;
+    if(accuracy < .69) {
+      this.setState({ 
+        didUserPassLesson: false,
+        results: {
+          totalTime,
+          totalIncorrect,
+          totalLength
+        }, resultsForCurrentLesson: {
+          time,
+          length,
+          incorrect
+        }
+      });
+    } else {
+      this.setState({
+        results: {
+          totalTime,
+          totalLength,
+          totalIncorrect
+        }, resultsForCurrentLesson: {
+          time, 
+          length, 
+          incorrect
+        },
+        didUserPassLesson: true
+      });
+    }
   }
 
   setTutorialStats = ({ wpm, time, accuracy }) => {
@@ -140,7 +186,6 @@ class Tutorial extends Component {
   }
 
   calculateTime = txt => {
-    // Sang's ~magical algorithm~
     return (txt.length/5) * 60/200 * 100;
   };
 
@@ -155,12 +200,31 @@ class Tutorial extends Component {
 
   prev = () => {
     let { indexPtr } = this.state;
+    const { time, length, incorrect} = this.state.resultsForCurrentLesson;
+    const { totalIncorrect, totalTime, totalLength } = this.state.results;
     if(indexPtr - 1 < 0) {
       indexPtr = 0;
     } else {
       indexPtr -= 1;
     }
-    this.setState({ indexPtr, shouldShowStats: false });
+
+    console.log(this.state.resultsForCurrentLesson);
+    this.setState({ 
+      indexPtr, 
+      shouldShowStats: false,
+      results: {
+        totalTime: totalTime - (time *2),
+        totalLength: totalLength - (length*2),
+        totalIncorrect: totalIncorrect - (incorrect*2)
+      }, 
+      resultsForCurrentLesson: {
+        time: 0,
+        length: 0,
+        incorrect: 0
+      },
+    });
+
+    console.log(this.state);
   };
 
   finishedLesson = () => {
@@ -223,7 +287,6 @@ class Tutorial extends Component {
   }
 
   showStats = () => {
-    console.log('showing stats');
     this.setState({ shouldShowStats: true });
   }
 
@@ -234,7 +297,8 @@ class Tutorial extends Component {
       indexPtr,
       totalContentLength,
       shouldShowStats,
-      results
+      results,
+      didUserPassLesson
     } = this.state;
 
     if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
@@ -242,10 +306,6 @@ class Tutorial extends Component {
     }
 
     const { content, userState } = this.getContent(indexPtr);
-
-    if(userState === this.appState.COMPLETED_TUTORIAL) {
-      return "done"
-    }
 
     return (
       <React.Fragment>
@@ -273,6 +333,7 @@ class Tutorial extends Component {
               totalTime={results.totalTime}
               totalLength={results.totalLength}
               totalIncorrect={results.totalIncorrect}
+              didUserPassLesson={didUserPassLesson}
             />
           )}
           <LessonTutorialButtons 
@@ -287,6 +348,7 @@ class Tutorial extends Component {
               )}
             shouldFreeze={shouldFreeze}
             userState={userState}
+            didUserPassLesson={didUserPassLesson}
           />
         </div>
       </React.Fragment>

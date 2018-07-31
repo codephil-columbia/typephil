@@ -14,10 +14,12 @@
 
 .correct-character {
     color: green;
+    font-weight: 400;
 }
 
 .default-character {
-    color: grey;
+    color: #545454;
+    font-weight: 700;
 }
 
 .incorrect-character {

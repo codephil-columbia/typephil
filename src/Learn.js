@@ -113,6 +113,8 @@ class Learn extends Component {
       return <Redirect to="/tutorial" />
     }
 
+    console.log(completedLessons);
+
     let title;
     let body;
     if (shouldShowLessons) {
@@ -130,20 +132,21 @@ class Learn extends Component {
       title = "Chapter Overview"
     }
 
-    return (
-      <div>
-        <Header links={headerLinks}/>
-        <div className="content container">
-          <div className="title">
-            <h2 className="title">Fundamentals of Typing Tutorial</h2>
-          </div>
-          <div className="block">
-            <div className="carousel row">
-              <div className="arrow-left column column-10" onClick={this.prevChapter} />
-              <div className="carousel-content column">
-                <div className="carousel-title">
-                  <div onClick={this.prevChapter} className="learn-carousel-buttons">
-                    <img src="images/buttons/Left_Arrow_Thin.svg"></img>
+      return (
+        <div>
+          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn}/>
+          <div className="content container">
+            <div className="title">
+              <h2>Fundamentals of Typing Tutorial</h2>
+            </div>
+            <div className="block">
+              <div className="carousel row">
+                <div className="arrow-left column column-10" onClick={this.prevChapter} />
+                <div className="carousel-content column">
+                  <div className="carousel-title">
+                    <div onClick={this.prevChapter} className="learn-carousel-buttons">
+                      <img src="images/buttons/Left_Arrow_Thin.svg"></img>
+                    </div>
                   </div>
                   <h2 className="chapter-title">{title}</h2>
                   <div onClick={this.nextChapter} className="learn-carousel-buttons">
@@ -159,7 +162,6 @@ class Learn extends Component {
             {body}
           </div>
         </div>
-      </div>
     )
   }
 }

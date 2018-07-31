@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Modal from 'react-modal';
 
 import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
-import TutorialStats from './TutorialStats';
 
 import { postTutorialResults } from '../actions/tutorial';
 
@@ -33,7 +32,7 @@ class LessonTutorialContent extends Component {
 
     const characterMapList = this.createCharacterMapLists(currentContent);
     let styleMapList = this.createStyleMapLists(currentContent);
-    styleMapList[0] = styleMapList[0].set(0, 'default-letter highlighted');
+    styleMapList[0] = styleMapList[0].set(0, 'default-character highlighted');
 
     const currentKey = characterMapList[0].get(0);
 
@@ -279,7 +278,7 @@ class LessonTutorialContent extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    return line.match(/.{1,20}/g);
+    return line.match(/.{1,25}/g);
   };
 
   closeModal = () => {
@@ -309,7 +308,7 @@ class LessonTutorialContent extends Component {
    */
   calculateTutorialTime = () => {
     let time = this.state.finishTime - this.state.startTime;
-    return this.state.pauses.reduce((accum, currVal) => currVal - accum, time) / 1000;
+    return this.state.pauses.reduce((accum, currVal) => accum - (currVal - this.state.startTime), time) / 1000;
   }
 
   render() {

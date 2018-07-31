@@ -26,10 +26,9 @@ const getCurrentLessonForUserFailed = err => {
 }
 
 export const getCurrentLessonForUser = uid => {
+  console.log(uid);
   return function (dispatch) {
     dispatch(getCurrentLessonForUserWaiting());
-    console.log( ">>>>> UID DICT ", { uid } );
-    console.log( `${api_url}/lesson/getCurrent` );
     return axios.post(`${api_url}/lesson/getCurrent`, { uid })
       .then(res => {
         const { data } = res;

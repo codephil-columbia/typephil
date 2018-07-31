@@ -36,7 +36,7 @@ export const resetTutorial = () => ({
 
 export const POST_TUTORIAL = "POST_TUTORIAL";
 export const postTutorialResults = (tutorialResult) => (dispatch) => {
-  axios.post(`${api_url}/lesson/test`, tutorialResult)
+  axios.post(`${api_url}/lesson/complete`, tutorialResult)
     .then(res => {
       dispatch(postTutorialSuccess());
       dispatch(getCurrentLessonForUser(tutorialResult.uid));

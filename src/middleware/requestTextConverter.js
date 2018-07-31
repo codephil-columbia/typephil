@@ -1,4 +1,19 @@
 import { GET_CURRENT_LESSON } from '../actions/homepage';
+import { FETCH_ALL_PAIRS_SUCCESS } from '../actions/learn';
+
+/**
+ * Put hard coded special characters inside the regex, and what it maps to as the text
+ */
+const CONVERTERS = {
+    GET_CURRENT_LESSON: {
+        regex: /&#59/g,
+        text: ';'
+    },
+    FETCH_ALL_PAIRS_SUCCESS: {
+        regex: /&#59/g,
+        text: ';'
+    }
+}
 
 /**
  * 
@@ -10,7 +25,6 @@ const requestTextConverter = _ => next => action => {
      switch(action.type) {
          case GET_CURRENT_LESSON:
             const { lessondescriptions, lessontext } = action.data;
-
             action.data.lessondescriptions = lessondescriptions.map(
                 (desc) => convertPlaceholdersToActualText(desc, GET_CURRENT_LESSON)
             );
@@ -18,7 +32,16 @@ const requestTextConverter = _ => next => action => {
                 (text) => convertPlaceholdersToActualText(text, GET_CURRENT_LESSON)
             );
             action.data.lessonname = convertPlaceholdersToActualText(action.data.lessonname, GET_CURRENT_LESSON);
-            break;            
+            break;
+        case FETCH_ALL_PAIRS_SUCCESS:
+            action.data.forEach((group, i) => {
+                group.lessons = group.lessons.map((lesson) => {
+                    lesson.LessonName = convertPlaceholdersToActualText(lesson.LessonName, FETCH_ALL_PAIRS_SUCCESS);
+                    return lesson;
+                })
+                action.data[i] = group;
+            });
+            break;
      }
      return next(action);
 }
@@ -30,14 +53,6 @@ function convertPlaceholdersToActualText(text, action) {
     );
 }
 
-/**
- * Put hard coded special characters inside the regex, and what it maps to as the text
- */
-const CONVERTERS = {
-    GET_CURRENT_LESSON: {
-        regex: /&#59/g,
-        text: ';'
-    }
-}
+// 34 => ""
 
 export default requestTextConverter;

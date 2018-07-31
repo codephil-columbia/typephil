@@ -1,15 +1,3 @@
-.correct-letter {
-    color: green;
-}
-
-.incorrect-letter {
-    color: red;
-}
-
-.default-letter {
-    color: black;
-}
-
 .character {
     margin-right: 5px;
     margin-left: 5px;
@@ -18,10 +6,11 @@
 .words {
     font-weight: 600;
     border-bottom: 1px solid grey;
-    font-size: 3.5rem;
+    font-size: 2vw;
     margin-bottom: 5rem;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 22.5%;
+    margin-right: 22.5%;
+    text-align: left;
 }
 
 .content-wrapper {

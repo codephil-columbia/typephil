@@ -38,6 +38,8 @@ class LessonsView extends Component {
     if(lessonStats) {
       lessonStatView = showLessonStats(currentSelectedLesson, lessonStats, doRestartLesson);
     } else {
+      console.log(this.props.mostRecentLessonName === currentSelectedLesson.LessonName)
+      console.log(this.props.mostRecentLessonName, currentSelectedLesson.LessonName);
       lessonStatView = <Lock isMostRecentLesson={this.props.mostRecentLessonName === currentSelectedLesson.LessonName} />
     }
 

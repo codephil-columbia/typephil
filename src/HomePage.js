@@ -81,7 +81,7 @@ class HomePage extends Component {
         <Header links={headerLinks} isLoggedIn={true} username={this.props.username}/>
         <div className="container">
           <div className="title row">
-            <h1 class="homepage-welcome">Welcome Back, {username}!</h1>
+            <h1 className="homepage-welcome">Welcome Back, {username}!</h1>
           </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">

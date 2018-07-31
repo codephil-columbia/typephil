@@ -2,22 +2,39 @@ import React from 'react';
 import '../style/LessonTutorialButtons.css'
 
 
-const LessonTutorialButtons = ({ shouldFreeze, next, prev, isLastContent, redirectToNextLesson }) => {
+const LessonTutorialButtons = ({ 
+  shouldFreeze,
+  next, 
+  prev, 
+  isLastContent, 
+  redirectToNextLesson, 
+  didUserPassLesson,
+  userState
+}) => {
   if(shouldFreeze)
     return "";
-  return (
-    <div className="lesson-buttons">
-        { /* Empty div so that the next button stays anchored to the right side */ } 
-        {!isLastContent ? <BackButton prev={prev} /> : <div></div>}
+
+  if(didUserPassLesson || userState === "reading") {
+    return (
+      <div className="lesson-buttons">
+        {!isLastContent ? <BackButton prev={prev} text="Previous"/> : <div></div>}
         <NextButton 
             next={isLastContent ? redirectToNextLesson : next}
             shouldRedirectToNextLesson={isLastContent} 
         />
-    </div>
-  )
+      </div>
+    )
+  } else {
+    return (
+      <div className="lesson-buttons">
+        <BackButton prev={() => window.location = '/tutorial'} text="Restart" />
+        <div></div>
+      </div>
+    )
+  }
 }
 
-const BackButton = ({ prev }) => (
+const BackButton = ({ prev, text }) => (
     <React.Fragment>
         <svg width="170px" height="57px" viewBox="0 0 170 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <title>Previous Arrow</title>
@@ -34,7 +51,7 @@ const BackButton = ({ prev }) => (
                             fontSize="25" 
                             fontWeight="500" 
                             fill="#9B9B9B">
-                            <tspan x="67" y="32">Previous</tspan>
+                            <tspan x="67" y="32">{text}</tspan>
                         </text>
                         <polygon 
                             cursor="pointer" 
