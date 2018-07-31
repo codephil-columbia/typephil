@@ -27,6 +27,10 @@ class App extends Component {
   onSuccessfulAuth = () => {
     this.props.history.push("/home");
     this.setState({ isAuthenticated: true })
+
+    // Safely reset isAuthenticated, e.g. if user has logged out.
+    if(!this.props.isLoggedIn)
+      this.setState({ isAuthenticated: false })
   }
 
   /**
