@@ -151,6 +151,8 @@
 
 .title {
     font-size: 3rem;
+    display: inline-block;
+    margin-right: -9rem;
 }
 
 .desc {
@@ -173,7 +175,7 @@
 }
 
 .chapter-name {
-
+    font-weight: 1.1em;
 }
 
 .chapter {
@@ -184,6 +186,7 @@
 .num {
     margin-top: 1px;
     margin-right: 1px;
+    font-size: 2.2rem;
 }
 
 .block-info {
@@ -204,4 +207,75 @@
 .lesson-view-text {
     font-weight: 500;
     line-height: 1.5;
+    font-size: 2.2rem;
+}
+
+@media only screen and (max-width: 1300px) {
+    .title {
+        font-size: 2.5rem;
+        margin-right: -10rem;
+    }
+
+    .chapter-title {
+        font-weight: 500;
+        font-size: 2.5rem;
+    }
+
+    .chapter-name {
+        font-size: .7em;
+    }
+
+    .chapter-num {
+        width: 25px;
+        height: 25px;
+    }
+
+    .num {
+        font-size: 1.5rem;
+    }
+
+    .block-info {
+        margin-top: 2rem;
+    }
+
+    .lesson-view-text {
+        font-weight: 500;
+        line-height: 1.5;
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    .title {
+        font-size: 2.2rem;
+        margin-right: -11rem;
+    }
+
+    .chapter-title {
+        font-weight: 500;
+        font-size: 2.2rem;
+    }
+
+    .chapter-name {
+        font-size: .6em;
+    }
+
+    .chapter-num {
+        width: 25px;
+        height: 25px;
+    }
+
+    .num {
+        font-size: 1.2rem;
+    }
+
+    .block-info {
+        margin-top: 1rem;
+    }
+
+    .lesson-view-text {
+        font-weight: 500;
+        line-height: 1.5;
+        font-size: 1.8rem;
+    }
 }
