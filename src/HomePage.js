@@ -78,7 +78,7 @@ class HomePage extends Component {
 
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={true} username={this.props.username}/>
+        <Header links={headerLinks} isLoggedIn={true} username={username} />
         <div className="container">
           <div className="title row">
             <h1 className="homepage-welcome">Welcome Back, {username}!</h1>
