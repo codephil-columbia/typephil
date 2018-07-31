@@ -6,11 +6,32 @@
 .words {
     font-weight: 600;
     border-bottom: 1px solid grey;
-    font-size: 2vw;
+    font-size: 3rem;
     margin-bottom: 5rem;
-    margin-left: 22.5%;
-    margin-right: 22.5%;
+    margin-left: 25%;
+    margin-right: 25%;
     text-align: left;
+}
+
+@media only screen and (max-width: 1200px) {
+    .words {
+        font-size: 2.5rem;
+    }
+}
+
+@media only screen and (max-width: 1030px) {
+    .words {
+        font-size: 1.75vw;
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+}
+
+
+
+.default-character {
+    color: #545454;
+    font-weight: 550;
 }
 
 .content-wrapper {
