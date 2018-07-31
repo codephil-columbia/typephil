@@ -15,10 +15,7 @@ export const auth = (state = authInitialState, action) => {
           isLoggedIn: payload.isLoggedIn
         }
       case LOG_OUT:
-        return {
-          currentUser: payload,
-          isLoggedIn: false 
-        }
+        return authInitialState
       default:
         return state
     }
