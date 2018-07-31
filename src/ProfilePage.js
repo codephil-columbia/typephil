@@ -75,7 +75,7 @@ class Profile extends Component {
 
               <div className="column column-100">
                 <h2>Name</h2>
-                <h1>Phil Torres</h1>
+                <h1>{this.props.currentUser.firstName} {this.props.currentUser.lastName}</h1>
               </div>
             </div>
 

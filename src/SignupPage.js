@@ -47,6 +47,7 @@ class SignupPage extends Component {
         occupation: false
       },
 
+      signedIn: false,
       usernameValid: true,
     };
   }
@@ -110,6 +111,7 @@ class SignupPage extends Component {
       dob,
       schoolyear
     });
+    this.setState({ signedIn : true });
   }
 
   // Conditions hold `true` iff there is an error.
@@ -130,6 +132,10 @@ class SignupPage extends Component {
     
     if(isLoggedIn) {
       this.props.onSuccessfulAuth();
+    }
+
+    if(this.state.signedIn) {
+      return <Redirect to='/home'/>
     }
 
     const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(moment.monthsShort().indexOf(this.state.month)+1, this.state.year);
@@ -253,7 +259,7 @@ class SignupPage extends Component {
 
               <div className="row next">
                 <div className="column column-50 column-offset-25 signup">
-                  <button id="btn-next" disabled={!isEnabled} onClick={this.signup}>SIGN UP</button>
+                  <button id="btn-next" disabled={!isEnabled} onClick={() => this.signup}>SIGN UP</button>
                   <div className={isEnabled ? "hide" : "warning"}>Please complete all fields.</div>
                 </div>
               </div>

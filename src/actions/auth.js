@@ -3,7 +3,6 @@ import {api_url} from '../constants'
 import {store} from '../store'
 
 export const LOG_IN = 'LOG_IN';
-export const LOGGED_IN = 'LOGGED_IN';
 export const LOG_OUT = 'LOG_OUT';
 
 export const signupSuccess = () => {
@@ -19,22 +18,17 @@ export const signupError = err => {
   }
 }
 
-export const login = ( username ) => {
+export const login = res => {
+  const { data } = res;
   return {
     type: LOG_IN,
     payload: {
-      username: username,
-      uid: "",
-      firstName: "",
-      lastName: "",
+      username: data.username,
+      uid: data.uid, 
+      firstName: data.firstname,  
+      lastName: data.lastname,
+      isLoggedIn: true
     }
-  }
-}
-
-export const loggedIn = ({ data }) => {
-  return {
-    type: LOGGED_IN,
-    payload: data
   }
 }
 
@@ -56,14 +50,13 @@ export const dispatchLogin = (username, password) => (dispatch) =>
     const endpoint = api_url + '/auth/login';
     axios.post(endpoint, {username, password})
     .then(res => {
-      console.log("RES: ", res);
         if(res.status !== 200) {
           dispatch(loginError());
           reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
-          dispatch(login(username));
-          dispatch(loggedIn(res));
-          store.dispatch(login(username));
+          store.dispatch(login(res));
+          dispatch(login(res));
+          //store.dispatch(login(username));
           resolve(1); // 1 : successful login
         }
     }).catch(err => {
@@ -81,7 +74,7 @@ export const dispatchSignup = (data) => {
         dispatch(signupError());
       }
       dispatch(signupSuccess());
-      dispatch(loggedIn(res));
+      store.dispatch(login(res)); // isusername correct key? dispatch vs store.dispatch?
     }).catch(err => {
       dispatch(signupError());
     });

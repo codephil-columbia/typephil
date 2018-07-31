@@ -46,6 +46,7 @@ const persistAuthConfig = {
 const TypePhilApp = combineReducers({
   auth: persistReducer(persistAuthConfig, authReducer),
   chapterProgressPercentage,
+  statsForUser,
   app: persistReducer(persistConfig, appReducer)
 })
 
@@ -58,12 +59,6 @@ export let store = createStore(
     persistedReducer,
     composeWithDevTools(applyMiddleware(thunk))
 );
-
-/*
-    TypePhilApp,
-    composeWithDevTools(applyMiddleware(requestTextConverter, thunk))
-);
-*/
 
 export let persistor = persistStore( store );
 export default persistor;
