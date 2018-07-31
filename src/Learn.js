@@ -134,7 +134,7 @@ class Learn extends Component {
 
       return (
         <div>
-          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn}/>
+          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
           <div className="content container">
             <div className="title">
               <h2 className="title">Fundamentals of Typing Tutorial</h2>
@@ -182,6 +182,7 @@ const mapStateToProps = ({ app, auth }) => {
     chapterLessonPairs: app.chapterLessonPairs,
     completedLessons: app.completedLessons,
     currentUser: auth.currentUser,
+    isLoggedIn: auth.isLoggedIn,
     currentLessonName: app.currentLesson.lessonName
   }
 }

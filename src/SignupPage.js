@@ -98,6 +98,7 @@ class SignupPage extends Component {
 
   signup = (e) => {
     e.preventDefault();
+    console.log( "SIGN UP" );
     const { firstname, lastname, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstname, lastname to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
     this.props.dispatchSignup({ 
@@ -135,6 +136,7 @@ class SignupPage extends Component {
     }
 
     if(this.state.signedIn) {
+      console.log("SIGNED IN!", this.state);
       return <Redirect to='/home'/>
     }
 
@@ -259,7 +261,7 @@ class SignupPage extends Component {
 
               <div className="row next">
                 <div className="column column-50 column-offset-25 signup">
-                  <button id="btn-next" disabled={!isEnabled} onClick={() => this.signup}>SIGN UP</button>
+                  <button id="btn-next" disabled={!isEnabled} onClick={this.signup}>SIGN UP</button>
                   <div className={isEnabled ? "hide" : "warning"}>Please complete all fields.</div>
                 </div>
               </div>

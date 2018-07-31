@@ -33,6 +33,11 @@ class LoginPage extends Component {
     ).then((res) => this.handleAfterLogin(res));
   }
 
+  handleKeyPress = (e) => {
+    if(e.key === 'Enter')
+      this.handleLogin(e);
+  }
+
   handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
     if(res) { // res = 1 means successful login TODO unhack this since props are passed
       this.setState({ loginWasSuccessful: true });
@@ -124,8 +129,8 @@ class LoginPage extends Component {
             <div className="login">
               <form onSubmit={this.handleLogin}>
                   <div className="form-inputs">
-                    <input type="text" placeholder="Enter your username" id="nameField" className="form-input" onChange={this.getUsernameData}/>
-                    <input type="password" placeholder="Enter your password" id="passwordField" className="form-input" onChange={this.getPasswordData}/>
+                    <input type="text" placeholder="Enter your username" id="nameField" className="form-input" onChange={this.getUsernameData} onKeyPress={this.handleKeyPress}/>
+                    <input type="password" placeholder="Enter your password" id="passwordField" className="form-input" onChange={this.getPasswordData} onKeyPress={this.handleKeyPresss}/>
                     <div className={this.state.touched['signin'] ? (this.props.isLoggedIn ? "warning-hide" : "warning") : "warning-hide"}>Sorry, your username or password is incorrect.</div>
                   </div>
                   <div className="form-buttons">
