@@ -1,12 +1,8 @@
-import { LOG_IN, LOGGED_IN, LOG_OUT } from '../actions/auth';
+import { LOG_IN, LOG_OUT } from '../actions/auth';
 
 export const auth = (state = authInitialState, action) => {
     const { payload } = action;
     switch (action.type) {
-      case LOGGED_IN:
-        return {
-          isLoggedIn: true
-        }
       case LOG_IN:
         return {
           currentUser: {
