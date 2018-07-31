@@ -134,7 +134,10 @@ class SignupPage extends Component {
       this.props.onSuccessfulAuth();
     }
 
-    if(this.state.signedIn) return <Redirect to='/home'/>
+    if(this.state.signedIn) {
+      return <Redirect to='/home'/>
+    }
+
     const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(moment.monthsShort().indexOf(this.state.month)+1, this.state.year);
     const { firstname, lastname, username, password, password_c, schoolyear, occupation } = this.state;
     const errors = this.validate(firstname, lastname, username, password, password_c, schoolyear, occupation);
@@ -256,7 +259,7 @@ class SignupPage extends Component {
 
               <div className="row next">
                 <div className="column column-50 column-offset-25 signup">
-                  <button id="btn-next" disabled={!isEnabled} onClick={this.signup}>SIGN UP</button>
+                  <button id="btn-next" disabled={!isEnabled} onClick={() => this.signup}>SIGN UP</button>
                   <div className={isEnabled ? "hide" : "warning"}>Please complete all fields.</div>
                 </div>
               </div>
