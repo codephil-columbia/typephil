@@ -3,16 +3,9 @@ import React, { Component } from 'react';
 import { shiftedKeys, mapToSpecialKeys, specialKeyNames } from "../utils/keyboardUtils";
 import { isAlpha } from '../utils';
 
-//Bitch work rh smh 
-
 class Keyboard extends Component {
 
-  constructor(props) {
-      super(props);
-  }
-
   render() {
-    
     let { currentKey } = this.props;
     let shouldFillShift = false;
 

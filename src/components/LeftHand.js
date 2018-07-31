@@ -6,6 +6,7 @@ const LeftHand = () => {
       <title>Fill 1</title>
       <desc>Created with Sketch.</desc>
       <defs></defs>
+      <div></div>
       <g id="Hands" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(-53.000000, -18.000000)">
           <g transform="translate(0.000000, 1.000000)" fill="#FFFFFF" id="Left-hand" stroke="#979797" strokeWidth="2">
               <g>

@@ -119,3 +119,9 @@ export const fetchCompletedLessons = uid => {
       })
   }
 }
+
+export const RESET_CURRENT_LESSON = "RESET_CURRENT_LESSON";
+export const restartLesson = lessonID => ({
+  lessonID,
+  type: RESET_CURRENT_LESSON
+})

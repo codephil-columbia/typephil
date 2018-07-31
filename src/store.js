@@ -4,7 +4,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import localforage from 'localforage';
 import { combineReducers } from 'redux';
- import logger from 'redux-logger'
+
+import requestTextConverter from './middleware/requestTextConverter';
 
 import {
   isLoggedIn,
@@ -30,7 +31,7 @@ localforage.config({
 
 const persistConfig = {
   storage: localforage,
-  blacklist: ['currentLesson'],
+  whitelist: ['auth', 'isLoggedIn', 'currentUser', 'currentLesson'],
   key: 'root',
   debug: true
 }
@@ -55,13 +56,12 @@ const persistedReducer = persistReducer(
 
 export let store = createStore( 
     persistedReducer,
-    composeWithDevTools(applyMiddleware(thunk)),
-    applyMiddleware(logger)
+    composeWithDevTools(applyMiddleware(thunk))
 );
 
 /*
     TypePhilApp,
-    composeWithDevTools(applyMiddleware(thunk))
+    composeWithDevTools(applyMiddleware(requestTextConverter, thunk))
 );
 */
 

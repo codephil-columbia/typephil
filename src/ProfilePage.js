@@ -13,7 +13,7 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      headerLinks: ["Learn", "Progress", "Home"],
+      headerLinks: ["Learn", "Home"],
       edited: false,
       editing: false,
       viewing: false,

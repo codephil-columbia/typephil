@@ -2,45 +2,45 @@ import axios from 'axios';
 import { api_url } from '../constants';
 import { getCurrentLessonForUser } from './homepage';
 
-export const MOVE_INDEX_PTR = "MOVE_INDEX_PTR";
-export const TUTORIAL_COMPLETED = "TUTORIAL_COMPLETED"
-export const UNFREEZE = "UNFREEZE";
-export const FREEZE = "FREEZE";
+export const REDIRECT_TO_NEXT_LESSON = "REDIRECT_TO_NEXT_LESSON";
+export const redirectToNextLesson = () => ({
+  type: REDIRECT_TO_NEXT_LESSON
+});
 
-export const moveIndexPtr = indexPtr => ({
-  type: MOVE_INDEX_PTR,
-  indexPtr
-})
-
-export const completedTutorial = () => ({
-  type: TUTORIAL_COMPLETED
-})
-
-export const unFreeze = () => ({
-  type: UNFREEZE 
-})
-
-export const freeze = () => ({
-  type: FREEZE
-})
-
-const shouldFetchCurrentLesson = (state) => {
-  return state.app.currentLesson.lessonID === "";
+export const fetchLesson = (lessonId) => dispatch => {
+  dispatch(fetchLessonRequest())
+  axios.post(`${api_url}/lesson/get`, {lessonid: lessonId})
+    .then(res => {
+      dispatch(fetchLessonSuccess(res.data));
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }
 
-export const fetchCurrentLessonIfNeeded = (uid) => {
-  return function(dispatch, getState) {
-    if(shouldFetchCurrentLesson(getState())) {
-      dispatch(getCurrentLessonForUser(uid));
-    }
-  }
-}
+export const FETCH_LESSON_SUCCESS = "FETCH_LESSON_SUCCESS";
+const fetchLessonSuccess = (data) => ({
+  data,
+  type: FETCH_LESSON_SUCCESS
+});
+
+export const FETCH_LESSON = "FETCH_LESSON";
+const fetchLessonRequest = () => ({
+  type: FETCH_LESSON
+});
+
+export const RESET_TUTORIAL = "RESET_TUTORIAL";
+export const resetTutorial = () => ({
+  type: RESET_TUTORIAL
+})
 
 export const POST_TUTORIAL = "POST_TUTORIAL";
 export const postTutorialResults = (tutorialResult) => (dispatch) => {
-  axios.post(`${api_url}/lesson/finished`, tutorialResult)
+  axios.post(`${api_url}/lesson/complete`, tutorialResult)
     .then(res => {
       dispatch(postTutorialSuccess());
+      dispatch(getCurrentLessonForUser(tutorialResult.uid));
+      dispatch(resetTutorial())
     }).catch(_ => {
       dispatch(postTutorialError());
     })

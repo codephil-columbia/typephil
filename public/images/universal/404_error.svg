@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="341px" height="195px" viewBox="0 0 341 195" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>404</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="404-Error" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-189.000000, -389.000000)">
+        <g id="404" transform="translate(189.000000, 389.000000)">
+            <rect id="Rectangle" fill="#52B094" x="0" y="0" width="114" height="195"></rect>
+            <rect id="Rectangle" fill="#A4D1BF" x="114" y="0" width="114" height="195"></rect>
+            <rect id="Rectangle" fill="#52B094" x="227" y="0" width="114" height="195"></rect>
+            <text id="4" font-family="TradeGothic-BoldCondTwenty, TradeGothic" font-size="120" font-style="condensed" font-weight="bold" letter-spacing="4" fill="#FFFFFF">
+                <tspan x="27" y="142">4</tspan>
+            </text>
+            <text id="0" font-family="TradeGothic-BoldCondTwenty, TradeGothic" font-size="120" font-style="condensed" font-weight="bold" letter-spacing="4" fill="#FFFFFF">
+                <tspan x="142" y="142">0</tspan>
+            </text>
+            <text id="4" font-family="TradeGothic-BoldCondTwenty, TradeGothic" font-size="120" font-style="condensed" font-weight="bold" letter-spacing="4" fill="#FFFFFF">
+                <tspan x="255" y="142">4</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

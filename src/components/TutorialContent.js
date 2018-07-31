@@ -5,65 +5,68 @@ import { connect } from 'react-redux';
 import Modal from 'react-modal';
 
 import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
-import TutorialStats from './TutorialStats';
 
 import { postTutorialResults } from '../actions/tutorial';
 
 import "../style/TutorialContent.css"
 
 const BACKSPACE = "Backspace";
-const DEFAULT_STYLE = "default-character";
-const CORRECT_STYLE = "correct-character";
-const INCORRECT_STYLE = "incorrect-character";
-const HIGHLIGHTED = "highlighted";
+const DEFAULT_STYLE = "default-character character";
+const CORRECT_STYLE = "correct-character character";
+const INCORRECT_STYLE = "incorrect-character character";
+const HIGHLIGHTED = "highlighted character";
 
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
+
+// http://reactcommunity.org/react-modal/accessibility/
+Modal.setAppElement('#root')
 
 class LessonTutorialContent extends Component {
   constructor(props) {
     super(props);
 
-    if(this.props.isActive) {
-      const groupPtr = 0;
-      let { currentContent } = this.props;
-      currentContent = currentContent.trim();
+    const groupPtr = 0;
+    let { currentContent } = this.props;
+    currentContent = currentContent.trim();
 
-      const characterMapList = this.createCharacterMapLists(currentContent);
-      let styleMapList = this.createStyleMapLists(currentContent);
-      styleMapList[0] = styleMapList[0].set(0, 'default-letter highlighted');
+    const characterMapList = this.createCharacterMapLists(currentContent);
+    let styleMapList = this.createStyleMapLists(currentContent);
+    styleMapList[0] = styleMapList[0].set(0, 'default-character highlighted');
 
-      const currentKey = characterMapList[0].get(0);
+    const currentKey = characterMapList[0].get(0);
 
-      const rows = this.buildRows(characterMapList, styleMapList, 0);
+    const rows = this.buildRows(characterMapList, styleMapList, 0);
 
-      const totalLength = currentContent.length;
+    const totalLength = currentContent.length;
 
-      this.state = {
-        rows,
-        characterMapList,
-        styleMapList,
-        groupPtr,
-        currentKey,
-        totalLength,
-        charPtr: 0,
-        correct: [],
-        incorrect: [],
-        edited: [],
-        previousCharCorrectness: false,
-        LESSON_LENGTH: characterMapList.length,
-        consecutiveIncorrectCount: 0,
-        shouldShowModal: false,
-        isFirstCharacter: true,
-        hasPostedResults: false
-      };
-    } else { 
-      this.state = { rows: [] };
-    }
+    this.state = {
+      rows,
+      characterMapList,
+      styleMapList,
+      groupPtr,
+      currentKey,
+      totalLength,
+      charPtr: 0,
+      correct: [],
+      incorrect: [],
+      edited: [],
+      previousCharCorrectness: false,
+      LESSON_LENGTH: characterMapList.length,
+      consecutiveIncorrectCount: 0,
+      shouldShowModal: false,
+      isFirstCharacter: true,
+      hasPostedResults: false,
+      isFinished: false,
+      startTime: 0,
+      finishTime: 0,
+      pauses: [],
+      time: 0
+    };
   }
 
   componentWillMount = () => {
-    document.addEventListener("keydown", this.registerUserKeyPress);
+    this.attachEventListener();
   };
 
   createCharacterMapLists = (chars) => {
@@ -158,11 +161,11 @@ class LessonTutorialContent extends Component {
       const currentRowLength = characterMap.size;
 
       if(charPtr + 1 >= currentRowLength) {
-        newCharPtr = 0;
         if(groupPtr + 1 < LESSON_LENGTH) {
+          newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
         } else {
-          this.props.completed();
+          this.setState({ isFinished: true,  finishTime: Date.now() });
           newGroupPtr = groupPtr;
         }
       } else {
@@ -270,67 +273,75 @@ class LessonTutorialContent extends Component {
     return styleMapList;
   };
 
-  postResults = () => {
-    const { startTime, totalLength, correct } = this.state;
-    const { chapterID, lessonID } = this.props;
-    const { uid } = this.props.currentUser;
-    const totalTime = (Date.now() - startTime) / 1000;
-
-    this.props.postTutorialResults({
-      wpm: Math.trunc((totalLength / 5) / (totalTime / 60)),
-      accuracy: (correct.length/totalLength) * 100,
-      uid,
-      chapterID,
-      lessonID
-    });
-  }
-
   shouldCheckKey = (key) => {
     return !(key === "Meta" || key === "Shift" || key === 'CapsLock' || key === 'Tab')
   };
 
   breakInto30CharacterLists = (line) => {
-    return line.match(/.{1,30}/g);
+    return line.match(/.{1,25}/g);
   };
 
   closeModal = () => {
+    this.attachEventListener();
     this.setState({ shouldShowModal: false });
   };
 
-  render() {
-    const { isActive, isFinished } = this.props;
+  onModalOpen = () => {
+    this.removeEventListener();
+    let { pauses } = this.state;
+    pauses.push(Date.now());
+    this.setState({ pauses })
+  }
 
-    if(!isActive) {
-      return <LessonTutorialHandsKeyboard />
-    } 
+  removeEventListener = () => {
+    document.removeEventListener("keydown", this.registerUserKeyPress);
+  }
+
+  attachEventListener = () => {
+    document.addEventListener("keydown", this.registerUserKeyPress);
+  }
+
+  /**
+   * Calculates time taken to complete tutorial in seconds. Takes into account the 
+   * time taken during pauses due to too many consecutive incorrect characters being 
+   * typed.
+   */
+  calculateTutorialTime = () => {
+    let time = this.state.finishTime - this.state.startTime;
+    return this.state.pauses.reduce((accum, currVal) => accum - (currVal - this.state.startTime), time) / 1000;
+  }
+
+  render() {
+    const { isFinished } = this.state;
 
     if(isFinished) {
-      document.removeEventListener("keydown", this.registerUserKeyPress);
-      this.postResults();
+      this.removeEventListener();
+      this.props.updateResults({
+        time: this.calculateTutorialTime(),
+        length: this.state.totalLength,
+        incorrect: this.state.incorrect.length
+      })
+      this.props.showStats();
     }
 
-    const { rows, correct, incorrect, totalLength, startTime } = this.state;
+    const { rows } = this.state;
     let { currentKey } = this.state;
 
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
 
     return (
       <div class="content-wrapper">
-        <Modal isOpen={this.state.shouldShowModal} className="tutorial-modal">
+        <Modal 
+          isOpen={this.state.shouldShowModal}
+          onAfterOpen={this.onModalOpen}
+          className="tutorial-modal"
+        >
           <p className="modal-text">You missed more than <strong>5 keys</strong> in a row!</p>
           <p className="modal-text">Please go back and correct the mistyped keys!</p>
-          <button className="button-primary solid modal-button" type="submit" value="CLOSE" onClick={this.closeModal}>CLOSE</button>
+          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">CLOSE</button>
         </Modal>
-        { rows }
-        {isFinished 
-          ? <TutorialStats 
-            correct={(correct.length/totalLength) * 100} 
-            incorrect={incorrect} 
-            totalLength={totalLength}
-            startTime={startTime}
-            /> 
-          : <LessonTutorialHandsKeyboard currentKey={currentKey}/>}
-        <modal />
+        {rows}
+        <LessonTutorialHandsKeyboard currentKey={currentKey}/>
       </div>
     )
   }
