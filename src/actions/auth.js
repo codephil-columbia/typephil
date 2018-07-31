@@ -18,14 +18,16 @@ export const signupError = err => {
   }
 }
 
-export const login = data => {
+export const login = res => {
+  const { data } = res;
   return {
     type: LOG_IN,
     payload: {
       username: data.username,
       uid: data.uid, 
-      firstName: data.firstName,  
-      lastName: data.lastName,
+      firstName: data.firstname,  
+      lastName: data.lastname,
+      isLoggedIn: true
     }
   }
 }
@@ -53,6 +55,7 @@ export const dispatchLogin = (username, password) => (dispatch) =>
           reject(0); // 0 : failed login. TODO unhack this since props are passed
         } else {
           store.dispatch(login(res));
+          dispatch(login(res));
           //store.dispatch(login(username));
           resolve(1); // 1 : successful login
         }

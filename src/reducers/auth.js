@@ -2,6 +2,7 @@ import { LOG_IN, LOG_OUT } from '../actions/auth';
 
 export const auth = (state = authInitialState, action) => {
     const { payload } = action;
+    console.log("ACTION:", action);
     switch (action.type) {
       case LOG_IN:
         return {
@@ -11,7 +12,7 @@ export const auth = (state = authInitialState, action) => {
             firstName: payload.firstName,
             lastName: payload.lastName
           },
-          isLoggedIn: state.isLoggedIn
+          isLoggedIn: payload.isLoggedIn
         }
       case LOG_OUT:
         return {
