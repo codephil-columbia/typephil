@@ -5,7 +5,7 @@ const lock = ({ isMostRecentLesson }) => {
   return (
     <div>
       <div>
-        <img src="images/universal/lockicon.svg" alt="lock"></img>
+        <img src="images/universal/lockicon.svg" alt="lock" className="learn-lock-icon"></img>
       </div>
       <div>
         {isMostRecentLesson ? (

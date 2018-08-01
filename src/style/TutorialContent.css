@@ -8,18 +8,18 @@
     border-bottom: 1px solid grey;
     font-size: 3rem;
     margin-bottom: 5rem;
-    margin-left: 25%;
-    margin-right: 25%;
+    margin-left: 23%;
+    margin-right: 23%;
     text-align: left;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1300px) {
     .words {
         font-size: 2.5rem;
     }
 }
 
-@media only screen and (max-width: 1030px) {
+@media only screen and (max-width: 1150px) {
     .words {
         font-size: 1.75vw;
         margin-left: 20%;

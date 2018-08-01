@@ -27,6 +27,10 @@ class App extends Component {
   onSuccessfulAuth = () => {
     this.props.history.push("/home");
     this.setState({ isAuthenticated: true })
+
+    // Safely reset isAuthenticated, e.g. if user has logged out.
+    if(!this.props.isLoggedIn)
+      this.setState({ isAuthenticated: false })
   }
 
   /**
@@ -42,7 +46,7 @@ class App extends Component {
         <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
+        <Route path="/" component={HomePage}/>//component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route component={FourOhFour} />
       </Switch>
     )
