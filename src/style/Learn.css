@@ -57,51 +57,58 @@
 
 .lesson-badge-content-circle {
     border-radius: 50%;
-    width: 75px;
-    height: 75px;
+    width: 90px;
+    height: 90px;
     background-color: #DDE7C7;
 }
 
 .lesson-badge-content-txt {
-    font-size: 3rem;
-    padding-top: 1.3rem;
+    font-size: 4rem;
+    padding-top: 2rem;
+    font-weight: 600;
 }
 
 .lesson-badge-link {
-    color: #606c76;
     font-size: 2.5rem;
     padding-top: 1rem;
-    margin-left: 2rem;
+    margin-left: 3rem;
+    padding-top: 3rem;
 }
 
 .lesson-stats-icon {
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
 }
 
 .lesson-right {
-    margin-left: 5rem;
+    margin-left: 7rem;
+}
+
+.lesson-left {
+    text-align: left;
 }
 
 .lesson-badge-desc {
-    padding-top: 1.5rem;
-    margin-left: 2rem;
+    font-size: 2.5rem;
+    padding-top: 3rem;
+    margin-left: 3rem;
 }
 
 .lesson-badge-content-txt-circle {
-    font-size: 2.5rem;
-    padding-top: 1.5rem;
+    font-size: 4rem;
+    padding-top: 2rem;
+    font-weight: 600;
 }
 
 .lesson-badge-content-square {
     border-radius: 10%;
-    width: 75px;
-    height: 75px;
+    width: 90px;
+    height: 90px;
     background-color: #97c9a3;
 }
 
 .resume-button {
-    width: 75px;
-    height: 75px;
+    width: 90px;
+    height: 90px;
     cursor: pointer;
 }
 
@@ -184,7 +191,7 @@
 }
 
 .num {
-    margin-top: 1px;
+    margin-top: 4px;
     margin-right: 1px;
     font-size: 2.2rem;
 }
@@ -208,6 +215,15 @@
     font-weight: 500;
     line-height: 1.5;
     font-size: 2.2rem;
+    padding-right: 50px;
+    padding-left: 200px;
+    padding-top: 5px;
+}
+
+.percent-sign {
+    font-size: 2.5rem;
+    margin-top: -3rem;
+    font-weight: 400;
 }
 
 @media only screen and (max-width: 1300px) {
