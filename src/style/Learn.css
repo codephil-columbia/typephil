@@ -1,15 +1,23 @@
 .title {
     margin-top: 3%;
     color: #77BFA3;
-    font-weight: 900;
     font-size: 3.5rem;
+    display: inline-block;
+    margin-right: -5rem;
+    margin-left: 9rem;
+    margin-bottom: 4rem;
+    font-weight: 400;
+}
+
+.title-container {
+    text-align: left;
 }
 
 .chapter-title {
-    color: #77BFA3;
-    width: 40%;
+    color: #4A4A4A;
+    width: 45%;
     margin-top: 1.5%; /* TODO: Make this more stable. Eyeballed it sj. */
-    font-weight: 500;
+    font-weight: 600;
     font-size: 3rem;
 }
 
@@ -24,6 +32,14 @@
     background-color: white;
     border: white;
     color: #77BFA3;
+}
+
+.left-carousel-button {
+    padding-left: 20rem;
+}
+
+.right-carousel-button {
+    padding-right: 20rem;
 }
 
 .title-content {
@@ -73,6 +89,7 @@
     padding-top: 1rem;
     margin-left: 3rem;
     padding-top: 3rem;
+    text-align: left;
 }
 
 .lesson-stats-icon {
@@ -156,12 +173,6 @@
     border: 1px solid #979797;
 }
 
-.title {
-    font-size: 3rem;
-    display: inline-block;
-    margin-right: -9rem;
-}
-
 .desc {
     font-size: 2rem;
 }
@@ -226,6 +237,15 @@
     font-weight: 400;
 }
 
+@media only screen and (max-width: 1600px) {
+    .lesson-view-text {
+        font-weight: 500;
+        line-height: 1.5;
+        font-size: 2rem;
+        padding-left: 160px;
+    }
+}
+
 @media only screen and (max-width: 1300px) {
     .title {
         font-size: 2.5rem;
@@ -258,6 +278,33 @@
         font-weight: 500;
         line-height: 1.5;
         font-size: 2rem;
+        padding-left: 100px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .lesson-view-text {
+        font-weight: 500;
+        line-height: 1.5;
+        font-size: 2rem;
+        padding-left: 75px;
+    }
+
+    .lesson-badge-desc {
+        font-size: 2rem;
+    }
+
+    .lesson-badge-link {
+        font-size: 2rem;
+    }
+
+    .lesson-badge-content-txt-circle {
+        font-size: 3rem;
+    }
+
+    .lesson-badge-content-txt {
+        font-size: 3rem;
+        padding-top: 2.5rem;
     }
 }
 
@@ -269,7 +316,7 @@
 
     .chapter-title {
         font-weight: 500;
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
 
     .chapter-name {
@@ -293,5 +340,31 @@
         font-weight: 500;
         line-height: 1.5;
         font-size: 1.8rem;
+        padding-left: 50px;
+    }
+
+    .left-carousel-button {
+        padding-left: 15rem;
+    }
+
+    .right-carousel-button {
+        padding-right: 15rem;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    .lesson-view-text {
+        font-weight: 500;
+        line-height: 1.5;
+        font-size: 1.8rem;
+        padding-left: 25px;
+    }
+
+    .left-carousel-button {
+        padding-left: 10rem;
+    }
+
+    .right-carousel-button {
+        padding-right: 10rem;
     }
 }

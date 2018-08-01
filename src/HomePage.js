@@ -80,7 +80,7 @@ class HomePage extends Component {
       <div>
         <Header links={headerLinks} isLoggedIn={true} username={username} />
         <div className="container">
-          <div className="title row">
+          <div className="title-homepage row">
             <h1 className="homepage-welcome">Welcome Back, {username}!</h1>
           </div>
           <div className="quickstart row">
@@ -102,7 +102,7 @@ class HomePage extends Component {
                 </h4>
               </div>
             </div>
-            <div className="qs-image column">
+            <div className="qs-image column chapter-image-homepage">
               <img src={imagePath} alt="lesson"></img>
             </div>
           </div>
