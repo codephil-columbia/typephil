@@ -237,6 +237,12 @@
     font-weight: 400;
 }
 
+.learn-lock-icon {
+    width: 200px;
+}
+
+
+
 @media only screen and (max-width: 1600px) {
     .lesson-view-text {
         font-weight: 500;
@@ -320,16 +326,16 @@
     }
 
     .chapter-name {
-        font-size: .6em;
+        font-size: .7em;
     }
 
     .chapter-num {
-        width: 25px;
-        height: 25px;
+        width: 30px;
+        height: 30px;
     }
 
     .num {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     .block-info {
@@ -349,6 +355,10 @@
 
     .right-carousel-button {
         padding-right: 15rem;
+    }
+
+    .learn-lock-icon {
+        width: 150px;
     }
 }
 
