@@ -12,9 +12,30 @@
     display: flex !important;
 }
 
-.title {
+.title-homepage {
+    font-size: 3rem;
     display: flex;
     justify-content: center;
+}
+
+@media only screen and (max-width: 1300px) {
+  .title-homepage {
+      font-size: 2.5rem;
+      display: flex;
+      justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 1050px) {
+  .title-homepage {
+      font-size: 2rem;
+      display: flex;
+      justify-content: center;
+  }
+
+  .chapter-image-homepage {
+      padding-top: 4rem;
+  }
 }
 
 .homepage-welcome {
