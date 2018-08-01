@@ -13,7 +13,7 @@ import {
   fetchAllChapterNames, 
   fetchAllPairs, 
   fetchCompletedLessons,
-  restartLesson
+  fetchLessonById
 } from './actions/learn'
 
 class Learn extends Component {
@@ -35,7 +35,7 @@ class Learn extends Component {
   }
   
   doRestartLesson = lessonID => {
-    this.props.restartLesson(lessonID);
+    this.props.fetchLessonById({ lessonID });
     this.setState({ shouldRedirectToLesson: true });
   }
 
@@ -171,7 +171,7 @@ const mapDispatchToProps = dispatch => {
     fetchAllChapterNames, 
     fetchAllPairs, 
     fetchCompletedLessons,
-    restartLesson
+    fetchLessonById
   }, dispatch);
 }
 

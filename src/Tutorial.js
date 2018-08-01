@@ -18,9 +18,13 @@ import TutorialStats from './components/TutorialStats';
 class Tutorial extends Component {
   constructor(props) {
     super(props);
-
-    this.props.fetchLesson(this.props.currentLesson.lessonID);
-    const { currentLesson } = this.props;
+    
+    let currentLesson;
+    if(this.props.source === "LearnPage") {
+      currentLesson = this.props.chosenLessonFromLearn;
+    } else {
+      currentLesson = this.props.currentLesson;
+    }
     const { lessonDescriptions, lessonText } = currentLesson;
 
     const contentList = [];
@@ -150,6 +154,8 @@ class Tutorial extends Component {
     totalIncorrect += incorrect;
     totalTime += time;
     totalLength += length;
+    console.log(time, length, incorrect);
+    console.log(totalIncorrect, totalLength, totalTime);
 
     const accuracy = (totalLength - totalIncorrect) / totalLength;
     if(accuracy < .69) {
@@ -207,15 +213,14 @@ class Tutorial extends Component {
     } else {
       indexPtr -= 1;
     }
-
-    console.log(this.state.resultsForCurrentLesson);
+    
     this.setState({ 
       indexPtr, 
       shouldShowStats: false,
       results: {
-        totalTime: totalTime - (time *2),
-        totalLength: totalLength - (length*2),
-        totalIncorrect: totalIncorrect - (incorrect*2)
+        totalTime: totalTime - time,
+        totalLength: totalLength - length,
+        totalIncorrect: totalIncorrect - incorrect
       }, 
       resultsForCurrentLesson: {
         time: 0,
@@ -223,8 +228,6 @@ class Tutorial extends Component {
         incorrect: 0
       },
     });
-
-    console.log(this.state);
   };
 
   finishedLesson = () => {
@@ -271,7 +274,10 @@ class Tutorial extends Component {
       uid: this.props.currentUser.uid,
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
-    })
+    }, this.props.source);
+    if(this.props.source === "LearnPage") {
+      window.location = '/home';
+    }
   }
 
   // In the case the last rendered content is text, we still want to make sure we record the lesson, 
@@ -283,7 +289,10 @@ class Tutorial extends Component {
       uid: this.props.currentUser.uid,
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
-    })
+    }, this.props.source);
+    if(this.props.source === "LearnPage") {
+      window.location = '/home';
+    }
   }
 
   showStats = () => {
@@ -367,6 +376,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = ({ app, auth }) => ({
   currentLesson: app.currentLesson,
+  chosenLessonFromLearn: app.chosenLessonFromLearn,
+  source: app.source,
   currentUser: auth.currentUser
 })
 

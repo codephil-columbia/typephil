@@ -18,6 +18,8 @@ import {
   FETCH_COMPLETED_LESSONS,
   FETCH_COMPLETED_LESSONS_SUCCESS,
   RESET_CURRENT_LESSON,
+  FETCH_LESSON_BY_ID_SUCCESS,
+  FETCH_LESSON_BY_ID
 } from '../actions/learn';
 
 const initialAppState = {
@@ -34,12 +36,25 @@ const initialAppState = {
     ],
     hasPostedResults: false
   },
-
+  // Terrible name but roll with it for now until I can rewrite app state tree
+  chosenLessonFromLearn: {
+    name: "",
+    chapterID: "",
+    lessonID: "",
+    chapterImage: null,
+    hasFinishedLoading: false,
+    showSpinner: true,
+    lessonInformation: [
+    ],
+    lessonContent: [
+    ],
+    hasPostedResults: false
+  },
+  source: "HomePage",
   chapterLessonPairs: [],
   allChapters: [],
   completedLessons: [],
   isLoading: false,
-  shouldFreeze: true,
   tutorialFinished: false
 }
 
@@ -61,7 +76,7 @@ export const app = (state = initialAppState, action) => {
   switch (action.type) {
     case GET_CURRENT_LESSON:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
-      return { ...state };
+      return { ...state, source: "HomePage" };
     case FETCH_ALL_CHAPTERS_SUCCESS:
       state.allChapters = allChapters(state.allChapters, action);
       return {...state }
@@ -97,10 +112,37 @@ export const app = (state = initialAppState, action) => {
     case RESET_TUTORIAL:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state };
+    case FETCH_LESSON_BY_ID_SUCCESS:
+      state.chosenLessonFromLearn = chosenLessonFromLearnReducer(state.chosenLessonFromLearn, action);
+      return { ...state,  isLoading: false, source: "LearnPage" };
+    case FETCH_LESSON_BY_ID:
+      return { ...state, isLoading: true }
     default:
       return state;
   }
 }
+
+export const chosenLessonFromLearnReducer = (state = app.chosenLessonFromLearn, action) => {
+  switch(action.type) {
+    case FETCH_LESSON_BY_ID_SUCCESS:
+    const {
+      ChapterID, 
+      LessonID,
+      LessonName,
+      LessonText,
+      LessonDescriptions
+    } = action.data; 
+    return { 
+      ...state,
+      chapterID: ChapterID,
+      lessonID: LessonID,
+      lessonName: LessonName,
+      lessonText: LessonText,
+      lessonDescriptions: LessonDescriptions,
+    }
+  }
+}
+
 
 export const completedLessons = (state = app, action) => {
   switch(action.type) {
@@ -126,9 +168,6 @@ export const allChapters = (state = app.allChapters, action) => {
 
 export const currentLessonReducer = (state = app.currentLesson, action) => {
   switch(action.type) {
-    case RESET_CURRENT_LESSON:
-      const { lessonID } = action;
-      return { ...state, lessonID, showSpinner: true };
     case FETCH_LESSON:
       return { ...state, hasFinishedLoading: false };
     case GET_CURRENT_LESSON:
@@ -158,7 +197,7 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
       return {...state,
         showSpinner: true,
         hasFinishedLoading: false
-      }  
+      } 
     default:
       return state;
   }

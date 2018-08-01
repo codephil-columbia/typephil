@@ -26,7 +26,6 @@ const getCurrentLessonForUserFailed = err => {
 }
 
 export const getCurrentLessonForUser = uid => {
-  console.log(uid);
   return function (dispatch) {
     dispatch(getCurrentLessonForUserWaiting());
     return axios.post(`${api_url}/lesson/getCurrent`, { uid })

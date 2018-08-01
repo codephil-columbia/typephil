@@ -35,12 +35,14 @@ export const resetTutorial = () => ({
 })
 
 export const POST_TUTORIAL = "POST_TUTORIAL";
-export const postTutorialResults = (tutorialResult) => (dispatch) => {
+export const postTutorialResults = (tutorialResult, source) => (dispatch) => {
   axios.post(`${api_url}/lesson/complete`, tutorialResult)
     .then(res => {
       dispatch(postTutorialSuccess());
-      dispatch(getCurrentLessonForUser(tutorialResult.uid));
-      dispatch(resetTutorial())
+      if(source === "HomePage") { 
+        dispatch(getCurrentLessonForUser(tutorialResult.uid));
+        dispatch(resetTutorial())
+      }
     }).catch(_ => {
       dispatch(postTutorialError());
     })

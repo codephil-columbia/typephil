@@ -125,3 +125,27 @@ export const restartLesson = lessonID => ({
   lessonID,
   type: RESET_CURRENT_LESSON
 })
+
+/*** */
+
+export const FETCH_LESSON_BY_ID = "FETCH_LESSON_BY_ID";
+const fetchLessonByIdReq = () => ({
+  type: FETCH_LESSON_BY_ID
+})
+
+export const FETCH_LESSON_BY_ID_SUCCESS = "FETCH_LESSON_BY_ID_SUCCESS";
+const fetchLessonByIdSuccess = (data) => ({
+  data,
+  type: FETCH_LESSON_BY_ID_SUCCESS,
+  source: "LearnPage"
+})
+
+export const fetchLessonById = ({ lessonID }) => dispatch => {
+  dispatch(fetchLessonByIdReq())
+  return axios.post(`${api_url}/lesson/get`, { lessonID })
+    .then(({ data }) => {
+      dispatch(fetchLessonByIdSuccess(data));
+      console.log(data);
+    })
+    .catch(err => console.log(err));
+}

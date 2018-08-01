@@ -34,7 +34,6 @@ export const statsForUser = (state = {}, action) => {
   }
 }
 
-
 export const chapterProgressPercentage = (
   state = {isPercentageLoading: true}, 
   action
