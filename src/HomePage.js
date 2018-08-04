@@ -51,6 +51,7 @@ class HomePage extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { 
       badges, 
       headerLinks, 

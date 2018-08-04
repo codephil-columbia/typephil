@@ -46,8 +46,8 @@ class App extends Component {
         <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route path="/" component={HomePage}/>//component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route component={FourOhFour} />
+        <Route path="/" component={HomePage}/>
+        <Route path="/404"component={FourOhFour} />
       </Switch>
     )
   }

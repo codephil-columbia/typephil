@@ -8,7 +8,6 @@ import { combineReducers } from 'redux';
 import requestTextConverter from './middleware/requestTextConverter';
 
 import {
-  isLoggedIn,
   app as appReducer
 } from './reducers';
 
@@ -31,14 +30,14 @@ localforage.config({
 
 const persistConfig = {
   storage: localforage,
-  whitelist: ['auth', 'isLoggedIn', 'currentUser', 'currentLesson', 'chosenLessonFromLearn'],
+  whitelist: ['currentLesson', 'chosenLessonFromLearn'],
   key: 'root',
   debug: true
 }
 
 const persistAuthConfig = {
   storage: localforage,
-  whitelist: ['auth' ],
+  whitelist: ['currentUser', 'isLoggedIn'],
   key: 'auth',
   debug: true
 }
