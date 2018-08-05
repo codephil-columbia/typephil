@@ -322,7 +322,7 @@ class Tutorial extends Component {
         <div className="container tutorial">
           {userState === this.appState.READING ? (
             <div className="info-text">
-              <h4>{content}</h4>
+              <h4 className="tutorial-text">{content}</h4>
               <div className="tutorial-hands-keyboard">
                 <LeftHand />
                 <Keyboard />

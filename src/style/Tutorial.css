@@ -2,6 +2,15 @@
   background-color: aquamarine;
   font-size: 100px; }
 
+.tutorial-text {
+    background-color: #B5DCCD;
+    border-radius: 15px;
+    text-align: left;
+    padding: 15px;
+    color: #4A4A4A;
+    line-height: 1.7;
+}
+
 .right-hand {
   margin-left: 10px; }
 
