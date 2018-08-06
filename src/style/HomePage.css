@@ -24,6 +24,16 @@
       display: flex;
       justify-content: center;
   }
+
+  .homepage-chapter-image {
+    margin-top: 1rem;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .homepage-chapter-image {
+    margin-top: 2rem;
+  }
 }
 
 @media only screen and (max-width: 1050px) {
@@ -33,8 +43,14 @@
       justify-content: center;
   }
 
-  .chapter-image-homepage {
-      padding-top: 4rem;
+  .homepage-chapter-image {
+    margin-top: 3rem;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .homepage-chapter-image {
+    margin-top: 4rem;
   }
 }
 

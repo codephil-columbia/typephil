@@ -6,9 +6,10 @@
     background-color: #B5DCCD;
     border-radius: 15px;
     text-align: left;
-    padding: 15px;
+    padding: 20px;
     color: #4A4A4A;
     line-height: 1.7;
+    font-size: 2.2rem;
 }
 
 .right-hand {
@@ -58,5 +59,25 @@
     margin-top: 6vh;
     margin-left: 10%;
     margin-right: 10%;
+}
+
+@media only screen and (max-width: 1250px) {
+    .tutorial-hands-keyboard {
+        margin-top: 7vh;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .tutorial-text {
+        line-height: 1.5;
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    .tutorial-text {
+        line-height: 1.3;
+        font-size: 1.8rem;
+    }
 }
 /*# sourceMappingURL=Tutorial.css.map */
