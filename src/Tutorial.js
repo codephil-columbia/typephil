@@ -315,9 +315,11 @@ class Tutorial extends Component {
     }
 
     const { content, userState } = this.getContent(indexPtr);
+    const { username } = this.props.currentUser
+    
     return (
       <React.Fragment>
-        <Header links={headerLinks}/>
+        <Header links={headerLinks} isLoggedIn={true} username={username}/>
         <div className="container tutorial">
           {userState === this.appState.READING ? (
             <div className="info-text">
