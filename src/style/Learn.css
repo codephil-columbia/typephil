@@ -170,7 +170,7 @@
 
 .lesson-sep {
     width: 1px;
-    border: 1px solid #979797;
+    border: 1px solid #52B094;
 }
 
 .desc {
@@ -312,6 +312,11 @@
         font-size: 3rem;
         padding-top: 2.5rem;
     }
+
+    .percent-sign {
+        font-size: 2rem;
+        margin-top: -2rem;
+    }
 }
 
 @media only screen and (max-width: 1050px) {
@@ -359,6 +364,14 @@
 
     .learn-lock-icon {
         width: 150px;
+    }
+
+    .lesson-badge-desc {
+        font-size: 1.7rem;
+    }
+
+    .lesson-badge-link {
+        font-size: 1.7rem;
     }
 }
 

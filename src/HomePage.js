@@ -104,7 +104,7 @@ class HomePage extends Component {
               </div>
             </div>
             <div className="qs-image column chapter-image-homepage">
-              <img src={imagePath} alt="lesson"></img>
+              <img src={imagePath} alt="lesson" className="homepage-chapter-image"></img>
             </div>
           </div>
           <hr className="line row"/>
