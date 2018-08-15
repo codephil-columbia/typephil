@@ -19,7 +19,7 @@ const avgUserStats = (
         return (
           <div className="column badge" key={i}>
             <div className="badge-content" id={contentClass[i]}>
-              <h1>{stats[i]}</h1>
+              <h1>{Math.round(stats[i]*10)/10}</h1>
             </div>
             <div className="badge-description" align="left">
               <h3 className="badge-name">{badge}</h3>
