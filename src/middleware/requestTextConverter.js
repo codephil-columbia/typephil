@@ -1,5 +1,5 @@
 import { GET_CURRENT_LESSON } from '../actions/homepage';
-import { FETCH_ALL_PAIRS_SUCCESS } from '../actions/learn';
+import { FETCH_ALL_PAIRS_SUCCESS, FETCH_LESSON_BY_ID_SUCCESS } from '../actions/learn';
 
 /**
  * Put hard coded special characters inside the regex, and what it maps to as the text
@@ -12,6 +12,10 @@ const CONVERTERS = {
     FETCH_ALL_PAIRS_SUCCESS: {
         regex: /&#59/g,
         text: ';'
+    },
+    FETCH_LESSON_BY_ID_SUCCESS: {
+      regex: /&#59/g,
+      text: ';'    
     }
 }
 
@@ -42,6 +46,18 @@ const requestTextConverter = _ => next => action => {
                 action.data[i] = group;
             });
             break;
+        case FETCH_LESSON_BY_ID_SUCCESS:
+          const { LessonDescriptions, LessonText } = action.data;
+          action.data.LessonDescriptions = LessonDescriptions.map(
+              (desc) => convertPlaceholdersToActualText(desc, FETCH_LESSON_BY_ID_SUCCESS)
+          );
+          action.data.LessonText = LessonText.map(
+              (text) => convertPlaceholdersToActualText(text, FETCH_LESSON_BY_ID_SUCCESS)
+          );
+          action.data.LessonName = convertPlaceholdersToActualText(action.data.LessonName, FETCH_LESSON_BY_ID_SUCCESS);
+          break;
+        default:
+          break;
      }
      return next(action);
 }

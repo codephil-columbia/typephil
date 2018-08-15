@@ -30,10 +30,11 @@ const initialAppState = {
     chapterImage: null,
     hasFinishedLoading: false,
     showSpinner: true,
-    lessonInformation: [
+    lessonText: [
     ],
-    lessonContent: [
+    lessonDescription: [
     ],
+    lessonName: "",
     hasPostedResults: false
   },
   // Terrible name but roll with it for now until I can rewrite app state tree
@@ -44,9 +45,9 @@ const initialAppState = {
     chapterImage: null,
     hasFinishedLoading: false,
     showSpinner: true,
-    lessonInformation: [
+    lessonText: [
     ],
-    lessonContent: [
+    lessonDescriptions: [
     ],
     hasPostedResults: false
   },
