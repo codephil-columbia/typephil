@@ -60,4 +60,8 @@
 .dropdown:hover .dropdown-content {
   display: block; }
 
+.nav-bar-options {
+  color: white;
+}
+
 /*# sourceMappingURL=navbar.css.map */
