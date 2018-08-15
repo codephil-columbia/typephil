@@ -53,10 +53,10 @@ const ProfileOptions = (props) => {
     <div className="dropdown">
       <button className="dropbtn">{ props.username ? props.username.charAt(0) : '' }</button>
 			<div className="dropdown-content">
-				<div> 
-					<Link to="/profile">My Account</Link>
+				<div>  
+					<Link to="/profile" className="nav-bar-options" >My Account</Link>
 				</div>
-				<div onClick={() => logout(props.dispatch)}>
+				<div className="nav-bar-options" onClick={() => logout(props.dispatch)}>
 					Log Out
 				</div>
 			</div>
