@@ -27,7 +27,7 @@ const LessonTutorialButtons = ({
   } else {
     return (
       <div className="lesson-buttons">
-        <BackButton prev={() => window.location = '/tutorial'} text="Restart" />
+        <BackButton prev={prev} text="Restart" />
         <div></div>
       </div>
     )
