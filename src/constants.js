@@ -5,7 +5,7 @@ const get_api_url = function() {
     api_url = "http://localhost:5000";
   }
   else {
-    api_url = "http://api.typephil.org";
+    api_url = "https://api.typephil.org";
   }
   return api_url;
 }
