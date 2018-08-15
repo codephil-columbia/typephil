@@ -166,6 +166,11 @@ class LessonTutorialContent extends Component {
           newGroupPtr = groupPtr + 1;
         } else {
           this.setState({ isFinished: true,  finishTime: Date.now() });
+          this.props.updateResults({
+            time: this.calculateTutorialTime(),
+            length: this.state.totalLength,
+            incorrect: this.state.incorrect.length
+          });
           newGroupPtr = groupPtr;
         }
       } else {
@@ -283,7 +288,9 @@ class LessonTutorialContent extends Component {
 
   closeModal = () => {
     this.attachEventListener();
-    this.setState({ shouldShowModal: false });
+    let { pauses } = this.state;
+    pauses.push(Date.now() - pauses.pop());
+    this.setState({ shouldShowModal: false, pauses });
   };
 
   onModalOpen = () => {
@@ -308,19 +315,13 @@ class LessonTutorialContent extends Component {
    */
   calculateTutorialTime = () => {
     let time = this.state.finishTime - this.state.startTime;
-    return this.state.pauses.reduce((accum, currVal) => accum - (currVal - this.state.startTime), time) / 1000;
+    return this.state.pauses.reduce((accum, currVal) => accum - currVal, time) / 1000;
   }
 
   render() {
     const { isFinished } = this.state;
-
     if(isFinished) {
       this.removeEventListener();
-      this.props.updateResults({
-        time: this.calculateTutorialTime(),
-        length: this.state.totalLength,
-        incorrect: this.state.incorrect.length
-      })
       this.props.showStats();
     }
 
