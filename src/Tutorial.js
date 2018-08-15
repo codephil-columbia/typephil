@@ -70,7 +70,7 @@ class Tutorial extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.currentLesson.lessonID != prevProps.currentLesson.lessonID) {
+    if (this.props.currentLesson.lessonID !== prevProps.currentLesson.lessonID) {
       this.setUp(this.props.currentLesson);
     }
   }
@@ -154,8 +154,6 @@ class Tutorial extends Component {
     totalIncorrect += incorrect;
     totalTime += time;
     totalLength += length;
-    console.log(time, length, incorrect);
-    console.log(totalIncorrect, totalLength, totalTime);
 
     const accuracy = (totalLength - totalIncorrect) / totalLength;
     if(accuracy < .69) {
@@ -187,6 +185,10 @@ class Tutorial extends Component {
     }
   }
 
+  clearStatsForCurrentLesson = () => {
+    this.setState({ resultsForCurrentLesson: { time: 0, length: 0, incorrect: 0 } });
+  }
+
   setTutorialStats = ({ wpm, time, accuracy }) => {
     this.setState({ wpm, accuracy, time });
   }
@@ -201,6 +203,7 @@ class Tutorial extends Component {
       indexPtr += 1;
       this.freezeTimerIfIsLessonText();
     }
+    this.clearStatsForCurrentLesson();
     this.setState({ indexPtr, shouldShowStats: false });
   };
 
@@ -221,13 +224,9 @@ class Tutorial extends Component {
         totalTime: totalTime - time,
         totalLength: totalLength - length,
         totalIncorrect: totalIncorrect - incorrect
-      }, 
-      resultsForCurrentLesson: {
-        time: 0,
-        length: 0,
-        incorrect: 0
-      },
+      }
     });
+    this.clearStatsForCurrentLesson();
   };
 
   finishedLesson = () => {
@@ -275,6 +274,7 @@ class Tutorial extends Component {
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
     }, this.props.source);
+    // If user picked lesson from LearnPage, take them back to homepage
     if(this.props.source === "LearnPage") {
       window.location = '/home';
     }
@@ -306,8 +306,8 @@ class Tutorial extends Component {
       indexPtr,
       totalContentLength,
       shouldShowStats,
-      results,
-      didUserPassLesson
+      didUserPassLesson,
+      resultsForCurrentLesson
     } = this.state;
 
     if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
@@ -315,7 +315,6 @@ class Tutorial extends Component {
     }
 
     const { content, userState } = this.getContent(indexPtr);
-
     return (
       <React.Fragment>
         <Header links={headerLinks}/>
@@ -339,9 +338,9 @@ class Tutorial extends Component {
             />
           )}{shouldShowStats && (
             <TutorialStats 
-              totalTime={results.totalTime}
-              totalLength={results.totalLength}
-              totalIncorrect={results.totalIncorrect}
+              time={resultsForCurrentLesson.time}
+              length={resultsForCurrentLesson.length}
+              incorrect={resultsForCurrentLesson.incorrect}
               didUserPassLesson={didUserPassLesson}
             />
           )}
