@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {api_url} from '../constants'
-import {store} from '../store'
+import persistor, {store} from '../store'
 
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
@@ -41,7 +41,11 @@ export const loginError = err => {
 
 export const dispatchLogout = () => {
   return function(dispatch) {
-    dispatch({ type: 'LOG_OUT' });
+    persistor.purge()
+      .then(() => {
+        dispatch({ type: 'LOG_OUT' });
+      })
+      .catch(err => dispatch({ type: 'PURGE_ERR', err }));
   }
 }
 
