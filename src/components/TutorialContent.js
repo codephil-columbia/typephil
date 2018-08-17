@@ -165,6 +165,7 @@ class LessonTutorialContent extends Component {
           newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
         } else {
+          this.props.isFinished();
           this.setState({ isFinished: true,  finishTime: Date.now() });
           this.props.updateResults({
             time: this.calculateTutorialTime(),
