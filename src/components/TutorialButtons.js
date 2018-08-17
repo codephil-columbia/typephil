@@ -9,12 +9,13 @@ const LessonTutorialButtons = ({
   isLastContent, 
   redirectToNextLesson, 
   didUserPassLesson,
-  userState
+  userState,
+  isFinished
 }) => {
   if(shouldFreeze)
     return "";
 
-  if(didUserPassLesson || userState === "reading") {
+  if((didUserPassLesson && isFinished) || userState === "reading") {
     return (
       <div className="lesson-buttons">
         {!isLastContent ? <BackButton prev={prev} text="Previous"/> : <div></div>}
@@ -27,7 +28,7 @@ const LessonTutorialButtons = ({
   } else {
     return (
       <div className="lesson-buttons">
-        <BackButton prev={prev} text="Restart" />
+        <BackButton prev={prev} text={isFinished ? "Restart" : "Previous"} />
         <div></div>
       </div>
     )
