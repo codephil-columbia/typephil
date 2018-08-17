@@ -337,9 +337,8 @@ class LessonTutorialContent extends Component {
           onAfterOpen={this.onModalOpen}
           className="tutorial-modal"
         >
-          <p className="modal-text">You missed more than <strong>5 keys</strong> in a row!</p>
-          <p className="modal-text">Please go back and correct the mistyped keys!</p>
-          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">CLOSE</button>
+          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
+          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
         </Modal>
         {rows}
         <LessonTutorialHandsKeyboard currentKey={currentKey}/>

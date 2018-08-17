@@ -309,7 +309,8 @@ class Tutorial extends Component {
       didUserPassLesson,
       resultsForCurrentLesson
     } = this.state;
-
+    console.log(this.state.results.totalLength);
+    console.log(this.state.results.totalTime);
     if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
       return ShowSpinner();
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../style/LessonTutorialButtons.css';
 
 const lock = ({ isMostRecentLesson }) => {
   return (
@@ -14,7 +15,7 @@ const lock = ({ isMostRecentLesson }) => {
             <Link to="/tutorial" className="button">Start current lesson</Link>
           </React.Fragment>
         ) : (
-          <h4>To unlock this lesson, please complete the previous lesson</h4>
+          <h4 className="lock-description">To unlock this lesson, please complete the previous lesson</h4>
         )}
       </div>
     </div>  

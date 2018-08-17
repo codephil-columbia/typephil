@@ -13,20 +13,6 @@
     text-align: left;
 }
 
-@media only screen and (max-width: 1300px) {
-    .words {
-        font-size: 2.5rem;
-    }
-}
-
-@media only screen and (max-width: 1150px) {
-    .words {
-        font-size: 1.75vw;
-        margin-left: 20%;
-        margin-right: 20%;
-    }
-}
-
 
 
 .default-character {
@@ -47,10 +33,12 @@
 
 .tutorial-modal {
     background-color: #52B094;
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 25%;
-    color: #ffffff
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: 20%;
+    border-radius: 25px;
+    color: #ffffff;
+    text-align: center;
 }
 
 /*.form-buttons {
@@ -63,11 +51,36 @@
 }
 
 .modal-text {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 25px;
+    padding-bottom: 20px;
+    font-size:2rem;
     text-align: center;
 }
 
 .button-primary.solid.modal-button {
-    margin-left: 40%;
+    margin-bottom:25px;
+}
+
+@media only screen and (max-width: 1300px) {
+    .words {
+        font-size: 2.5rem;
+    }
+}
+
+@media only screen and (max-width: 1150px) {
+    .words {
+        font-size: 1.75vw;
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+
+    .modal-text {
+        font-size:1.8rem;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+   .modal-text {
+        font-size:1.6rem;
+    }
 }
