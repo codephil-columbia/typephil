@@ -98,12 +98,19 @@ class Tutorial extends Component {
   }
 
   onKeyPressed = (e) => {
-    console.log("KEY: ", e.key);
-    switch(e.key) {
-      case 'ArrowLeft':
-        this.prev();
-      case 'ArrowRight':
-        this.next();
+    console.log(this.props);
+    let isRightKey = ['ArrowLeft', 'ArrowRight'].indexOf(e.key);
+    if(isRightKey==1) {
+      this.next();
+      this.state.userState === this.appState.READING ? (
+        this.redirectToNextLesson
+      ) : (
+        this.postTutotialResultsAndRedirectToNextLesson
+      );
+    } else if(isRightKey==0) {
+      this.prev();
+    } else {
+      return;
     }
   };
 
