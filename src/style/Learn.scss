@@ -196,6 +196,9 @@ $mountain-meadow: #77BFA3;
 
 .chapter-name {
     font-weight: 1.1em;
+    h3:hover {
+      color: $mountain-meadow;
+    }
 }
 
 .chapter {
