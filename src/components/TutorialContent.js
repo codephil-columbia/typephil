@@ -196,6 +196,10 @@ class LessonTutorialContent extends Component {
       shouldShowModal
     } = this.state;
 
+    // Arrow key pressed; ignore.
+    if(keyPressed.indexOf('Arrow') !== -1)
+      return;
+
     let characterMapForRow = characterMapList[groupPtr];
     let styleMapForRow = styleMapList[groupPtr];
 
@@ -331,7 +335,7 @@ class LessonTutorialContent extends Component {
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
 
     return (
-      <div class="content-wrapper">
+      <div className="content-wrapper">
         <Modal 
           isOpen={this.state.shouldShowModal}
           onAfterOpen={this.onModalOpen}

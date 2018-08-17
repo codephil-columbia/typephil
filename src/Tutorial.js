@@ -79,7 +79,12 @@ class Tutorial extends Component {
     this.freezeTimerIfIsLessonText();
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyPressed);
+  }
+
   componentDidMount() {
+    document.addEventListener('keydown', this.onKeyPressed);
     this.setState({
       results: {
         totalTime: 0,
@@ -90,6 +95,16 @@ class Tutorial extends Component {
       totalTime: 0,
     })
   }
+
+  onKeyPressed = (e) => {
+    console.log("KEY: ", e.key);
+    switch(e.key) {
+      case 'ArrowLeft':
+        this.prev();
+      case 'ArrowRight':
+        this.next();
+    }
+  };
 
   setUp = (currentLesson) => {
     const { lessonDescriptions, lessonText } = currentLesson;
