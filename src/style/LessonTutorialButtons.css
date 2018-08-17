@@ -4,7 +4,11 @@
     margin-top: 5%;
 }
 
-
 .lock-description {
 	margin-top:15px;
+}
+
+.learn-start-button {
+	background-color: #BFD8BD;
+	border: #BFD8BD;
 }
