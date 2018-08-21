@@ -34,6 +34,7 @@ const initialAppState = {
     ],
     lessonDescription: [
     ],
+    lessonImages: [],
     lessonName: "",
     hasPostedResults: false
   },
@@ -49,6 +50,7 @@ const initialAppState = {
     ],
     lessonDescriptions: [
     ],
+    lessonImages: [],
     hasPostedResults: false
   },
   source: "HomePage",
@@ -71,9 +73,6 @@ export const isLoggedIn = (state, action) => {
 }
 
 export const app = (state = initialAppState, action) => {
-  let {
-    currentLesson
-  } = state;
   switch (action.type) {
     case GET_CURRENT_LESSON:
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
@@ -133,6 +132,7 @@ export const chosenLessonFromLearnReducer = (state = app.chosenLessonFromLearn, 
       LessonText,
       LessonDescriptions
     } = action.data; 
+    console.log(action.data);
     return { 
       ...state,
       chapterID: ChapterID,
@@ -141,6 +141,8 @@ export const chosenLessonFromLearnReducer = (state = app.chosenLessonFromLearn, 
       lessonText: LessonText,
       lessonDescriptions: LessonDescriptions,
     }
+    default: 
+    return state;
   }
 }
 
@@ -179,7 +181,8 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         lessonid,
         lessonname,
         lessontext,
-        lessondescriptions
+        lessondescriptions,
+        lessonimages
       } = action.data; 
       return { ...state,
         chapterID: chapterid,
@@ -189,6 +192,7 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         lessonName: lessonname,
         lessonText: lessontext,
         lessonDescriptions: lessondescriptions,
+        lessonImages: lessonimages,
         hasFinishedLoading: true,
         showSpinner: false
       }
@@ -211,6 +215,7 @@ const currentLessonHelper = (state, data) => {
     lessonName: data.LessonName,
     lessonText: data.LessonText,
     lessonDescriptions: data.LessonDescriptions,
+    lessonImages: data.lessonimages,
     hasFinishedLoading: true,
     showSpinner: false
   }
