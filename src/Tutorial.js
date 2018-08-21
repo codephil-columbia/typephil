@@ -100,20 +100,25 @@ class Tutorial extends Component {
     })
   }
 
+  isLastContent = () => {
+    return (this.state.indexPtr + 1) >= this.state.contentList.length;
+  }
+
   onKeyPressed = (e) => {
-    console.log(this.props);
     let isRightKey = ['ArrowLeft', 'ArrowRight'].indexOf(e.key);
-    if(isRightKey==1) {
-      this.next();
-      this.state.userState === this.appState.READING ? (
-        this.redirectToNextLesson
-      ) : (
-        this.postTutotialResultsAndRedirectToNextLesson
-      );
-    } else if(isRightKey==0) {
-      this.prev();
-    } else {
-      return;
+    switch(isRightKey) {
+      case 1:
+        if(this.isLastContent()) {
+          (this.state.userState === this.appState.READING) ? this.redirectToNextLesson() : this.postTutorialResultsAndRedirectToNextLesson();
+        } else {
+          this.next();
+        }
+        break;
+      case 0:
+        this.prev();
+        break;
+      default:
+        return;
     }
   };
 
@@ -273,7 +278,6 @@ class Tutorial extends Component {
     }
 
     const content = contentList[indexPtr];
-
     return { content, userState };
   };
 
@@ -289,7 +293,7 @@ class Tutorial extends Component {
     }, totalTime);
   };
 
-  postTutotialResultsAndRedirectToNextLesson = () => {
+  postTutorialResultsAndRedirectToNextLesson = () => {
     this.props.postTutorialResults({
       wpm: Math.trunc((this.state.results.totalLength / 5) / ((this.state.results.totalTime)/60)),
       accuracy: ((this.state.results.totalLength - this.state.results.totalIncorrect) / this.state.results.totalLength) * 100,
@@ -394,12 +398,12 @@ class Tutorial extends Component {
             next={this.next}
             prev={this.prev}
             isFinished={this.state.isFinished}
-            isLastContent={indexPtr + 1 >= totalContentLength}
+            isLastContent={this.state.indexPtr + 1 >= this.state.contentList.length}
             redirectToNextLesson={
               userState === this.appState.READING ? (
                 this.redirectToNextLesson
               ) : (
-                this.postTutotialResultsAndRedirectToNextLesson
+                this.postTutorialResultsAndRedirectToNextLesson
               )}
             shouldFreeze={shouldFreeze}
             userState={userState}
