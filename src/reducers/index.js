@@ -130,9 +130,9 @@ export const chosenLessonFromLearnReducer = (state = app.chosenLessonFromLearn, 
       LessonID,
       LessonName,
       LessonText,
-      LessonDescriptions
+      LessonDescriptions,
+      Image
     } = action.data; 
-    console.log(action.data);
     return { 
       ...state,
       chapterID: ChapterID,
@@ -140,6 +140,7 @@ export const chosenLessonFromLearnReducer = (state = app.chosenLessonFromLearn, 
       lessonName: LessonName,
       lessonText: LessonText,
       lessonDescriptions: LessonDescriptions,
+      lessonImages: Image
     }
     default: 
     return state;

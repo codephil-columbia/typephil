@@ -16,6 +16,8 @@ import {
   fetchLessonById
 } from './actions/learn'
 
+import { getCurrentLessonForUser } from './actions/homepage';
+
 class Learn extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,10 @@ class Learn extends Component {
     this.props.fetchAllChapterNames();
     this.props.fetchAllPairs(this.props.currentUser.uid);
     this.props.fetchCompletedLessons(this.props.currentUser.uid);
+
+    if(this.props.currentLessonName === "") {
+      this.props.getCurrentLessonForUser(this.props.currentUser.uid);
+    }
 
     this.state = {
       shouldRedirectToLesson: false,
@@ -113,8 +119,6 @@ class Learn extends Component {
       return <Redirect to="/tutorial" />
     }
 
-    console.log(completedLessons);
-
     let title;
     let body;
     if (shouldShowLessons) {
@@ -171,7 +175,8 @@ const mapDispatchToProps = dispatch => {
     fetchAllChapterNames, 
     fetchAllPairs, 
     fetchCompletedLessons,
-    fetchLessonById
+    fetchLessonById,
+    getCurrentLessonForUser
   }, dispatch);
 }
 
