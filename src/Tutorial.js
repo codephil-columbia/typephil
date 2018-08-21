@@ -97,23 +97,25 @@ class Tutorial extends Component {
     })
   }
 
+  isLastContent = () => {
+    return (this.state.indexPtr + 1) >= this.state.contentList.length;
+  }
+
   onKeyPressed = (e) => {
     let isRightKey = ['ArrowLeft', 'ArrowRight'].indexOf(e.key);
-    if(isRightKey==1) {
-      let isLastContent = this.state.indexPtr + 1 >= this.state.contentList.length;
-      if(isLastContent) {
-        if(this.state.userState === this.appState.READING) {
-          console.log('should be redirecting');
-          this.redirectToNextLesson();
+    switch(isRightKey) {
+      case 1:
+        if(this.isLastContent()) {
+          (this.state.userState === this.appState.READING) ? this.redirectToNextLesson() : this.postTutorialResultsAndRedirectToNextLesson();
         } else {
-          this.postTutorialResultsAndRedirectToNextLesson();
+          this.next();
         }
-      } else
-        this.next();
-    } else if(isRightKey==0) {
-      this.prev();
-    } else {
-      return;
+        break;
+      case 0:
+        this.prev();
+        break;
+      default:
+        return;
     }
   };
 
@@ -379,7 +381,7 @@ class Tutorial extends Component {
             next={this.next}
             prev={this.prev}
             isFinished={this.state.isFinished}
-            isLastContent={indexPtr + 1 >= totalContentLength}
+            isLastContent={this.state.indexPtr + 1 >= this.state.contentList.length}
             redirectToNextLesson={
               userState === this.appState.READING ? (
                 this.redirectToNextLesson
