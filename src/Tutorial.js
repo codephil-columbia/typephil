@@ -98,15 +98,18 @@ class Tutorial extends Component {
   }
 
   onKeyPressed = (e) => {
-    console.log(this.props);
     let isRightKey = ['ArrowLeft', 'ArrowRight'].indexOf(e.key);
     if(isRightKey==1) {
-      this.next();
-      this.state.userState === this.appState.READING ? (
-        this.redirectToNextLesson
-      ) : (
-        this.postTutotialResultsAndRedirectToNextLesson
-      );
+      let isLastContent = this.state.indexPtr + 1 >= this.state.contentList.length;
+      if(isLastContent) {
+        if(this.state.userState === this.appState.READING) {
+          console.log('should be redirecting');
+          this.redirectToNextLesson();
+        } else {
+          this.postTutorialResultsAndRedirectToNextLesson();
+        }
+      } else
+        this.next();
     } else if(isRightKey==0) {
       this.prev();
     } else {
@@ -270,6 +273,7 @@ class Tutorial extends Component {
     }
 
     const content = contentList[indexPtr];
+    console.log("GETCONTENT: ", content, userState );
     return { content, userState };
   };
 
@@ -285,7 +289,7 @@ class Tutorial extends Component {
     }, totalTime);
   };
 
-  postTutotialResultsAndRedirectToNextLesson = () => {
+  postTutorialResultsAndRedirectToNextLesson = () => {
     this.props.postTutorialResults({
       wpm: Math.trunc((this.state.results.totalLength / 5) / ((this.state.results.totalTime)/60)),
       accuracy: ((this.state.results.totalLength - this.state.results.totalIncorrect) / this.state.results.totalLength) * 100,
@@ -380,7 +384,7 @@ class Tutorial extends Component {
               userState === this.appState.READING ? (
                 this.redirectToNextLesson
               ) : (
-                this.postTutotialResultsAndRedirectToNextLesson
+                this.postTutorialResultsAndRedirectToNextLesson
               )}
             shouldFreeze={shouldFreeze}
             userState={userState}
