@@ -165,6 +165,7 @@ class LessonTutorialContent extends Component {
           newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
         } else {
+          this.props.isFinished();
           this.setState({ isFinished: true,  finishTime: Date.now() });
           this.props.updateResults({
             time: this.calculateTutorialTime(),
@@ -195,6 +196,10 @@ class LessonTutorialContent extends Component {
       consecutiveIncorrectCount,
       shouldShowModal
     } = this.state;
+
+    // Arrow key pressed; ignore.
+    if(keyPressed.indexOf('Arrow') !== -1)
+      return;
 
     let characterMapForRow = characterMapList[groupPtr];
     let styleMapForRow = styleMapList[groupPtr];
@@ -331,15 +336,14 @@ class LessonTutorialContent extends Component {
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
 
     return (
-      <div class="content-wrapper">
+      <div className="content-wrapper">
         <Modal 
           isOpen={this.state.shouldShowModal}
           onAfterOpen={this.onModalOpen}
           className="tutorial-modal"
         >
-          <p className="modal-text">You missed more than <strong>5 keys</strong> in a row!</p>
-          <p className="modal-text">Please go back and correct the mistyped keys!</p>
-          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">CLOSE</button>
+          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
+          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
         </Modal>
         {rows}
         <LessonTutorialHandsKeyboard currentKey={currentKey}/>

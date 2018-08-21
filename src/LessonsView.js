@@ -59,7 +59,6 @@ class LessonsView extends Component {
               return (
                 <h4
                   className='lesson-view-text' 
-                  style={{color: 'black'}}
                   key={i} 
                   onClick={() => this.userDidChangeLesson(lesson)}>
                   {lesson.LessonName}

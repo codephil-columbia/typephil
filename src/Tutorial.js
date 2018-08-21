@@ -53,6 +53,7 @@ class Tutorial extends Component {
       shouldFreeze: true,
       totalTime: 0,
       userState: this.appState.READING,
+      isFinished: false,
       wpm: 0,
       shouldShowStats: false,
       didUserPassLesson: true,
@@ -79,7 +80,12 @@ class Tutorial extends Component {
     this.freezeTimerIfIsLessonText();
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyPressed);
+  }
+
   componentDidMount() {
+    document.addEventListener('keydown', this.onKeyPressed);
     this.setState({
       results: {
         totalTime: 0,
@@ -90,6 +96,23 @@ class Tutorial extends Component {
       totalTime: 0,
     })
   }
+
+  onKeyPressed = (e) => {
+    console.log(this.props);
+    let isRightKey = ['ArrowLeft', 'ArrowRight'].indexOf(e.key);
+    if(isRightKey==1) {
+      this.next();
+      this.state.userState === this.appState.READING ? (
+        this.redirectToNextLesson
+      ) : (
+        this.postTutotialResultsAndRedirectToNextLesson
+      );
+    } else if(isRightKey==0) {
+      this.prev();
+    } else {
+      return;
+    }
+  };
 
   setUp = (currentLesson) => {
     const { lessonDescriptions, lessonText } = currentLesson;
@@ -204,7 +227,7 @@ class Tutorial extends Component {
       this.freezeTimerIfIsLessonText();
     }
     this.clearStatsForCurrentLesson();
-    this.setState({ indexPtr, shouldShowStats: false });
+    this.setState({ indexPtr, shouldShowStats: false, isFinished: false });
   };
 
   prev = () => {
@@ -227,10 +250,6 @@ class Tutorial extends Component {
       }
     });
     this.clearStatsForCurrentLesson();
-  };
-
-  finishedLesson = () => {
-    this.setState({ isFinished: true });
   };
 
   getContent = (indexPtr) => {
@@ -299,6 +318,10 @@ class Tutorial extends Component {
     this.setState({ shouldShowStats: true });
   }
 
+  isFinished = () => {
+    this.setState({ isFinished: true });
+  }
+
   render() { 
     const { 
       headerLinks,
@@ -309,7 +332,8 @@ class Tutorial extends Component {
       didUserPassLesson,
       resultsForCurrentLesson
     } = this.state;
-
+    console.log(this.state.results.totalLength);
+    console.log(this.state.results.totalTime);
     if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
       return ShowSpinner();
     }
@@ -337,6 +361,7 @@ class Tutorial extends Component {
               updateResults={this.updateResults}
               currentUser={this.props.currentUser}
               showStats={this.showStats}
+              isFinished={this.isFinished}
             />
           )}{shouldShowStats && (
             <TutorialStats 
@@ -348,7 +373,8 @@ class Tutorial extends Component {
           )}
           <LessonTutorialButtons 
             next={this.next}
-            prev={this.prev} 
+            prev={this.prev}
+            isFinished={this.state.isFinished}
             isLastContent={indexPtr + 1 >= totalContentLength}
             redirectToNextLesson={
               userState === this.appState.READING ? (

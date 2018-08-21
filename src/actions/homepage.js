@@ -69,8 +69,6 @@ export const getAverageStats = (uid) => {
   }
 }
 
-//getChapterProgress
-
 export const GET_CHAPTER_PROGRESS = "GET_CHAPTER_PROGRESS";
 export const GET_CHAPTER_PROGRESS_SUCCESS = "GET_CHAPTER_PROGRESS_SUCCESS";
 
