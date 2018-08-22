@@ -368,9 +368,7 @@ class Tutorial extends Component {
             <div className="info-text">
               <div className="tutorial-text">{content}</div>
                 { hasImage ? (
-                  <div className="tutorial-hands-keyboard">
-                    <TutorialImage path={imagePath} />
-                  </div>
+                  <TutorialImage path={imagePath} />
                 ) : (
                   <div className="tutorial-hands-keyboard">
                     <LeftHand />
