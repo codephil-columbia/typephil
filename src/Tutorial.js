@@ -299,10 +299,7 @@ class Tutorial extends Component {
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
     }, this.props.source);
-    // If user picked lesson from LearnPage, take them back to homepage
-    if(this.props.source === "LearnPage") {
-      window.location = '/home';
-    }
+    console.log(this.props.source); 
   }
 
   // In the case the last rendered content is text, we still want to make sure we record the lesson, 
@@ -315,9 +312,7 @@ class Tutorial extends Component {
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
     }, this.props.source);
-    if(this.props.source === "LearnPage") {
-      window.location = '/home';
-    }
+    console.log(this.props.source); 
   }
 
   showStats = () => {
