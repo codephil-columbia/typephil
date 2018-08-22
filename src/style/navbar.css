@@ -1,6 +1,6 @@
 .navigation {
   /*    background-color: #86E2D5;*/
-  background-color: #77BFA3;
+  background-color: #52B094;
   padding: 1rem; }
 
 .navigation a {
@@ -31,7 +31,8 @@
   border-bottom-color: #FAFAFA; }
 
 .dropbtn {
-  color: white;
+  color: #4A4A4A;
+  background-color: #EDE7CB;
   padding: 0 1em 1em 1em;
   font-size: 16px;
   border-radius: 50%;
