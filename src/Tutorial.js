@@ -10,10 +10,12 @@ import Keyboard from './components/Keyboard';
 import RightHand from './components/RightHand';
 import LeftHand from './components/LeftHand';
 import ShowSpinner from './components/spinner';
+import TutorialStats from './components/TutorialStats';
+import TutorialImage from './components/TutorialImage';
 
 import { postTutorialResults, fetchLesson, redirectToNextLesson } from './actions/tutorial';
 import { getCurrentLessonForUser } from './actions/homepage';
-import TutorialStats from './components/TutorialStats';
+
 
 class Tutorial extends Component {
   constructor(props) {
@@ -25,7 +27,7 @@ class Tutorial extends Component {
     } else {
       currentLesson = this.props.currentLesson;
     }
-    const { lessonDescriptions, lessonText } = currentLesson;
+    const { lessonDescriptions, lessonText, lessonImages } = currentLesson;
 
     const contentList = [];
     const contentTypeList = [];
@@ -46,6 +48,7 @@ class Tutorial extends Component {
       contentTypeList,
       lessonDescriptions,
       totalContentLength,
+      lessonImages,
       content: contentList[0],
       correctCount: 0,
       headerLinks: ["Learn", "Home"],
@@ -120,7 +123,7 @@ class Tutorial extends Component {
   };
 
   setUp = (currentLesson) => {
-    const { lessonDescriptions, lessonText } = currentLesson;
+    const { lessonDescriptions, lessonText, lessonImages } = currentLesson;
 
     const contentList = [];
     const contentTypeList = [];
@@ -258,7 +261,7 @@ class Tutorial extends Component {
   };
 
   getContent = (indexPtr) => {
-    const { contentList, contentTypeList } = this.state;
+    const { contentList, contentTypeList, lessonImages } = this.state;
 
     if(indexPtr >= contentList.length) {
       return { 
@@ -275,7 +278,6 @@ class Tutorial extends Component {
     }
 
     const content = contentList[indexPtr];
-    console.log("GETCONTENT: ", content, userState );
     return { content, userState };
   };
 
@@ -331,15 +333,26 @@ class Tutorial extends Component {
       totalContentLength,
       shouldShowStats,
       didUserPassLesson,
-      resultsForCurrentLesson
+      resultsForCurrentLesson,
+      lessonImages
     } = this.state;
-    console.log(this.state.results.totalLength);
-    console.log(this.state.results.totalTime);
+    
     if(this.props.currentLesson.showSpinner || !this.props.currentLesson.hasFinishedLoading) {
       return ShowSpinner();
     }
 
     const { content, userState } = this.getContent(indexPtr);
+
+    let hasImage;
+    let imagePath;
+    if(userState === this.appState.READING && lessonImages[indexPtr] !== "") {
+      hasImage = true;
+      imagePath = lessonImages[indexPtr];
+      console.log(imagePath);
+    } else {
+      hasImage = false;
+    }
+
     const { username } = this.props.currentUser
     
     return (
@@ -349,11 +362,15 @@ class Tutorial extends Component {
           {userState === this.appState.READING ? (
             <div className="info-text">
               <div className="tutorial-text">{content}</div>
-              <div className="tutorial-hands-keyboard">
-                <LeftHand />
-                <Keyboard />
-                <RightHand />
-              </div>
+                { hasImage ? (
+                  <TutorialImage path={imagePath} />
+                ) : (
+                  <div className="tutorial-hands-keyboard">
+                    <LeftHand />
+                    <Keyboard />
+                    <RightHand />
+                  </div>
+                )}
             </div>
           ) : (
             <TutorialContent

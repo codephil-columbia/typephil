@@ -14,6 +14,7 @@ const BACKSPACE = "Backspace";
 const DEFAULT_STYLE = "default-character character";
 const CORRECT_STYLE = "correct-character character";
 const INCORRECT_STYLE = "incorrect-character character";
+const INCORRECT_SPACE_STYLE = "incorrect-space-character character";
 const HIGHLIGHTED = "highlighted character";
 
 const CORRECT = "correct";
@@ -212,7 +213,11 @@ class LessonTutorialContent extends Component {
       correct.push(keyPressed);
     } else {
       consecutiveIncorrectCount += 1;
-      styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
+      if(characterWanted == " ") {
+        styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_SPACE_STYLE);
+      } else {
+        styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
+      }
       previousCharCorrectness = INCORRECT;
       incorrect.push(keyPressed);
     }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 764 337" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Symbols</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Tutorial-Graphics" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Symbols">
+            <circle id="Oval" fill="#52B094" cx="181" cy="186" r="46"></circle>
+            <circle id="Oval" fill="#52B094" cx="315" cy="186" r="46"></circle>
+            <circle id="Oval" fill="#52B094" cx="449" cy="186" r="46"></circle>
+            <circle id="Oval" fill="#52B094" cx="578" cy="186" r="46"></circle>
+            <text id=":" font-family="AvenirNext-DemiBold, Avenir Next" font-size="60" font-weight="500" fill="#FFFFFF">
+                <tspan x="172" y="201">:</tspan>
+            </text>
+            <text id=";" font-family="AvenirNext-DemiBold, Avenir Next" font-size="60" font-weight="500" fill="#FFFFFF">
+                <tspan x="306" y="200">;</tspan>
+            </text>
+            <text id="“" font-family="AvenirNext-DemiBold, Avenir Next" font-size="60" font-weight="500" fill="#FFFFFF">
+                <tspan x="435.05" y="219">“</tspan>
+            </text>
+            <text id="‘" font-family="AvenirNext-DemiBold, Avenir Next" font-size="60" font-weight="500" fill="#FFFFFF">
+                <tspan x="572.4" y="219">‘</tspan>
+            </text>
+            <text id="Colon" font-family="AvenirNext-Medium, Avenir Next" font-size="16" font-weight="400" fill="#4A4A4A">
+                <tspan x="155.936" y="113">Colon</tspan>
+            </text>
+            <text id="Semicolon" font-family="AvenirNext-Medium, Avenir Next" font-size="16" font-weight="400" fill="#4A4A4A">
+                <tspan x="275.748" y="113">Semicolon</tspan>
+            </text>
+            <text id="Quotation" font-family="AvenirNext-Medium, Avenir Next" font-size="16" font-weight="400" fill="#4A4A4A">
+                <tspan x="409.568" y="113">Quotation</tspan>
+            </text>
+            <text id="Apostrophe" font-family="AvenirNext-Medium, Avenir Next" font-size="16" font-weight="400" fill="#4A4A4A">
+                <tspan x="532.216" y="113">Apostrophe</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

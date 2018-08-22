@@ -57,6 +57,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.1.4",
     "react-spinkit": "^3.0.0",
+    "react-svg": "^5.0.21",
     "react-text-field": "^0.4.0",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
@@ -84,7 +85,8 @@
     "@storybook/react": "^3.2.16",
     "jest": "^21.2.1",
     "node-sass": "^4.8.3",
-    "sass-loader": "^7.0.1"
+    "sass-loader": "^7.0.1",
+    "svg-inline-loader": "^0.8.0"
   },
   "jest": {
     "collectCoverageFrom": [
