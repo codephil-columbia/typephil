@@ -5,7 +5,8 @@ const ShowSpinner = () => {
   const spinnerStyle = {
     width: '75px',
     height: '75px',
-    marginLeft: '50%',
+    marginTop: '25%',
+    marginLeft: '48%',
     color: '#77BFA3',
   }
   return (
