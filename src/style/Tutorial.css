@@ -36,6 +36,11 @@
     color: red;
 }
 
+.incorrect-space-character {
+    color: red;
+    text-decoration: underline
+}
+
 .highlighted {
     text-decoration: underline;
 }
