@@ -5,4 +5,4 @@ install: npm install
 before_script:
   - npm install request
 script:
-  - node test.js
+  - node test/test.js
