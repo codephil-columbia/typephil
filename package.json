@@ -63,6 +63,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^5.9.1",
     "redux-thunk": "^2.2.0",
+    "request": "^2.88.0",
     "semantic-ui-react": "^0.77.1",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
@@ -75,7 +76,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "npm run tests/test.js",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
