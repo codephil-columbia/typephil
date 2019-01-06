@@ -81,16 +81,10 @@ class Progress extends Component {
       <div>
         <Header links={headerLinks} isLoggedIn={true} username={username} />
         <div className="container">
-          <div className="title-homepage row">
-            <h1 className="homepage-welcome">Welcome Back, {username}!</h1>
-          </div>
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
-              <h3 className="qs-lesson-title">{title}</h3>
-              <h3 className="qs-lesson-excersise">{lesson}</h3>
-              <Link to="/tutorial">
-                <img src="images/buttons/Start-button.svg"/> 
-              </Link>
+              <h3 className="qs-lesson-title">SKRRT</h3>
+              <h3 className="qs-lesson-excersise">WE THE BEST MUSIC</h3>
               <div className="homepage-spacing"> </div>
               <Line 
                 percent={percentageComplete} 
@@ -103,7 +97,9 @@ class Progress extends Component {
                 </h4>
               </div>
             </div>
-            <div className="qs-image column chapter-image-homepage">
+            <div className="column">
+              <h3 className="qs-lesson-title">SKRRT</h3>
+              <h3 className="qs-lesson-excersise">WE THE BEST MUSIC</h3>
               <img src={imagePath} alt="lesson" className="homepage-chapter-image"></img>
             </div>
           </div>
