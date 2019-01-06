@@ -10,6 +10,7 @@ import Profile from './ProfilePage';
 import Learn from './Learn';
 import Tutorial from './Tutorial';                               
 import HomePage from './HomePage';
+import Progress from './Progress';
 import FourOhFour from './components/FourOhFour';
 
 class App extends Component {
@@ -43,6 +44,7 @@ class App extends Component {
       <Switch>
         <Route path="/home" component={HomePage}/>
         <Route path="/learn" component={Learn}/>
+        <Route path="/progress" component={Progress}/>
         <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
