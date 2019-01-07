@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
 import './style/Challenge.css';
+import './style/styles.css';
 
 import Header from './components/header'
 import ShowSpinner from './components/spinner';
@@ -16,24 +16,10 @@ import {
 
 import { getCurrentLessonForUser } from './actions/homepage';
 
-class Learn extends Component {
+class Challenge extends Component {
   constructor(props) {
     super(props);
-
-    this.props.fetchAllChapterNames();
-    this.props.fetchAllPairs(this.props.currentUser.uid);
-    this.props.fetchCompletedLessons(this.props.currentUser.uid);
-
-    if(this.props.currentLessonName === "") {
-      this.props.getCurrentLessonForUser(this.props.currentUser.uid);
-    }
-
-    this.state = {
-      shouldRedirectToLesson: false,
-      currentChapterIndex: -1,
-      shouldShowLessons: false,
-      carouselTitle: "Chapter Overview",
-      carouselDesc: "",
+    this.state = { 
       headerLinks: ["Games", "Learn", "Home"],
     }
   }
@@ -54,22 +40,28 @@ class Learn extends Component {
       return (
         <div>
           <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
-          <div classname="game-title-container">
-            <div classname="game-description">
-                <p>lorem ipsum or some shit</p>
+          <div className="game-title-container">
+            <div className="game-description-title">
+                <p>Challenge</p>
             </div>
+            <div className="game-description">
+                <p>Type as many phrases as possible before time runs out.</p>
+                <p>Everytime you correctly type a phrase, more time will be added to</p>
+                <p>your counter and your streak will increase.</p>
+            </div>
+
           </div>
-          <div classname="difficulty-selection">
-            <div classname="difficuty-text">
+          <div className="difficulty-selection">
+            <div className="difficulty-text">
                 <p> SELECT DIFFICULTY </p>
             </div>
-            <div classname="difficulty pointer">
+            <div className="difficulty-pointer">
+                <p>*****</p>
+                <p>*****</p>
                 <p>*****</p>
             </div>
             <div className="actual-difficulties">
             <p>EASY</p> <p>MEDIUM</p> <p>HARD</p>
-            </div>
-            <div className="play-button">
             </div>
           </div>
       </div>
@@ -99,4 +91,4 @@ const mapStateToProps = ({ app, auth }) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Learn);
+export default connect(mapStateToProps, mapDispatchToProps)(Challenge);

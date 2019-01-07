@@ -1,3 +1,54 @@
 .game-title-container{
+    width:100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 5vh;
+}
+
+.game-description-title{
+    display: flex;
+    justify-content: center;
+}
+
+.game-description{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top:5vh;
+    padding-bottom:5vh;
+
+}
+
+.difficulty-selection{
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.difficulty-text{
+    width:100vw;
+    height:auto;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5vh;
+
+}
+
+.difficulty-pointer{
+    width: 100vw;
+    height:auto;
     display:flex;
+    justify-content: center;
+    padding-bottom:5vh;
+}
+
+
+
+.actual-difficulties{
+    display: flex;
+    justify-content: space-around;
 }
