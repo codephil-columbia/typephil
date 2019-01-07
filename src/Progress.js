@@ -7,6 +7,7 @@ import { Line } from 'rc-progress';
 import ShowSpinner from './components/spinner';
 import Header from './components/header';
 import avgUserStats from './components/avgUserStats';
+import avgUserStat from './components/avgUserStat';
 
 import { 
   getCurrentLessonForUser,
@@ -28,8 +29,8 @@ class Progress extends Component {
         headerLinks: ["Learn", "Home" ],
         badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
-          "Words Per Minute. \n The faster you type, \n the higher the number",
-          "Accuracy is how \n accurately you type \n words that appear."
+          "",
+          ""
         ]
       }
   }
@@ -75,6 +76,9 @@ class Progress extends Component {
 
     const { title, lesson } = this.formatText(chapterName, lessonName);
     const stats = avgUserStats(badges, badgeDescriptions, [avgWPM, avgAccuracy]);
+    // separate stats into two separate components
+    const wpmStat = avgUserStat(badges[0], avgWPM, 0);
+    const accStat = avgUserStat(badges[1], avgAccuracy, 1);
     const { username } = this.props.currentUser
 
     return (
@@ -104,7 +108,8 @@ class Progress extends Component {
             </div>
           </div>
           <hr className="line row"/>
-          {stats}
+          {wpmStat}
+          {accStat}
         </div>
       </div>
     )
