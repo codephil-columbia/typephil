@@ -1,0 +1,125 @@
+@font-face {
+    font-family: 'Arcade';
+    font-style: normal;
+    font-weight: 600;
+    src:
+      local('Arcade'),
+      local('ARCADE_N'),
+      url(../fonts/arcade/ARCADE_N.TTF) format('opentype');
+  }
+
+  @font-face {
+    font-family: 'RaceTrack';
+    font-style: normal;
+    font-weight: 600;
+    src:
+      local('RaceTrack'),
+      local('Racetrack_Stencil'),
+      url(../fonts/Racetrack/Racetrack_Stencil.otf) format('opentype');
+  }
+
+  @font-face {
+    font-family: 'Avenir';
+    font-style: normal;
+    src:
+      local('Aveni'),
+      local('AvenirLTStd-Book'),
+      url(../fonts/avenir_ff/AvenirLTStd-Book.otf) format('opentype');
+  }
+
+.game-title-container{
+    width:100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 5vh;
+}
+
+
+.diffculty-level{	
+    color: #4A4A4A;	
+    font-family: "Arcade";	
+    font-size: 23px;	
+    line-height: 29px;
+
+}
+
+.play-button p{
+    text-align: center;
+    height: 44px;	width: 88px;
+    color: #F5A623;		
+    font-size: 30px;	
+    font-weight: 600;	
+    letter-spacing: 4px;	
+    line-height: 41px;
+    font-family: "Avenir";
+    margin-top:1vh;
+    font-weight: bold;
+
+}
+
+.game-description-title{
+    display: flex;
+    justify-content: center;
+    font-family: 'RaceTrack';
+    color: #F5A623;
+    font-size: 90px;	
+    letter-spacing: 4.88px;	
+    line-height: 129px;
+    margin-top:5vh;
+}
+
+.game-description{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top:5vh;
+    padding-bottom:5vh;
+    color: #4A4A4A;		
+    font-size: 23px;
+    font-family: "Avenir";
+
+}
+
+.play-button{
+    display: flex;
+    width:100vw;
+    justify-content: center;
+    
+}
+
+
+.difficulty-selection{
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.difficulty-text{
+    width:100vw;
+    height:auto;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5vh;
+    color: #4A4A4A;	
+    font-size: 28px;
+    font-weight: bold;
+
+}
+
+.difficulty-pointer{
+    text-align: center;
+}
+
+
+
+.actual-difficulties{
+    display:flex;
+    width:50vw;
+    justify-content: space-evenly;
+   
+}
