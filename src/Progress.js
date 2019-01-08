@@ -77,8 +77,8 @@ class Progress extends Component {
     const { title, lesson } = this.formatText(chapterName, lessonName);
     const stats = avgUserStats(badges, badgeDescriptions, [avgWPM, avgAccuracy]);
     // separate stats into two separate components
-    const wpmStat = avgUserStat(badges[0], avgWPM, 0);
-    const accStat = avgUserStat(badges[1], avgAccuracy, 1);
+    const wpmStat = avgUserStat(badges[0], avgWPM, 0, "This is your average\nWords Per Minute score.\n");
+    const accStat = avgUserStat(badges[1], avgAccuracy, 1, "This is your average\n accuracy rate.\n");
     const { username } = this.props.currentUser
 
     return (
@@ -86,30 +86,29 @@ class Progress extends Component {
         <Header links={headerLinks} isLoggedIn={true} username={username} />
         <div className="container">
           <div className="quickstart row">
+            <div className="column" align="left">
+              <h2 className="title" align="left">My Progress</h2>
+            </div>
+          </div>
+          <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
-              <h3 className="qs-lesson-title">SKRRT</h3>
-              <h3 className="qs-lesson-excersise">WE THE BEST MUSIC</h3>
-              <div className="homepage-spacing"> </div>
-              <Line 
-                percent={percentageComplete} 
-                strokeWidth="2" 
-                strokeColor="#77BFA3" 
-              />
-              <div>
-                <h4 className="qs-progress-info">
-                  Current Progress - {percentageComplete}%
-                </h4>
-              </div>
+              {wpmStat}
             </div>
             <div className="column">
               <h3 className="qs-lesson-title">SKRRT</h3>
               <h3 className="qs-lesson-excersise">WE THE BEST MUSIC</h3>
-              <img src={imagePath} alt="lesson" className="homepage-chapter-image"></img>
+            </div>
+          </div>
+          <div className="quickstart row">
+            <div className="qs-lesson-info column" align="left">
+              {accStat}
+            </div>
+            <div className="column">
+              <h3 className="qs-lesson-title">SKRRT</h3>
+              <h3 className="qs-lesson-excersise">WE THE BEST MUSIC</h3>
             </div>
           </div>
           <hr className="line row"/>
-          {wpmStat}
-          {accStat}
         </div>
       </div>
     )
