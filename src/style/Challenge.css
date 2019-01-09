@@ -1,13 +1,3 @@
-@font-face {
-    font-family: 'Arcade';
-    font-style: normal;
-    font-weight: 600;
-    src:
-      local('Arcade'),
-      local('ARCADE_N'),
-      url(../fonts/arcade/ARCADE_N.TTF) format('opentype');
-  }
-
   @font-face {
     font-family: 'RaceTrack';
     font-style: normal;

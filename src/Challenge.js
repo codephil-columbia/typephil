@@ -34,7 +34,15 @@ class Challenge extends Component {
     super(props);
     this.state = { 
       headerLinks: ["Games", "Learn", "Home"],
+      isEzActive:false,
+      isMidActive:false,
+      isHardActive: false
     }
+  }
+
+  disableOtherOptions()
+  {
+    
   }
 
   render() {
@@ -69,9 +77,9 @@ class Challenge extends Component {
                 <p> SELECT DIFFICULTY </p>
             </div>
             <div className="actual-difficulties">
-              <DifficultyTab difficulty='Easy'/>
-              <DifficultyTab difficulty='Medium'/>
-              <DifficultyTab difficulty='Hard'/>
+              <DifficultyTab isEzActive   = {this.state.isEzActive}   difficulty='Easy'/>
+              <DifficultyTab isMidActive  = {this.state.isMidActive}  difficulty='Medium'/>
+              <DifficultyTab isHardActive = {this.state.isHardActive} difficulty='Hard'/>
             </div>
           </div>
           <div className="play-button">

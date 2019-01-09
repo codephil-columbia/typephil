@@ -3,15 +3,25 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './style/DifficultyTab.css';
 import styled from 'styled-components';
-import Arcade from './fonts/arcade/ARCADE_N.TTF'
+import Arcade from './fonts/arcade/ARCADE_N.ttf'
 
-const difficultyLevel = styled.div`
+const DifficultyLevel = styled.div`
+@font-face {
+  font-family: 'Arcade';
+  font-style: normal;
+  font-weight: 600;
+  src:url(${Arcade});
+}
 
+  font-family:'Arcade';
+  font-size:3rem;
 `
 
-{/*finish implementing custom font for styled components */}
 
-const diffcultyPointer = styled.div`
+const DifficultyPointer = styled.div`
+  display:flex;
+  justify-content:center;
+
 `
 
 
@@ -22,22 +32,28 @@ export default class DifficultyTab extends Component {
       opacity:false,
       isActive:false
     }
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  onSelection(){
-   
+  handleClick(){
+    this.setState( prevState => ({
+      isActive: !prevState.isActive
+    }));
   }
+
+  
   
   render() {
 
       return (
           <div>
-            <div className="difficulty-pointer">
+            <DifficultyPointer>
             ****
-            </div>
-            <difficultyLevel>
-              {this.props.difficulty}
-            </difficultyLevel>
+            </DifficultyPointer>
+            <DifficultyLevel>
+                <p>{this.props.difficulty}</p>
+            </DifficultyLevel>
           </div>
     )
   }
