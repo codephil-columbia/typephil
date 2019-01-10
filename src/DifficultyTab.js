@@ -4,6 +4,15 @@ import { bindActionCreators } from 'redux';
 import './style/DifficultyTab.css';
 import styled from 'styled-components';
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
+import { NavigationFullscreenExit } from 'material-ui/svg-icons';
+import directions from 'material-ui/svg-icons/maps/directions';
+
+
+const DifficultyLevelWrapper = styled.div`
+display:flex;
+flex-direction:column;
+align-items:center;
+`
 
 const DifficultyLevel = styled.div`
 @font-face {
@@ -15,47 +24,85 @@ const DifficultyLevel = styled.div`
 
   font-family:'Arcade';
   font-size:3rem;
+  color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
 `
+const DifficultyContainer=styled.div`
+display:flex;
+width:100vw;
+justify-content: space-evenly;
 
+`
 
 const DifficultyPointer = styled.div`
   display:flex;
   justify-content:center;
-
+  visibility: ${props => props.selected ? 'visible' : 'hidden'};
 `
-
 
 export default class DifficultyTab extends Component {
   constructor(props) {
     super(props);
     this.state={
-      opacity:false,
-      isActive:false
+      ezChosen:false,
+      midChosen:false,
+      hardChosen:false
     }
-
-    this.handleClick = this.handleClick.bind(this);
+    this.disableOtherOptions = this.disableOtherOptions.bind(this);
+    this.ezEnabled   = this.ezEnabled.bind(this);
+    this.medEnabled  = this.medEnabled.bind(this);
+    this.hardEnabled = this.hardEnabled.bind(this);
+ 
+  }
+  disableOtherOptions(){
+    this.setState(
+      {
+        ezChosen:false,
+        medChosen:false,
+        hardChosen:false
+      }
+    )
   }
 
-  handleClick(){
-    this.setState( prevState => ({
-      isActive: !prevState.isActive
-    }));
+  ezEnabled(){
+    this.disableOtherOptions();
+    this.setState({ezChosen:true})
   }
 
+  medEnabled(){
+    this.disableOtherOptions();
+    this.setState({medChosen:true})
+  }
+  
+  hardEnabled(){
+    this.disableOtherOptions();
+    this.setState({hardChosen:true})
+  }
   
   
   render() {
-
       return (
           <div>
-            <DifficultyPointer>
-            ****
-            </DifficultyPointer>
-            <DifficultyLevel>
-                <p>{this.props.difficulty}</p>
-            </DifficultyLevel>
+          <DifficultyContainer>
+            <DifficultyLevelWrapper onClick={this.ezEnabled}>
+              <DifficultyPointer selected={this.state.ezChosen}>****</DifficultyPointer>
+              <DifficultyLevel isActive={this.state.ezChosen}>Easy</DifficultyLevel>
+            </DifficultyLevelWrapper>
+          
+
+            <DifficultyLevelWrapper onClick={this.medEnabled}>
+              <DifficultyPointer selected={this.state.medChosen}>****</DifficultyPointer>
+              <DifficultyLevel isActive={this.state.medChosen}>Medium</DifficultyLevel>
+            </DifficultyLevelWrapper>
+          
+            
+            <DifficultyLevelWrapper onClick={this.hardEnabled}>
+                <DifficultyPointer selected={this.state.hardChosen}>****</DifficultyPointer>
+                <DifficultyLevel isActive={this.state.hardChosen}>Hard</DifficultyLevel>
+            </DifficultyLevelWrapper>
+          </DifficultyContainer>
           </div>
     )
   }
 }
 
+ 

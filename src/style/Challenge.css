@@ -109,7 +109,8 @@
 
 .actual-difficulties{
     display:flex;
-    width:50vw;
+    width:60vw;
     justify-content: space-evenly;
+
    
 }

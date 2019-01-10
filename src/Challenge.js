@@ -38,12 +38,42 @@ class Challenge extends Component {
       isMidActive:false,
       isHardActive: false
     }
+
+    this.disableOtherOptions=this.disableOtherOptions.bind(this);
+    this.enableEzOption= this.enableEzOption.bind(this);
+    this.enableMidOption=this.enableMidOption.bind(this);
+    this.enableHardoption=this.enableHardoption.bind(this);
   }
 
   disableOtherOptions()
   {
-    
+    this.setState({isEzActive: false})
+    this.setState({isMidActive: false})
+    this.setState({isHardActive: false})
   }
+
+  enableEzOption()
+  {
+    this.disableOtherOptions()
+    this.setState({isEzActive:true})
+    console.log(this.state.isEzActive)
+  }
+  enableMidOption()
+  {
+    this.disableOtherOptions()
+    this.setState({isMidActive: true})
+    console.log(this.state.isMidActive)
+
+  }
+  enableHardoption()
+  {
+    this.disableOtherOptions();
+    this.setState({isHardActive: true})
+    console.log(this.state.isHardActive)
+
+  }
+
+ 
 
   render() {
     const { 
@@ -57,6 +87,8 @@ class Challenge extends Component {
     const { 
       headerLinks, 
     } = this.state;
+
+    
 
       return (
         <div>
@@ -76,11 +108,7 @@ class Challenge extends Component {
             <div className="difficulty-text">
                 <p> SELECT DIFFICULTY </p>
             </div>
-            <div className="actual-difficulties">
-              <DifficultyTab isEzActive   = {this.state.isEzActive}   difficulty='Easy'/>
-              <DifficultyTab isMidActive  = {this.state.isMidActive}  difficulty='Medium'/>
-              <DifficultyTab isHardActive = {this.state.isHardActive} difficulty='Hard'/>
-            </div>
+            <DifficultyTab/>            
           </div>
           <div className="play-button">
             <CustomButton onClick={() => alert("Shit was clicked")}>
