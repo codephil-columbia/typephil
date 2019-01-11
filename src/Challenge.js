@@ -39,41 +39,40 @@ class Challenge extends Component {
       isHardActive: false
     }
 
-    this.disableOtherOptions=this.disableOtherOptions.bind(this);
-    this.enableEzOption= this.enableEzOption.bind(this);
-    this.enableMidOption=this.enableMidOption.bind(this);
-    this.enableHardoption=this.enableHardoption.bind(this);
+    this.EzSelected= this.EzSelected.bind(this)
+    this.MedSelected=this.MedSelected.bind(this)
+    this.HardSelected=this.HardSelected.bind(this)
   }
 
-  disableOtherOptions()
+  EzSelected()
   {
-    this.setState({isEzActive: false})
-    this.setState({isMidActive: false})
-    this.setState({isHardActive: false})
+    this.setState({
+      isEzActive:true,
+      isMidActive:false,
+      isHardActive: false
+    })
+    console.log("difficulty selected:easy")
   }
 
-  enableEzOption()
+  MedSelected()
   {
-    this.disableOtherOptions()
-    this.setState({isEzActive:true})
-    console.log(this.state.isEzActive)
+    this.setState({
+      isEzActive:false,
+      isMidActive:true,
+      isHardActive: false
+    })
+    console.log("difficulty selected: Medium ")
   }
-  enableMidOption()
+
+  HardSelected()
   {
-    this.disableOtherOptions()
-    this.setState({isMidActive: true})
-    console.log(this.state.isMidActive)
-
+    this.setState({
+      isEzActive:false,
+      isMidActive:false,
+      isHardActive: true
+    })
+    console.log("difficulty selected: Hard" )
   }
-  enableHardoption()
-  {
-    this.disableOtherOptions();
-    this.setState({isHardActive: true})
-    console.log(this.state.isHardActive)
-
-  }
-
- 
 
   render() {
     const { 
@@ -108,7 +107,7 @@ class Challenge extends Component {
             <div className="difficulty-text">
                 <p> SELECT DIFFICULTY </p>
             </div>
-            <DifficultyTab/>            
+            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected}/>            
           </div>
           <div className="play-button">
             <CustomButton onClick={() => alert("Shit was clicked")}>

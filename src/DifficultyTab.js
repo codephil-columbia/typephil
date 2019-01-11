@@ -65,17 +65,20 @@ export default class DifficultyTab extends Component {
 
   ezEnabled(){
     this.disableOtherOptions();
-    this.setState({ezChosen:true})
+    this.setState({ezChosen:true});
+    this.props.updateEz();
   }
 
   medEnabled(){
     this.disableOtherOptions();
     this.setState({medChosen:true})
+    this.props.updateMed();
   }
   
   hardEnabled(){
     this.disableOtherOptions();
     this.setState({hardChosen:true})
+    this.props.updateHard();
   }
   
   
