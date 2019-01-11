@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Route, Switch, Redirect } from 'react-router-dom'
 import './style/DifficultyTab.css';
 import styled from 'styled-components';
 import Arcade from './fonts/arcade/ARCADE_N.ttf'

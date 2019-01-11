@@ -38,7 +38,7 @@ class Challenge extends Component {
       isMidActive:false,
       isHardActive: false
     }
-
+    this.BeginChallenge=this.BeginChallenge.bind(this)
     this.EzSelected= this.EzSelected.bind(this)
     this.MedSelected=this.MedSelected.bind(this)
     this.HardSelected=this.HardSelected.bind(this)
@@ -73,7 +73,24 @@ class Challenge extends Component {
     })
     console.log("difficulty selected: Hard" )
   }
+  BeginChallenge(state){
+    var difficulty="";
+    if(state.isEzActive == true)
+    {
+      difficulty="easy"
+    }
+    else if(state.isMidActive == true)
+    {
+      difficulty="medium"
+    }
+    else (state.isHardActive == true)
+    {
+      difficulty="hard"
+    }
+    /*figure out how to carry over difficulty to challenge*/
+    this.props.history.push("/cocotype");
 
+  }
   render() {
     const { 
       isLoading, 
@@ -86,8 +103,6 @@ class Challenge extends Component {
     const { 
       headerLinks, 
     } = this.state;
-
-    
 
       return (
         <div>
@@ -110,7 +125,7 @@ class Challenge extends Component {
             <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected}/>            
           </div>
           <div className="play-button">
-            <CustomButton onClick={() => alert("Shit was clicked")}>
+            <CustomButton onClick={() => this.BeginChallenge(this.state)}>
               <p>PLAY</p>
             </CustomButton>
           </div>
