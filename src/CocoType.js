@@ -18,60 +18,7 @@ import {
 
 import { getCurrentLessonForUser } from './actions/homepage';
 
-const LevelCounter  = styled.div`
-@font-face {
-  font-family: 'Arcade';
-  font-style: normal;
-  font-weight: 600;
-  src:url(${Racetrack});
-}
 
-border: 5px solid green;
-height:10vh;
-width:10vw;
-
-`
-const StreakCounter = styled.div`
-@font-face {
-  font-family: 'Arcade';
-  font-style: normal;
-  font-weight: 600;
-  src:url(${Racetrack});
-}
-border: 5px solid blue;
-height:10vh;
-width:10vw;
-` 
-const GameTitle = styled.div`
-@font-face {
-  font-family: 'Avenir';
-  font-style: normal;
-  src:
-    local('Aveni'),
-    local('AvenirLTStd-Book'),
-    url(${Avenir});
-}
-font-family:Avenir;
-border: 5px solid red;
-height:10vh;
-width:80vw;
-margin-bottom:50px;
-display:flex;
-justify-content: space-evenly;
-
-  & p {
-
-    font-size:36px;
-    margin-top:-9vh;
-    
-  }
-
-`
-
-const MetaWrapper = styled.div`
-width:100vw;
-display:inline-flex;
-`
 
 class CocoType extends Component {
   constructor(props) {
@@ -98,11 +45,35 @@ class CocoType extends Component {
       return (
         <div>
           <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}></Header>
-          <MetaWrapper>
-            <StreakCounter></StreakCounter>
-            <GameTitle><p>Challenge</p></GameTitle>
-            <LevelCounter></LevelCounter>
-          </MetaWrapper>        
+          <div className="MetaWrapper">
+            <div className="StreakCounter">
+                <div className="CounterName">
+                Streak
+                </div>
+                <div className="CounterData">
+                20
+                </div>
+            </div>
+            <div className="GameTitle">
+                <p>Challenge</p>
+            </div>
+            <div className="LevelCounter">
+                <div className="CounterName">
+                Level
+                </div>
+                <div className="CounterData">
+                4
+                </div>
+            </div>
+          </div>  
+          <div className="TimerContainer">
+                <div className="Timer">
+                00:03
+                </div>
+                <div className="TimerText">
+                Seconds
+                </div>
+            </div>      
         </div>
     )
   }
