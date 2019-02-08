@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, Redirect } from 'react-router-dom'
-import './style/DifficultyTab.css';
-import styled from 'styled-components';
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
+import styled from 'styled-components';
 import { NavigationFullscreenExit } from 'material-ui/svg-icons';
 import directions from 'material-ui/svg-icons/maps/directions';
 
@@ -18,11 +17,10 @@ align-items:center;
 const DifficultyLevel = styled.div`
 @font-face {
   font-family: 'Arcade';
+  src: url(${Arcade}) format('truetype');
+  font-weight: normal;
   font-style: normal;
-  font-weight: 600;
-  src:url(${Arcade});
-}
-
+}  
   font-family:'Arcade';
   font-size:3rem;
   color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };

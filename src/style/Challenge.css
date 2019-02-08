@@ -16,6 +16,15 @@
       local('AvenirLTStd-Book'),
       url(../fonts/avenir_ff/AvenirLTStd-Book.otf) format('opentype');
   }
+  
+  @font-face {
+    font-family: 'Arcade';
+    font-style: normal;
+    font-weight: 600;
+    src:
+    local('Arcade')
+    url(../fonts/arcade/ARCADE_N.ttf);
+}
 
 .game-title-container{
     width:100vw;
@@ -27,13 +36,7 @@
 }
 
 
-.diffculty-level{	
-    color: #4A4A4A;	
-    font-family: "Arcade";	
-    font-size: 23px;	
-    line-height: 29px;
 
-}
 
 .play-button p{
     text-align: center;
@@ -87,6 +90,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
 
 .difficulty-text{
