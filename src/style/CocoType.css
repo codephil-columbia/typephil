@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'Arcade';
+    font-style: normal;
+    font-weight: 600;
+    src:url(../fonts/Racetrack/Racetrack_Stencil.otf);
+}
+@font-face {
+    font-family: 'Avenir';
+    font-style: normal;
+    src:
+      local('Aveni'),
+      local('AvenirLTStd-Book'),
+      url(,./fonts/avenir_ff/AvenirLTStd-Book.otf);
+}
+.LevelCounter{
+    height:15vh;
+    width:10vw;
+}
+.StreakCounter{
+    height:15vh;
+    width:10vw;
+}
+.GameTitle{
+    font-family:Avenir;
+    height:15vh;
+    width:80vw;
+    display:flex;
+    justify-content: space-evenly;
+    color: #FFFFFF;		
+    text-align: center;
+    
+}
+.GameTitle p{
+    font-size: 28px;	
+    font-weight: 600;	
+    line-height: 38px;
+    margin-top:-8vh;
+    margin-top:-10vh;
+}
+
+.MetaWrapper{
+    width:100vw;
+    display:inline-flex;
+}
+.StreakCounter{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+}
+.LevelCounter{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.CounterName{
+    display:flex;
+    color: #52B094;	
+    font-family: "Racetrack";	
+    font-size: 18px;	
+    letter-spacing: 3px;	
+    line-height: 26px;	
+    text-align: center;
+}
+    
+.CounterData{
+    display:flex;
+    color: #52B094;	
+    font-family: "Racetrack";	
+    font-size: 50px;	
+    letter-spacing: 6px;	
+    line-height: 71px;	
+    text-align: center;
+}
+.TimerContainer
+{
+    display:flex;
+    width:100vw;
+    flex-direction:column;
+    text-align: center;
+}
+.Timer{
+    color: #F5A623;	
+    font-family: "Racetrack";	
+    font-size: 100px;	
+    letter-spacing: 6px;	
+    line-height: 143px;	
+}
+.TimerText{
+    color: #F5A623;	
+    font-family: "Racetrack";	
+    font-size: 30px;	
+    letter-spacing: 15px;	
+    line-height: 43px;
+}
