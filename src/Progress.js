@@ -8,6 +8,7 @@ import ShowSpinner from './components/spinner';
 import Header from './components/header';
 import avgUserStats from './components/avgUserStats';
 import avgUserStat from './components/avgUserStat';
+import DataGraph from './DataGraph';
 
 import {
   getCurrentLessonForUser,
@@ -54,35 +55,6 @@ class Progress extends Component {
   }
 
   render() {
-    var chartOptions = {
-      scaleShowHorizontalLines: true
-    };
-
-        var chartData= {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-              {
-                label: "My First dataset",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [65, 59, 80, 81, 56, 55, 40]
-              },
-              {
-                label: "My Second dataset",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [28, 48, 40, 19, 86, 27, 90]
-              }
-            ]
-    };
 
     const {
       badges,
@@ -126,7 +98,7 @@ class Progress extends Component {
               {wpmStat}
             </div>
             <div className="column">
-              <LineChart data={chartData} options={chartOptions}/>
+              <DataGraph />
             </div>
           </div>
           <div className="quickstart row">
@@ -134,7 +106,7 @@ class Progress extends Component {
               {accStat}
             </div>
             <div className="column">
-              <LineChart data={chartData} options={chartOptions}/>
+              <DataGraph />
             </div>
           </div>
           <hr className="line row"/>
