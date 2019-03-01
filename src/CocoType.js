@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header'
 import ShowSpinner from './components/spinner';
-import styled from 'styled-components';
-import Racetrack from './fonts/Racetrack/Racetrack_Stencil.otf'
-import Avenir from './fonts/avenir_ff/AvenirLTStd-Book.otf'
+import keyPressTracker from './KeyTracking.js'
 import './style/CocoType.css'
 import { Route, Switch, Redirect } from 'react-router-dom'
 
@@ -29,11 +27,13 @@ class CocoType extends Component {
     }
   }
 
+
   render() {
     const { 
       isLoading, 
     } = this.props;
-
+    
+    
     if(isLoading) {
       return <ShowSpinner />
     } 
