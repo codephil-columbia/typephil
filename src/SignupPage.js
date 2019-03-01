@@ -206,7 +206,7 @@ class SignupPage extends Component {
 
               <div className="row password">
                   <div className="column column-50">
-                      <h2>PASSWORD</h2>
+                      <h2 className="password_left">PASSWORD</h2>
                       <input className={markError('password') ? "error" : ""} onBlur={this.handleBlur('password')} placeholder="" name="password" type="password" onChange={this.handleInputChange}/>
                   </div>
                   <div className="column column-50">
