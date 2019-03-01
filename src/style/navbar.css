@@ -3,6 +3,11 @@
   background-color: #52B094;
   padding: 1rem; }
 
+.exit_button {
+  width: 35px;
+  padding-top: 4px;
+}
+
 .navigation a {
   color: white; }
 
@@ -30,10 +35,14 @@
 .navigation-item:hover, .navigation-item:active {
   border-bottom-color: #FAFAFA; }
 
+.profile-bubble {
+  margin-top: 1px;
+}
+
 .dropbtn {
   color: #4A4A4A;
   background-color: #EDE7CB;
-  padding: 0 1em 1em 1em;
+  padding: 1px;
   font-size: 16px;
   border-radius: 50%;
   height: 2.5em;

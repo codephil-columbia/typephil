@@ -12,7 +12,8 @@ const Header = (props) => {
         <nav className="navigation">
             <div className="">
                 <HeaderLeft/>
-                <HeaderRight links={props.links} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout}/>
+                
+                <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout}/>
             </div>
         </nav>
     )
@@ -26,10 +27,17 @@ const HeaderLeft = (_) => {
     )
 };
 
+const HeaderCenter = (_) => {
+    return (
+        <div>Hi</div> // trying to add tutorial text 
+    )
+};
+
 const HeaderRight = (props) => {
     return (
         <ul className="navigation-list float-right nav-right-list">
             { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} dispatch={props.dispatch}/></li>}
+            { props.isTutorial && <Link to="/home"><img class="exit_button" src="images/buttons/exit_button.svg"/></Link> }
             { props.links === undefined ? "" : props.links.map((link, i) => {
                 const routePath = `/${link.toLowerCase()}`;
                 return (

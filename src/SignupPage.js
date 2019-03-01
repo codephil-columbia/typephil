@@ -159,7 +159,7 @@ class SignupPage extends Component {
                   <h1 className="title-signup">Sign up - It's free!</h1>
                   <p>Join TypePhil to get personalized help with your typing education, whether you're already studying or starting anew. We'll save all of your progress.</p>
                   <br/>
-                  <p>By signing up for TypePhil, you agree to our <a href="https://app.termly.io/document/terms-of-use-for-website/b57ed416-1978-4739-b295-a2578c7bff00">Terms of Use and Privacy Notice.</a></p>
+                  <p>By signing up for TypePhil, you agree to our <a href="https://app.termly.io/document/terms-of-use-for-website/b57ed416-1978-4739-b295-a2578c7bff00" target="_blank">Terms of Use and Privacy Notice.</a></p>
 
                   <div className="void">
                   </div>

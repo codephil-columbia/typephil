@@ -51,7 +51,7 @@ class Tutorial extends Component {
       lessonImages,
       content: contentList[0],
       correctCount: 0,
-      headerLinks: ["Learn", "Home"],
+      headerLinks: [], //["Learn", "Home"],
       indexPtr: 0,
       shouldFreeze: true,
       totalTime: 0,
@@ -357,7 +357,7 @@ class Tutorial extends Component {
     
     return (
       <React.Fragment>
-        <Header links={headerLinks} isLoggedIn={true} username={username}/>
+        <Header links={headerLinks} isLoggedIn={true} username={username} isTutorial={true}/>
         <div className="container tutorial">
           {userState === this.appState.READING ? (
             <div className="info-text">
