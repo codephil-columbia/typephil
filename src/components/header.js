@@ -12,7 +12,7 @@ const Header = (props) => {
         <nav className="navigation">
             <div className="">
                 <HeaderLeft/>
-                
+                <HeaderCenter isTutorial={props.isTutorial} />
                 <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout}/>
             </div>
         </nav>
@@ -27,11 +27,14 @@ const HeaderLeft = (_) => {
     )
 };
 
-const HeaderCenter = (_) => {
+const HeaderCenter = (props) => {
+    // TODO-SJ: Dynamically change the tutorial navbar. Also, limit number of characters to 25
     return (
-        <div>Hi</div> // trying to add tutorial text 
+        <div class="nav_tutorial_chapter_info">{props.isTutorial && 
+            <p className="nav_tutorial_chapter_info_text"><p className="nav_tutorial_chapter_info_text_bold">Ch. 2.1 -</p> Introduction to Shift Key...</p> }</div>
     )
 };
+
 
 const HeaderRight = (props) => {
     return (
