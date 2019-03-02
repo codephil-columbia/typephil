@@ -12,7 +12,7 @@ const Header = (props) => {
         <nav className="navigation">
             <div className="">
                 <HeaderLeft/>
-                <HeaderCenter isTutorial={props.isTutorial} />
+                <HeaderCenter isTutorial={props.isTutorial} tutorialInfo={props.tutorialInfo} />
                 <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout}/>
             </div>
         </nav>
@@ -28,10 +28,25 @@ const HeaderLeft = (_) => {
 };
 
 const HeaderCenter = (props) => {
-    // TODO-SJ: Dynamically change the tutorial navbar. Also, limit number of characters to 25
+    if (props.isTutorial == null) {
+        return (
+            <div className="no_nav_chapter_info"></div>
+        )
+    }
+    this.chapter_num = props.tutorialInfo["chapterName"].match(/\d+(?=:)/g)[0];
+    this.lesson_num = props.tutorialInfo["lessonName"].match(/\d+(?=:)/g)[0];
+    this.lesson_name = props.tutorialInfo["lessonName"].match(/: (.+)/g)[0].substring(1);
     return (
-        <div class="nav_tutorial_chapter_info">{props.isTutorial && 
-            <p className="nav_tutorial_chapter_info_text"><p className="nav_tutorial_chapter_info_text_bold">Ch. 2.1 -</p> Introduction to Shift Key...</p> }</div>
+        <div className="nav_tutorial_chapter_info">{props.isTutorial &&
+            <p className="nav_tutorial_chapter_info_text">
+                <p className="nav_tutorial_chapter_info_text_bold">
+                Ch. {this.chapter_num}.
+                {this.lesson_num}&nbsp;</p>
+                {
+                    this.lesson_name
+                }</p> 
+        }
+        </div>
     )
 };
 

@@ -11,18 +11,32 @@
 .nav_tutorial_chapter_info {
   display: inline-block;
   position: relative;
-  bottom: 8px;
+  width: 55%;
+}
+
+.no_nav_chapter_info {
+  display: inline-block;
+  position: relative;
 }
 
 .nav_tutorial_chapter_info_text {
   font-size: 2.5rem;
   color: white;
   display: inline-block;
+
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media only screen and (max-width: 1100px) {
     .nav_tutorial_chapter_info_text {
         font-size: 2.3rem;
+    }
+
+    .nav_tutorial_chapter_info {
+      width: 45%;
     }
 }
 
@@ -40,10 +54,22 @@
     .nav_tutorial_chapter_info_text {
         font-size: 1.9rem;
     }
+    .nav_tutorial_chapter_info {
+      width: 40%;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .nav_tutorial_chapter_info_text {
+        font-size: 1.5rem;
+    }
+    .nav_tutorial_chapter_info {
+      width: 25%;
+    }
 }
 
 .nav_tutorial_chapter_info_text_bold {
-  font-weight: 500;
+  font-weight: 600;
   display: inline-block;
 }
 
