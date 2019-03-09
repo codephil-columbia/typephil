@@ -360,7 +360,7 @@ class Tutorial extends Component {
       <React.Fragment>
         <Header links={headerLinks} isLoggedIn={true} username={username} 
         isTutorial={true} tutorialInfo={this.props.currentLesson}/>
-        <div className="container tutorial">
+        <div className="container-tutorial container tutorial">
           {userState === this.appState.READING ? (
             <div className="info-text">
               <div className="tutorial-text">{content}</div>
@@ -392,6 +392,8 @@ class Tutorial extends Component {
             />
           )}
           <LessonTutorialButtons 
+            currentPageIndex={indexPtr}
+            totalNumOfPages={this.state.contentList.length}
             next={this.next}
             prev={this.prev}
             isFinished={this.state.isFinished}
