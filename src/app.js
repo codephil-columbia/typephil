@@ -12,8 +12,8 @@ import Tutorial from './Tutorial';
 import HomePage from './HomePage';
 import FourOhFour from './components/FourOhFour';
 import Challenge from './Challenge'
-import CocoType from './CocoType'
-
+import CocoType from './CocoType';
+import KeyTracker from './KeyTracking'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -62,7 +62,7 @@ class App extends Component {
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
         <Route path="/challenge" component={Challenge}/>
-        <Route path="/cocotype" component={CocoType}/>
+        <Route path="/coco" component={KeyTracker}/>
         <Route component={FourOhFour} />
       </Switch>
     )

@@ -34,7 +34,7 @@
     font-size: 28px;	
     font-weight: 600;	
     line-height: 38px;
-    margin-top:-8vh;
+    margin-top:-10vh;
 
 }
 
@@ -91,4 +91,10 @@
     font-size: 30px;	
     letter-spacing: 15px;	
     line-height: 43px;
+}
+
+.GameTextContainer{
+    width:100vw;
+    display:flex;
+    justify-content: center;
 }
