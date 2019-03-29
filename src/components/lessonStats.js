@@ -12,7 +12,7 @@ const showLessonStats = (currentSelectedLesson, { Accuracy, WPM, lessonID}, doRe
       </div>
       <div className="lesson-stats-icon row">
         <div className="lesson-badge-content-circle">
-          <h2 className="lesson-badge-content-txt-circle">{Math.round(Accuracy*10)/10}</h2>
+          <h2 className="lesson-badge-content-txt-circle">{Math.round(Accuracy)}</h2>
           <h2 className="percent-sign">%</h2>
         </div>
         <h3 className="lesson-badge-desc col">ACCURACY</h3>
