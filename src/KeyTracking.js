@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import ReactCountdownClock from 'react-countdown-clock'
 import Header from './components/header'
 import Cocotype from './CocoType'
-import { connect } from "net";
+import Tutorial from './GameTracking'
+
 
 const Ready = Button.extend`
     margin-top:4vh;
@@ -63,15 +64,14 @@ class KeyTracking extends Component{
     
     render(){
 
-    var content=`Time is money.
-    Just go for it.
-    Live the moment.
-    Choose to shine.
-    Your Time is Now.
-    No pain, no gain.
-    I can and I will.
-    Let your love out.`
+    var content=`Time is money.\nJust go for it.\nLive the moment.\nChoose to shine.\nYour Time is Now.\nNo pain, no gain.\nI can and I will.\nLet your love out.`
 
+    var contentArray=content.split("\n")
+    var cleanContent= ""
+    for(var i =0;i<contentArray.length; i++){
+        var string = contentArray[i].trim()
+        cleanContent = cleanContent + string
+    }
          // this == event, in this cases
         if(this.state.isPlayerReady)
         {
@@ -98,7 +98,8 @@ class KeyTracking extends Component{
             
             return(
             <div>
-                <Cocotype fullText={content}/>
+                <Header links={headerLinks}></Header>
+                <Tutorial currentContent={content}/>    
             </div>
             )
         }else{
