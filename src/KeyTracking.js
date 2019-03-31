@@ -6,7 +6,6 @@ import Header from './components/header'
 import Cocotype from './CocoType'
 import Tutorial from './GameTracking'
 
-
 const Ready = Button.extend`
     margin-top:4vh;
     height: 82px;	
@@ -99,7 +98,7 @@ class KeyTracking extends Component{
             return(
             <div>
                 <Header links={headerLinks}></Header>
-                <Tutorial currentContent={content}/>    
+                <Tutorial currentContent={content}/>
             </div>
             )
         }else{

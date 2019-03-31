@@ -138,39 +138,7 @@ class CocoType extends Component {
     } = this.state;
       return (
         <div>
-          <Header links={headerLinks} ></Header>
-          <div className="MetaWrapper">
-            <div className="StreakCounter">
-                <div className="CounterName">
-                Streak
-                </div>
-                <div className="CounterData">
-                {this.state.Streak}
-                </div>
-            </div>
-            <div className="GameTitle">
-                <p>Challenge</p>
-            </div>
-            <div className="LevelCounter">
-                <div className="CounterName">
-                Level
-                </div>
-                <div className="CounterData">
-                {this.state.Level}
-                </div>
-            </div>
-          </div>  
-          <div className="TimerContainer">
-                <div className="Timer">
-                {this.state.Time}
-                </div>
-                <div className="TimerText">
-                Seconds
-                </div>
-                <div className="GameTextContainer">
-                  <GameText>{this.state.currLine}</GameText>
-                </div>
-          </div>  
+          
         </div>
     )
   }

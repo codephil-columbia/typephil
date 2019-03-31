@@ -6,6 +6,8 @@ import Modal from 'react-modal';
 import styled from 'styled-components'
 import { postTutorialResults } from './actions/tutorial';
 
+import Counter from './counterPage'
+
 import "./style/GameTracking.css"
 
 const BACKSPACE = "Backspace";
@@ -54,9 +56,13 @@ class GameTracking extends Component {
 
     const totalLength = currentContent.length;
 
+    this.resetIncrement=this.resetIncrement.bind(this)
     this.state = {
       rows,
       characterMapList,
+      addTime: false,
+      seconds: '00', 
+      minutes: '',
       styleMapList,
       groupPtr,
       currentKey,
@@ -65,9 +71,11 @@ class GameTracking extends Component {
       correct: [],
       incorrect: [],
       edited: [],
+      Level:1,
       previousCharCorrectness: false,
       LESSON_LENGTH: characterMapList.length,
       consecutiveIncorrectCount: 0,
+      consecutiveCorrect:0,
       shouldShowModal: false,
       isFirstCharacter: true,
       hasPostedResults: false,
@@ -79,10 +87,12 @@ class GameTracking extends Component {
     };
   }
 
+
+  
+
   componentWillMount = () => {
     this.attachEventListener();
   };
-
   createCharacterMapLists = (chars) => {
     chars = this.breakInto30CharacterLists(chars);
     let characterMaps = [];
@@ -174,7 +184,9 @@ class GameTracking extends Component {
       const characterMap = characterMapList[groupPtr];
       const currentRowLength = characterMap.size;
 
+
       if(charPtr + 1 >= currentRowLength) {
+        this.setState({addTime:true})
         if(groupPtr + 1 < LESSON_LENGTH) {
           newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
@@ -224,7 +236,9 @@ class GameTracking extends Component {
       styleMapForRow = styleMapForRow.set(charPtr, CORRECT_STYLE);
       previousCharCorrectness = CORRECT;
       correct.push(keyPressed);
+      this.setState({consecutiveCorrect:this.state.consecutiveCorrect+1})
     } else {
+      this.setState({consecutiveCorrect:0})
       consecutiveIncorrectCount += 1;
       if(characterWanted == " ") {
         styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_SPACE_STYLE);
@@ -285,6 +299,11 @@ class GameTracking extends Component {
     rows = rows.map(row => <div className="words">{[...row]}</div>);
     return rows;
   };
+
+  resetIncrement = () => {
+    this.setState({addTime:false})
+  }
+
 
   highlightCharacter = (index, groupPtr) => {
     let { styleMapList } = this.state;
@@ -350,6 +369,19 @@ class GameTracking extends Component {
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
 
     return (
+
+      <div>
+      <div className="data-container">
+        <div className="StreakCounter">
+            <div className="CounterName">Streak</div>
+          <div className="CounterData">{this.state.consecutiveCorrect}</div>
+        </div>  
+        <div id="Buffer"/>
+        <div className="LevelCounter">
+          <div className="CounterName">Level</div>
+          <div className="CounterData">{this.state.Level}</div>
+        </div>
+      </div>
       <div className="content-wrapper">
         <Modal 
           isOpen={this.state.shouldShowModal}
@@ -359,8 +391,14 @@ class GameTracking extends Component {
           <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
           <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
         </Modal>
-       <GameText> {rows} </GameText>
+        <div className="timer-container">
+            <Counter NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} Time=".15"/>  {/* should make this depend on difficulty*/}
+        </div> 
       </div>
+      <div className="game-tracker-container">
+          <GameText> {rows} </GameText>
+        </div>
+    </div>
     )
   }
 }
