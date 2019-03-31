@@ -87,9 +87,6 @@ class GameTracking extends Component {
     };
   }
 
-
-  
-
   componentWillMount = () => {
     this.attachEventListener();
   };

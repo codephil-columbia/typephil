@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import './style/counterPage.css'
 
 class TimerInput extends React.Component {
@@ -84,13 +86,13 @@ export default class Counter extends React.Component {
 
       if (min === 0 & sec === 0) {
         clearInterval(this.intervalHandle);
-        this.props.history.push("s");
+        this.props.history.push("/finalstats");
       }
       
 
       this.secondsRemaining--
       if(this.props.NeedsToIncrement){
-        this.secondsRemaining = this.secondsRemaining +20 
+        this.secondsRemaining = this.secondsRemaining +5
         this.props.resetFunction();
       }
     }
