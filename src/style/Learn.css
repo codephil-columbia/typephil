@@ -82,7 +82,7 @@
   margin-bottom: 5rem; }
 
 .lesson-right {
-  margin-left: 7rem; }
+  margin-left: 5rem; }
 
 .lesson-left {
   text-align: left; }
@@ -154,7 +154,8 @@
 .chapter-info {
   display: flex;
   flex-direction: column;
-  align-items: center; }
+  margin-left: 2%;
+}
 
 .chapter-num {
   margin-right: 40px;
@@ -165,7 +166,9 @@
   color: white; }
 
 .chapter-name {
-  font-weight: 1.1em; }
+  font-weight: 1.1em; 
+  width: 83%
+}
 
 .chapter {
   display: flex;
@@ -207,6 +210,13 @@
 
 .learn-lock-icon {
   width: 200px; }
+
+.lock-description {
+  padding-top:20px;
+  font-size: 2.2rem;
+  width: 74%;
+  margin: 0 auto;
+}
 
 @media only screen and (max-width: 1600px) {
   .lesson-view-text {
@@ -261,24 +271,37 @@
     font-size: 3rem;
     padding-top: 2.5rem; }
 
+  .learn-lock-icon {
+    width: 50%; }
+
+  .lock-description {
+    font-size: 2.1rem;
+  }
+
+
   .percent-sign {
     font-size: 2rem;
     margin-top: -2rem; } }
 @media only screen and (max-width: 1050px) {
+  .lock-description {
+    font-size: 2rem;
+  }
+
   .title {
     font-size: 2.2rem;
     margin-right: -11rem; }
 
   .chapter-title {
     font-weight: 500;
-    font-size: 2rem; }
+    font-size: 2.2rem; }
 
   .chapter-name {
     font-size: .7em; }
 
   .chapter-num {
     width: 30px;
-    height: 30px; }
+    height: 30px; 
+    padding-top: 3px;}
 
   .num {
     font-size: 1.3rem; }
@@ -299,7 +322,7 @@
     padding-right: 15rem; }
 
   .learn-lock-icon {
-    width: 150px; }
+    width: 50% }
 
   .lesson-badge-desc {
     font-size: 1.7rem; }

@@ -61,13 +61,13 @@
 
 @media only screen and (max-width: 1300px) {
     .words {
-        font-size: 2.5rem;
+        font-size: 2.9rem;
     }
 }
 
 @media only screen and (max-width: 1150px) {
     .words {
-        font-size: 1.75vw;
+        font-size: 2.7rem;
         margin-left: 20%;
         margin-right: 20%;
     }
@@ -80,5 +80,9 @@
 @media only screen and (max-width: 900px) {
    .modal-text {
         font-size:1.6rem;
+    }
+
+    .words {
+        font-size: 2.6rem;
     }
 }

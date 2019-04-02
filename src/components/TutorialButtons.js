@@ -1,4 +1,6 @@
 import React from 'react';
+import { Line } from 'rc-progress';
+import _ from 'lodash';
 import '../style/LessonTutorialButtons.css'
 
 
@@ -10,7 +12,9 @@ const LessonTutorialButtons = ({
   redirectToNextLesson, 
   didUserPassLesson,
   userState,
-  isFinished
+  isFinished,
+  currentPageIndex,
+  totalNumOfPages,
 }) => {
   if(shouldFreeze)
     return "";
@@ -19,6 +23,12 @@ const LessonTutorialButtons = ({
     return (
       <div className="lesson-buttons">
         {!isLastContent ? <BackButton prev={prev} text="Previous"/> : <div></div>}
+
+    <div className="progress-bar-segmented" role="progressbar" aria-valuenow={currentPageIndex} aria-valuemin="0" aria-valuemax={totalNumOfPages} tabIndex="0">
+      {_.range(totalNumOfPages).map(step => (
+        <div key={step} style={{width: (100/totalNumOfPages) - 2 + "%"}} className={`progress-segment ${currentPageIndex + 1 > step ? 'progress-segment-complete' : ''}`}>&nbsp;</div>
+      ))}
+    </div>
         <NextButton 
             next={isLastContent ? redirectToNextLesson : next}
             shouldRedirectToNextLesson={isLastContent} 
@@ -37,7 +47,7 @@ const LessonTutorialButtons = ({
 
 const BackButton = ({ prev, text }) => (
     <React.Fragment>
-        <svg width="170px" height="57px" viewBox="0 0 170 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+        <svg width="170px" height="57px" viewBox="0 0 170 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" className="tutorial-nav-button-left">
             <title>Previous Arrow</title>
             <desc>Created with Sketch.</desc>
             <defs></defs>
@@ -72,7 +82,7 @@ const BackButton = ({ prev, text }) => (
 
 const NextButton = ({ next, shouldRedirectToNextLesson }) => (
     <React.Fragment>
-        <svg width="134px" height="57px" viewBox="0 0 134 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+        <svg width="134px" height="57px" viewBox="0 0 134 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" className="tutorial-nav-button-right">
           <title>Next Arrow</title>
           <desc>Created with Sketch.</desc>
           <defs></defs>
@@ -106,5 +116,15 @@ const NextButton = ({ next, shouldRedirectToNextLesson }) => (
       </svg>
     </React.Fragment>
 )
+
+function SegmentedProgressBar({ current, total }) {
+  return (
+    <div className="progress-bar-segmented" role="progressbar" aria-valuenow={current} aria-valuemin="0" aria-valuemax={total} tabIndex="0">
+      {[0,1,2,3].map(step => (
+        <div key={step} className={`progress-segment ${current > step ? 'progress-segment-complete' : ''}`}>hi{current}{total}</div>
+      ))}
+    </div>
+  );
+}
 
 export default LessonTutorialButtons;
