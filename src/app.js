@@ -4,6 +4,7 @@ import { withRouter } from 'react-router'
 
 import { Route, Switch, Redirect } from 'react-router-dom'
 
+
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import Profile from './ProfilePage';
@@ -11,6 +12,11 @@ import Learn from './Learn';
 import Tutorial from './Tutorial';                               
 import HomePage from './HomePage';
 import FourOhFour from './components/FourOhFour';
+import Challenge from './Challenge'
+import CocoType from './CocoType';
+import KeyTracker from './KeyTracking'
+import Stats from './Statistics'
+
 
 class App extends Component {
   constructor(props) {
@@ -59,6 +65,9 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
+        <Route path="/challenge" component={Challenge}/>
+        <Route path="/coco" component={KeyTracker}/>
+        <Route path="/finalstats" component={Stats}/>
         <Route component={FourOhFour} />
       </Switch>
     )
