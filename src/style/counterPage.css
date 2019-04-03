@@ -5,3 +5,24 @@
     letter-spacing: 15px;	
     line-height: 43px;
 }
+
+.countdown-clock {
+	text-align: center;
+	font-size: 80px;
+}
+
+.countdown-clock-description {
+	text-align: center;
+	padding-top: 40px;
+	font-size: 20px;
+}
+
+.countdown-clock-div {
+	margin-bottom: 40px;
+}
+
+@media only screen and (max-width: 900px) {
+	.countdown-clock-div {
+		margin-top: -3vw;
+	}
+}

@@ -5,6 +5,8 @@ import ReactCountdownClock from 'react-countdown-clock'
 import Header from './components/header'
 import Cocotype from './CocoType'
 import Tutorial from './GameTracking'
+import "./style/KeyTracking.css"
+
 
 const Ready = Button.extend`
     margin-top:4vh;
@@ -82,8 +84,9 @@ class KeyTracking extends Component{
                 return(  
                     <div>
                         <Header links={headerLinks}></Header>
-                        <div style={{width:"100vw", height:"100vh", display:"flex", justifyContent:"center", alignItems:"center"}}>
-                            <ReactCountdownClock seconds={3} onComplete={this.beginGames}/>
+                        <div className="countdown-clock-description">Starting Game In...</div>
+                        <div style={{width:"100vw", height:"45vh", display:"flex", justifyContent:"center", alignItems:"center"}}>
+                            <ReactCountdownClock className="countdown-clock" color="#52B094" seconds={3} size={300} onComplete={this.beginGames}/> 
                         </div>
                     </div>
 
@@ -96,7 +99,7 @@ class KeyTracking extends Component{
               } = this.state;
             
             return(
-            <div>
+            <div className="challenge-game-background">
                 <Header links={headerLinks}></Header>
                 <Tutorial currentContent={content}/>
             </div>
@@ -106,7 +109,7 @@ class KeyTracking extends Component{
                 headerLinks, 
               } = this.state;
             return(
-                <div>
+                <div className="challenge-game-background">
                     <Header links={headerLinks}></Header>
                     <div className="ready-container" style={{width:"100vw", height:"100vh",display:"flex", alignItems:"center", justifyContent:"center" }} onClick={this.initiate}>
                         <Ready>Begin</Ready>

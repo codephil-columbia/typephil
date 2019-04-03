@@ -86,19 +86,19 @@ export default class DifficultyTab extends Component {
           <div>
           <DifficultyContainer>
             <DifficultyLevelWrapper onClick={this.ezEnabled}>
-              <DifficultyPointer selected={this.state.ezChosen}>****</DifficultyPointer>
+              <DifficultyPointer selected={this.state.ezChosen}><img src="/images/games/Yellow_Arrow.svg"/></DifficultyPointer>
               <DifficultyLevel isActive={this.state.ezChosen}>Easy</DifficultyLevel>
             </DifficultyLevelWrapper>
           
 
             <DifficultyLevelWrapper onClick={this.medEnabled}>
-              <DifficultyPointer selected={this.state.medChosen}>****</DifficultyPointer>
+              <DifficultyPointer selected={this.state.medChosen}><img src="/images/games/Yellow_Arrow.svg"/></DifficultyPointer>
               <DifficultyLevel isActive={this.state.medChosen}>Medium</DifficultyLevel>
             </DifficultyLevelWrapper>
           
             
             <DifficultyLevelWrapper onClick={this.hardEnabled}>
-                <DifficultyPointer selected={this.state.hardChosen}>****</DifficultyPointer>
+                <DifficultyPointer selected={this.state.hardChosen}><img src="/images/games/Yellow_Arrow.svg"/></DifficultyPointer>
                 <DifficultyLevel isActive={this.state.hardChosen}>Hard</DifficultyLevel>
             </DifficultyLevelWrapper>
           </DifficultyContainer>

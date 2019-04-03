@@ -32,7 +32,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 5vh;
 }
 
 
@@ -79,7 +78,16 @@
     display: flex;
     width:100vw;
     justify-content: center;
+    padding-top: 3rem;
     
+}
+
+.challenge-game-selection-background {
+    background-image: url(/images/games/Palm_Tree.svg), url(/images/games/Palm_Tree_Right.svg), url(/images/games/Sand.png);
+    background-position: left bottom, right bottom, center bottom -55vw;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: auto 50%, auto 50%, 100% auto;
+    height: 100vh;
 }
 
 
@@ -98,7 +106,7 @@
     height:auto;
     display: flex;
     justify-content: center;
-    padding-bottom: 5vh;
+    padding-bottom: 3vh;
     color: #4A4A4A;	
     font-size: 28px;
     font-weight: bold;
@@ -109,12 +117,17 @@
     text-align: center;
 }
 
-
-
 .actual-difficulties{
     display:flex;
     width:60vw;
     justify-content: space-evenly;
 
    
+}
+
+@media only screen and (max-width: 1050px) {
+.challenge-game-selection-background {
+    background-size: auto 40%, auto 40%, 100% auto;
+    background-position: left bottom, right bottom, center bottom -55vw;
+}
 }

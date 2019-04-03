@@ -17,8 +17,9 @@ class TimerInput extends React.Component {
 class Timer extends React.Component {
   render() {
     return (
-      <div>
-        <h1 style={{ fontSize: 100}}>{this.props.value}:{this.props.seconds}</h1>
+      <div className="countdown-clock-div">
+        <div className="countdown-clock">{this.props.value}:{this.props.seconds}</div>
+        <div className="countdown-clock-description">TIME REMAINING</div>
       </div>
     );
   }
@@ -100,7 +101,7 @@ export default class Counter extends React.Component {
     startCountDown() {
       this.intervalHandle = setInterval(this.tick, 1000);
       let time = this.state.baseTime;
-      this.secondsRemaining = time * 60;
+      this.secondsRemaining = time * 60 * 1000; // REMOVEEE
       this.setState({
         isClicked : true
       })
