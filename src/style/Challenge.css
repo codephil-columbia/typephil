@@ -23,7 +23,7 @@
     font-weight: 600;
     src:
     local('Arcade')
-    url(../fonts/arcade/ARCADE_N.ttf);
+    url(../fonts/arcade/ARCADE_N.ttf) format('truetype');
 }
 
 .game-title-container{

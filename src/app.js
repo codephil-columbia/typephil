@@ -13,7 +13,6 @@ import Tutorial from './Tutorial';
 import HomePage from './HomePage';
 import FourOhFour from './components/FourOhFour';
 import Challenge from './Challenge'
-import CocoType from './CocoType';
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 

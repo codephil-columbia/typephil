@@ -88,7 +88,7 @@ class Challenge extends Component {
       difficulty="hard"
     }
     /*figure out how to carry over difficulty to challenge*/
-    this.props.history.push("/cocotype");
+    this.props.history.push("/coco");
 
   }
   render() {

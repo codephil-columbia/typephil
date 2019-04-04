@@ -3,10 +3,23 @@ import Button from 'react-button-component'
 import styled from 'styled-components';
 import ReactCountdownClock from 'react-countdown-clock'
 import Header from './components/header'
-import Cocotype from './CocoType'
 import Tutorial from './GameTracking'
 import "./style/KeyTracking.css"
 
+import { Connect, connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router'
+
+import { Route, Switch, Redirect } from 'react-router-dom'
+
+import { 
+    fetchAllChapterNames, 
+    fetchAllPairs, 
+    fetchCompletedLessons,
+    fetchLessonById
+  } from './actions/learn'
+  
+import { getCurrentLessonForUser } from './actions/homepage';
 
 const Ready = Button.extend`
     margin-top:4vh;
@@ -120,4 +133,26 @@ class KeyTracking extends Component{
     }
 }
 
-export default KeyTracking
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({ 
+      fetchAllChapterNames, 
+      fetchAllPairs, 
+      fetchCompletedLessons,
+      fetchLessonById,
+      getCurrentLessonForUser
+    }, dispatch);
+  }
+  
+  const mapStateToProps = ({ app, auth }) => {
+    return {
+      allChapters: app.allChapters,
+      isLoading: app.isLoading,
+      chapterLessonPairs: app.chapterLessonPairs,
+      completedLessons: app.completedLessons,
+      currentUser: auth.currentUser,
+      isLoggedIn: auth.isLoggedIn,
+      currentLessonName: app.currentLesson.lessonName
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(KeyTracking);

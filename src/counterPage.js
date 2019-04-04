@@ -1,6 +1,17 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+
+import { 
+  fetchAllChapterNames, 
+  fetchAllPairs, 
+  fetchCompletedLessons,
+  fetchLessonById
+} from './actions/learn'
+
+import { getCurrentLessonForUser } from './actions/homepage';
+
 import './style/counterPage.css'
 
 class TimerInput extends React.Component {
@@ -36,7 +47,7 @@ class StartButton extends React.Component {
   }
 }
 
-export default class Counter extends React.Component {
+class Counter extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -101,7 +112,7 @@ export default class Counter extends React.Component {
     startCountDown() {
       this.intervalHandle = setInterval(this.tick, 1000);
       let time = this.state.baseTime;
-      this.secondsRemaining = time * 60 * 1000; // REMOVEEE
+      this.secondsRemaining = time * 60 ; // REMOVEEE
       this.setState({
         isClicked : true
       })
@@ -136,3 +147,29 @@ export default class Counter extends React.Component {
       }
     }
   }
+
+
+
+  const mapDispatchToProps = dispatch => {
+    return bindActionCreators({ 
+      fetchAllChapterNames, 
+      fetchAllPairs, 
+      fetchCompletedLessons,
+      fetchLessonById,
+      getCurrentLessonForUser
+    }, dispatch);
+  }
+  
+  const mapStateToProps = ({ app, auth }) => {
+    return {
+      allChapters: app.allChapters,
+      isLoading: app.isLoading,
+      chapterLessonPairs: app.chapterLessonPairs,
+      completedLessons: app.completedLessons,
+      currentUser: auth.currentUser,
+      isLoggedIn: auth.isLoggedIn,
+      currentLessonName: app.currentLesson.lessonName
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Counter);
