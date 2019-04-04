@@ -3,7 +3,7 @@ import React from 'react';
 const TutorialStats = ({ time, length, incorrect, didUserPassLesson }) => {
   return (
   <div className="tutorial-stats">
-    <div className="row">
+    <div className="row tutorial-stats-numbers">
         <div className="column">
           <h1><b>{Math.trunc((length / 5) / (time / 60))}</b></h1>
         </div>
@@ -14,7 +14,7 @@ const TutorialStats = ({ time, length, incorrect, didUserPassLesson }) => {
           <h1><b>{Math.trunc(time)}</b></h1>
         </div>
       </div>
-      <div className="row">
+      <div className="row tutorial-stats-labels">
         <div className="column">
           <h1>WPM</h1>
         </div>
