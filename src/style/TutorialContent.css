@@ -3,10 +3,10 @@
     margin-left: 5px;
 }
 
-.words {
+.words-tutorial {
     font-weight: 600;
     border-bottom: 1px solid grey;
-    font-size: 3rem;
+    font-size: 3.2rem;
     margin-bottom: 5rem;
     margin-left: 23%;
     margin-right: 23%;
@@ -18,7 +18,7 @@
     font-weight: 550;
 }
 
-.content-wrapper {
+.content-wrapper-tutorial {
     margin-top: 60px;
 }
 
@@ -60,13 +60,13 @@
 }
 
 @media only screen and (max-width: 1300px) {
-    .words {
-        font-size: 2.9rem;
+    .words-tutorial {
+        font-size: 3.2rem;
     }
 }
 
 @media only screen and (max-width: 1150px) {
-    .words {
+    .words-tutorial {
         font-size: 2.7rem;
         margin-left: 20%;
         margin-right: 20%;
@@ -82,7 +82,9 @@
         font-size:1.6rem;
     }
 
-    .words {
+    .words-tutorial {
         font-size: 2.6rem;
+        margin-left: 12%;
+        margin-right: 12%;
     }
 }

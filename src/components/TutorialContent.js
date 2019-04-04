@@ -273,7 +273,7 @@ class LessonTutorialContent extends Component {
       row = [];
     });
 
-    rows = rows.map(row => <div className="words">{[...row]}</div>);
+    rows = rows.map(row => <div className="words-tutorial">{[...row]}</div>);
     return rows;
   };
 
@@ -341,7 +341,7 @@ class LessonTutorialContent extends Component {
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
 
     return (
-      <div className="content-wrapper">
+      <div className="content-wrapper-tutorial">
         <Modal 
           isOpen={this.state.shouldShowModal}
           onAfterOpen={this.onModalOpen}

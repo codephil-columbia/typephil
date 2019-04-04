@@ -69,6 +69,14 @@
     margin-right: 10%;
 }
 
+.tutorial-stats-numbers {
+    font-size: 3vw;
+}
+
+.tutorial-stats-labels {
+    font-size: 2rem;
+}
+
 @media only screen and (max-width: 1250px) {
     .tutorial-hands-keyboard {
         margin-top: 7vh;
