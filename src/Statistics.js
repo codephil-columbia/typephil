@@ -10,8 +10,8 @@ import './style/Statistics.css'
 const NavigationContainer= styled.div`
     display:flex;
     justify-content:space-between;
-    padding-left:3vw;
-    width:96vw;
+    padding-left:10vw;
+    width:90vw;
 
 `
 
@@ -23,10 +23,10 @@ const CustomButton = Button.extend`
         font-weight: normal;
         font-style: normal;
     } 
-    margin-top:4vh;
-    
-    font-size:30px;
-    font-family:"Arcade"
+    margin-top:10vh;
+    font-size:1.5rem;
+    font-family:"Arcade";
+    color: #52B094;
 
 `
 
@@ -35,7 +35,10 @@ const StatsWrapper = styled.div`
     flex-direction:column;
     justify-content: space-evenly;
     align-content:center;
-    text-align:center
+    text-align:center;
+    padding-top: 7vh;
+
+    width: 100%
 `
 
 const StatsRow = styled.div`
@@ -44,8 +47,32 @@ const StatsRow = styled.div`
     justify-content:space-evenly
     align-content:center;
     text-align:center;
-    width:100vw;
+    width:60vw;
+    margin-left:20.5vw;
+    margin-right:20.5vw
 
+    color: #199893;
+
+    padding-bottom: 2vh;
+`
+
+const StatsHighScoreRow = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly
+    align-content:center;
+    text-align:center;
+    width:60vw;
+    margin-left:20.5vw;
+    margin-right:20.5vw
+
+    color: #199893;
+
+    border-style: solid;
+    border-color: #F5A623;
+    height: 15vh;
+    padding-top: 2vh
+    padding-bottom: 2vh
 `
 
 const DataContainer = styled.div`
@@ -60,8 +87,50 @@ const DataContainer = styled.div`
     flex-direction:column;
     align-content:center;
     height:10vw;
+`
 
+const StatsHeader = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly
+    align-content:center;
+    text-align:center;
+    width:100vw;
 
+    font-family:"Arcade";
+    color: #52B094;
+    font-size: 2.9rem;
+    padding-bottom: 7vh;
+`
+
+const StatsData = styled.div`
+	font-size: 4rem;
+	font-weight: 900;
+`
+
+const StatsText = styled.div`
+	font-family:"Arcade";
+	font-size: 1.5rem;
+`
+
+const HighScoreLabel = styled.div`
+	display: inline-block;
+    margin-left: 37vw;
+    margin-right: 37vw;
+    align-content: center;
+    color: #199893;
+
+    font-family:"Arcade";
+    width: 26vw;
+	text-align: center;
+	margin-bottom: -13px;
+	z-index: 2;
+	background-color: white;
+	font-size: 1.3rem;
+
+	@media only screen and (max-width: 1050px) {
+		padding-top: 3vw;
+	}
 `
 
 
@@ -96,34 +165,38 @@ export default class Statistics extends Component{
             <div>
                 <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} />
                 <StatsWrapper>
+                	<StatsHeader>GAME STATS</StatsHeader>
                     <StatsRow>
                         <DataContainer>
-                            <p id="stats-data">92</p>
-                            <p id="stats-text">WPM</p>
+                            <StatsData>92</StatsData>
+                            <StatsText>WPM</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <p id="stats-data">25%</p>
-                            <p id="stats-text">Accuracy</p>
+                            <StatsData>25%</StatsData>
+                            <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <p id="stats-data">3</p>
-                            <p id="stats-text">Level</p>
+                            <StatsData>3</StatsData>
+                            <StatsText>Level</StatsText>
                         </DataContainer>
                     </StatsRow>
-                    <StatsRow>
+	                <HighScoreLabel>
+	                	HIGH SCORES
+	                </HighScoreLabel>
+                    <StatsHighScoreRow>
                         <DataContainer>
-                            <p id="stats-data">92</p>
-                            <p id="stats-text">WPM</p>
+                            <StatsData>98</StatsData>
+                            <StatsText>WPM</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <p id="stats-data">25%</p>
-                            <p id="stats-text">Accuracy</p>
+                            <StatsData>45%</StatsData>
+                            <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <p id="stats-data">3</p>
-                            <p id="stats-text">Level</p>
+                            <StatsData>5</StatsData>
+                            <StatsText>Level</StatsText>
                         </DataContainer>
-                    </StatsRow>
+                    </StatsHighScoreRow>
                 </StatsWrapper>
                 <NavigationContainer>
                         <CustomButton onClick={this.playAgain}>PLAY AGAIN</CustomButton>
