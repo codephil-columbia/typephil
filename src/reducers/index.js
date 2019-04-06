@@ -54,6 +54,7 @@ const initialAppState = {
     hasPostedResults: false
   },
   source: "HomePage",
+  chapter: {},
   chapterLessonPairs: [],
   allChapters: [],
   completedLessons: [],
@@ -75,6 +76,7 @@ export const isLoggedIn = (state, action) => {
 export const app = (state = initialAppState, action) => {
   switch (action.type) {
     case GET_CURRENT_LESSON:
+      console.log(action, "HERE");
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state, source: "HomePage" };
     case FETCH_ALL_CHAPTERS_SUCCESS:
@@ -176,24 +178,23 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
       return { ...state, hasFinishedLoading: false };
     case GET_CURRENT_LESSON:
       const {
-        chapterid, 
-        chapterimage, 
-        chaptername,
-        lessonid,
-        lessonname,
-        lessontext,
-        lessondescriptions,
-        lessonimages
-      } = action.data; 
+        chapterID, 
+        lessonID,
+        lessonName,
+        lessonText,
+        lessonDescriptions,
+        lessonImages
+      } = action.data.currentLesson; 
+      const { chapterName, chapterImage } = action.data.currentChapter;
       return { ...state,
-        chapterID: chapterid,
-        chapterImage: chapterimage,
-        chapterName: chaptername,
-        lessonID: lessonid,
-        lessonName: lessonname,
-        lessonText: lessontext,
-        lessonDescriptions: lessondescriptions,
-        lessonImages: lessonimages,
+        chapterImage,
+        chapterID,
+        chapterName,
+        lessonID,
+        lessonName,
+        lessonText,
+        lessonDescriptions,
+        lessonImages,
         hasFinishedLoading: true,
         showSpinner: false
       }

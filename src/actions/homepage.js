@@ -25,18 +25,19 @@ const getCurrentLessonForUserFailed = err => {
   }
 }
 
-export const getCurrentLessonForUser = uid => {
-  return function (dispatch) {
-    dispatch(getCurrentLessonForUserWaiting());
-    return axios.post(`${api_url}/lesson/getCurrent`, { uid })
-      .then(res => {
-        const { data } = res;
-        dispatch(getCurrentLessonForUserSuccess(data));
-      })
-      .catch(err => {
-        dispatch(getCurrentLessonForUserFailed(err));
-      })
-  }
+export const getCurrentLessonForUser = uid => dispatch => {
+  dispatch(getCurrentLessonForUserWaiting());
+  return Promise.all([
+    axios.get(`${api_url}/lesson/current/${uid}`),
+    axios.get(`${api_url}/chapter/current/${uid}`)
+  ]).then(resps => {
+    const currentLesson = resps[0].data;
+    const currentChapter = resps[1].data;
+
+    dispatch(getCurrentLessonForUserSuccess({ currentLesson, currentChapter }));
+  }).catch(err => {
+    throw new Error(err);
+  })
 }
 
 export const GET_AVG_STATS_REQ = "GET_AVG_STATS";
