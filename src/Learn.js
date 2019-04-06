@@ -103,6 +103,8 @@ class Learn extends Component {
       currentLessonName
     } = this.props;
 
+    console.log(this.props);
+
     if(isLoading) {
       return <ShowSpinner />
     } 
@@ -136,33 +138,33 @@ class Learn extends Component {
       title = "Chapter Overview"
     }
 
-      return (
-        <div>
-          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
-          <div className="content container title-container">
-            <div className="title">
-              <h2 className="title">Fundamentals of Typing Tutorial</h2>
-            </div>
-            <div className="block">
-              <div className="carousel row">
-                <div className="arrow-left column column-10" onClick={this.prevChapter} />
-                <div className="carousel-content column">
-                  <div className="carousel-title">
-                    <div onClick={this.prevChapter} className="learn-carousel-buttons left-carousel-button">
-                      <img src="images/buttons/Left_Arrow_Thin.svg"></img>
-                    </div>
-                    <h2 className="chapter-title">{title}</h2>
-                    <div onClick={this.nextChapter} className="learn-carousel-buttons right-carousel-button">
-                      <img src="images/buttons/Right_Arrow_Thin.svg"></img>
-                    </div>
-                </div>
-                <div className="carousel-desc">
-                  <h3 className="desc">{carouselDesc}</h3>
-                </div>
+    return (
+      <div>
+        <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
+        <div className="content container title-container">
+          <div className="title">
+            <h2 className="title">Fundamentals of Typing Tutorial</h2>
+          </div>
+          <div className="block">
+            <div className="carousel row">
+              <div className="arrow-left column column-10" onClick={this.prevChapter} />
+              <div className="carousel-content column">
+                <div className="carousel-title">
+                  <div onClick={this.prevChapter} className="learn-carousel-buttons left-carousel-button">
+                    <img src="images/buttons/Left_Arrow_Thin.svg"></img>
+                  </div>
+                  <h2 className="chapter-title">{title}</h2>
+                  <div onClick={this.nextChapter} className="learn-carousel-buttons right-carousel-button">
+                    <img src="images/buttons/Right_Arrow_Thin.svg"></img>
+                  </div>
               </div>
-              <div className="arrow-right column column-10" onClick={this.nextChapter}/>
+              <div className="carousel-desc">
+                <h3 className="desc">{carouselDesc}</h3>
+              </div>
             </div>
-            {body}
+            <div className="arrow-right column column-10" onClick={this.nextChapter}/>
+          </div>
+            { body }
           </div>
         </div>
       </div>

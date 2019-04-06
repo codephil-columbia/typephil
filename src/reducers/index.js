@@ -76,7 +76,6 @@ export const isLoggedIn = (state, action) => {
 export const app = (state = initialAppState, action) => {
   switch (action.type) {
     case GET_CURRENT_LESSON:
-      console.log(action, "HERE");
       state.currentLesson = currentLessonReducer(state.currentLesson, action);
       return { ...state, source: "HomePage" };
     case FETCH_ALL_CHAPTERS_SUCCESS:
