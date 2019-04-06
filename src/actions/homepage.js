@@ -85,13 +85,21 @@ const getChapterProgressReq = () => {
   }
 }
 
-export const getChapterProgress = (uid) => {
-  return function(dispatch) {
-    dispatch(getChapterProgressReq());
-    return axios.post(`${api_url}/chapter/getChapterProgress`, { uid })
-      .then(res => {
-        const { data } = res;
-        dispatch(getChapterProgressSuccess(data));
-      })
-  }
+export const getChapterProgress = uid => dispatch => {
+  dispatch(getChapterProgressReq());
+  return Promise.all([
+    axios.get(`${api_url}/lesson/current/${uid}`),
+    axios.get(`${api_url}/lesson/`),
+    axios.get(`${api_url}/records/tutorial/lessons/${uid}`)
+  ]).then(resps => {
+    const currentLesson = resps[0].data;
+    const lessons = resps[1].data;
+    const records = resps[2].data;
+
+    const lessonsInChapterCount = lessons.filter(lesson => lesson.chapterID === currentLesson.chapterID).length;
+    const finshedLessonsInChapter = records.filter(record => record.chapterID === currentLesson.chapterID).length;
+    dispatch(getChapterProgressSuccess(Number(finshedLessonsInChapter/lessonsInChapterCount)));
+  }).catch(err => {
+    throw new Error(err);
+  })
 }

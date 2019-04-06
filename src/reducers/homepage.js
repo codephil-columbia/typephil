@@ -47,10 +47,8 @@ export const chapterProgressPercentage = (
     }
 
     case GET_CHAPTER_PROGRESS_SUCCESS: {
-      const { compcount, totallessons } = action.data;
-      const percentageComplete = Math.trunc(
-        (compcount / totallessons) * 100
-      );
+      const percentage = action.data;
+      const percentageComplete = Math.trunc(percentage*100);
       return { 
         ...state, 
         percentageComplete,
