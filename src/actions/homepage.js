@@ -55,18 +55,24 @@ const getAverageStatsReq = () => {
   }
 } 
 
-export const getAverageStats = (uid) => {
-  return function(dispatch) {
-    dispatch(getAverageStatsReq());
-    return axios.post(`${api_url}/hollisticStats`, { uid })
-      .then(res => {
-        const { data } = res;
-        dispatch(getAverageStatsSuccess(data));
-      })
-      .catch(err => {
-        console.log('err');
-      })
-  }
+export const getAverageStats = uid => dispatch => {
+  dispatch(getAverageStatsReq());
+  return axios.get(`${api_url}/stats/tutorial/lesson/${uid}`)
+  .then(res => {
+    const records = res.data;
+    let avgWPM = 0;
+    let avgAccuracy = 0;
+
+    records.forEach(({ wpm, accuracy }) => {
+      avgWPM += Number(wpm);
+      avgAccuracy += Number(accuracy); 
+    });
+
+    dispatch(getAverageStatsSuccess({ wpm: avgWPM/records.length, accuracy: avgAccuracy/records.length }));
+  })
+  .catch(err => {
+    throw new Error(err);
+  })
 }
 
 export const GET_CHAPTER_PROGRESS = "GET_CHAPTER_PROGRESS";

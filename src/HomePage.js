@@ -32,6 +32,8 @@ class HomePage extends Component {
           "Accuracy is how \n accurately you type \n words that appear."
         ]
       }
+
+      console.log(this.props);
   }
 
   setup(uid) {
@@ -122,8 +124,8 @@ const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage })
     hasFinishedLoading: app.currentLesson.hasFinishedLoading,
     showSpinner: app.currentLesson.showSpinner,
     imagePath: app.currentLesson.chapterImage,
-    avgWPM: statsForUser.avgWPM,
-    avgAccuracy: statsForUser.avgAccuracy,
+    avgWPM: statsForUser.wpm,
+    avgAccuracy: statsForUser.accuracy,
     isStatsLoading: statsForUser.isStatsLoading,
     percentageComplete: chapterProgressPercentage.percentageComplete,
     isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
