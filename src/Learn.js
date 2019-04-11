@@ -103,8 +103,6 @@ class Learn extends Component {
       currentLessonName
     } = this.props;
 
-    console.log(this.props);
-
     if(isLoading) {
       return <ShowSpinner />
     } 
@@ -138,6 +136,8 @@ class Learn extends Component {
       title = "Chapter Overview"
     }
 
+    // console.log(chapterLessonPairs[currentChapterIndex]);
+    // const { chapter } = chapterLessonPairs[currentChapterIndex]
     return (
       <div>
         <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
