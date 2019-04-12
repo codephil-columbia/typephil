@@ -136,6 +136,7 @@ class Learn extends Component {
       title = "Chapter Overview"
     }
 
+    console.log(this.props);
     // console.log(chapterLessonPairs[currentChapterIndex]);
     // const { chapter } = chapterLessonPairs[currentChapterIndex]
     return (

@@ -150,7 +150,6 @@ export const fetchLessonById = ({ lessonID }) => dispatch => {
   return axios.post(`${api_url}/lesson/get`, { lessonID })
     .then(({ data }) => {
       dispatch(fetchLessonByIdSuccess(data));
-      console.log(data);
     })
     .catch(err => console.log(err));
 }

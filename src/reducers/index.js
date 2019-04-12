@@ -184,6 +184,7 @@ export const currentLessonReducer = (state = app.currentLesson, action) => {
         lessonDescriptions,
         lessonImages
       } = action.data.currentLesson; 
+      console.log(action.data.currentLesson);
       const { chapterName, chapterImage } = action.data.currentChapter;
       return { ...state,
         chapterImage,
