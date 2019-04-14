@@ -2,13 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import posed from 'react-pose';
 import SplitText from 'react-pose-text';
-import './styles.css';
+import { tween } from 'popmotion';
+import { styler } from 'popmotion';
+import './style/animation.css';
 
-const Box = posed.div({
-  left: { x: 100},
-  right:{x: -100},
-  transition: {duration: 100}
-});
+
 
 const charPoses = {
   exit: { opacity: 0, y: 20 },
@@ -29,21 +27,39 @@ function App() {
   );
 }
 
-class Example extends React.Component {
-  state = { isVisible: true };
+class Animation extends React.Component {
+  state = { isMoving: true };
 
   componentDidMount() {
+    const Box = styler(document.querySelector('.box'));
+
+    tween({
+      from: {x:-1000, y:100},
+
+      to: { x: 1000, y:100 },
+      duration: 3000,
+      //flip: Infinity,
+      // elapsed: 500,
+      loop: 5,
+      // yoyo: 5
+    }).start(Box.set);
+
     setInterval(() => {
-      this.setState({ isVisible: !this.state.isVisible });
-    }, 1000);
+      this.setState({ isMoving: !this.state.isMoving });
+    }, 2000);
   }
 
   render() {
-    const { isVisible } = this.state;
-    return <Box className="box" pose={isVisible ? 'left' : 'right'} > 
-    Hi <img height="42" width="42" src="https://cdn.motor1.com/images/mgl/pAl1J/s3/mini-logo-2018.jpg"/>
-    </Box>;
+    const { isMoving } = this.state;
+    return (
+      // <Box className="box" pose={isMoving ? 'left' : 'right'}> 
+        // Hi <img height="42" width="42" src="./Meteor2.svg"/>
+      // </Box>
+      <div className="box">Hello
+      <img height="42" width="42" src="./Meteor2.svg"/>
+      </div>
+    );
   }
 }
 
-ReactDOM.render(<Example />, document.getElementById('root'));
+export default (Animation);
