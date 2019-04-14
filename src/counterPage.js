@@ -13,6 +13,7 @@ import {
 import { getCurrentLessonForUser } from './actions/homepage';
 
 import './style/counterPage.css'
+import { DeviceSignalWifiOff } from "material-ui/svg-icons";
 
 class TimerInput extends React.Component {
   render() {
@@ -54,17 +55,65 @@ class Counter extends React.Component {
         seconds: '',
         value: '',
         isClicked : true,
-        baseTime:this.props.Time
+        increment:3,
+        lowerIncrement:this.props.IncrementLevel,
+        baseTime:0,
+        difficulty:0,
+        timeElapse:0
       }
       this.secondsRemaining;
       this.intervalHandle;
       this.handleChange = this.handleChange.bind(this);
       this.startCountDown = this.startCountDown.bind(this);
+      this.setBaseTime = this.setBaseTime.bind(this);
       this.tick = this.tick.bind(this);
     }
     
+
     componentDidMount(){
-        this.startCountDown()
+        this.setBaseTime()
+    }
+
+    calculateIncrement(){
+      var newIncrement=0;
+      
+      if(this.state.difficulty==1){
+        this.setState({increment:2})
+      }
+      else if(this.state.difficulty==2){
+        this.setState({increment:1})
+      }
+      else{
+        var currIncrement=this.state.increment
+        var newIncrement=currIncrement*(2/3)
+        this.setState({increment:newIncrement})
+      }
+    }
+
+    setBaseTime(){
+        var secondsGiven=0
+        var difficulty=this.props.baseDifficulty
+        if(difficulty==1){
+          secondsGiven=10
+          this.setState({
+            increment:3,
+            difficulty:1
+          })
+        }else if(difficulty==2){
+          secondsGiven=7
+          this.setState({
+            increment:2,
+            difficulty:2
+          })
+        }else{
+          secondsGiven=5
+          this.setState({
+            increment:1,
+            difficulty:3
+          })
+        }
+        console.log(secondsGiven)
+        this.startCountDown(secondsGiven)
     }
 
     handleChange(event) {
@@ -76,9 +125,13 @@ class Counter extends React.Component {
     tick() {
       var min = Math.floor(this.secondsRemaining / 60);
       var sec = this.secondsRemaining - (min * 60);
+
+
+
       this.setState({
         value: min,
         seconds: sec,
+        timeElapse:this.state.timeElapse + 1
       })
   
       if (sec < 10) {
@@ -98,21 +151,24 @@ class Counter extends React.Component {
 
       if (min === 0 & sec === 0) {
         clearInterval(this.intervalHandle);
-        this.props.history.push("/finalstats");
+        this.props.PlayerLost(this.props.accuracyInfo,this.state.timeElapse)
       }
       
 
       this.secondsRemaining--
       if(this.props.NeedsToIncrement){
-        this.secondsRemaining = this.secondsRemaining +5
+        if(this.state.lowerIncrement){
+           this.calculateIncrement()
+        }
+        this.secondsRemaining = this.secondsRemaining +this.state.increment
         this.props.resetFunction();
       }
     }
   
-    startCountDown() {
+    startCountDown(baseTime) {
       this.intervalHandle = setInterval(this.tick, 1000);
-      let time = this.state.baseTime;
-      this.secondsRemaining = time * 60 ; // REMOVEEE
+      let time = baseTime;
+      this.secondsRemaining = time; 
       this.setState({
         isClicked : true
       })

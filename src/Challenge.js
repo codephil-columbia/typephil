@@ -42,6 +42,11 @@ class Challenge extends Component {
     this.EzSelected= this.EzSelected.bind(this)
     this.MedSelected=this.MedSelected.bind(this)
     this.HardSelected=this.HardSelected.bind(this)
+    
+   
+  }
+  componentDidMount(){
+    this.setState({isMidActive:true})
   }
 
   EzSelected()
@@ -51,7 +56,7 @@ class Challenge extends Component {
       isMidActive:false,
       isHardActive: false
     })
-    console.log("difficulty selected:easy")
+    console.log("difficulty selected:Easy")
   }
 
   MedSelected()
@@ -75,20 +80,17 @@ class Challenge extends Component {
   }
   BeginChallenge(state){
     var difficulty="";
-    if(state.isEzActive == true)
-    {
-      difficulty="easy"
+    if(state.isEzActive === true){
+      difficulty="easy";
     }
-    else if(state.isMidActive == true)
-    {
-      difficulty="medium"
+    else if(state.isMidActive === true){
+      difficulty="medium";
     }
-    else (state.isHardActive == true)
-    {
-      difficulty="hard"
+    else {
+      difficulty="hard";
     }
     /*figure out how to carry over difficulty to challenge*/
-    this.props.history.push("/coco");
+    this.props.commenceGame(difficulty);
 
   }
   render() {

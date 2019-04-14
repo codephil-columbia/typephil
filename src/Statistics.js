@@ -4,7 +4,6 @@ import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
 
 import styled  from 'styled-components'
-import './style/Statistics.css'
 
 
 const NavigationContainer= styled.div`
@@ -168,11 +167,11 @@ export default class Statistics extends Component{
                 	<StatsHeader>GAME STATS</StatsHeader>
                     <StatsRow>
                         <DataContainer>
-                            <StatsData>92</StatsData>
+                            <StatsData>{this.props.data.wordsPerMinute}</StatsData>
                             <StatsText>WPM</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>25%</StatsData>
+                            <StatsData>{this.props.data.accuracy}%</StatsData>
                             <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>

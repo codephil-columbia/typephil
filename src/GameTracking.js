@@ -49,10 +49,10 @@ class GameTracking extends Component {
     const characterMapList = this.createCharacterMapLists(currentContent);
     let styleMapList = this.createStyleMapLists(currentContent);
     styleMapList[0] = styleMapList[0].set(0, 'default-character highlighted');
+    this.buildRows=this.buildRows.bind(this)
+    const rows = this.buildRows(characterMapList, styleMapList, 0);
 
     const currentKey = characterMapList[0].get(0);
-
-    const rows = this.buildRows(characterMapList, styleMapList, 0);
 
     const totalLength = currentContent.length;
 
@@ -64,6 +64,8 @@ class GameTracking extends Component {
       seconds: '00', 
       minutes: '',
       styleMapList,
+      upDifficulty:false,
+      upDifficultyCount:0,
       groupPtr,
       currentKey,
       totalLength,
@@ -85,6 +87,7 @@ class GameTracking extends Component {
       pauses: [],
       time: 0
     };
+
   }
 
   componentWillMount = () => {
@@ -139,12 +142,26 @@ class GameTracking extends Component {
       //highlight the previous character
       this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr, groupPtr);
       rows = this.buildRows(characterMapList, styleMapList, groupPtr);
+
     } else {
       if(groupPtr !== 0) {
         groupPtr -= 1;
         charPtr = styleMapList[groupPtr].size - 1;
         this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr, groupPtr);
         rows = this.buildRows(characterMapList, styleMapList, groupPtr);
+        if(this.state.upDifficultyCount!=0){
+          this.setState({upDifficultyCount:this.state.upDifficultyCount-1 })
+          console.log("line counter " + this.state.upDifficultyCount)
+          if(this.state.upDifficultyCount == 5){
+            this.setState({
+              upDifficulty:true,
+              upDifficultyCount:0
+            })
+            this.props.incrementDifficulty()
+          console.log("new level reached: " + this.props.difficulty)
+          }
+        }
+        this.setState({upDifficultyCount:0})
       }
     }
     //we also want to pop previous result and add it to edited keys group
@@ -184,6 +201,16 @@ class GameTracking extends Component {
 
       if(charPtr + 1 >= currentRowLength) {
         this.setState({addTime:true})
+        this.setState({upDifficultyCount:this.state.upDifficultyCount +1})
+        console.log("line counter " + this.state.upDifficultyCount)
+        if(this.state.upDifficultyCount == 5){
+          this.setState({
+            upDifficulty:true,
+            upDifficultyCount:0
+          })
+          this.props.incrementDifficulty()
+        console.log("new level reached: " + this.props.difficulty)
+        }
         if(groupPtr + 1 < LESSON_LENGTH) {
           newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
@@ -253,6 +280,7 @@ class GameTracking extends Component {
     const newCurrentKey = characterMapList[newGroupPtr].get(newCharPtr);
 
     rows = this.buildRows(characterMapList, newStyleMapList, newGroupPtr);
+    
 
     shouldShowModal = consecutiveIncorrectCount > 4;
 
@@ -280,7 +308,6 @@ class GameTracking extends Component {
     let rows = [];
 
     let groupIterator = [groupPtr];
-    // We always include 2 rows if possible, if not just show one
       groupIterator.forEach((i) => {
       const styleMapListForRow = styleMapList[i];
       const characterMapListForRow = characterMapList[i];
@@ -352,6 +379,8 @@ class GameTracking extends Component {
     let time = this.state.finishTime - this.state.startTime;
     return this.state.pauses.reduce((accum, currVal) => accum - currVal, time) / 1000;
   }
+  
+ 
 
   render() {
     const { isFinished } = this.state;
@@ -364,7 +393,6 @@ class GameTracking extends Component {
     let { currentKey } = this.state;
 
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
-
     return (
 
       <div>
@@ -376,7 +404,7 @@ class GameTracking extends Component {
         <div id="Buffer"/>
         <div className="LevelCounter">
           <div className="CounterName">Level</div>
-          <div className="CounterData">{this.state.Level}</div>
+          <div className="CounterData">{this.props.difficulty}</div>
         </div>
       </div>
       <div className="content-wrapper">
@@ -389,7 +417,7 @@ class GameTracking extends Component {
           <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
         </Modal>
         <div className="timer-container">
-            <Counter NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} Time=".15"/>  {/* should make this depend on difficulty*/}
+            <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
         </div> 
       </div>
       <div className="game-tracker-container">

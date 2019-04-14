@@ -52,6 +52,12 @@ export default class DifficultyTab extends Component {
     this.hardEnabled = this.hardEnabled.bind(this);
  
   }
+  componentDidMount(){
+    this.setState({
+      medChosen:true
+    })
+  }
+  
   disableOtherOptions(){
     this.setState(
       {
