@@ -22,17 +22,58 @@ const INCORRECT = "incorrect";
 
 
 const GameText = styled.div`
-    margin-top:4vh;
-    height: 10vh;	
-    width: 80vw;	
-    border: 5px solid #F5A623;	
-    border-radius: 10px;	
+    margin-top: 4vh;
+    padding-top: 1vh;
+    border: 5px solid #F5A623;  
+    border-radius: 10px;  
     background-color: #FFFFFF;
-    font-size: 3.5rem;
-    display:flex;
-    justify-content:center;
-  
+    width: 800vw;
+    height: 10vh;
+    text-align: center;
+
+    font-weight: 600;
+    font-size: 3.2rem;
+    margin-bottom: 5rem;
+    margin-left: 23%;
+    margin-right: 23%;
+
+    @media only screen and (max-width: 1300px) {
+        font-size: 3.2rem;
+    }
+
+    @media only screen and (max-width: 1150px) {
+        font-size: 2.7rem;
+        padding-top: 2vh;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    @media only screen and (max-width: 900px) {
+        font-size:2.6rem;
+    }
+    
 `
+
+const CounterText = styled.div`
+    height:15vh;
+    width:10vw;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #52B094;
+    font-family: "Racetrack";
+
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+
+`
+
+const CounterNumber = styled.div`
+    font-size: 5rem;
+    margin-top: -.5rem;
+}
+`
+
 
 
 // http://reactcommunity.org/react-modal/accessibility/
@@ -293,7 +334,7 @@ class GameTracking extends Component {
       row = [];
     });
 
-    rows = rows.map(row => <div className="words">{[...row]}</div>);
+    rows = rows.map(row => <GameText>{[...row]}</GameText>);
     return rows;
   };
 
@@ -369,15 +410,15 @@ class GameTracking extends Component {
 
       <div>
       <div className="data-container">
-        <div className="StreakCounter">
+        <CounterText>
             <div className="CounterName">Streak</div>
-          <div className="CounterData">{this.state.consecutiveCorrect}</div>
-        </div>  
+          <CounterNumber>{this.state.consecutiveCorrect}</CounterNumber>
+        </CounterText>  
         <div id="Buffer"/>
-        <div className="LevelCounter">
+        <CounterText>
           <div className="CounterName">Level</div>
-          <div className="CounterData">{this.state.Level}</div>
-        </div>
+          <CounterNumber>{this.state.Level}</CounterNumber>
+        </CounterText>
       </div>
       <div className="content-wrapper">
         <Modal 
@@ -393,7 +434,7 @@ class GameTracking extends Component {
         </div> 
       </div>
       <div className="game-tracker-container">
-          <GameText> {rows} </GameText>
+          {rows}
         </div>
     </div>
     )
