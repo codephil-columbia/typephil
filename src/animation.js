@@ -56,7 +56,7 @@ class Animation extends React.Component {
         // Hi <img height="42" width="42" src="./Meteor2.svg"/>
       // </Box>
       <div className="box">Hello
-      <img height="42" width="42" src="./Meteor2.svg"/>
+      <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
       </div>
     );
   }

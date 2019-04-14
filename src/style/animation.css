@@ -9,8 +9,9 @@ body {
 }
 
 .box {
-  width: 100px;
+  width: 300px;
   height: 100px;
-  background: #ff1c68;
+  
   transform-origin: 50% 50%;
+
 }
