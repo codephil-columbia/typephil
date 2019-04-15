@@ -13,6 +13,12 @@
       url(../fonts/Racetrack/Racetrack_Stencil.otf);
 }
 
+@font-face {
+    font-family: 'SpaceRaceFont';
+    font-style: normal;
+    src:url(../fonts/breecbo/BREECBO_.TTF);
+}
+
 .MetaWrapper{
     flex-direction: column;
     
