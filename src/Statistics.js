@@ -175,7 +175,7 @@ export default class Statistics extends Component{
                             <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>3</StatsData>
+                            <StatsData>{this.props.data.playerDifficulty}</StatsData>
                             <StatsText>Level</StatsText>
                         </DataContainer>
                     </StatsRow>
