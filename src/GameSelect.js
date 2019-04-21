@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Header from './components/header'
-import Button from 'react-button-component'
-import styled from 'styled-components'
+import Header from './components/header';
+import Button from 'react-button-component';
+import styled from 'styled-components';
+import './style/font.css';
 
 const LeftGameSelectionPanel = styled.div`
 	float: left;
@@ -25,26 +26,27 @@ const RightGameSelectionPanel = styled.div`
 `
 
 const SpaceRaceSelection = styled.div`
-	font-size: 3rem;
+	font-family: "SpaceRaceFont";
+	font-size: 5rem;
 	height: 33%;
 	text-align: center;
 	padding-top: 10vh;
 
-	@font-face {
-	    font-family: 'SpaceRaceFont';
-	    font-style: normal;
-	    src:url(../fonts/breecbo/BREECBO_.TTF);
+	@media only screen and (max-width: 1150px) {
+		font-size: 4rem;
 	}
-	font-family: "SpaceRaceFont";
-
 `
 
 const BoatRaceSelection = styled.div`
-	font-family: "Racetrack";
-	font-size: 3rem;
+	font-family: "ReadySetTypeFont";
+	font-size: 5rem;
 	height: 33%;
 	text-align: center;
 	padding-top: 12vh;
+
+	@media only screen and (max-width: 924px) {
+		padding-top: 5vh;
+	}
 `
 
 const ChallengeSelection = styled.div`
