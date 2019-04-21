@@ -11,6 +11,7 @@ import Profile from './ProfilePage';
 import Learn from './Learn';
 import Tutorial from './Tutorial';                               
 import HomePage from './HomePage';
+import GameSelect from './GameSelect'
 import FourOhFour from './components/FourOhFour';
 import Challenge from './Challenge'
 import KeyTracker from './KeyTracking'
@@ -65,6 +66,7 @@ class App extends Component {
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
         <Route path="/coco" component={KeyTracker}/>
+        <Route path="/selectGames" component={GameSelect}/>
         <Route component={FourOhFour} />
       </Switch>
     )
