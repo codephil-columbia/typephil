@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { bindActionCreators } from 'redux';
 import Header from './components/header';
 import Button from 'react-button-component';
 import styled from 'styled-components';
@@ -31,6 +34,7 @@ const SpaceRaceSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 10vh;
+	color: ${props => props.isActive ? '#326BAE' :'#4A4A4A' };
 
 	@media only screen and (max-width: 1150px) {
 		font-size: 4rem;
@@ -43,6 +47,7 @@ const BoatRaceSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 12vh;
+	color: ${props => props.isActive ? '#039894' :'#4A4A4A' };
 
 	@media only screen and (max-width: 924px) {
 		padding-top: 5vh;
@@ -55,6 +60,7 @@ const ChallengeSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 11vh;
+	color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
 `
 
 const GameSelectionLine = styled.div`
@@ -98,8 +104,84 @@ export default class GameSelect extends Component {
   	constructor(props) {
 	    super(props);
 	    this.state = { 
-	      headerLinks: ["Games", "Learn", "Home"]
+	      headerLinks: ["Games", "Learn", "Home"],
+	      spaceraceEnabled:false,
+	      boatraceEnabled:false,
+	      challengeEnabled:false
 	    }
+		this.spaceraceSelected = this.spaceraceSelected.bind(this);
+		this.boatraceSelected = this.boatraceSelected.bind(this);
+		this.challengeSelected = this.challengeSelected.bind(this);
+    }
+
+    componentDidMount(){
+    	this.setState({
+	      spaceraceEnabled:true,
+	      boatraceEnabled:false,
+	      challengeEnabled:false,
+	      gameDescription: "\
+			Type the words on the asteroids as they appear \
+			to eliminate them before they make impact on Earth. \
+			Each time an asteroid makes it through, you will lose a life. \
+			You start with three lives. You can gain a life each time you \
+			make it to the next level. As the levels increase, the number of \
+			asteroids also increase in number.\
+	      ",
+	      gameScreenshot: "/images/games/spacerace_placeholder.png"
+    	})
+    	console.log("spacerace selected on default")
+    }
+
+    spaceraceSelected()
+    {
+    	this.setState({
+	      spaceraceEnabled:true,
+	      boatraceEnabled:false,
+	      challengeEnabled:false,
+	      gameDescription: "\
+			Type the words on the asteroids as they appear \
+			to eliminate them before they make impact on Earth. \
+			Each time an asteroid makes it through, you will lose a life. \
+			You start with three lives. You can gain a life each time you \
+			make it to the next level. As the levels increase, the number of \
+			asteroids also increase in number.\
+	      ",
+	      gameScreenshot: "/images/games/spacerace_placeholder.png"
+    	})
+    	console.log("spacerace selected")
+    }
+
+    boatraceSelected()
+    {
+    	this.setState({
+	      spaceraceEnabled:false,
+	      boatraceEnabled:true,
+	      challengeEnabled:false,
+	      gameDescription: "\
+			Type the long passages as quickly and accurately as \
+			you can. The faster you type, the faster your boat \
+			will travel. Try to beat your opponents and your own \
+			best WPM as you race towards the finish line!\
+	      ",
+	      gameScreenshot: "/images/games/boatrace_placeholder.png"
+    	})
+    	console.log("boatrace selected")
+    }
+
+    challengeSelected()
+    {
+    	this.setState({
+	      spaceraceEnabled:false,
+	      boatraceEnabled:false,
+	      challengeEnabled:true,
+	      gameDescription: "\
+			Type as many phrases as possible before time runs out. \
+			Every time you correctly type a phrase, more time will be \
+			added to your counter and your streak will increase.\
+	      ",
+	      gameScreenshot: "/images/games/challenge_placeholder.png"
+    	})
+    	console.log("challenge selected")
     }
 
     render() {
@@ -112,19 +194,22 @@ export default class GameSelect extends Component {
             	<Header links={headerLinks}/>
 
             	<LeftGameSelectionPanel>
-            		<SpaceRaceSelection>
+            		<SpaceRaceSelection onClick={this.spaceraceSelected} 
+            		isActive={this.state.spaceraceEnabled}>
             			Space Race
             		</SpaceRaceSelection>
 
             		<GameSelectionLine/>
 
-            		<BoatRaceSelection>
+            		<BoatRaceSelection onClick={this.boatraceSelected} 
+            		isActive={this.state.boatraceEnabled}>
             			Ready, Set, Type!
             		</BoatRaceSelection>
 
             		<GameSelectionLine/>
 
-            		<ChallengeSelection>
+            		<ChallengeSelection onClick={this.challengeSelected} 
+            		isActive={this.state.challengeEnabled}>
             			Challenge
             		</ChallengeSelection>
             	</LeftGameSelectionPanel>
@@ -136,14 +221,12 @@ export default class GameSelect extends Component {
             		</InstructionsHeader>
 
             		<InstructionsDescription>
-						Type the long passages as quickly and accurately as 
-						you can. The faster you type, the faster your boat 
-						will travel. Try to beat your opponents and your own 
-						best WPM as you race towards the finish line!
+            			{this.state.gameDescription}
+
             		</InstructionsDescription>
 
             		<GameScreenshot>
-            			<img src="/images/games/game_placeholder.png"/>
+            			<img src={this.state.gameScreenshot}/>
             		</GameScreenshot>
 
 		            <GameSelectionButton>
