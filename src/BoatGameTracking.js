@@ -33,6 +33,12 @@ const CounterNumber = styled.div`
 
 `
 
+const BoatContainer= styled.div`
+  display:flex;
+  flex-direction:column;
+
+`
+
 const Boat = styled.div`
   margin-left:${props => props.displacement}vw;
 `
@@ -53,6 +59,7 @@ class BoatGameTracking extends Component {
     let styleMapList = this.createStyleMapLists(currentContent);
     styleMapList[0] = styleMapList[0].set(0, 'default-character highlighted');
     this.buildRows=this.buildRows.bind(this)
+    this.endRace=this.endRace.bind(this)
     const rows = this.buildRows(characterMapList, styleMapList, 0);
 
     const currentKey = characterMapList[0].get(0);
@@ -61,6 +68,7 @@ class BoatGameTracking extends Component {
 
     this.resetIncrement=this.resetIncrement.bind(this)
     this.calculateDisplacement=this.calculateDisplacement.bind(this)
+    this.intervalHandler;
     this.state = {
       rows,
       characterMapList,
@@ -76,6 +84,10 @@ class BoatGameTracking extends Component {
       totalLength,
       charPtr: 0,
       numKeysPressed:0,
+      boat1Margin:0,
+      boat1Increment:0,
+      boat3Margin:0,
+      boat3Increment:0,
       correct: [],
       incorrect: [],
       edited: [],
@@ -90,6 +102,7 @@ class BoatGameTracking extends Component {
       isFinished: false,
       startTime: 0,
       finishTime: 0,
+      stopTime:false,
       pauses: [],
       time: 0
     };
@@ -97,8 +110,66 @@ class BoatGameTracking extends Component {
   }
 
   componentWillMount = () => {
+    this.determineSpeed();
     this.attachEventListener();
+    this.startRace();
   };
+
+  incrementMargin = () => {
+      this.setState({
+        boat1Margin:(this.state.boat1Margin + (this.state.boat1Increment)),
+        boat3Margin:(this.state.boat3Margin + (this.state.boat3Increment))
+      })
+      if(this.state.boat1Margin >= 100 || this.state.boat3Margin >= 100){
+        clearInterval(this.intervalHandler)
+        this.endRace()
+        
+      }
+
+    
+
+  }
+
+  startRace =() =>{
+    this.intervalHandler=setInterval(this.incrementMargin,1000);
+  }
+
+  determineSpeed = () =>{
+    var difficulty=this.props.baseDifficulty
+    var min=0
+    var max=0
+    var wpm1=0
+    var wpm2=0
+    if(difficulty == 1){
+      min=10
+      max=30
+    }
+    else if(difficulty ==2) {
+      min=30
+      max=60
+    }
+    else{
+      min=70
+      max=110
+
+    }
+    wpm1= min + Math.random() *(max-min)
+    wpm2= min + Math.random() *(max-min)
+
+    var time1= wpm1 *(1/this.state.totalLength) * (60)
+    var time2= wpm2 *(1/this.state.totalLength) * (60)
+    var increment1= 100/time1
+    var increment3= 100/time2
+
+    this.setState({
+      boat1Increment:increment1,
+      boat3Increment:increment3
+    })
+    console.log(wpm1)
+    console.log(wpm2)
+    console.log(difficulty)
+  };
+
   createCharacterMapLists = (chars) => {
     chars = this.breakInto30CharacterLists(chars);
     let characterMaps = [];
@@ -138,6 +209,10 @@ class BoatGameTracking extends Component {
       this.calculateDisplacement();
     }
   };
+
+  endRace= () =>{
+     this.setState({stopTime:true})
+  }
 
   userDidPressBackspace = () => {
     let { charPtr, rows, correct, incorrect, edited, groupPtr, characterMapList, consecutiveIncorrectCount } = this.state;
@@ -224,13 +299,8 @@ class BoatGameTracking extends Component {
           newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
         } else {
-          this.props.isFinished();
+          this.endRace();
           this.setState({ isFinished: true,  finishTime: Date.now() });
-          this.props.updateResults({
-            time: this.calculateTutorialTime(),
-            length: this.state.totalLength,
-            incorrect: this.state.incorrect.length
-          });
           newGroupPtr = groupPtr;
         }
       } else {
@@ -315,7 +385,6 @@ class BoatGameTracking extends Component {
     if(margin >= prevDisplacement){
       this.setState({displacement:(margin)})
     }
-    
   };
 
   /*
@@ -442,15 +511,25 @@ class BoatGameTracking extends Component {
           <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
         </Modal>
         <div className="timer-container">
-            <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
+            <Counter accuracyInfo={this.state} timerShortStop={this.state.stopTime} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
         </div> 
       </div>
       <div>
           {rows}
       </div>
-      <Boat displacement={this.state.displacement}>
-          <p>*insert picture here*</p>
-      </Boat>
+      <div>
+      <BoatContainer>
+        <Boat displacement={this.state.boat1Margin}>
+            <p>*challenger boat 1*</p>
+        </Boat>
+        <Boat displacement={this.state.displacement}>
+            <p>*insert picture here*</p>
+        </Boat>
+        <Boat displacement={this.state.boat3Margin}>
+            <p>*challenger boat 2*</p>
+        </Boat>
+      </BoatContainer>
+      </div>
     </div>
     )
   }

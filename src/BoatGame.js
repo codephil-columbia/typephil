@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ReactCountdownClock from 'react-countdown-clock'
 import Header from './components/header'
 import Tutorial from './BoatGameTracking'
-import Stats from './Statistics'
+import Stats from './BoatStats'
 import MainPage from './BoatLevelSelect'
 import { Connect, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -41,6 +41,7 @@ class BoatGame extends Component{
         this.exitMainPage=this.exitMainPage.bind(this)
         this.incrementDifficulty=this.incrementDifficulty.bind(this)
         this.totalTime=this.totalTime.bind(this)
+        this.showStatspage=this.showStatspage.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -50,6 +51,7 @@ class BoatGame extends Component{
             accuracy:0,
             gameStart:false,
             playerDifficulty:1,
+            baseDifficulty:1,
             showMainPage:true,
             headerLinks: ["Games", "Learn", "Home"],
         };
@@ -71,7 +73,8 @@ class BoatGame extends Component{
         this.setState({
             showMainPage:false,
             gameStart:true,
-            playerDifficulty:diffNum
+            playerDifficulty:diffNum,
+            baseDifficulty:diffNum
         })
     }
 
@@ -115,10 +118,19 @@ class BoatGame extends Component{
             wordsPerMinute:wpm
         })
     }
+
+    showStatspage= () => {
+        this.setState({
+            playerHasLost:true,
+            isPlayerReady:false,
+            gameStart:false,
+        })
+
+    }
     
     render(){
 
-    var content=`Be faithful to that which exists within yourself.\nTime is money.\nJust go for it.\nLive the moment.\nChoose to shine.\nYour Time is Now.\nNo pain, no gain.\nI can and I will.\nLet your love out.`
+    var content=`Be faithful to that which exists within yourself.\nTime is money.\nJust go for it.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.\nLive the moment.`
 
     var contentArray=content.split("\n")
     var cleanContent= ""
@@ -154,7 +166,7 @@ class BoatGame extends Component{
             return(
             <div className="">
                 <Header links={headerLinks}></Header>
-                <Tutorial playerHasLost={this.endGames} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={content}/>
+                <Tutorial playerHasLost={this.endGames} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
             </div>
             )
         }else if(this.state.playerHasLost){

@@ -100,13 +100,20 @@ class Counter extends React.Component {
       var sec = this.secondsRemaining - (min * 60);
 
 
-
       this.setState({
         value: min,
         seconds: sec,
         timeElapse:this.state.timeElapse + 1
       })
       
+
+
+      if(this.props.timerShortStop){
+        clearInterval(this.intervalHandle)
+        this.props.PlayerLost(this.props.accuracyInfo,this.state.timeElapse)
+      }
+
+
       console.log(this.state.timeElapse)
   
       if (sec < 10) {
