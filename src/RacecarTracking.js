@@ -22,6 +22,8 @@ class RacecarTracking extends Component {
     constructor(props) {
         super(props);
         this.doesWordExist=this.doesWordExist.bind(this)
+       // this.handleSubmit=this.handleSubmit.bind(this)
+
 
         this.state = {
             wordList:[], 
@@ -50,7 +52,10 @@ class RacecarTracking extends Component {
         document.addEventListener("keydown", this.registerUserKeyPress);
       }
 
-
+    //handleSubmit(event) {
+    //    event.
+        
+   // }
     //need this to check enter and backspace 
     registerUserKeyPress = ({ key: keyPressed }) => {
     // Starts timer once user presses first key
@@ -61,7 +66,9 @@ class RacecarTracking extends Component {
     //console.log(keyPressed) 
     console.log(this.state.currentWord)
     if (keyPressed == BACKSPACE){
-        this.state.currentWord= this.state.currentWord.slice(0, -1)
+
+        this.setState({currentWord:this.state.currentWord.slice(0, -1)})
+        //this.state.currentWord= this.state.currentWord.slice(0, -1)
     }
 
     else if (keyPressed == ENTER){
@@ -69,14 +76,17 @@ class RacecarTracking extends Component {
 
         this.doesWordExist(this.state.currentWord)
         //for(let i = 0; i < this.state.currentWord.length; i++){
-
+           // this.state.currentWord= this.state.currentWord.slice(0, -1)
             
-       // }
+       //}
+       var empty = ''
+       this.setState({currentWord:''})
+
     }
     else {
-        this.state.currentWord= this.state.currentWord + keyPressed
+        this.setState({currentWord:this.state.currentWord + keyPressed})
     }
-    console.log(this.state.currentWord)
+    //console.log(this.state.currentWord)
 
     // if(keyPressed === BACKSPACE) {
     //   this.userDidPressBackspace();
@@ -91,8 +101,11 @@ class RacecarTracking extends Component {
     render() {
         return (
             <div>
-                test {this.doesWordExist('hi')}
-                <textarea rows='4' cols = '50'></textarea> 
+                <form onSubmit={this.handleSubmit}>
+                 {this.doesWordExist('hi')}
+                <div><p>{this.state.currentWord}</p></div>
+                
+                </form>
             </div>
         )
     }
@@ -104,3 +117,4 @@ export default (RacecarTracking);
 //listen 
 //clear text box
 //call function wordExists 
+//<textarea rows='1' cols = '50'></textarea> <textarea rows='1' cols = '50'></textarea> 
