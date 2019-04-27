@@ -16,8 +16,9 @@ import Challenge from './Challenge'
 import CocoType from './CocoType';
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
-import Spacerace from './Spacerace'
+import SpaceraceGame from './SpaceraceGame'
 import Animation from './animation'
+import RCTracking from './RacecarTracking'
 
 
 class App extends Component {
@@ -68,8 +69,9 @@ class App extends Component {
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
         <Route path="/challenge" component={Challenge}/>
-        <Route path="/spacerace" component={Spacerace}/>
+        <Route path="/spacerace" component={SpaceraceGame}/>
         <Route path="/animation" component={Animation}/>
+        <Route path="/RCTracking" component={RCTracking}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/finalstats" component={Stats}/>
         <Route component={FourOhFour} />
