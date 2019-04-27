@@ -21,6 +21,46 @@ const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
 
+const BoatraceGameBackground = styled.div`
+    background-image: url(/images/games/waves.svg);
+    // background-position: center bottom -25vh;
+    background-position: center bottom -25rem;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    height: 100vh;
+
+    @media only screen and (max-width: 1900px) {
+      background-position: center bottom -20vh;
+    }
+    @media only screen and (max-width: 1800px) {
+      background-position: center bottom -15vh;
+    }
+    @media only screen and (max-width: 1700px) {
+      background-position: center bottom -10vh;
+    }
+    @media only screen and (max-width: 1600px) {
+      background-position: center bottom -5vh;
+    }
+    @media only screen and (max-width: 1500px) {
+      background-position: center bottom -1vh;
+    }
+    @media only screen and (max-width: 1400px) {
+      background-position: center bottom 5vh;
+    }
+    @media only screen and (max-width: 1300px) {
+      background-position: center bottom 10vh;
+    }
+    @media only screen and (max-width: 1150px) {
+      background-position: center bottom 15vh;
+    }
+    @media only screen and (max-width: 1000px) {
+      background-position: center bottom 20vh;
+    }
+    @media only screen and (max-width: 900px) {
+      background-position: center bottom 25vh;
+    }
+`
+
 const GameText = styled.div`
     
 `
@@ -33,14 +73,44 @@ const CounterNumber = styled.div`
 
 `
 
-const BoatContainer= styled.div`
+const BoatContainer = styled.div`
   display:flex;
   flex-direction:column;
-
+  position: absolute;
+  bottom: -1vh;
 `
 
 const Boat = styled.div`
   margin-left:${props => props.displacement}vw;
+  margin-bottom: 10vh;
+  
+`
+
+const BoatImage = styled.div`
+  content: url(/images/games/Boat.svg);
+  width: 15vw;
+
+  @media only screen and (max-width: 1400px) {
+    width: 20vw;
+  }
+  @media only screen and (max-width: 1150px) {
+    width: 25vw;
+  }
+  @media only screen and (max-width: 1000px) {
+    width: 30vw;
+  }
+`
+
+const BoatText = styled.div`
+  text-align: center;
+  z-score: 10;
+  position: relative;
+  margin-bottom: -4vh;
+  font-weight: bold;
+`
+
+const BoatParagraphText = styled.div`
+  
 `
 
 
@@ -156,8 +226,8 @@ class BoatGameTracking extends Component {
     wpm1= min + Math.random() *(max-min)
     wpm2= min + Math.random() *(max-min)
 
-    var time1= wpm1 *(1/this.state.totalLength) * (60)
-    var time2= wpm2 *(1/this.state.totalLength) * (60)
+    var time1= wpm1 *(1/this.state.totalLength) * (60) * 101//  temp time extender
+    var time2= wpm2 *(1/this.state.totalLength) * (60) * 101//  temp time extender
     var increment1= 100/time1
     var increment3= 100/time2
 
@@ -489,48 +559,40 @@ class BoatGameTracking extends Component {
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
     return (
 
-      <div>
-      <div className="data-container">
-        <CounterText>
-            <div className="CounterName">Streak</div>
-          <CounterNumber>{this.state.consecutiveCorrect}</CounterNumber>
-        </CounterText>  
-        <div id="Buffer"/>
-        <CounterText>
-          <div className="CounterName">Level</div>
-          <CounterNumber>{this.state.Level}</CounterNumber>
-        </CounterText>
-      </div>
-      <div className="content-wrapper">
-        <Modal 
-          isOpen={this.state.shouldShowModal}
-          onAfterOpen={this.onModalOpen}
-          className="tutorial-modal"
-        >
-          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
-          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
-        </Modal>
-        <div className="timer-container">
-            <Counter accuracyInfo={this.state} timerShortStop={this.state.stopTime} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
-        </div> 
-      </div>
-      <div>
-          {rows}
-      </div>
-      <div>
-      <BoatContainer>
-        <Boat displacement={this.state.boat1Margin}>
-            <p>*challenger boat 1*</p>
-        </Boat>
-        <Boat displacement={this.state.displacement}>
-            <p>*insert picture here*</p>
-        </Boat>
-        <Boat displacement={this.state.boat3Margin}>
-            <p>*challenger boat 2*</p>
-        </Boat>
-      </BoatContainer>
-      </div>
-    </div>
+      <BoatraceGameBackground>
+        <div className="content-wrapper">
+          <Modal 
+            isOpen={this.state.shouldShowModal}
+            onAfterOpen={this.onModalOpen}
+            className="tutorial-modal"
+          >
+            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
+            <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
+          </Modal>
+          <div className="timer-container">
+              <Counter accuracyInfo={this.state} timerShortStop={this.state.stopTime} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
+          </div> 
+        </div>
+        <BoatParagraphText>
+            {rows}
+        </BoatParagraphText>
+
+        <BoatContainer>
+          <Boat displacement={this.state.boat1Margin}>
+            <BoatText>Challenger 1</BoatText>
+            <BoatImage></BoatImage>
+          </Boat>
+          <Boat displacement={this.state.displacement}>
+            <BoatText>You</BoatText>
+            <BoatImage></BoatImage>
+          </Boat>
+          <Boat displacement={this.state.boat3Margin}>
+            <BoatText>Challenger 2</BoatText>
+            <BoatImage></BoatImage>
+          </Boat>
+        </BoatContainer>
+
+      </BoatraceGameBackground>
     )
   }
 }

@@ -14,7 +14,6 @@ const NavigationContainer= styled.div`
 
 `
 
-
 const CustomButton = Button.extend`
     @font-face {
         font-family: 'Arcade';

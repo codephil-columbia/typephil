@@ -5,6 +5,8 @@ import Button from 'react-button-component'
 import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
+import styled from 'styled-components'
+import './style/font.css'
 
 import { 
   fetchAllChapterNames, 
@@ -26,6 +28,118 @@ const CustomButton = Button.extend`
 
 `
 
+const BoatracePlayButtonDiv = styled.div`
+    p {
+      text-align: center;
+      height: 44px; 
+      width: 88px;
+      color: #199893;   
+      font-size: 30px;  
+      font-weight: 600; 
+      letter-spacing: 4px;  
+      line-height: 41px;
+      font-family: "Avenir";
+      margin-top:1vh;
+      font-weight: bold;
+    }
+    display: flex;
+    width:100vw;
+    justify-content: center;
+    padding-top: 3rem;
+`
+
+const BoatraceCustomButton = Button.extend`
+    margin-top:4vh;
+    padding-bottom: 1vh;
+    height: 82px; 
+    width: 270px; 
+    border: 5px solid #199893;  
+    border-radius: 10px;  
+    background-color: #FFFFFF;
+    font-size:30px;
+    // add image instead
+`
+
+const BoatraceGameTitleContainer = styled.div`
+    width:100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
+
+const BoatraceGameDescriptionTitle = styled.div`
+    display: flex;
+    justify-content: center;
+    font-family: 'ReadySetTypeFont';
+    color: #199893;
+    font-size: 90px;  
+    letter-spacing: 4.88px; 
+    line-height: 129px;
+    margin-top:5vh;
+    @media only screen and (max-width: 900px) {
+      font-size: 9vw;
+    }
+`
+
+const BoatraceGameDescription = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top:5vh;
+    padding-bottom:5vh;
+    color: #4A4A4A;   
+    font-size: 23px;
+    @media only screen and (max-width: 900px) {
+      font-size: 2.5vw;
+    }
+`
+
+const BoatraceDifficultySelection = styled.div`
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+
+const BoatraceDifficultyText = styled.div`
+    width:100vw;
+    height:auto;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 3vh;
+    color: #4A4A4A; 
+    font-size: 28px;
+    font-weight: bold;
+`
+
+const BoatraceGameSelectionBackground = styled.div`
+    background-image: url(/images/games/waves.svg);
+    background-position: center bottom -60vh;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    height: 100vh;
+    @media only screen and (max-width: 1500px) {
+      background-position: center bottom -55vh;
+    }
+    @media only screen and (max-width: 1400px) {
+      background-position: center bottom -50vh;
+    }
+    @media only screen and (max-width: 1300px) {
+      background-position: center bottom -40vh;
+    }
+    @media only screen and (max-width: 1150px) {
+      background-position: center bottom -35vh;
+    }
+    @media only screen and (max-width: 1000px) {
+      background-position: center bottom -30vh;
+    }
+    @media only screen and (max-width: 900px) {
+      background-position: center bottom -20vh;
+    }
+`
 
 class BoatLevelSelect extends Component {
   constructor(props) {
@@ -105,32 +219,31 @@ class BoatLevelSelect extends Component {
     } = this.state;
 
       return (
-        <div className="challenge-game-selection-background">
+        <BoatraceGameSelectionBackground>
           <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
-          <div className="game-title-container">
-            <div className="game-description-title">
+          <BoatraceGameTitleContainer>
+            <BoatraceGameDescriptionTitle>
                 <p>Ready, Set, Type!</p>
-            </div>
-            <div className="game-description">
-                <p>Type as many phrases as possible before time runs out.</p>
-                <p>Everytime you correctly type a phrase, more time will be added to</p>
-                <p>your counter and your streak will increase.</p>
-            </div>
+            </BoatraceGameDescriptionTitle>
+            <BoatraceGameDescription>
+                <p>Type the long passages as quickly and accurately as you can. The faster</p>
+                <p>you type, the faster your boat will travel. Try to beat your opponents and</p>
+                <p>your own best WPM as you race towards the finish line!</p>
+            </BoatraceGameDescription>
 
-          </div>
-          <div className="difficulty-selection">
-            <div className="difficulty-text">
+          </BoatraceGameTitleContainer>
+          <BoatraceDifficultySelection>
+            <BoatraceDifficultyText>
                 <p> SELECT DIFFICULTY </p>
-            </div>
+            </BoatraceDifficultyText>
             <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected}/>            
-          </div>
-          <div className="play-button">
-            <CustomButton onClick={() => this.BeginChallenge(this.state)}>
+          </BoatraceDifficultySelection>
+          <BoatracePlayButtonDiv>
+            <BoatraceCustomButton onClick={() => this.BeginChallenge(this.state)}>
               <p>PLAY</p>
-            </CustomButton>
-          </div>
-
-      </div>
+            </BoatraceCustomButton>
+          </BoatracePlayButtonDiv>
+      </BoatraceGameSelectionBackground>
     )
   }
 }
