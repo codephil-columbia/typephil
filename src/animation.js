@@ -4,9 +4,9 @@ import posed from 'react-pose';
 import SplitText from 'react-pose-text';
 import { tween } from 'popmotion';
 import { styler } from 'popmotion';
+
+
 import './style/animation.css';
-
-
 
 const charPoses = {
   exit: { opacity: 0, y: 20 },
@@ -28,6 +28,7 @@ function App() {
 }
 
 class Animation extends React.Component {
+
   state = { isMoving: true };
 
   componentDidMount() {
@@ -82,15 +83,15 @@ class Animation extends React.Component {
         // Hi <img height="42" width="42" src="./Meteor2.svg"/>
       // </Box>
       <div>
-      <div className="box">Hello
+      <div className="box"><p style={{zIndex:2}}>Hello1</p>
       <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
       </div>
 
-      <div className="box2">Hel
+      <div className="box2"><p style={{zIndex:2}}>Hello2</p>
       <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
       </div>
 
-      <div className="box3">He
+      <div className="box3"><p style={{zIndex:2}}>Hello3</p>
       <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
       </div>
       </div>
