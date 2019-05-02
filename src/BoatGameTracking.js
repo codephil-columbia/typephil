@@ -212,7 +212,7 @@ class BoatGameTracking extends Component {
     var wpm2=0
     if(difficulty == 1){
       min=10
-      max=30
+      max=25
     }
     else if(difficulty ==2) {
       min=30
@@ -220,14 +220,15 @@ class BoatGameTracking extends Component {
     }
     else{
       min=70
-      max=110
+      max=95
 
     }
-    wpm1= min + Math.random() *(max-min)
-    wpm2= min + Math.random() *(max-min)
+    wpm1 = min + Math.random() * (max-min)
+    wpm2 = min + Math.random() * (max-min)
 
-    var time1= wpm1 *(1/this.state.totalLength) * (60) * 101//  temp time extender
-    var time2= wpm2 *(1/this.state.totalLength) * (60) * 101//  temp time extender
+    var time1 = (this.state.totalLength / 5) * (60/wpm1)
+    var time2 = (this.state.totalLength / 5) * (60/wpm2)
+
     var increment1= 100/time1
     var increment3= 100/time2
 
