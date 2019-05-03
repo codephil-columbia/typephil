@@ -124,7 +124,7 @@ class Challenge extends Component {
             <div className="difficulty-text">
                 <p> SELECT DIFFICULTY </p>
             </div>
-            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected}/>            
+            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected} gameSource="Challenge"/>            
           </div>
           <div className="play-button">
             <CustomButton onClick={() => this.BeginChallenge(this.state)}>
