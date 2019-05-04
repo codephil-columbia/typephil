@@ -78,9 +78,11 @@ export default class DifficultyTab extends Component {
       this.imagePath = "/images/games/Yellow_Arrow.svg"
       this.selectedColor = '#F5A623'
     } else if (gameSource == "BoatRace") {
-      // add 
+      this.imagePath = "/images/games/Teal_Arrow.svg"
+      this.selectedColor = '#199893'
     } else if (gameSource == "SpaceRace") {
-      // add
+      this.imagePath = "/images/games/Blue_Arrow.svg"
+      this.selectedColor = '#326BAE'
     }
   }
 
