@@ -236,7 +236,7 @@ class BoatLevelSelect extends Component {
             <BoatraceDifficultyText>
                 <p> SELECT DIFFICULTY </p>
             </BoatraceDifficultyText>
-            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected}/>            
+            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected} gameSource="BoatRace"/>            
           </BoatraceDifficultySelection>
           <BoatracePlayButtonDiv>
             <BoatraceCustomButton onClick={() => this.BeginChallenge(this.state)}>
