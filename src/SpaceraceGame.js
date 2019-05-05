@@ -51,19 +51,24 @@ class SpaceraceGame extends React.Component {
     super(props);
     this.doesWordExist=this.doesWordExist.bind(this)
     this.nextWord=this.nextWord.bind(this)
+    this.isCorrect=this.isCorrect.bind(this)
+    this.nextWordUpdate = this.nextWordUpdate.bind(this)
 
 
     this.state = {
         wordList:["hi", "hello", "yay", "wow", "word", "mehhh", "wowword"], 
         wordMap:{}, 
-        currentWord: ""
+        currentWord: "", 
+        isCorrect: "./images/games/Meteor.svg", 
+        nextWordUpdate: false 
     }
     this.setState({
       wordList: ["hi", "hello", "yay", "wow", "word", "mehhh", "wowword"], 
-      wordMap: this.state.wordList.map((word) => word)
+      currentWordMap: this.state.wordList.map((word) => word)
     })
 
    this.attachEventListener();
+
   }
 
   state = { isMoving: true };
@@ -128,6 +133,23 @@ class SpaceraceGame extends React.Component {
 
   }
 
+  isCorrect = () => {
+    //if (this.state.isCorrect == false)
+     // return "./images/games/Meteor.svg"
+   // return "./images/games/Meteor_Crash.svg"
+
+
+  }
+  nextWordUpdate = () => {
+
+    return this.state.nextWordUpdate; 
+    //if (this.state.isCorrect == false)
+     // return "./images/games/Meteor.svg"
+   // return "./images/games/Meteor_Crash.svg"
+
+
+  }
+
   registerUserKeyPress = ({ key: keyPressed }) => {
     // Starts timer once user presses first key
     // if(this.state.isFirstCharacter) {
@@ -145,7 +167,12 @@ class SpaceraceGame extends React.Component {
     else if (keyPressed == ENTER){
         //this.state.currentWord= this.state.currentWord + ' '
 
-        this.doesWordExist(this.state.currentWord)
+        if (this.doesWordExist(this.state.currentWord)){
+          this.setState({isCorrect:"./images/games/Meteor_Crash.svg"}); 
+        }
+        this.setState({isCorrect:"./images/games/Meteor.svg"}); 
+        this.setState({nextWordUpdate: true});
+        this.setState({nextWordUpdate: false});
         //for(let i = 0; i < this.state.currentWord.length; i++){
            // this.state.currentWord= this.state.currentWord.slice(0, -1)
             
@@ -167,8 +194,13 @@ class SpaceraceGame extends React.Component {
     // }
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+      console.log(this.nextWordUpdate())
+      return this.nextWordUpdate(); 
+    }
+
   render() {
-    const { isMoving } = this.state;
+    //const { isMoving } = this.state;
     return (
       // <Box className="box" pose={isMoving ? 'left' : 'right'}> 
         // Hi <img height="42" width="42" src="./Meteor2.svg"/>
@@ -177,7 +209,7 @@ class SpaceraceGame extends React.Component {
       <div><p>{this.state.currentWord}</p></div>
 
       <div className="box"><p style={{zIndex:2}}>{this.nextWord()}</p>
-      <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
+      <img height="auto" width="100%" src={this.state.isCorrect}/>
       </div>
 
       <div className="box2"><p style={{zIndex:2}}>{this.nextWord()}</p>
