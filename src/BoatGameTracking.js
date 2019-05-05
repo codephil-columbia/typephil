@@ -76,13 +76,14 @@ const CounterNumber = styled.div`
 const BoatContainer = styled.div`
   display:flex;
   flex-direction:column;
-  position: absolute;
   bottom: -1vh;
 `
 
 const Boat = styled.div`
   margin-left:${props => props.displacement}vw;
   margin-bottom: 10vh;
+  height:auto;
+  width:auto;
   
 `
 
@@ -102,9 +103,16 @@ const BoatImage = styled.div`
 `
 
 const BoatText = styled.div`
-  text-align: center;
   z-score: 10;
   position: relative;
+  padding-left:5vw;
+  margin-bottom: -4vh;
+  font-weight: bold;
+`
+const PlayerText=styled.div`
+  z-score: 10;
+  position: relative;
+  padding-left:6.8vw;
   margin-bottom: -4vh;
   font-weight: bold;
 `
@@ -584,7 +592,7 @@ class BoatGameTracking extends Component {
             <BoatImage></BoatImage>
           </Boat>
           <Boat displacement={this.state.displacement}>
-            <BoatText>You</BoatText>
+            <PlayerText>You</PlayerText>
             <BoatImage></BoatImage>
           </Boat>
           <Boat displacement={this.state.boat3Margin}>
