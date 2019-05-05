@@ -108,7 +108,7 @@ class Counter extends React.Component {
         }else{
           secondsGiven=7
           this.setState({
-            increment:3.5,
+            increment:3,
             difficulty:3
           })
         }
