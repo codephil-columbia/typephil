@@ -447,7 +447,7 @@ class GameTracking extends Component {
           <CounterNumber>{this.state.Level}</CounterNumber>
         </CounterText>
       </div>
-      <div className="content-wrapper">
+       <div className="content-wrapper">
         <Modal 
           isOpen={this.state.shouldShowModal}
           onAfterOpen={this.onModalOpen}
@@ -459,7 +459,7 @@ class GameTracking extends Component {
         <div className="timer-container">
             <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
         </div> 
-      </div>
+      </div> 
       <div className="game-tracker-container">
           {rows}
         </div>
