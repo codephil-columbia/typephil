@@ -50,7 +50,7 @@ const StatsRow = styled.div`
     margin-left:20.5vw;
     margin-right:20.5vw
 
-    color: #199893;
+    color: #F5A623;
 
     padding-bottom: 2vh;
 `
@@ -65,7 +65,7 @@ const StatsHighScoreRow = styled.div`
     margin-left:20.5vw;
     margin-right:20.5vw
 
-    color: #199893;
+    color: #F5A623;
 
     border-style: solid;
     border-color: #F5A623;
@@ -117,7 +117,7 @@ const HighScoreLabel = styled.div`
     margin-left: 37vw;
     margin-right: 37vw;
     align-content: center;
-    color: #199893;
+    color: #F5A623;
 
     font-family:"Arcade";
     width: 26vw;
