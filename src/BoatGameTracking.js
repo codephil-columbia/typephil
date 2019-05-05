@@ -84,7 +84,7 @@ const Boat = styled.div`
   margin-bottom: 10vh;
   height:auto;
   width:auto;
-  
+  transition: all .8s ease-in-out;
 `
 
 const BoatImage = styled.div`
