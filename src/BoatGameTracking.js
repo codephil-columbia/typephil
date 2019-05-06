@@ -195,8 +195,8 @@ class BoatGameTracking extends Component {
 
   incrementMargin = () => {
       this.setState({
-        boat1Margin:(this.state.boat1Margin + (this.state.boat1Increment/20)),
-        boat3Margin:(this.state.boat3Margin + (this.state.boat3Increment/20))
+        boat1Margin:(this.state.boat1Margin + (this.state.boat1Increment)),
+        boat3Margin:(this.state.boat3Margin + (this.state.boat3Increment))
       })
       if(this.state.boat1Margin >= 100 || this.state.boat3Margin >= 100){
         clearInterval(this.intervalHandler)
