@@ -192,7 +192,7 @@ class GameTracking extends Component {
         if(this.state.upDifficultyCount!=0){
           this.setState({upDifficultyCount:this.state.upDifficultyCount-1 })
           console.log("line counter " + this.state.upDifficultyCount)
-          if(this.state.upDifficultyCount == 5){
+          if(this.state.upDifficultyCount == 10){
             this.setState({
               upDifficulty:true,
               upDifficultyCount:0

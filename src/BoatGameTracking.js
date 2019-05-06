@@ -22,7 +22,7 @@ const INCORRECT = "incorrect";
 
 
 const BoatraceGameBackground = styled.div`
-    background-image: url(/images/games/waves.svg);
+    background-image: url(../public/images/games/waves.svg);
     // background-position: center bottom -25vh;
     background-position: center bottom -25rem;
     background-repeat: no-repeat;
@@ -84,7 +84,7 @@ const Boat = styled.div`
   margin-bottom: 10vh;
   height:auto;
   width:auto;
-  
+  transition: all .8s ease-in-out;
 `
 
 const BoatImage = styled.div`
@@ -118,6 +118,12 @@ const PlayerText=styled.div`
 `
 
 const BoatParagraphText = styled.div`
+  display:flex; 
+  flex-direction:row; 
+  text-align:center;
+  align-content:center;
+  font-size:2.5rem;
+  width:100vw;
   
 `
 
@@ -477,8 +483,10 @@ class BoatGameTracking extends Component {
 
     let groupIterator = [groupPtr];
     // We always include 2 rows if possible, if not just show one
-    if(groupPtr + 1 <= characterMapList.length - 1) {
+    if(groupPtr + 1 <= characterMapList.length - 3) {
       groupIterator.push(groupPtr+1);
+      groupIterator.push(groupPtr+2);
+      groupIterator.push(groupPtr+3);
     }
     
     groupIterator.forEach((i) => {
@@ -493,7 +501,8 @@ class BoatGameTracking extends Component {
       row = [];
     });
 
-    rows = rows.map(row => <div className="words">{[...row]}</div>);
+    rows = rows.map(row => <p  style={{marginBottom:"3vh"}} className="line">{[...row]}</p>);
+    console.log(rows)
     return rows;
   };
 
@@ -583,8 +592,11 @@ class BoatGameTracking extends Component {
           </div> 
         </div>
         <BoatParagraphText>
-            {rows}
+            {rows[0]}{rows[1]}
         </BoatParagraphText>
+        <BoatParagraphText>
+            {rows[2]}{rows[3]}
+        </BoatParagraphText>   
 
         <BoatContainer>
           <Boat displacement={this.state.boat1Margin}>
