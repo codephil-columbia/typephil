@@ -22,7 +22,8 @@ const INCORRECT = "incorrect";
 
 
 const BoatraceGameBackground = styled.div`
-    background-image: url(../public/images/games/waves.svg);
+    // background-image: url(../public/images/games/waves.svg);
+    background-image: url(/images/games/waves.svg);
     // background-position: center bottom -25vh;
     background-position: center bottom -25rem;
     background-repeat: no-repeat;

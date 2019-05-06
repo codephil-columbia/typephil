@@ -119,7 +119,7 @@ class KeyTracking extends Component{
     
     render(){
 
-    var content=`Be faithful to that which\nexists within yourself.\nTime is money.\nJust go for it.\nLive the moment.\nChoose to shine.\nYour Time is Now.\nNo pain, no gain.\nI can and I will.\nLet your love out.`
+    var content=`Ultimately love is everything.\nBe faithful to that which\nexists within yourself.\nTime is money.\nJust go for it.\nLive the moment.\nChoose to shine.\nYour Time is Now.\nNo pain, no gain.\nI can and I will.\nLet your love out.`
 
     var contentArray=content.split("\n")
     var cleanContent= ""
