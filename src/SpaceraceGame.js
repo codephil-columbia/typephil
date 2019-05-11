@@ -49,27 +49,38 @@ function App() {
 class SpaceraceGame extends React.Component {
   constructor(props) {
     super(props);
-    this.doesWordExist=this.doesWordExist.bind(this)
-    this.nextWord=this.nextWord.bind(this)
-    this.isCorrect=this.isCorrect.bind(this)
-    this.nextWordUpdate = this.nextWordUpdate.bind(this)
 
+    this.doesWordExist = this.doesWordExist.bind(this)
+    this.nextWord = this.nextWord.bind(this)
+    this.isCorrect = this.isCorrect.bind(this)
+
+
+    const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
+    const wordList1 =  wordList.slice(0, Math.floor(wordList.length/3));
+    const wordList2 = wordList.slice(Math.floor(wordList.length/3), Math.floor(wordList.length/3 * 2));
+    const wordList3 = wordList.slice(Math.floor(wordList.length/3 * 2), Math.floor(wordList.length));
+
+    const currentList = [wordList1[0], wordList2[0], wordList3[0]];
 
     this.state = {
-        wordList:["hi", "hello", "yay", "wow", "word", "mehhh", "wowword"], 
-        wordMap:{}, 
-        currentWord: "", 
-        isCorrect: "./images/games/Meteor.svg", 
-        nextWordUpdate: false 
+      currentList,
+      wordList,
+      wordList1,
+      wordList2,
+      wordList3,
+      wordMap:{}, 
+      currentWord: "",
+      currentWordList: ["hi", "hello", "wow"],
+      inputWord: "", 
+      isCorrect: "./images/games/Meteor.svg", 
+      nextWordUpdate: false,
+      i: 0, 
+      j: 0, 
+      k: 0
     }
-    this.setState({
-      wordList: ["hi", "hello", "yay", "wow", "word", "mehhh", "wowword"], 
-      currentWordMap: this.state.wordList.map((word) => word)
-    })
 
-   this.attachEventListener();
-
-  }
+    this.attachEventListener();
+  } 
 
   state = { isMoving: true };
 
@@ -85,7 +96,7 @@ class SpaceraceGame extends React.Component {
       duration: 8000,
       //flip: Infinity,
       // elapsed: 500,
-      loop: 5,
+      loop: 10000000,
       // yoyo: 5
     }).start(Box.set);
 
@@ -96,7 +107,7 @@ class SpaceraceGame extends React.Component {
       duration: 10000,
       //flip: Infinity,
       // elapsed: 500,
-      loop: 5,
+      loop: 10000000,
       // yoyo: 5
     }).start(Box2.set);
 
@@ -107,7 +118,7 @@ class SpaceraceGame extends React.Component {
       duration: 12000,
       //flip: Infinity,
       // elapsed: 500,
-      loop: 5,
+      loop: 10000000,
       // yoyo: 5
     }).start(Box3.set);
 
@@ -116,21 +127,69 @@ class SpaceraceGame extends React.Component {
     }, 2000);
   }
 
-  doesWordExist = (checkWord) => {
-    console.log(this.state.wordList.includes(checkWord))
-    return this.state.wordList.includes(checkWord)
+  doesWordExist = checkWord => { 
+    let whichList = null;
+    let wasFound = false;
+
+    if (this.state.wordList1.includes(checkWord)) {
+      whichList = 0;
+      wasFound = true
+    } else if (this.state.wordList2.includes(checkWord)) {
+      whichList = 1;
+      wasFound = true
+    }
+    else if (this.state.wordList3.includes(checkWord)) {
+      whichList = 2;
+      wasFound = true
+    }
+    return { whichList, wasFound };
   }
 
   attachEventListener = () => {
     document.addEventListener("keydown", this.registerUserKeyPress);
   }
 
-  nextWord(){
-    var random = Math.random() * this.state.wordList.length
-    console.log(Math.floor(random))
-    console.log(this.state.wordList[Math.floor(random)])
-    return this.state.wordList[Math.floor(random)]
+  
+  nextWord(n) {
+    let newIndex;
+    let newWord;
+    console.log(this.state.i)
+   // console.log(this.state.j)
+  //  console.log(this.state.k)
 
+    if (n === 0) {
+      
+      if (this.state.i >= this.state.wordList1.length){
+        newIndex = 0;
+      } else{
+        newIndex = this.state.i + 1; 
+      }
+      this.setState({i: newIndex})
+      newWord = this.state.wordList1[newIndex];
+    } else if (n === 1) {
+      newIndex = this.state.j + 1;
+      if (this.state.j >= this.state.wordList2.length){
+        newIndex = 0;
+      } else{
+        newIndex = this.state.j + 1;
+      }
+      this.setState({j: newIndex})
+      newWord = this.state.wordList2[newIndex];
+    } else if (n === 2){
+      newIndex = this.state.k + 1;
+      if (this.state.k >= this.state.wordList3.length){
+        newIndex = 0;
+      } else{
+        newIndex = this.state.k + 1;
+      }
+      this.setState({k: newIndex})
+      newWord = this.state.wordList3[newIndex];
+    } 
+
+    let { currentList } = this.state;
+    currentList[n] = newWord;
+    
+    this.setState({ currentList });
   }
 
   isCorrect = () => {
@@ -151,72 +210,42 @@ class SpaceraceGame extends React.Component {
   }
 
   registerUserKeyPress = ({ key: keyPressed }) => {
-    // Starts timer once user presses first key
-    // if(this.state.isFirstCharacter) {
-    //   this.setState({ startTime: Date.now(), isFirstCharacter: false });
-    // }
-
-    //console.log(keyPressed) 
-    console.log(this.state.currentWord)
     if (keyPressed == BACKSPACE){
+        this.setState({inputWord:this.state.inputWord.slice(0, -1)})
+    } else if (keyPressed == ENTER){
+      const { whichList, wasFound } = this.doesWordExist(this.state.inputWord);
+      if (wasFound) {
+        console.log("i am in")
+        console.log(whichList)
+        //this.setState({isCorrect:"./images/games/Meteor_Crash.svg"}); 
+        this.nextWord(whichList);
+      }
 
-        this.setState({currentWord:this.state.currentWord.slice(0, -1)})
-        //this.state.currentWord= this.state.currentWord.slice(0, -1)
-    }
-
-    else if (keyPressed == ENTER){
-        //this.state.currentWord= this.state.currentWord + ' '
-
-        if (this.doesWordExist(this.state.currentWord)){
-          this.setState({isCorrect:"./images/games/Meteor_Crash.svg"}); 
-        }
-        this.setState({isCorrect:"./images/games/Meteor.svg"}); 
-        this.setState({nextWordUpdate: true});
-        this.setState({nextWordUpdate: false});
-        //for(let i = 0; i < this.state.currentWord.length; i++){
-           // this.state.currentWord= this.state.currentWord.slice(0, -1)
-            
-       //}
-       var empty = ''
-       this.setState({currentWord:''})
-
+      //this.setState({isCorrect:"./images/games/Meteor.svg"}); 
+      this.setState({inputWord:''})
     }
     else {
-        this.setState({currentWord:this.state.currentWord + keyPressed})
+      this.setState({nextWordUpdate: true});
+      this.setState({inputWord:this.state.inputWord + keyPressed})
     }
-    //console.log(this.state.currentWord)
-
-    // if(keyPressed === BACKSPACE) {
-    //   this.userDidPressBackspace();
-    //   // TODO: Make sure this doesn't fire after group and index ptr have reached the end
-    // } else if(this.shouldCheckKey(keyPressed) && this.isNotFinished()) {
-    //   this.validateUserKeyPressCorrectness(keyPressed);
-    // }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-      console.log(this.nextWordUpdate())
-      return this.nextWordUpdate(); 
-    }
+  }
 
   render() {
-    //const { isMoving } = this.state;
+    const { currentList } = this.state;
+    console.log(currentList);
     return (
-      // <Box className="box" pose={isMoving ? 'left' : 'right'}> 
-        // Hi <img height="42" width="42" src="./Meteor2.svg"/>
-      // </Box>
       <div>
-      <div><p>{this.state.currentWord}</p></div>
+      <div><p>{this.state.inputWord}</p></div>
 
-      <div className="box"><p style={{zIndex:2}}>{this.nextWord()}</p>
-      <img height="auto" width="100%" src={this.state.isCorrect}/>
+      <div className="box"><p style={{zIndex:2}}>{currentList[0]}</p>
+      <img height="auto" width="100%" src={"./images/games/Meteor.svg"}/>
       </div>
 
-      <div className="box2"><p style={{zIndex:2}}>{this.nextWord()}</p>
-      <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
+      <div className="box2"><p style={{zIndex:2}}>{currentList[1]}</p>
+      <img height="auto" width="100%" src={"./images/games/Meteor.svg"}/>
       </div>
 
-      <div className="box3"><p style={{zIndex:2}}>{this.nextWord()}</p>
+      <div className="box3"><p style={{zIndex:2}}>{currentList[2]}</p>
       <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
       </div>
       </div>
