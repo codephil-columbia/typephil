@@ -34,8 +34,10 @@ const GameText = styled.div`
     font-weight: 600;
     font-size: 3.2rem;
     margin-bottom: 5rem;
-    margin-left: 23%;
-    margin-right: 23%;
+    margin-left: 15%;
+    margin-right: 15%;
+    // margin-left: 13%;
+    // margin-right: 13%;
 
     @media only screen and (max-width: 1300px) {
         font-size: 3.2rem;
@@ -385,7 +387,7 @@ class GameTracking extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    return line.match(/.{1,25}/g);
+    return line.match(/.{1,30}/g);
   };
 
   closeModal = () => {
