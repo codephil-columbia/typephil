@@ -483,10 +483,8 @@ class BoatGameTracking extends Component {
 
     let groupIterator = [groupPtr];
     // We always include 2 rows if possible, if not just show one
-    if(groupPtr + 1 <= characterMapList.length - 3) {
+    if(groupPtr + 1 <= characterMapList.length - 2) {
       groupIterator.push(groupPtr+1);
-      groupIterator.push(groupPtr+2);
-      groupIterator.push(groupPtr+3);
     }
     
     groupIterator.forEach((i) => {
@@ -501,7 +499,7 @@ class BoatGameTracking extends Component {
       row = [];
     });
 
-    rows = rows.map(row => <p  style={{marginBottom:"3vh"}} className="line">{[...row]}</p>);
+    rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw"}} className="line">{[...row]}</p>);
     console.log(rows)
     return rows;
   };
@@ -527,7 +525,9 @@ class BoatGameTracking extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    return line.match(/.{1,25}/g);
+    var ln= line.match(/.{1,50}/g);
+    console.log(ln)
+    return ln
   };
 
   closeModal = () => {
@@ -592,10 +592,10 @@ class BoatGameTracking extends Component {
           </div> 
         </div>
         <BoatParagraphText>
-            {rows[0]}{rows[1]}
+            {rows[0]}
         </BoatParagraphText>
         <BoatParagraphText>
-            {rows[2]}{rows[3]}
+            {rows[1]}
         </BoatParagraphText>   
 
         <BoatContainer>
