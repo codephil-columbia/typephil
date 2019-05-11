@@ -159,7 +159,7 @@ class SpaceraceGame extends React.Component {
 
     if (n === 0) {
       
-      if (this.state.i >= this.state.wordList1.length){
+      if (this.state.i >= this.state.wordList1.length-1){
         newIndex = 0;
       } else{
         newIndex = this.state.i + 1; 
@@ -168,7 +168,7 @@ class SpaceraceGame extends React.Component {
       newWord = this.state.wordList1[newIndex];
     } else if (n === 1) {
       newIndex = this.state.j + 1;
-      if (this.state.j >= this.state.wordList2.length){
+      if (this.state.j >= this.state.wordList2.length-1){
         newIndex = 0;
       } else{
         newIndex = this.state.j + 1;
@@ -177,7 +177,7 @@ class SpaceraceGame extends React.Component {
       newWord = this.state.wordList2[newIndex];
     } else if (n === 2){
       newIndex = this.state.k + 1;
-      if (this.state.k >= this.state.wordList3.length){
+      if (this.state.k >= this.state.wordList3.length-1){
         newIndex = 0;
       } else{
         newIndex = this.state.k + 1;
