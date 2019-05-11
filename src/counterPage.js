@@ -78,14 +78,14 @@ class Counter extends React.Component {
       var newIncrement=0;
       
       if(this.state.difficulty==1){
-        this.setState({increment:2})
+        this.setState({increment:6})
       }
       else if(this.state.difficulty==2){
-        this.setState({increment:1})
+        this.setState({increment:3.5})
       }
       else{
         var currIncrement=this.state.increment
-        var newIncrement=currIncrement*(2/3)
+        var newIncrement=currIncrement*(9/10)
         this.setState({increment:newIncrement})
       }
     }
@@ -94,21 +94,21 @@ class Counter extends React.Component {
         var secondsGiven=0
         var difficulty=this.props.baseDifficulty
         if(difficulty==1){
-          secondsGiven=10
+          secondsGiven=16
           this.setState({
-            increment:3,
+            increment:10,
             difficulty:1
           })
         }else if(difficulty==2){
-          secondsGiven=7
+          secondsGiven=9
           this.setState({
-            increment:2,
+            increment:6,
             difficulty:2
           })
         }else{
-          secondsGiven=5
+          secondsGiven=7
           this.setState({
-            increment:1,
+            increment:3,
             difficulty:3
           })
         }
