@@ -51,7 +51,8 @@ export const dispatchLogout = () => {
 
 export const dispatchLogin = (username, password) => (dispatch) =>
   new Promise(function(resolve, reject) {
-    const endpoint = api_url + '/auth/login';
+    console.log(username, password);
+    const endpoint = api_url + '/user/authenticate';
     axios.post(endpoint, {username, password})
     .then(res => {
         if(res.status !== 200) {
@@ -69,8 +70,18 @@ export const dispatchLogin = (username, password) => (dispatch) =>
     })
   });
 
+// export const dispatchLogin = (username, password) => dispatch => {
+//   axios.post(`${api_url}/user/authenticate`)
+//     .then(res => {
+//       dispatch(login(res));
+//     })
+//     .catch(err => {
+//       dispatch(loginError());
+//     })
+// }
+
 export const dispatchSignup = (data) => { 
-  const endpoint = api_url + '/auth/signup';
+  const endpoint = api_url + '/user/';
   return function(dispatch) {
     axios.post(endpoint, data)
     .then(res => {
@@ -99,19 +110,3 @@ export const dispatchPassword = (username, password) => {
     });
   }
 }
-
-/*export const dispatchUsername = (username) => {
-  const endpoint = api_url + '/auth/usernameValid';
-  return function(dispatch) {
-    axios.post(endpoint, {username})
-    .then(res => {
-      if(res.status !== 200) {
-        dispatch(usernameValid(false));
-      }
-      dispatch(usernameValid(true));
-    }).catch(err => {
-      dispatch(usernameValid(false));
-    });
-  }
-}*/
-
