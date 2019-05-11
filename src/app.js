@@ -16,6 +16,8 @@ import FourOhFour from './components/FourOhFour';
 import Challenge from './Challenge'
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
+import Spacerace from './Spacerace'
+import Animation from './animation'
 
 
 class App extends Component {
@@ -65,6 +67,8 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
+        <Route path="/challenge" component={Challenge}/>
+        <Route path="/spacerace" component={Spacerace}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/selectGames" component={GameSelect}/>
         <Route component={FourOhFour} />

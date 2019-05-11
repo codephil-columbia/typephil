@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'RaceTrack';
+    font-style: normal;
+    font-weight: 600;
+    src:
+      local('RaceTrack'),
+      local('Racetrack_Stencil'),
+      url(../fonts/Racetrack/Racetrack_Stencil.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Avenir';
+    font-style: normal;
+    src:
+        local('Aveni'),
+        local('AvenirLTStd-Book'),
+        url(../fonts/Racetrack/Racetrack_Stencil.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Avenir';
+    font-style: normal;
+    src:
+        local('Aveni'),
+        local('AvenirLTStd-Book'),
+        url(../fonts/Racetrack/Racetrack_Stencil.otf) format('opentype');
+}
