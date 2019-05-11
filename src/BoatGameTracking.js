@@ -193,6 +193,7 @@ const BoatParagraphText = styled.div`
   flex-direction:row; 
   text-align:center;
   align-content:center;
+  justify-content: center;
   font-size:2.5rem;
   width:100vw;
   
