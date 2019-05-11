@@ -26,7 +26,96 @@ const RCGameText = styled.div`
     justify-content:center;
   
 `
+const SpaceRaceBackground = styled.div`
+    background-image: url(/images/games/space_race_background.svg);
+    //background-position: center bottom -130vh;
+    background-position: center bottom -130vh;
+    background-repeat: no-repeat;
+    background-size: 150vw auto;
+    // height: 100vh;
 
+    @media only screen and (max-width: 2200px) {
+      background-position: center bottom -140vh;
+    }
+    @media only screen and (max-width: 1900px) {
+      background-position: center bottom -135vh;
+    }
+    @media only screen and (max-width: 1850px) {
+      background-position: center bottom -130vh;
+    }
+    @media only screen and (max-width: 1800px) {
+      background-position: center bottom -125vh;
+    }
+    @media only screen and (max-width: 1750px) {
+      background-position: center bottom -120vh;
+    }
+    @media only screen and (max-width: 1700px) {
+      background-position: center bottom -100vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1650px) {
+      background-position: center bottom -95vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1600px) {
+      background-position: center bottom -90vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1550px) {
+      background-position: center bottom -85vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1500px) {
+      background-position: center bottom -80vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1450px) {
+      background-position: center bottom -75vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1400px) {
+      background-position: center bottom -70vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1350px) {
+      background-position: center bottom -65vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1300px) {
+      background-position: center bottom -60vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1250px) {
+      background-position: center bottom -55vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1200px) {
+      background-position: center bottom -50vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1150px) {
+      background-position: center bottom -45vh;
+    }
+    @media only screen and (max-width: 1100px) {
+      background-position: center bottom -40vh;
+    }
+    @media only screen and (max-width: 1050px) {
+      background-position: center bottom -35vh;
+    }
+    @media only screen and (max-width: 1000px) {
+      background-position: center bottom -30vh;
+    }
+    @media only screen and (max-width: 950px) {
+      background-position: center bottom -25vh;
+    }
+    @media only screen and (max-width: 900px) {
+      background-position: center bottom -20vh;
+    }
+    @media only screen and (max-width: 850px) {
+      background-position: center bottom -15vh;
+    }
+
+`
 const charPoses = {
   exit: { opacity: 0, y: 20 },
   enter: {
@@ -52,7 +141,7 @@ class SpaceraceGame extends React.Component {
 
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
-    this.isCorrect = this.isCorrect.bind(this)
+    //this.isCorrect = this.isCorrect.bind(this)
 
 
     const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
@@ -72,7 +161,9 @@ class SpaceraceGame extends React.Component {
       currentWord: "",
       currentWordList: ["hi", "hello", "wow"],
       inputWord: "", 
-      isCorrect: "./images/games/Meteor.svg", 
+      isCorrect1: "./images/games/Meteor.svg", 
+      isCorrect2: "./images/games/Meteor.svg", 
+      isCorrect3: "./images/games/Meteor.svg", 
       nextWordUpdate: false,
       i: 0, 
       j: 0, 
@@ -134,13 +225,18 @@ class SpaceraceGame extends React.Component {
     if (this.state.wordList1.includes(checkWord)) {
       whichList = 0;
       wasFound = true
+      this.setState({isCorrect1:"./images/games/Meteor_Crash.svg"}); 
+      
     } else if (this.state.wordList2.includes(checkWord)) {
       whichList = 1;
       wasFound = true
+      this.setState({isCorrect2:"./images/games/Meteor_Crash.svg"});
+
     }
     else if (this.state.wordList3.includes(checkWord)) {
       whichList = 2;
       wasFound = true
+      this.setState({isCorrect3:"./images/games/Meteor_Crash.svg"}); 
     }
     return { whichList, wasFound };
   }
@@ -191,14 +287,18 @@ class SpaceraceGame extends React.Component {
     
     this.setState({ currentList });
   }
-
+  /*
   isCorrect = () => {
-    //if (this.state.isCorrect == false)
-     // return "./images/games/Meteor.svg"
-   // return "./images/games/Meteor_Crash.svg"
+    if (this.state.isCorrect == true) {
+      return "./images/games/Meteor_Crash.svg"
+    }
+    
+    return "./images/games/Meteor.svg"
+    
 
 
   }
+  */
   nextWordUpdate = () => {
 
     return this.state.nextWordUpdate; 
@@ -210,6 +310,10 @@ class SpaceraceGame extends React.Component {
   }
 
   registerUserKeyPress = ({ key: keyPressed }) => {
+    this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
+    this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
+    this.setState({isCorrect3:"./images/games/Meteor.svg"}); 
+    
     if (keyPressed == BACKSPACE){
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
     } else if (keyPressed == ENTER){
@@ -217,36 +321,41 @@ class SpaceraceGame extends React.Component {
       if (wasFound) {
         console.log("i am in")
         console.log(whichList)
-        //this.setState({isCorrect:"./images/games/Meteor_Crash.svg"}); 
         this.nextWord(whichList);
       }
 
-      //this.setState({isCorrect:"./images/games/Meteor.svg"}); 
+      
       this.setState({inputWord:''})
     }
     else {
       this.setState({nextWordUpdate: true});
       this.setState({inputWord:this.state.inputWord + keyPressed})
     }
+    //this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
+    //this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
+   // this.setState({isCorrect3:"./images/games/Meteor.svg"}); 
   }
 
   render() {
     const { currentList } = this.state;
+    const { isCorrect1 } = this.state;
+    const { isCorrect2 } = this.state;
+    const { isCorrect3 } = this.state;
     console.log(currentList);
     return (
       <div>
       <div><p>{this.state.inputWord}</p></div>
 
       <div className="box"><p style={{zIndex:2}}>{currentList[0]}</p>
-      <img height="auto" width="100%" src={"./images/games/Meteor.svg"}/>
+      <img height="auto" width="100%" src={isCorrect1}/>
       </div>
 
       <div className="box2"><p style={{zIndex:2}}>{currentList[1]}</p>
-      <img height="auto" width="100%" src={"./images/games/Meteor.svg"}/>
+      <img height="auto" width="100%" src={isCorrect2}/>
       </div>
 
       <div className="box3"><p style={{zIndex:2}}>{currentList[2]}</p>
-      <img height="auto" width="100%" src="./images/games/Meteor.svg"/>
+      <img height="auto" width="100%" src={isCorrect3}/>
       </div>
       </div>
     );
