@@ -185,7 +185,7 @@ class Spacerace extends Component {
       difficulty="hard"
     }
 
-    this.props.history.push("/spaceraceplay");
+    this.props.history.push("/spacerace");
 
   }
   render() {
