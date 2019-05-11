@@ -130,8 +130,8 @@ class BoatGame extends Component{
     
     render(){
 
-    var content="Be faithful to that which exists within \nyourself. Time is money. Just go for it.\nLive the moment. Live the moment.Live \nthe moment.Live the moment. Live the \nmoment. Live the moment. Live the moment.\n Live the moment. Live the moment. Live the moment.\n"
-
+    let content="Be faithful to that which exists within \nyourself. Time is money. Just go for it.\n Live the moment. Live the moment. Live \nthe moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment.\n"    
+    
     var contentArray=content.split("\n")
     var cleanContent= ""
     for(var i =0;i<contentArray.length; i++){
