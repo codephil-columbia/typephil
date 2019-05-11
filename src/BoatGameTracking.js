@@ -196,7 +196,37 @@ const BoatParagraphText = styled.div`
   justify-content: center;
   font-size:2.5rem;
   width:100vw;
+
+  @media only screen and (max-width: 1100px) {
+    font-size:2.5rem;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    font-size:2.5rem;
+  }
+
+  @media only screen and (max-width: 950px) {
+    font-size:2rem;
+  }
+
+  @media only screen and (max-width: 900px) {
+    font-size:1.75rem;
+  }
   
+`
+
+const LineStyling = styled.div`
+  margin-bottom: 3vh;
+  width: 80vw;
+  background-color: white;
+
+  @media only screen and (max-width: 1100px) {
+    width: 90vw;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    width: 95vw;
+  }
 `
 
 
@@ -571,7 +601,8 @@ class BoatGameTracking extends Component {
       row = [];
     });
 
-    rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw"}} className="line">{[...row]}</p>);
+    // rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw", backgroundColor:"white"}} className="line">{[...row]}</p>);
+    rows = rows.map(row => <LineStyling className="line">{[...row]}</LineStyling>);
     console.log(rows)
     return rows;
   };
