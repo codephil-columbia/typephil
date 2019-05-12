@@ -22,43 +22,93 @@ const INCORRECT = "incorrect";
 
 
 const BoatraceGameBackground = styled.div`
-    // background-image: url(../public/images/games/waves.svg);
-    background-image: url(/images/games/waves.svg);
-    // background-position: center bottom -25vh;
-    background-position: center bottom -25rem;
+    background-image: url(/images/games/Waves_extended.svg);
+    //background-position: center bottom -130vh;
+    background-position: center bottom -130vh;
     background-repeat: no-repeat;
-    background-size: 100% auto;
-    height: 100vh;
+    background-size: 150vw auto;
+    // height: 100vh;
+
+    @media only screen and (max-width: 2200px) {
+      background-position: center bottom -140vh;
+    }
 
     @media only screen and (max-width: 1900px) {
-      background-position: center bottom -20vh;
+      background-position: center bottom -135vh;
+    }
+    @media only screen and (max-width: 1850px) {
+      background-position: center bottom -130vh;
     }
     @media only screen and (max-width: 1800px) {
-      background-position: center bottom -15vh;
+      background-position: center bottom -125vh;
+    }
+    @media only screen and (max-width: 1750px) {
+      background-position: center bottom -120vh;
     }
     @media only screen and (max-width: 1700px) {
-      background-position: center bottom -10vh;
+      background-position: center bottom -100vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1650px) {
+      background-position: center bottom -95vh;
+      height: 100vh;
     }
     @media only screen and (max-width: 1600px) {
-      background-position: center bottom -5vh;
+      background-position: center bottom -90vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1550px) {
+      background-position: center bottom -85vh;
+      height: 100vh;
     }
     @media only screen and (max-width: 1500px) {
-      background-position: center bottom -1vh;
+      background-position: center bottom -80vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1450px) {
+      background-position: center bottom -75vh;
+      height: 100vh;
     }
     @media only screen and (max-width: 1400px) {
-      background-position: center bottom 5vh;
+      background-position: center bottom -70vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1350px) {
+      background-position: center bottom -65vh;
+      height: 100vh;
     }
     @media only screen and (max-width: 1300px) {
-      background-position: center bottom 10vh;
+      background-position: center bottom -60vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1250px) {
+      background-position: center bottom -55vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1200px) {
+      background-position: center bottom -50vh;
+      height: 100vh;
     }
     @media only screen and (max-width: 1150px) {
-      background-position: center bottom 15vh;
+      background-position: center bottom -45vh;
+    }
+    @media only screen and (max-width: 1100px) {
+      background-position: center bottom -40vh;
+    }
+    @media only screen and (max-width: 1050px) {
+      background-position: center bottom -35vh;
     }
     @media only screen and (max-width: 1000px) {
-      background-position: center bottom 20vh;
+      background-position: center bottom -30vh;
+    }
+    @media only screen and (max-width: 950px) {
+      background-position: center bottom -25vh;
     }
     @media only screen and (max-width: 900px) {
-      background-position: center bottom 25vh;
+      background-position: center bottom -20vh;
+    }
+    @media only screen and (max-width: 850px) {
+      background-position: center bottom -15vh;
     }
 `
 
@@ -82,7 +132,7 @@ const BoatContainer = styled.div`
 
 const Boat = styled.div`
   margin-left:${props => props.displacement}vw;
-  margin-bottom: 10vh;
+  padding-bottom: 9.5vh;
   height:auto;
   width:auto;
   transition: all .8s ease-in-out;
@@ -99,7 +149,7 @@ const BoatImage = styled.div`
     width: 25vw;
   }
   @media only screen and (max-width: 1000px) {
-    width: 30vw;
+    width: 25vw;
   }
 `
 
@@ -109,6 +159,16 @@ const BoatText = styled.div`
   padding-left:5vw;
   margin-bottom: -4vh;
   font-weight: bold;
+
+  @media only screen and (max-width: 1400px) {
+    padding-left:7vw;
+  }
+  @media only screen and (max-width: 1150px) {
+    padding-left: 7.5vw;
+  }
+  @media only screen and (max-width: 1000px) {
+    padding-left: 7.5vw;
+  }
 `
 const PlayerText=styled.div`
   z-score: 10;
@@ -116,6 +176,16 @@ const PlayerText=styled.div`
   padding-left:6.8vw;
   margin-bottom: -4vh;
   font-weight: bold;
+
+  @media only screen and (max-width: 1400px) {
+    padding-left:9vw;
+  }
+  @media only screen and (max-width: 1150px) {
+    padding-left: 11vw;
+  }
+  @media only screen and (max-width: 1000px) {
+    padding-left: 11vw;
+  }
 `
 
 const BoatParagraphText = styled.div`
@@ -123,9 +193,40 @@ const BoatParagraphText = styled.div`
   flex-direction:row; 
   text-align:center;
   align-content:center;
+  justify-content: center;
   font-size:2.5rem;
   width:100vw;
+
+  @media only screen and (max-width: 1100px) {
+    font-size:2.5rem;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    font-size:2.5rem;
+  }
+
+  @media only screen and (max-width: 950px) {
+    font-size:2rem;
+  }
+
+  @media only screen and (max-width: 900px) {
+    font-size:1.75rem;
+  }
   
+`
+
+const LineStyling = styled.div`
+  margin-bottom: 3vh;
+  width: 80vw;
+  background-color: white;
+
+  @media only screen and (max-width: 1100px) {
+    width: 90vw;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    width: 95vw;
+  }
 `
 
 
@@ -205,7 +306,7 @@ class BoatGameTracking extends Component {
         boat1Margin:(this.state.boat1Margin + (this.state.boat1Increment)),
         boat3Margin:(this.state.boat3Margin + (this.state.boat3Increment))
       })
-      if(this.state.boat1Margin >= 100 || this.state.boat3Margin >= 100){
+      if(this.state.boat1Margin >= 85 || this.state.boat3Margin >= 85){
         clearInterval(this.intervalHandler)
         this.endRace()
         
@@ -500,7 +601,8 @@ class BoatGameTracking extends Component {
       row = [];
     });
 
-    rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw"}} className="line">{[...row]}</p>);
+    // rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw", backgroundColor:"white"}} className="line">{[...row]}</p>);
+    rows = rows.map(row => <LineStyling className="line">{[...row]}</LineStyling>);
     console.log(rows)
     return rows;
   };
