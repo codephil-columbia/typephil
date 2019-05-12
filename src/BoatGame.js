@@ -48,6 +48,7 @@ class BoatGame extends Component{
             beginningDifficulty:1,
             totalMinutes:0,
             wordsPerMinute:0,
+            content:"",
             accuracy:0,
             gameStart:false,
             playerDifficulty:1,
@@ -56,6 +57,17 @@ class BoatGame extends Component{
             headerLinks: ["Games", "Learn", "Home"],
         };
     }
+
+
+
+  componentWillMount = () => {
+    fetch("http://localhost:5000/game/boatrace")
+    .then(results => {
+        return results.json();
+    }).then(data => {
+        this.setState({content:data.gameContent})
+    })
+  };
 
     exitMainPage(difficulty){
         var diffString= difficulty
@@ -128,16 +140,9 @@ class BoatGame extends Component{
 
     }
     
-    render(){
-
-    let content="Be faithful to that which exists within \nyourself. Time is money. Just go for it.\n Live the moment. Live the moment. Live \nthe moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment. Live the\n moment. Live the moment.\n"    
-    
-    var contentArray=content.split("\n")
-    var cleanContent= ""
-    for(var i =0;i<contentArray.length; i++){
-        var string = contentArray[i].trim()
-        cleanContent = cleanContent + string
-    }
+    render(){ 
+    let content = this.state.content.replace("\\\\n","\\n")
+    console.log(content)
          // this == event, in this cases
     if(this.state.showMainPage){
         return (<MainPage commenceGame={this.exitMainPage} />)

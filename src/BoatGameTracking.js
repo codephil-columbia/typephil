@@ -137,8 +137,8 @@ class BoatGameTracking extends Component {
     super(props);
 
     const groupPtr = 0;
-    let { currentContent } = this.props;
-    currentContent = currentContent.trim();
+    
+    let currentContent = this.props.currentContent
 
     const characterMapList = this.createCharacterMapLists(currentContent);
     let styleMapList = this.createStyleMapLists(currentContent);
@@ -526,7 +526,8 @@ class BoatGameTracking extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    var ln= line.match(/.{1,50}/g);
+    console.log(line)
+    var ln= line.split("\\n")
     console.log(ln)
     return ln
   };

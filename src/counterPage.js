@@ -229,3 +229,4 @@ class Counter extends React.Component {
   }
   
   export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+  
