@@ -628,10 +628,7 @@ class BoatGameTracking extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    console.log(line)
-    var ln= line.split("\\n")
-    console.log(ln)
-    return ln
+    return line.split("\\n")
   };
 
   closeModal = () => {
