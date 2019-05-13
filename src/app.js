@@ -17,6 +17,7 @@ import CocoType from './CocoType';
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 import SpaceraceGame from './SpaceraceGame'
+import Spacerace from './Spacerace'
 import Animation from './animation'
 import RCTracking from './RacecarTracking'
 
@@ -70,6 +71,7 @@ class App extends Component {
         <Route path="/signup" component={SignupPage}/>
         <Route path="/challenge" component={Challenge}/>
         <Route path="/spacerace" component={SpaceraceGame}/>
+        <Route path="/spaceraceHome" component={Spacerace}/>
         <Route path="/animation" component={Animation}/>
         <Route path="/RCTracking" component={RCTracking}/>
         <Route path="/coco" component={KeyTracker}/>

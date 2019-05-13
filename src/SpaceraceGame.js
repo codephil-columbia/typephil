@@ -27,95 +27,32 @@ const RCGameText = styled.div`
   
 `
 const SpaceRaceBackground = styled.div`
-    background-image: url(/images/games/space_race_background.svg);
-    //background-position: center bottom -130vh;
-    background-position: center bottom -130vh;
-    background-repeat: no-repeat;
-    background-size: 150vw auto;
-    // height: 100vh;
+    background-image: url(/images/games/Stars_Background.svg), url(/images/games/Earth.svg);
+    background-position: center bottom 0vh, center right;
+    background-repeat: repeat, no-repeat;
+    background-size: 100vw auto, 30vw auto;
+    background-color: #25365A;
+    width: 100vw;
+    height: 100vh;
 
-    @media only screen and (max-width: 2200px) {
-      background-position: center bottom -140vh;
-    }
-    @media only screen and (max-width: 1900px) {
-      background-position: center bottom -135vh;
-    }
-    @media only screen and (max-width: 1850px) {
-      background-position: center bottom -130vh;
-    }
-    @media only screen and (max-width: 1800px) {
-      background-position: center bottom -125vh;
-    }
-    @media only screen and (max-width: 1750px) {
-      background-position: center bottom -120vh;
-    }
-    @media only screen and (max-width: 1700px) {
-      background-position: center bottom -100vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1650px) {
-      background-position: center bottom -95vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1600px) {
-      background-position: center bottom -90vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1550px) {
-      background-position: center bottom -85vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1500px) {
-      background-position: center bottom -80vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1450px) {
-      background-position: center bottom -75vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1400px) {
-      background-position: center bottom -70vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1350px) {
-      background-position: center bottom -65vh;
-      height: 100vh;
-    }
     @media only screen and (max-width: 1300px) {
-      background-position: center bottom -60vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1250px) {
-      background-position: center bottom -55vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1200px) {
-      background-position: center bottom -50vh;
-      height: 100vh;
-    }
-    @media only screen and (max-width: 1150px) {
-      background-position: center bottom -45vh;
-    }
-    @media only screen and (max-width: 1100px) {
-      background-position: center bottom -40vh;
-    }
-    @media only screen and (max-width: 1050px) {
-      background-position: center bottom -35vh;
+      background-position: center bottom 0vh, center right -10vw;
+      background-size: 100vw auto, 40vw auto;
     }
     @media only screen and (max-width: 1000px) {
-      background-position: center bottom -30vh;
+      background-position: center bottom 0vh, center right -15vw;
+      background-size: 100vw auto, 50vw auto;
     }
-    @media only screen and (max-width: 950px) {
-      background-position: center bottom -25vh;
-    }
-    @media only screen and (max-width: 900px) {
-      background-position: center bottom -20vh;
-    }
-    @media only screen and (max-width: 850px) {
-      background-position: center bottom -15vh;
-    }
+`
+
+const SpaceRaceInputText = styled.div`
+  color: white;
+  font-size: 4rem;
+  text-align: center;
+  background-color: #25365A;
 
 `
+
 const charPoses = {
   exit: { opacity: 0, y: 20 },
   enter: {
@@ -343,21 +280,23 @@ class SpaceraceGame extends React.Component {
     const { isCorrect3 } = this.state;
     console.log(currentList);
     return (
-      <div>
-      <div><p>{this.state.inputWord}</p></div>
+      <SpaceRaceBackground>
+        <SpaceRaceInputText>
+          {this.state.inputWord}
+        </SpaceRaceInputText>
 
-      <div className="box"><p style={{zIndex:2}}>{currentList[0]}</p>
-      <img height="auto" width="100%" src={isCorrect1}/>
-      </div>
+        <div className="box"><p style={{zIndex:2}}>{currentList[0]}</p>
+          <img height="auto" width="100%" src={isCorrect1}/>
+        </div>
 
-      <div className="box2"><p style={{zIndex:2}}>{currentList[1]}</p>
-      <img height="auto" width="100%" src={isCorrect2}/>
-      </div>
+        <div className="box2"><p style={{zIndex:2}}>{currentList[1]}</p>
+          <img height="auto" width="100%" src={isCorrect2}/>
+        </div>
 
-      <div className="box3"><p style={{zIndex:2}}>{currentList[2]}</p>
-      <img height="auto" width="100%" src={isCorrect3}/>
-      </div>
-      </div>
+        <div className="box3"><p style={{zIndex:2}}>{currentList[2]}</p>
+          <img height="auto" width="100%" src={isCorrect3}/>
+        </div>
+      </SpaceRaceBackground>
     );
   }
 }
