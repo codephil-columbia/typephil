@@ -15,12 +15,12 @@
 
 @media only screen and (max-width: 1050px) {
 	.challenge-game-background {
-		background-size: auto 80%, auto 80%, 100% auto;
+		background-size: auto 75%, auto 75%, 100% auto;
 	}
 }
 
 @media only screen and (max-width: 950px) {
 	.challenge-game-background {
-		background-size: auto 75%, auto 75%, 100% auto;
+		background-size: auto 50%, auto 50%, 100% auto;
 	}
 }
