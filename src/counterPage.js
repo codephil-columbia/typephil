@@ -94,13 +94,13 @@ class Counter extends React.Component {
         var secondsGiven=0
         var difficulty=this.props.baseDifficulty
         if(difficulty==1){
-          secondsGiven=16
+          secondsGiven=20
           this.setState({
             increment:10,
             difficulty:1
           })
         }else if(difficulty==2){
-          secondsGiven=9
+          secondsGiven=15
           this.setState({
             increment:6,
             difficulty:2
