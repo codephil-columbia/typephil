@@ -96,8 +96,7 @@ class BoatGame extends Component{
     }
 
     cleanContent(content){
-        let clean= content.replace(/(?:\r\n|\r|\n|\\n)/g, ' ').replace("\"\\n\""," ")
-        return clean
+        return content.replace(/(?:\r\n|\r|\n|\\n)/g, ' ').replace("\"\\n\""," ")
     }
 
     parse(response){
@@ -116,9 +115,8 @@ class BoatGame extends Component{
         let content= response.slice(origin,)
 
         //removes new line characters
-        console.log(content)
         content=this.cleanContent(content)
-        console.log(content)
+        
         while(pointer<content.length){
             let currChar=content[pointer]
             if ( currChar == "." || currChar =="?" || currChar=="!"){

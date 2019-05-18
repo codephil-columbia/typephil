@@ -84,7 +84,7 @@ class GameTracking extends Component {
 
     const groupPtr = 0;
     let { currentContent } = this.props;
-    currentContent = currentContent.trim();
+  
 
     const characterMapList = this.createCharacterMapLists(currentContent);
     let styleMapList = this.createStyleMapLists(currentContent);
@@ -202,6 +202,8 @@ class GameTracking extends Component {
           }
         }
         this.setState({upDifficultyCount:0})
+        this.setState({Level:this.state.Level + 1})
+        console.log(this.state.Level)
       }
     }
     //we also want to pop previous result and add it to edited keys group
@@ -346,8 +348,12 @@ class GameTracking extends Component {
   buildRows = (characterMapList, styleMapList, groupPtr) => {
     let row = [];
     let rows = [];
-
     let groupIterator = [groupPtr];
+
+    if(groupPtr + 1 <= characterMapList.length - 1 ) {
+      groupIterator.push(groupPtr+1);
+    }
+
       groupIterator.forEach((i) => {
       const styleMapListForRow = styleMapList[i];
       const characterMapListForRow = characterMapList[i];
@@ -359,7 +365,6 @@ class GameTracking extends Component {
       rows.push(row);
       row = [];
     });
-
     rows = rows.map(row => <GameText>{[...row]}</GameText>);
     return rows;
   };
@@ -444,7 +449,7 @@ class GameTracking extends Component {
         <div id="Buffer"/>
         <CounterText>
           <div className="CounterName">Level</div>
-          <CounterNumber>{this.state.Level}</CounterNumber>
+          <CounterNumber>{this.props.difficulty}</CounterNumber>
         </CounterText>
       </div>
        <div className="content-wrapper">
@@ -461,7 +466,7 @@ class GameTracking extends Component {
         </div> 
       </div> 
       <div className="game-tracker-container">
-          {rows}
+          {rows[0]}
         </div>
     </div>
     )
