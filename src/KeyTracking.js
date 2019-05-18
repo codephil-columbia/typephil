@@ -59,12 +59,14 @@ class KeyTracking extends Component{
     }
 
     componentWillMount = () => {
+
+        var shuffle = require('shuffle-array')
         fetch("http://localhost:5000/game/coco")
         .then(results => {
             return results.json()
         })
         .then(data => {
-           this.setState({jsonArray:data})
+           this.setState({jsonArray:shuffle(data)})
         })
     
       };
