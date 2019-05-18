@@ -21,6 +21,8 @@ import Spacerace from './Spacerace'
 import Animation from './animation'
 import RCTracking from './RacecarTracking'
 
+// temp
+import SpaceraceStatsTemp from './SpaceraceStats'
 
 class App extends Component {
   constructor(props) {
@@ -76,6 +78,7 @@ class App extends Component {
         <Route path="/RCTracking" component={RCTracking}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/finalstats" component={Stats}/>
+        <Route path="/SpaceraceStatsTemp" component={SpaceraceStatsTemp}/>
         <Route component={FourOhFour} />
       </Switch>
     )
