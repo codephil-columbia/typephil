@@ -44,6 +44,7 @@ class BoatGame extends Component{
         this.showStatspage=this.showStatspage.bind(this)
         this.parse=this.parse.bind(this)
         this.cleanContent=this.cleanContent.bind(this)
+        this.returnMainPage=this.returnMainPage.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -73,6 +74,9 @@ class BoatGame extends Component{
     })
 
   };
+     returnMainPage(){
+        this.setState({showMainPage:true})
+    }
 
     exitMainPage(difficulty){
         var diffString= difficulty
@@ -148,7 +152,6 @@ class BoatGame extends Component{
         console.log(finalstr)
         return finalstr
     }
-
 
     incrementDifficulty(){
         this.setState({playerDifficulty:this.state.playerDifficulty + 1})
@@ -235,7 +238,7 @@ class BoatGame extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats data={this.state}></Stats>)
+            return(<Stats restore={this.returnMainPage} data={this.state}></Stats>)
         }
     }
 }

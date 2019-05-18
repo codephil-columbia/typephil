@@ -147,7 +147,7 @@ export default class Statistics extends Component{
 
     
     playAgain= () =>{
-        this.props.history.push("/coco")
+        this.props.restore()
     }
 
     exitGame= ()  =>{

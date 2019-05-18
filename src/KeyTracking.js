@@ -42,6 +42,7 @@ class KeyTracking extends Component{
         this.exitMainPage=this.exitMainPage.bind(this)
         this.incrementDifficulty=this.incrementDifficulty.bind(this)
         this.totalTime=this.totalTime.bind(this)
+        this.returnMainPage=this.returnMainPage.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -72,6 +73,9 @@ class KeyTracking extends Component{
       };
     
 
+    returnMainPage(){
+        this.setState({showMainPage:true})
+    }
     exitMainPage(difficulty){
         var diffString= difficulty
         var diffNum=1
@@ -173,7 +177,7 @@ class KeyTracking extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats data={this.state}></Stats>)
+            return(<Stats restore={this.returnMainPage} data={this.state}></Stats>)
         }
     }
 }
@@ -199,5 +203,7 @@ const mapDispatchToProps = dispatch => {
       currentLessonName: app.currentLesson.lessonName
     }
   }
+
+  const main = withRouter(KeyTracking);
   
   export default connect(mapStateToProps, mapDispatchToProps)(KeyTracking);

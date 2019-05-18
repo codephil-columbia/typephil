@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
+import { withRouter } from 'react-router'
+
 
 import styled  from 'styled-components'
 
@@ -148,7 +150,7 @@ export default class Statistics extends Component{
 
     
     playAgain= () =>{
-        this.props.history.push("/coco")
+        this.props.restore()
     }
 
     exitGame= ()  =>{
