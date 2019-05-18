@@ -7,6 +7,7 @@ import { tween } from 'popmotion';
 import { styler } from 'popmotion';
 import Tracker from "./RacecarTracking"; 
 import styled from 'styled-components'; 
+import Header from './components/header'
 
 
 import './style/spacerace.css';
@@ -76,6 +77,9 @@ class SpaceraceGame extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = { 
+      headerLinks: ["Games", "Learn", "Home"]
+    }
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
     //this.isCorrect = this.isCorrect.bind(this)
@@ -279,8 +283,15 @@ class SpaceraceGame extends React.Component {
     const { isCorrect2 } = this.state;
     const { isCorrect3 } = this.state;
     console.log(currentList);
+
+    const { 
+      headerLinks, 
+    } = this.state;
+
     return (
       <SpaceRaceBackground>
+        <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
+
         <SpaceRaceInputText>
           {this.state.inputWord}
         </SpaceRaceInputText>
@@ -298,6 +309,7 @@ class SpaceraceGame extends React.Component {
         </div>
       </SpaceRaceBackground>
     );
+      // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }
 }
 
