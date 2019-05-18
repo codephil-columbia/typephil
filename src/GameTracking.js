@@ -385,7 +385,7 @@ class GameTracking extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    return line.match(/.{1,25}/g);
+    return line.match(/.{1,45}/g);
   };
 
   closeModal = () => {

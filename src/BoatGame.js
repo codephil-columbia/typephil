@@ -42,6 +42,8 @@ class BoatGame extends Component{
         this.incrementDifficulty=this.incrementDifficulty.bind(this)
         this.totalTime=this.totalTime.bind(this)
         this.showStatspage=this.showStatspage.bind(this)
+        this.parse=this.parse.bind(this)
+        this.cleanContent=this.cleanContent.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -63,10 +65,13 @@ class BoatGame extends Component{
   componentWillMount = () => {
     fetch("http://localhost:5000/game/boatrace")
     .then(results => {
-        return results.json();
-    }).then(data => {
-        this.setState({content:data.gameContent})
+        return results.json()
     })
+    .then(data => {
+       let randIndex= Math.floor(Math.random() * data.length)
+       this.setState({content:this.parse(data[randIndex].Txt)})
+    })
+
   };
 
     exitMainPage(difficulty){
@@ -88,6 +93,62 @@ class BoatGame extends Component{
             playerDifficulty:diffNum,
             baseDifficulty:diffNum
         })
+    }
+
+    cleanContent(content){
+        let clean= content.replace(/(?:\r\n|\r|\n|\\n)/g, ' ').replace("\"\\n\""," ")
+        return clean
+    }
+
+    parse(response){
+        let currPhrase=""
+        let textArray=[]
+        let origin=0
+        let pointer=0
+        //Finds Title
+        while(response[pointer]+ response[pointer+1]!="\\n"){
+            pointer+=1
+        }
+        currPhrase=response.slice(origin, pointer);
+        textArray.push(currPhrase.trim())
+        currPhrase=""
+        origin=pointer+2
+        let content= response.slice(origin,)
+
+        //removes new line characters
+        console.log(content)
+        content=this.cleanContent(content)
+        console.log(content)
+        while(pointer<content.length){
+            let currChar=content[pointer]
+            if ( currChar == "." || currChar =="?" || currChar=="!"){
+                pointer+=2
+                currPhrase=content.slice(origin,pointer) 
+                textArray.push(currPhrase)
+            }else if( currChar == " "){
+                pointer+=1
+                currPhrase=content.slice(origin,pointer)
+            }else{
+                while(content[pointer] !=" "){
+                    pointer-=1
+                }
+                pointer+=1
+                currPhrase=content.slice(origin,pointer)
+                textArray.push(currPhrase)
+            }
+            origin=pointer
+            pointer+=40
+            currPhrase=""
+        }
+        textArray.push(content.slice(origin,content.length))
+        console.log(textArray)
+        let finalstr=textArray[0]
+        for(let i=1;i<textArray.length;i++){
+            finalstr+=textArray[i] +"\\n"
+        }
+
+        console.log(finalstr)
+        return finalstr
     }
 
 
@@ -141,7 +202,8 @@ class BoatGame extends Component{
     }
     
     render(){ 
-    let content = this.state.content.replace("\\\\n","\\n")
+    let content = this.state.content
+    
     console.log(content)
          // this == event, in this cases
     if(this.state.showMainPage){
