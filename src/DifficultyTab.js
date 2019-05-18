@@ -24,6 +24,7 @@ const DifficultyLevel = styled.div`
   font-family:'Arcade';
   font-size:3rem;
   color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
+  background-color: white;
 `
 const DifficultyContainer=styled.div`
 display:flex;
