@@ -76,6 +76,7 @@ class BoatGame extends Component{
   };
      returnMainPage(){
         this.setState({showMainPage:true})
+        this.componentWillMount()
     }
 
     exitMainPage(difficulty){
