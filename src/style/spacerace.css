@@ -1,3 +1,103 @@
+/*body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+}*/
+
+.box {
+    width: 300px;
+    height: 100px;
+    transform-origin: 50% 50%;
+  }
+  .box p{
+    transform-origin: 50% 50%;
+    position: relative; 
+    left: 200px;
+    top: 55px; 
+  }
+  .box2 {
+    width: 300px;
+    height: 100px;
+    transform-origin: 50% 50%;
+  }
+  .box2 p{
+    transform-origin: 50% 50%;
+    position: relative; 
+    left: 200px;
+    top: 55px; 
+  }
+  .box3 {
+    width: 300px;
+    height: 100px;
+    transform-origin: 50% 50%;
+  }
+  .box3 p{
+    transform-origin: 50% 50%;
+    position: relative; 
+    left: 200px;
+    top: 55px; 
+  }
+
+
+/*body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.box {
+    width: 300px;
+    height: 100px;
+    transform-origin: 50% 50%;
+  
+  }
+  
+  .box p{
+    transform-origin: 50% 50%;
+    position: relative; 
+    left: 200px;
+    top: 55px; 
+  
+  }
+  .box2 {
+    width: 300px;
+    height: 100px;
+    transform-origin: 50% 50%;
+  
+  }
+  
+  .box2 p{
+    transform-origin: 50% 50%;
+    position: relative; 
+    left: 200px;
+    top: 55px; 
+  
+  }
+  
+  .box3 {
+    width: 300px;
+    height: 100px;
+    transform-origin: 50% 50%;
+  
+  }
+  
+  .box3 p{
+    transform-origin: 50% 50%;
+    position: relative; 
+    left: 200px;
+    top: 55px; 
+  
+  }
+
 @font-face {
     font-family: 'Arcade';
     font-style: normal;
@@ -12,7 +112,7 @@
       local('AvenirLTStd-Book'),
       url(../fonts/Racetrack/Racetrack_Stencil.otf);
 }
-
+/*
 @font-face {
     font-family: 'SpaceRaceFont';
     font-style: normal;
@@ -145,3 +245,4 @@
     width: 100vw;
     z-index: 6;
 }
+*/

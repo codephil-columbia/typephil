@@ -5,7 +5,6 @@ import posed from 'react-pose';
 import SplitText from 'react-pose-text';
 import { tween } from 'popmotion';
 import { styler } from 'popmotion';
-import Tracker from "./RacecarTracking"; 
 import styled from 'styled-components'; 
 import Header from './components/header'
 
@@ -14,6 +13,12 @@ import './style/spacerace.css';
 
 const BACKSPACE = "Backspace";
 const ENTER = "Enter";
+const SHIFT = "Shift";
+const CONTROL = "Control";
+const META = "Meta";
+const TAB = "Tab";
+
+
 
 const RCGameText = styled.div`
     margin-top:4vh;
@@ -122,9 +127,9 @@ class SpaceraceGame extends React.Component {
     const Box3 = styler(document.querySelector('.box3'));
 
     tween({
-      from: {x:-2000, y:-250},
+      from: {x:-2000, y:-100},
 
-      to: { x: 1000, y:-250},
+      to: { x: 1000, y:-100},
       duration: 8000,
       //flip: Infinity,
       // elapsed: 500,
@@ -257,6 +262,16 @@ class SpaceraceGame extends React.Component {
     
     if (keyPressed == BACKSPACE){
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
+    //special inputs
+    } else if (keyPressed == SHIFT){
+      this.setState({inputWord:this.state.inputWord.slice(0, -4)})
+    } else if (keyPressed == META){
+      this.setState({inputWord:this.state.inputWord.slice(0, -4)})
+    } else if (keyPressed == CONTROL){
+      this.setState({inputWord:this.state.inputWord.slice(0, -7)})
+    } else if (keyPressed == TAB){
+      this.setState({inputWord:this.state.inputWord.slice(0, -4)})
+      
     } else if (keyPressed == ENTER){
       const { whichList, wasFound } = this.doesWordExist(this.state.inputWord);
       if (wasFound) {
