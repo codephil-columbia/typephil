@@ -278,6 +278,10 @@ const ProgressNumberSubCaption = styled.div`
   text-align: center;
 `
 
+const SideButtonImage = styled.div`
+  padding-top: 5vh;
+`
+
 
 export default class DataDashboard extends Component{
     constructor(props) {
@@ -335,8 +339,19 @@ export default class DataDashboard extends Component{
              <Header links={headerLinks}/>
             <ContentContainer>
                 <SideBar>
-                    <SideTab onClick={this.activateProgress} isActive={this.state.progressActive}>My Progress</SideTab>
-                    <SideTab onClick={this.activateGameScore} isActive={this.state.gameScoreActive}>Game Scores</SideTab>
+                    <SideTab onClick={this.activateProgress} isActive={this.state.progressActive}>
+                      <SideButtonImage>
+                        <img src="/images/buttons/my_progress_button.svg"/>
+                      </SideButtonImage>
+                      
+                      My Progress
+                    </SideTab>
+                    <SideTab onClick={this.activateGameScore} isActive={this.state.gameScoreActive}>
+                      <SideButtonImage>
+                        <img src="/images/buttons/my_scores_button.svg"/>
+                      </SideButtonImage>
+                      Game Scores
+                    </SideTab>
                 </SideBar>
                 <Content>
                     { this.state.progressActive &&
