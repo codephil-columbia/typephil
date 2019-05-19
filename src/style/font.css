@@ -4,8 +4,17 @@
     src:url(../fonts/breecbo/BREECBO_.TTF);
 }
 
+/* for Ready, set, type */
 @font-face {
     font-family: 'ReadySetTypeFont';
     font-style: normal;
     src:url(../fonts/edgeracer/edgeracer.ttf);
 }
+
+/* for Challenge */
+@font-face {
+    font-family: 'ChallengeFont';
+    font-style: normal;
+    src:url(../fonts/arcade/ARCADE_N.ttf);
+}
+

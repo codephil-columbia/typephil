@@ -4,20 +4,28 @@ import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
 import styled  from 'styled-components'
 
+import './style/font.css'
+
 
 const SideBar= styled.div`
     display:flex;
     flex-direction:column;
     align-content:center;
-    width:10vw;
-    height:100vh;
+    width:15vw;
+    height:92vh;
+    background-color: #F2F0F0;
 `
 const SideTab= styled.div`
     display:flex;
     flex-direction:column;
     align-items:center;
-    width:10vw;
+    width:15vw;
     height:25vh;
+    color: #4A4A4A;
+    font-weight: 500;
+    cursor: pointer;
+
+    background-color: ${props => props.isActive ? 'white' :'#F2F0F0' };
 `
 
 const ContentContainer=styled.div`
@@ -28,19 +36,20 @@ const ContentContainer=styled.div`
 const Content=styled.div`
     display:flex;
     width:75vw;
-    height:100vh;
+    height:92vh;
 `
 const GameScore=styled.div`
     display:flex;
     flex-direction:column;
-    height:100vw;
-    width:75vw
+    height:50vh;
+    width:75vw;
 `
 
 const UserStats=styled.div`
     display:flex;
     flex-direction:column;
-    padding-left:1vw;
+    padding-top: 5vh;
+    // padding-left:1vw;
     
 `
 const GameStatsWrapper=styled.div`
@@ -50,13 +59,25 @@ const GameStatsWrapper=styled.div`
 `
 const StatsRow=styled.div`
     display:flex;
-    width:95vw
+    width:85vw;
     height:15vh;
     flex-direction:row;
     justify-content:space-evenly;
-    padding-top:5vh;
-    padding-bottom:5vh;
+    padding-bottom: 18vh;
+    padding-top: 2vh;
     align-items:left;
+
+  @media only screen and (max-height: 800px) {
+    padding-bottom: 10vh;
+  }
+`
+
+const GameHeader = styled.div`
+  color: #52B094;
+  font-weight: 500;
+  font-size: 3rem;
+  padding-left: 5vw;
+  padding-top: 5vh;
 `
 
 
@@ -166,6 +187,97 @@ const HighScoreLabel = styled.div`
 	}
 `
 
+const GamesStatsNumber = styled.div`
+  font-size: 4rem;
+  font-weight: 900;
+  color: #4A4A4A;
+
+  @media only screen and (max-height: 800px) {
+    font-size: 3.5rem;
+  }
+`
+
+const GamesStatsNumberCaption = styled.div`
+  color: #4A4A4A;
+  font-size: 2rem;
+  font-weight: 500;
+
+  @media only screen and (max-height: 800px) {
+    font-size: 1.75rem;
+  }
+`
+
+const GameSpaceRaceRowHeader = styled.div`
+    display:flex;
+    padding-left: 10vw;
+    font-size: 2.75rem;
+    font-family: SpaceRaceFont;
+    color: #326BAE;
+`
+
+const GameReadySetTypeRowHeader = styled.div`
+    display:flex;
+    padding-left: 10vw;
+    font-size: 3rem;
+    font-family: ReadySetTypeFont;
+    color: #039894;
+`
+
+const GameChallengeRowHeader = styled.div`
+    display:flex;
+    padding-left: 10vw;
+    font-size: 2.75rem;
+    font-family: ChallengeFont;
+    color: #F5A623;
+`
+
+const ProgressStatsNumberWPM = styled.div`
+  font-size: 5.5rem;
+  font-weight: 900;
+  color: #4A4A4A;
+  text-align: center;
+
+  background-color: #97C9A3;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+  // padding-left: 5vw;
+  // padding-right: 5vw;
+  width: 15vw;
+
+  border-radius: 10px;
+`
+
+const ProgressStatsNumberAccuracy = styled.div`
+  font-size: 5.5rem;
+  font-weight: 900;
+  color: #4A4A4A;
+  text-align: center;
+
+  background-color: #DDE7C7;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+  // padding-left: 3vw;
+  // padding-right: 3vw;
+  width: 15vw;
+
+  border-radius: 100px;
+`
+
+const ProgressNumberCaption = styled.div`
+  color: #4A4A4A;
+  font-size: 2.25rem;
+  font-weight: 500;
+
+  padding-top: 3vh;
+`
+
+const ProgressNumberSubCaption = styled.div`
+  color: #4A4A4A;
+  font-size: 1.5rem;
+
+  text-align: center;
+`
+
 
 export default class DataDashboard extends Component{
     constructor(props) {
@@ -176,8 +288,8 @@ export default class DataDashboard extends Component{
         this.activateBadges=this.activateBadges.bind(this)
         this.state = { 
             headerLinks: ["Games", "Learn", "Home"],
-            progressActive:false,
-            gameScoreActive:true,
+            progressActive:true,
+            gameScoreActive:false,
             badgesActive:false
         }
 
@@ -214,6 +326,7 @@ export default class DataDashboard extends Component{
     render(){
 
         console.log(this.props.data)
+        console.log(this.state.progressActive)
         const { 
             headerLinks, 
           } = this.state;
@@ -222,64 +335,83 @@ export default class DataDashboard extends Component{
              <Header links={headerLinks}/>
             <ContentContainer>
                 <SideBar>
-                    <SideTab onClick={this.activateProgress}>My Progress</SideTab>
-                    <SideTab onClick={this.activateGameScore}>Game Scores</SideTab>
-                    <SideTab onClick={this.activateBadges}>My Badges</SideTab>
+                    <SideTab onClick={this.activateProgress} isActive={this.state.progressActive}>My Progress</SideTab>
+                    <SideTab onClick={this.activateGameScore} isActive={this.state.gameScoreActive}>Game Scores</SideTab>
                 </SideBar>
                 <Content>
                     { this.state.progressActive &&
-                        <div>Progress clicked</div> }
+                      <GameScore>
+                        <GameHeader> My Progress </GameHeader>
+                        <UserStats>
+                          <StatsRow>
+                             <GameStatsWrapper>
+                                 <ProgressStatsNumberWPM>75</ProgressStatsNumberWPM>
+                                 <ProgressNumberCaption>Average WPM</ProgressNumberCaption>
+                                 <ProgressNumberSubCaption>This is your average<br/> Words Per Minute score.</ProgressNumberSubCaption>
+                             </GameStatsWrapper>
+                             <GameStatsWrapper>
+                                 <ProgressStatsNumberAccuracy>90%</ProgressStatsNumberAccuracy>
+                                 <ProgressNumberCaption>Average Accuracy</ProgressNumberCaption>
+                                 <ProgressNumberSubCaption>This is your average<br/> accuracy score.</ProgressNumberSubCaption>
+                             </GameStatsWrapper>
+                          </StatsRow>
+                        </UserStats>
+                      </GameScore>
+
+                    }
                     { this.state.gameScoreActive &&
                        <GameScore>
-                        <div> Game Score </div>
+                        <GameHeader> Game Score </GameHeader>
                         <UserStats>
+                            <GameSpaceRaceRowHeader>Space Race</GameSpaceRaceRowHeader>
                             <StatsRow>
                                <GameStatsWrapper>
-                                   <div>75</div>
-                                   <div>WPM</div>
+                                   <GamesStatsNumber>75</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>WPM</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                                <GameStatsWrapper>
-                                   <div>90%</div>
-                                   <div>Accuracy</div>
+                                   <GamesStatsNumber>90%</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>Accuracy</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                                <GameStatsWrapper>
-                                   <div>5</div>
-                                   <div>Level</div>
+                                   <GamesStatsNumber>5</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>Level</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                             </StatsRow>
+                            <GameReadySetTypeRowHeader>Ready, Set, Type!</GameReadySetTypeRowHeader>
                             <StatsRow>
                                <GameStatsWrapper>
-                                   <div>75</div>
-                                   <div>WPM</div>
+                                   <GamesStatsNumber>75</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>WPM</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                                <GameStatsWrapper>
-                                   <div>90%</div>
-                                   <div>Accuracy</div>
+                                   <GamesStatsNumber>90%</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>Accuracy</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                                <GameStatsWrapper>
-                                   <div>5</div>
-                                   <div>Level</div>
+                                   <GamesStatsNumber>5</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>Level</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                             </StatsRow>
+                            <GameChallengeRowHeader>Challenge</GameChallengeRowHeader>
                             <StatsRow>
                                <GameStatsWrapper>
-                                   <div>75</div>
-                                   <div>WPM</div>
+                                   <GamesStatsNumber>75</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>WPM</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                                <GameStatsWrapper>
-                                   <div>90%</div>
-                                   <div>Accuracy</div>
+                                   <GamesStatsNumber>90%</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>Accuracy</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                                <GameStatsWrapper>
-                                   <div>5</div>
-                                   <div>Level</div>
+                                   <GamesStatsNumber>5</GamesStatsNumber>
+                                   <GamesStatsNumberCaption>Level</GamesStatsNumberCaption>
                                </GameStatsWrapper>
                             </StatsRow>
                         </UserStats>
-                       </GameScore>}
-                    { this.state.badgesActive &&
-                        <div>My Badges clicked </div>}
-                </Content>
+                       </GameScore>
+                     }
+                  </Content>
                 </ContentContainer>
             </div>
         )
