@@ -75,6 +75,7 @@ class KeyTracking extends Component{
 
     returnMainPage(){
         this.setState({showMainPage:true})
+        this.componentWillMount()
     }
     exitMainPage(difficulty){
         var diffString= difficulty
