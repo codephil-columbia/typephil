@@ -89,8 +89,6 @@ class SpaceraceGame extends React.Component {
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
     //this.isCorrect = this.isCorrect.bind(this)
-    this.calculateDisplacement= this.calculateDisplacement.bind(this)
-
 
 
     const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
@@ -116,8 +114,7 @@ class SpaceraceGame extends React.Component {
       nextWordUpdate: false,
       i: 0, 
       j: 0, 
-      k: 0, 
-      displacement: 0
+      k: 0
     }
 
     this.attachEventListener();
@@ -258,15 +255,6 @@ class SpaceraceGame extends React.Component {
 
 
   }
-  calculateDisplacement = () => {
-    var margin=  // need to figure this out 
-    var prevDisplacement= this.state.displacement
-    console.log("previous displacement: " + prevDisplacement)
-    console.log("new displacement: " + (margin))
-    if(margin >= prevDisplacement){
-      this.setState({displacement:(margin)})
-    }
-  };
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
