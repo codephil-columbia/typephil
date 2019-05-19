@@ -16,7 +16,7 @@ import Challenge from './Challenge'
 import Boat from './BoatGame'
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
-
+import DataDashboard from './DataDashboard'
 
 class App extends Component {
   constructor(props) {
@@ -68,6 +68,7 @@ class App extends Component {
         <Route path="/signup" component={SignupPage}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/boat" component={Boat}/>
+        <Route path="/userStats" component={DataDashboard}/>
         <Route component={FourOhFour} />
       </Switch>
     )
