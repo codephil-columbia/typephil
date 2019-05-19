@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Header from './components/header'
 
 
-import './style/spacerace.css';
+import './style/animation.css';
 
 const BACKSPACE = "Backspace";
 const ENTER = "Enter";
@@ -32,6 +32,7 @@ const RCGameText = styled.div`
     justify-content:center;
   
 `
+
 const SpaceRaceBackground = styled.div`
     background-image: url(/images/games/Stars_Background.svg), url(/images/games/Earth.svg);
     background-position: center bottom 0vh, center right;
@@ -88,6 +89,8 @@ class SpaceraceGame extends React.Component {
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
     //this.isCorrect = this.isCorrect.bind(this)
+    this.calculateDisplacement= this.calculateDisplacement.bind(this)
+
 
 
     const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
@@ -113,7 +116,8 @@ class SpaceraceGame extends React.Component {
       nextWordUpdate: false,
       i: 0, 
       j: 0, 
-      k: 0
+      k: 0, 
+      displacement: 0
     }
 
     this.attachEventListener();
@@ -127,9 +131,9 @@ class SpaceraceGame extends React.Component {
     const Box3 = styler(document.querySelector('.box3'));
 
     tween({
-      from: {x:-2000, y:-100},
+      from: {x:-2000, y:50},
 
-      to: { x: 1000, y:-100},
+      to: { x: 1000, y:50},
       duration: 8000,
       //flip: Infinity,
       // elapsed: 500,
@@ -138,9 +142,9 @@ class SpaceraceGame extends React.Component {
     }).start(Box.set);
 
     tween({
-      from: {x:-3000, y: -25},
+      from: {x:-3000, y: 200},
 
-      to: { x: 1000, y: -25},
+      to: { x: 1000, y: 200},
       duration: 10000,
       //flip: Infinity,
       // elapsed: 500,
@@ -149,9 +153,9 @@ class SpaceraceGame extends React.Component {
     }).start(Box2.set);
 
     tween({
-      from: {x:-1000, y:200},
+      from: {x:-1000, y:350},
 
-      to: { x: 1000, y:200 },
+      to: { x: 1000, y:350 },
       duration: 12000,
       //flip: Infinity,
       // elapsed: 500,
@@ -254,6 +258,15 @@ class SpaceraceGame extends React.Component {
 
 
   }
+  calculateDisplacement = () => {
+    var margin=  // need to figure this out 
+    var prevDisplacement= this.state.displacement
+    console.log("previous displacement: " + prevDisplacement)
+    console.log("new displacement: " + (margin))
+    if(margin >= prevDisplacement){
+      this.setState({displacement:(margin)})
+    }
+  };
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
@@ -264,13 +277,13 @@ class SpaceraceGame extends React.Component {
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
     //special inputs
     } else if (keyPressed == SHIFT){
-      this.setState({inputWord:this.state.inputWord.slice(0, -4)})
+      this.setState({inputWord:this.state.inputWord})
     } else if (keyPressed == META){
-      this.setState({inputWord:this.state.inputWord.slice(0, -4)})
+      this.setState({inputWord:this.state.inputWord})
     } else if (keyPressed == CONTROL){
-      this.setState({inputWord:this.state.inputWord.slice(0, -7)})
+      this.setState({inputWord:this.state.inputWord})
     } else if (keyPressed == TAB){
-      this.setState({inputWord:this.state.inputWord.slice(0, -4)})
+      this.setState({inputWord:this.state.inputWord})
       
     } else if (keyPressed == ENTER){
       const { whichList, wasFound } = this.doesWordExist(this.state.inputWord);
