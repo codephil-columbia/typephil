@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
 import posed from 'react-pose';
 import SplitText from 'react-pose-text';
-import { tween } from 'popmotion';
-import { styler } from 'popmotion';
+import { tween, styler } from 'popmotion';
 import styled from 'styled-components'; 
 import Header from './components/header'
 
@@ -88,6 +87,7 @@ class SpaceraceGame extends React.Component {
     }
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
+    this.Playback;
     //this.isCorrect = this.isCorrect.bind(this)
     this.calculateDisplacement= this.calculateDisplacement.bind(this)
 
@@ -139,8 +139,15 @@ class SpaceraceGame extends React.Component {
       // elapsed: 500,
       loop: 10000000,
       // yoyo: 5
-    }).start(Box.set);
+    }).start(v => {
+      Box.set({x:v.x})
+      if(v.x >= 1000){
+       //insert conditionals here
+      }
+    })
 
+
+    //.start(Box.set,v => {console.log()});
     tween({
       from: {x:-3000, y: 200},
 
@@ -259,7 +266,7 @@ class SpaceraceGame extends React.Component {
 
   }
   calculateDisplacement = () => {
-    var margin=  // need to figure this out 
+    let margin= 0 // need to figure this out 
     var prevDisplacement= this.state.displacement
     console.log("previous displacement: " + prevDisplacement)
     console.log("new displacement: " + (margin))
