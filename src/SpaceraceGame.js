@@ -104,10 +104,12 @@ class SpaceraceGame extends React.Component {
     }
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
+<<<<<<< HEAD
     this.fadeOut = this.fadeOut.bind(this)
+=======
+    //this.Playback;
+>>>>>>> 54248874c6daf5fde5395d3dc9fe985ff788f7a1
     //this.isCorrect = this.isCorrect.bind(this)
-    this.calculateDisplacement= this.calculateDisplacement.bind(this)
-
 
 
     const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
@@ -136,7 +138,13 @@ class SpaceraceGame extends React.Component {
       i: 0, 
       j: 0, 
       k: 0, 
-      displacement: 0
+      isEnd1:false, 
+      isStart1:true,
+      isEnd2:false, 
+      isStart2:true,
+      isEnd3:false, 
+      isStart3:true,
+
     }
 
     this.attachEventListener();
@@ -150,7 +158,8 @@ class SpaceraceGame extends React.Component {
     const Box = styler(document.querySelector('.box'));
     const Box2 = styler(document.querySelector('.box2'));
     const Box3 = styler(document.querySelector('.box3'));
-
+    
+    let k = 0; 
     tween({
       from: {x:-2000, y:0},
 
@@ -161,15 +170,25 @@ class SpaceraceGame extends React.Component {
       loop: 10000000,
       // yoyo: 5
     }).start(v => {
+      
       Box.set({x:v.x})
-      console.log(v.x)
-      if(v.x >= 600){
-       //insert conditionals here
+      if(v.x >= 500){
+
+       this.isEnd1(); 
+       if (k === 0){
+        this.nextWord(0);
+       }
+       k = k+1 
       }
+      else if(v.x <= 0){
+        this.isStart1(); 
+        k = 0; 
+      }
+      
     })
 
-
     //.start(Box.set,v => {console.log()});
+    let k2 = 0; 
     tween({
       from: {x:-3000, y: 0},
 
@@ -179,7 +198,28 @@ class SpaceraceGame extends React.Component {
       // elapsed: 500,
       loop: 10000000,
       // yoyo: 5
-    }).start(Box2.set);
+    }).start(v => {
+      Box2.set({x:v.x})
+      if(v.x >= 500){
+       //this.setState({isEnd:true})
+       this.isEnd2(); 
+       //console.log(k2)
+       if (k2 === 0){
+        this.nextWord(1);
+       }
+       k2 = k2 + 1; 
+       console.log(k2)
+
+
+      }
+      else if(v.x <= 0){
+        this.isStart2();
+        k2=0
+         
+
+      }
+      
+    })
 
     tween({
       from: {x:-1000, y:0},
@@ -190,7 +230,21 @@ class SpaceraceGame extends React.Component {
       // elapsed: 500,
       loop: 10000000,
       // yoyo: 5
-    }).start(Box3.set);
+    }).start(v => {
+      Box3.set({x:v.x})
+      if(v.x >= 500){
+       //this.setState({isEnd:true})
+       this.isEnd3(); 
+      
+       //this.isEnd; 
+
+
+      }
+      else if(v.x <= 0){
+        this.isStart3(); 
+      }
+      
+    })
 
     setInterval(() => {
       this.setState({ isMoving: !this.state.isMoving });
@@ -293,7 +347,7 @@ class SpaceraceGame extends React.Component {
   }
   */
   nextWordUpdate = () => {
-
+    
     return this.state.nextWordUpdate; 
     //if (this.state.isCorrect == false)
      // return "./images/games/Meteor.svg"
@@ -301,6 +355,43 @@ class SpaceraceGame extends React.Component {
 
 
   }
+  isEnd1 = () => {
+
+    this.setState({isCorrect1:"./images/games/Meteor_Crash.svg"});
+    //something that keeps track of lives
+  }
+  isStart1 = () => {
+
+    this.setState({isCorrect1:"./images/games/Meteor.svg"});
+    
+  }
+
+  //middle rocket 
+  isEnd2 = () => {
+
+    this.setState({isCorrect2:"./images/games/Meteor_Crash.svg"});
+    
+    //something that keeps track of lives
+  }
+  isStart2 = () => {
+
+    this.setState({isCorrect2:"./images/games/Meteor.svg"});
+    
+  }
+  //bottom rocket 
+  isEnd3 = () => {
+
+    this.setState({isCorrect3:"./images/games/Meteor_Crash.svg"});
+    //something that keeps track of lives
+  }
+  isStart3 = () => {
+
+    this.setState({isCorrect3:"./images/games/Meteor.svg"});
+    
+  }
+
+/*<<<<<<< HEAD
+=======
   calculateDisplacement = () => {
     let margin= 0 // need to figure this out 
     var prevDisplacement= this.state.displacement
@@ -310,11 +401,13 @@ class SpaceraceGame extends React.Component {
       this.setState({displacement:(margin)})
     }
   };
+>>>>>>> d83f1f1a83b146ce023c6aa1aca6fbeccfd0a36e
+*/
 
   registerUserKeyPress = ({ key: keyPressed }) => {
-    this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
-    this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
-    this.setState({isCorrect3:"./images/games/Meteor.svg"}); 
+    //this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
+    //this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
+    //this.setState({isCorrect3:"./images/games/Meteor.svg"}); 
     
     if (keyPressed == BACKSPACE){
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
@@ -353,6 +446,7 @@ class SpaceraceGame extends React.Component {
     const { isCorrect1 } = this.state;
     const { isCorrect2 } = this.state;
     const { isCorrect3 } = this.state;
+
     console.log(currentList);
 
     const { 
