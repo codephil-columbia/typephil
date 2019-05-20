@@ -55,8 +55,20 @@ const SpaceRaceInputText = styled.div`
   color: white;
   font-size: 4rem;
   text-align: center;
+  height:10vh;
+  width:60vw;
   background-color: #25365A;
+  border-color:white;
+  border: 5px solid;
+  border-radius:20px;
 
+`
+
+
+const RocketContainer = styled.div`
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 `
 
 const charPoses = {
@@ -106,7 +118,8 @@ class SpaceraceGame extends React.Component {
       wordList1,
       wordList2,
       wordList3,
-      wordMap:{}, 
+      wordMap:{},
+      Windowidth:0, 
       currentWord: "",
       currentWordList: ["hi", "hello", "wow"],
       inputWord: "", 
@@ -126,14 +139,16 @@ class SpaceraceGame extends React.Component {
   state = { isMoving: true };
 
   componentDidMount() {
+    this.setState({Windowidth: window.innerWidth});
+    console.log(window.innerWidth)
     const Box = styler(document.querySelector('.box'));
     const Box2 = styler(document.querySelector('.box2'));
     const Box3 = styler(document.querySelector('.box3'));
 
     tween({
-      from: {x:-2000, y:50},
+      from: {x:-2000, y:0},
 
-      to: { x: 1000, y:50},
+      to: { x: 1000, y:0},
       duration: 8000,
       //flip: Infinity,
       // elapsed: 500,
@@ -149,9 +164,9 @@ class SpaceraceGame extends React.Component {
 
     //.start(Box.set,v => {console.log()});
     tween({
-      from: {x:-3000, y: 200},
+      from: {x:-3000, y: 0},
 
-      to: { x: 1000, y: 200},
+      to: { x: 1000, y: 0},
       duration: 10000,
       //flip: Infinity,
       // elapsed: 500,
@@ -160,9 +175,9 @@ class SpaceraceGame extends React.Component {
     }).start(Box2.set);
 
     tween({
-      from: {x:-1000, y:350},
+      from: {x:-1000, y:0},
 
-      to: { x: 1000, y:350 },
+      to: { x: 1000, y:0},
       duration: 12000,
       //flip: Infinity,
       // elapsed: 500,
@@ -326,22 +341,24 @@ class SpaceraceGame extends React.Component {
     return (
       <SpaceRaceBackground>
         <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
+      <RocketContainer>
+          <div className="box"style={{height:"25vh"}}><p>{currentList[0]}</p>
+            <img height="auto" width="100%" src={isCorrect1}/>
+          </div>
 
+          <div className="box2"style={{height:"25vh"}}><p>{currentList[1]}</p>
+            <img height="auto" width="100%" src={isCorrect2}/>
+          </div>
+
+          <div className="box3"style={{height:"27vh"}}><p>{currentList[2]}</p>
+            <img height="auto" width="100%" src={isCorrect3}/>
+          </div>
+        
         <SpaceRaceInputText>
           {this.state.inputWord}
         </SpaceRaceInputText>
+      </RocketContainer>
 
-        <div className="box"><p style={{zIndex:2}}>{currentList[0]}</p>
-          <img height="auto" width="100%" src={isCorrect1}/>
-        </div>
-
-        <div className="box2"><p style={{zIndex:2}}>{currentList[1]}</p>
-          <img height="auto" width="100%" src={isCorrect2}/>
-        </div>
-
-        <div className="box3"><p style={{zIndex:2}}>{currentList[2]}</p>
-          <img height="auto" width="100%" src={isCorrect3}/>
-        </div>
       </SpaceRaceBackground>
     );
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
