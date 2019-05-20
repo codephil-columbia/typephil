@@ -32,6 +32,10 @@ const RCGameText = styled.div`
   
 `
 
+const Rocket = styled.div`
+    opacity:${props => props.opacity};
+`
+
 const SpaceRaceBackground = styled.div`
     background-image: url(/images/games/Stars_Background.svg), url(/images/games/Earth.svg);
     background-position: center bottom 0vh, center right;
@@ -95,11 +99,12 @@ class SpaceraceGame extends React.Component {
     super(props);
 
     this.state = { 
-      headerLinks: ["Games", "Learn", "Home"]
+      headerLinks: ["Games", "Learn", "Home"],
+      BoxOpacity1:1
     }
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
-    this.Playback;
+    this.fadeOut = this.fadeOut.bind(this)
     //this.isCorrect = this.isCorrect.bind(this)
     this.calculateDisplacement= this.calculateDisplacement.bind(this)
 
@@ -118,9 +123,10 @@ class SpaceraceGame extends React.Component {
       wordList1,
       wordList2,
       wordList3,
+      BoxOpacity1:1,
       wordMap:{},
       Windowidth:0, 
-      currentWord: "",
+      currentWord: 0.0,
       currentWordList: ["hi", "hello", "wow"],
       inputWord: "", 
       isCorrect1: "./images/games/Meteor.svg", 
@@ -156,7 +162,8 @@ class SpaceraceGame extends React.Component {
       // yoyo: 5
     }).start(v => {
       Box.set({x:v.x})
-      if(v.x >= 1000){
+      console.log(v.x)
+      if(v.x >= 600){
        //insert conditionals here
       }
     })
@@ -189,6 +196,20 @@ class SpaceraceGame extends React.Component {
       this.setState({ isMoving: !this.state.isMoving });
     }, 2000);
   }
+
+  fadeOut= (Box) => {
+    tween({
+      from: {from: 1, to: 0},
+      duration: 2000,
+      //flip: Infinity,
+      // elapsed: 500,
+      loop: 10000000,
+      // yoyo: 5
+    }).start(v => {
+      this.setState({BoxOpacity1:v.from})
+      console.log(v.from)
+  })
+}
 
   doesWordExist = checkWord => { 
     let whichList = null;
@@ -342,17 +363,23 @@ class SpaceraceGame extends React.Component {
       <SpaceRaceBackground>
         <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
       <RocketContainer>
+        <Rocket opacity={this.state.BoxOpacity1}>
           <div className="box"style={{height:"25vh"}}><p>{currentList[0]}</p>
             <img height="auto" width="100%" src={isCorrect1}/>
           </div>
+        </Rocket>
 
+        {/* <Rocket> */}
           <div className="box2"style={{height:"25vh"}}><p>{currentList[1]}</p>
             <img height="auto" width="100%" src={isCorrect2}/>
           </div>
+        {/* </Rocket> */}
 
+        {/* <Rocket> */}
           <div className="box3"style={{height:"27vh"}}><p>{currentList[2]}</p>
             <img height="auto" width="100%" src={isCorrect3}/>
           </div>
+        {/* </Rocket> */}
         
         <SpaceRaceInputText>
           {this.state.inputWord}
