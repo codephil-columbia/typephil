@@ -392,6 +392,18 @@ class SpaceraceGame extends React.Component {
     let parent= document.getElementsByClassName("RocketRow")
     console.log(parent)
     parent[rowNum].appendChild(rocket)
+    const extraRocket= styler(document.querySelector('.'+word))
+    tween({
+      from: {x:-window.innerWidth/2 -100, y:0},
+
+      to: { x: window.innerWidth/2 -350, y:0},
+      duration: 10000,
+      //flip: Infinity,
+      // elapsed: 500,
+      loop: 10000000,
+      // yoyo: 5
+    }).start(extraRocket.set)
+
   }
 
 
@@ -420,14 +432,13 @@ class SpaceraceGame extends React.Component {
         console.log(whichList)
         this.nextWord(whichList);
       }
-
+      this.spawnRocket('target',1)
       
       this.setState({inputWord:''})
     }
     else {
       this.setState({nextWordUpdate: true});
       this.setState({inputWord:this.state.inputWord + keyPressed})
-      this.spawnRocket('target',0)
     }
     //this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
     //this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
