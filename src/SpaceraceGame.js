@@ -36,6 +36,12 @@ const Rocket = styled.div`
     opacity:${props => props.opacity};
 `
 
+const RocketRow = styled.div`
+    display:flex;
+    flex-direction:inline-row;
+    width100vw;
+`
+
 const SpaceRaceBackground = styled.div`
     background-image: url(/images/games/Stars_Background.svg), url(/images/games/Earth.svg);
     background-position: center bottom 0vh, center right;
@@ -104,11 +110,7 @@ class SpaceraceGame extends React.Component {
     }
     this.doesWordExist = this.doesWordExist.bind(this)
     this.nextWord = this.nextWord.bind(this)
-<<<<<<< HEAD
-    this.fadeOut = this.fadeOut.bind(this)
-=======
-    //this.Playback;
->>>>>>> 54248874c6daf5fde5395d3dc9fe985ff788f7a1
+    this.spawnRocket=this.spawnRocket.bind(this)
     //this.isCorrect = this.isCorrect.bind(this)
 
 
@@ -156,21 +158,21 @@ class SpaceraceGame extends React.Component {
     this.setState({Windowidth: window.innerWidth});
     console.log(window.innerWidth)
     const Box = styler(document.querySelector('.box'));
-    const Box2 = styler(document.querySelector('.box2'));
-    const Box3 = styler(document.querySelector('.box3'));
+    //const Box2 = styler(document.querySelector('.box2'));
+    //const Box3 = styler(document.querySelector('.box3'));
     
     let k = 0; 
     tween({
-      from: {x:-2000, y:0},
+      from: {x:-window.innerWidth/2 -100, y:0},
 
-      to: { x: 1000, y:0},
-      duration: 8000,
+      to: { x: window.innerWidth/2 -350, y:0},
+      duration: 10000,
       //flip: Infinity,
       // elapsed: 500,
       loop: 10000000,
       // yoyo: 5
     }).start(v => {
-      
+      console.log(v)
       Box.set({x:v.x})
       if(v.x >= 500){
 
@@ -187,83 +189,71 @@ class SpaceraceGame extends React.Component {
       
     })
 
-    //.start(Box.set,v => {console.log()});
-    let k2 = 0; 
-    tween({
-      from: {x:-3000, y: 0},
+    // //.start(Box.set,v => {console.log()});
+    // let k2 = 0; 
+    // tween({
+    //   from: {x:-window.innerWidth/2 -100, y:0},
 
-      to: { x: 1000, y: 0},
-      duration: 10000,
-      //flip: Infinity,
-      // elapsed: 500,
-      loop: 10000000,
-      // yoyo: 5
-    }).start(v => {
-      Box2.set({x:v.x})
-      if(v.x >= 500){
-       //this.setState({isEnd:true})
-       this.isEnd2(); 
-       //console.log(k2)
-       if (k2 === 0){
-        this.nextWord(1);
-       }
-       k2 = k2 + 1; 
-       console.log(k2)
+    //   to: { x: window.innerWidth/2 -350, y:0},
+    //   duration: 10000,
+    //   //flip: Infinity,
+    //   // elapsed: 500,
+    //   loop: 10000000,
+    //   // yoyo: 5
+    // }).start(v => {
+    //   Box2.set({x:v.x})
+    //   if(v.x >= 500){
+    //    //this.setState({isEnd:true})
+    //    this.isEnd2(); 
+    //    //console.log(k2)
+    //    if (k2 === 0){
+    //     this.nextWord(1);
+    //    }
+    //    k2 = k2 + 1; 
+    //    console.log(k2)
 
 
-      }
-      else if(v.x <= 0){
-        this.isStart2();
-        k2=0
+    //   }
+    //   else if(v.x <= 0){
+    //     this.isStart2();
+    //     k2=0
          
 
-      }
+    //   }
       
-    })
+    // })
 
-    tween({
-      from: {x:-1000, y:0},
+    // tween({
+    //   from: {x:-window.innerWidth/2 -100, y:0},
 
-      to: { x: 1000, y:0},
-      duration: 12000,
-      //flip: Infinity,
-      // elapsed: 500,
-      loop: 10000000,
-      // yoyo: 5
-    }).start(v => {
-      Box3.set({x:v.x})
-      if(v.x >= 500){
-       //this.setState({isEnd:true})
-       this.isEnd3(); 
+    //   to: { x: window.innerWidth/2 -350, y:0},
+    //   duration: 12000,
+    //   //flip: Infinity,
+    //   // elapsed: 500,
+    //   loop: 10000000,
+    //   // yoyo: 5
+    // }).start(v => {
+    //   Box3.set({x:v.x})
+    //   if(v.x >= 500){
+    //    //this.setState({isEnd:true})
+    //    this.isEnd3(); 
       
-       //this.isEnd; 
+    //    //this.isEnd; 
 
 
-      }
-      else if(v.x <= 0){
-        this.isStart3(); 
-      }
+    //   }
+    //   else if(v.x <= 0){
+    //     this.isStart3(); 
+    //   }
       
-    })
+    // })
 
     setInterval(() => {
       this.setState({ isMoving: !this.state.isMoving });
     }, 2000);
   }
 
-  fadeOut= (Box) => {
-    tween({
-      from: {from: 1, to: 0},
-      duration: 2000,
-      //flip: Infinity,
-      // elapsed: 500,
-      loop: 10000000,
-      // yoyo: 5
-    }).start(v => {
-      this.setState({BoxOpacity1:v.from})
-      console.log(v.from)
-  })
-}
+
 
   doesWordExist = checkWord => { 
     let whichList = null;
@@ -390,19 +380,21 @@ class SpaceraceGame extends React.Component {
     
   }
 
-/*<<<<<<< HEAD
-=======
-  calculateDisplacement = () => {
-    let margin= 0 // need to figure this out 
-    var prevDisplacement= this.state.displacement
-    console.log("previous displacement: " + prevDisplacement)
-    console.log("new displacement: " + (margin))
-    if(margin >= prevDisplacement){
-      this.setState({displacement:(margin)})
-    }
-  };
->>>>>>> d83f1f1a83b146ce023c6aa1aca6fbeccfd0a36e
-*/
+  spawnRocket = (word,rowNum) => {
+    let rocket= document.createElement('div')
+    let text= document.createElement('p')
+    let img= document.createElement('img')
+    img.src=this.state.isCorrect2 //need to add css to this
+    text.textContent=word
+    rocket.className= word
+    rocket.appendChild(text)
+    rocket.appendChild(img)
+    let parent= document.getElementsByClassName("RocketRow")
+    console.log(parent)
+    parent[rowNum].appendChild(rocket)
+  }
+
+
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     //this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
@@ -435,6 +427,7 @@ class SpaceraceGame extends React.Component {
     else {
       this.setState({nextWordUpdate: true});
       this.setState({inputWord:this.state.inputWord + keyPressed})
+      this.spawnRocket('target',0)
     }
     //this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
     //this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
@@ -448,7 +441,6 @@ class SpaceraceGame extends React.Component {
     const { isCorrect3 } = this.state;
 
     console.log(currentList);
-
     const { 
       headerLinks, 
     } = this.state;
@@ -457,23 +449,29 @@ class SpaceraceGame extends React.Component {
       <SpaceRaceBackground>
         <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
       <RocketContainer>
-        <Rocket opacity={this.state.BoxOpacity1}>
-          <div className="box"style={{height:"25vh"}}><p>{currentList[0]}</p>
-            <img height="auto" width="100%" src={isCorrect1}/>
-          </div>
-        </Rocket>
+        <RocketRow className="RocketRow">
+          <Rocket>
+            <div className="box"style={{height:"25vh"}}><p>{currentList[0]}</p>
+              <img height="auto" width="100%" src={isCorrect1}/>
+            </div>
+          </Rocket>
+        </RocketRow>
 
-        {/* <Rocket> */}
-          <div className="box2"style={{height:"25vh"}}><p>{currentList[1]}</p>
-            <img height="auto" width="100%" src={isCorrect2}/>
-          </div>
-        {/* </Rocket> */}
+        <RocketRow className="RocketRow">
+          <Rocket>
+            <div className="box2"style={{height:"25vh"}}><p>{currentList[1]}</p>
+              <img height="auto" width="100%" src={isCorrect2}/>
+            </div>
+          </Rocket>
+        </RocketRow>
 
-        {/* <Rocket> */}
+        <RocketRow className="RocketRow">
+        <Rocket>
           <div className="box3"style={{height:"27vh"}}><p>{currentList[2]}</p>
             <img height="auto" width="100%" src={isCorrect3}/>
           </div>
-        {/* </Rocket> */}
+        </Rocket>
+        </RocketRow>
         
         <SpaceRaceInputText>
           {this.state.inputWord}
