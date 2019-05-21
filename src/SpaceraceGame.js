@@ -383,6 +383,7 @@ class SpaceraceGame extends React.Component {
 
   spawnRocket = (word,rowNum) => {
     let rocket= document.createElement('div')
+    rocket.style.zIndex=2
     let text= document.createElement('p')
     let img= document.createElement('img')
     img.src="./images/games/Meteor.svg" //need to add css to this
@@ -453,7 +454,7 @@ class SpaceraceGame extends React.Component {
         console.log(whichList)
         this.nextWord(whichList);
       }
-      this.spawnRocket('target',1)
+      this.spawnRocket('',1)
       
       this.setState({inputWord:''})
     }
@@ -499,7 +500,7 @@ class SpaceraceGame extends React.Component {
 
         <RocketRow className="RocketRow">
         <Rocket>
-          <div className="box3"style={{height:"27vh"}}><p>{currentList[2]}</p>
+          <div className="box3"style={{height:"25vh"}}><p>{currentList[2]}</p>
             <img height="auto" width="100%" src={isCorrect3}/>
           </div>
         </Rocket>
