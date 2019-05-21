@@ -117,18 +117,17 @@ class SpaceraceGame extends React.Component {
 
 
     const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
-    const wordList1 =  wordList.slice(0, Math.floor(wordList.length/3));
-    const wordList2 = wordList.slice(Math.floor(wordList.length/3), Math.floor(wordList.length/3 * 2));
-    const wordList3 = wordList.slice(Math.floor(wordList.length/3 * 2), Math.floor(wordList.length));
-
-    const currentList = [wordList1[0], wordList2[0], wordList3[0]];
+    //const wordList1 =  wordList.slice(0, Math.floor(wordList.length/3));
+    //const wordList2 = wordList.slice(Math.floor(wordList.length/3), Math.floor(wordList.length/3 * 2));
+    //const wordList3 = wordList.slice(Math.floor(wordList.length/3 * 2), Math.floor(wordList.length));
+    const currentList = [wordList[this.state.count]];
 
     this.state = {
       currentList,
       wordList,
-      wordList1,
-      wordList2,
-      wordList3,
+      //wordList1,
+      //wordList2,
+      //wordList3,
       BoxOpacity1:1,
       wordMap:{},
       Windowidth:0, 
@@ -144,11 +143,7 @@ class SpaceraceGame extends React.Component {
       k: 0, 
       isEnd1:false, 
       isStart1:true,
-      isEnd2:false, 
-      isStart2:true,
-      isEnd3:false, 
-      isStart3:true,
-
+      count: 0
     }
 
     this.attachEventListener();
@@ -157,7 +152,7 @@ class SpaceraceGame extends React.Component {
 
   componentDidMount() {
     this.setState({Windowidth: window.innerWidth});
-    console.log(window.innerWidth)
+    //console.log(window.innerWidth)
     const Box = styler(document.querySelector('.box'));
     //const Box2 = styler(document.querySelector('.box2'));
     //const Box3 = styler(document.querySelector('.box3'));
@@ -173,7 +168,7 @@ class SpaceraceGame extends React.Component {
       loop: 10000000,
       // yoyo: 5
     }).start(v => {
-      console.log(v)
+      //console.log(v)
       Box.set({x:v.x})
       if(v.x >= window.innerWidth/2 -400){
 
@@ -260,12 +255,12 @@ class SpaceraceGame extends React.Component {
     let whichList = null;
     let wasFound = false;
 
-    if (this.state.wordList1.includes(checkWord)) {
+    if (this.state.wordList.includes(checkWord)) {
       whichList = 0;
       wasFound = true
       this.setState({isCorrect1:"./images/games/Meteor_Crash.svg"}); 
       
-    } else if (this.state.wordList2.includes(checkWord)) {
+    } /*else if (this.state.wordList2.includes(checkWord)) {
       whichList = 1;
       wasFound = true
       this.setState({isCorrect2:"./images/games/Meteor_Crash.svg"});
@@ -277,6 +272,8 @@ class SpaceraceGame extends React.Component {
       this.setState({isCorrect3:"./images/games/Meteor_Crash.svg"}); 
     }
     return { whichList, wasFound };
+    */
+   return { wasFound };
   }
 
   attachEventListener = () => {
@@ -287,10 +284,16 @@ class SpaceraceGame extends React.Component {
   nextWord(n) {
     let newIndex;
     let newWord;
-    console.log(this.state.i)
+    console.log(this.state.count)
    // console.log(this.state.j)
   //  console.log(this.state.k)
+    newIndex = this.state.count + 1
+    newWord = this.setState({count: newIndex })
+    //this.setState({currentList: newWord }); // breaking it 
+    return newWord
 
+    
+/*
     if (n === 0) {
       
       if (this.state.i >= this.state.wordList1.length-1){
@@ -324,7 +327,9 @@ class SpaceraceGame extends React.Component {
     currentList[n] = newWord;
     
     this.setState({ currentList });
+  */ 
   }
+
   /*
   isCorrect = () => {
     if (this.state.isCorrect == true) {
@@ -428,7 +433,6 @@ class SpaceraceGame extends React.Component {
   }
 
 
-
   registerUserKeyPress = ({ key: keyPressed }) => {
     //this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
     //this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
@@ -450,10 +454,12 @@ class SpaceraceGame extends React.Component {
       const { whichList, wasFound } = this.doesWordExist(this.state.inputWord);
       if (wasFound) {
         console.log("i am in")
-        console.log(whichList)
-        this.nextWord(whichList);
+        //console.log(whichList)
+        this.spawnRocket(this.nextWord(this.state.count),1)
+        console.log(this.state.count)
+
       }
-      this.spawnRocket('target',1)
+      //this.spawnRocket('target',1)
       
       this.setState({inputWord:''})
     }
@@ -472,9 +478,10 @@ class SpaceraceGame extends React.Component {
     const { isCorrect2 } = this.state;
     const { isCorrect3 } = this.state;
 
-    console.log(currentList);
+    //console.log(currentList);
     const { 
-      headerLinks, 
+      headerLinks,
+      wordList, 
     } = this.state;
 
     return (
@@ -483,7 +490,7 @@ class SpaceraceGame extends React.Component {
       <RocketContainer>
         <RocketRow className="RocketRow">
           <Rocket>
-            <div className="box"style={{height:"25vh"}}><p>{currentList[0]}</p>
+            <div className="box"style={{height:"25vh"}}><p>{wordList[0]}</p>
               <img height="auto" width="100%" src={isCorrect1}/>
             </div>
           </Rocket>
