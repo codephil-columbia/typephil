@@ -100,6 +100,8 @@ function App() {
   );
 }
 
+
+
 class SpaceraceGame extends React.Component {
   constructor(props) {
     super(props);
@@ -151,7 +153,6 @@ class SpaceraceGame extends React.Component {
 
     this.attachEventListener();
   } 
-
   state = { isMoving: true };
 
   componentDidMount() {
@@ -174,7 +175,7 @@ class SpaceraceGame extends React.Component {
     }).start(v => {
       console.log(v)
       Box.set({x:v.x})
-      if(v.x >= 500){
+      if(v.x >= window.innerWidth/2 -400){
 
        this.isEnd1(); 
        if (k === 0){
@@ -384,7 +385,7 @@ class SpaceraceGame extends React.Component {
     let rocket= document.createElement('div')
     let text= document.createElement('p')
     let img= document.createElement('img')
-    img.src=this.state.isCorrect2 //need to add css to this
+    img.src="./images/games/Meteor.svg" //need to add css to this
     text.textContent=word
     rocket.className= word
     rocket.appendChild(text)
@@ -393,16 +394,36 @@ class SpaceraceGame extends React.Component {
     console.log(parent)
     parent[rowNum].appendChild(rocket)
     const extraRocket= styler(document.querySelector('.'+word))
+    let k =0
+    let needToExplode=false;
     tween({
       from: {x:-window.innerWidth/2 -100, y:0},
 
       to: { x: window.innerWidth/2 -350, y:0},
-      duration: 10000,
+      duration: 5000,
       //flip: Infinity,
       // elapsed: 500,
       loop: 10000000,
       // yoyo: 5
-    }).start(extraRocket.set)
+    }).start(v => {
+      console.log(v)
+      extraRocket.set({x:v.x})
+      if(v.x >= window.innerWidth/2 -450){
+        img.src="./images/games/Meteor_Crash.svg"
+       if (k === 0){
+        this.nextWord(0);
+       }
+       k = k+1 
+      }
+      else if(v.x <= 0){
+        img.src= "./images/games/Meteor.svg"
+        this.isStart1(); 
+        k = 0; 
+      }
+
+
+      
+    });
 
   }
 
