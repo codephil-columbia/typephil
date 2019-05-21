@@ -117,38 +117,30 @@ class SpaceraceGame extends React.Component {
 
 
     const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
-    const wordList1 =  wordList.slice(0, Math.floor(wordList.length/3));
-    const wordList2 = wordList.slice(Math.floor(wordList.length/3), Math.floor(wordList.length/3 * 2));
-    const wordList3 = wordList.slice(Math.floor(wordList.length/3 * 2), Math.floor(wordList.length));
-
-    const currentList = [wordList1[0], wordList2[0], wordList3[0]];
+    //const wordList1 =  wordList.slice(0, Math.floor(wordList.length/3));
+    //const wordList2 = wordList.slice(Math.floor(wordList.length/3), Math.floor(wordList.length/3 * 2));
+    //const wordList3 = wordList.slice(Math.floor(wordList.length/3 * 2), Math.floor(wordList.length));
+    const currentList = [wordList[this.state.count]];
 
     this.state = {
       currentList,
       wordList,
-      wordList1,
-      wordList2,
-      wordList3,
+      //wordList1,
+      //wordList2,
+      //wordList3,
       BoxOpacity1:1,
       wordMap:{},
       Windowidth:0, 
       currentWord: 0.0,
       currentWordList: ["hi", "hello", "wow"],
       inputWord: "", 
-      isCorrect1: "./images/games/Meteor.svg", 
-      isCorrect2: "./images/games/Meteor.svg", 
-      isCorrect3: "./images/games/Meteor.svg", 
       nextWordUpdate: false,
       i: 0, 
       j: 0, 
       k: 0, 
       isEnd1:false, 
       isStart1:true,
-      isEnd2:false, 
-      isStart2:true,
-      isEnd3:false, 
-      isStart3:true,
-
+      count: 0
     }
 
     this.attachEventListener();
@@ -156,116 +148,20 @@ class SpaceraceGame extends React.Component {
   state = { isMoving: true };
 
   componentDidMount() {
-    this.setState({Windowidth: window.innerWidth});
-    console.log(window.innerWidth)
-    const Box = styler(document.querySelector('.box'));
-    //const Box2 = styler(document.querySelector('.box2'));
-    //const Box3 = styler(document.querySelector('.box3'));
-    
-    let k = 0; 
-    tween({
-      from: {x:-window.innerWidth/2 -100, y:0},
-
-      to: { x: window.innerWidth/2 -350, y:0},
-      duration: 10000,
-      //flip: Infinity,
-      // elapsed: 500,
-      loop: 10000000,
-      // yoyo: 5
-    }).start(v => {
-      console.log(v)
-      Box.set({x:v.x})
-      if(v.x >= window.innerWidth/2 -400){
-
-       this.isEnd1(); 
-       if (k === 0){
-        this.nextWord(0);
-       }
-       k = k+1 
-      }
-      else if(v.x <= 0){
-        this.isStart1(); 
-        k = 0; 
-      }
-      
-    })
-
-    // //.start(Box.set,v => {console.log()});
-    // let k2 = 0; 
-    // tween({
-    //   from: {x:-window.innerWidth/2 -100, y:0},
-
-    //   to: { x: window.innerWidth/2 -350, y:0},
-    //   duration: 10000,
-    //   //flip: Infinity,
-    //   // elapsed: 500,
-    //   loop: 10000000,
-    //   // yoyo: 5
-    // }).start(v => {
-    //   Box2.set({x:v.x})
-    //   if(v.x >= 500){
-    //    //this.setState({isEnd:true})
-    //    this.isEnd2(); 
-    //    //console.log(k2)
-    //    if (k2 === 0){
-    //     this.nextWord(1);
-    //    }
-    //    k2 = k2 + 1; 
-    //    console.log(k2)
-
-
-    //   }
-    //   else if(v.x <= 0){
-    //     this.isStart2();
-    //     k2=0
-         
-
-    //   }
-      
-    // })
-
-    // tween({
-    //   from: {x:-window.innerWidth/2 -100, y:0},
-
-    //   to: { x: window.innerWidth/2 -350, y:0},
-    //   duration: 12000,
-    //   //flip: Infinity,
-    //   // elapsed: 500,
-    //   loop: 10000000,
-    //   // yoyo: 5
-    // }).start(v => {
-    //   Box3.set({x:v.x})
-    //   if(v.x >= 500){
-    //    //this.setState({isEnd:true})
-    //    this.isEnd3(); 
-      
-    //    //this.isEnd; 
-
-
-    //   }
-    //   else if(v.x <= 0){
-    //     this.isStart3(); 
-    //   }
-      
-    // })
-
-    setInterval(() => {
-      this.setState({ isMoving: !this.state.isMoving });
-    }, 2000);
+    this.spawnRocket('someshit',1)
   }
-
 
 
   doesWordExist = checkWord => { 
     let whichList = null;
     let wasFound = false;
 
-    if (this.state.wordList1.includes(checkWord)) {
+    if (this.state.wordList.includes(checkWord)) {
       whichList = 0;
       wasFound = true
       this.setState({isCorrect1:"./images/games/Meteor_Crash.svg"}); 
       
-    } else if (this.state.wordList2.includes(checkWord)) {
+    } /*else if (this.state.wordList2.includes(checkWord)) {
       whichList = 1;
       wasFound = true
       this.setState({isCorrect2:"./images/games/Meteor_Crash.svg"});
@@ -277,6 +173,8 @@ class SpaceraceGame extends React.Component {
       this.setState({isCorrect3:"./images/games/Meteor_Crash.svg"}); 
     }
     return { whichList, wasFound };
+    */
+   return { wasFound };
   }
 
   attachEventListener = () => {
@@ -287,9 +185,15 @@ class SpaceraceGame extends React.Component {
   nextWord(n) {
     let newIndex;
     let newWord;
-    console.log(this.state.i)
+    console.log(this.state.count)
    // console.log(this.state.j)
   //  console.log(this.state.k)
+    newIndex = this.state.count + 1
+    newWord = this.setState({count: newIndex })
+    //this.setState({currentList: newWord }); // breaking it 
+    return newWord
+
+    
 
     if (n === 0) {
       
@@ -324,61 +228,12 @@ class SpaceraceGame extends React.Component {
     currentList[n] = newWord;
     
     this.setState({ currentList });
-  }
-  /*
-  isCorrect = () => {
-    if (this.state.isCorrect == true) {
-      return "./images/games/Meteor_Crash.svg"
-    }
-    
-    return "./images/games/Meteor.svg"
-    
-
 
   }
-  */
+
+
   nextWordUpdate = () => {
-    
     return this.state.nextWordUpdate; 
-    //if (this.state.isCorrect == false)
-     // return "./images/games/Meteor.svg"
-   // return "./images/games/Meteor_Crash.svg"
-
-
-  }
-  isEnd1 = () => {
-
-    this.setState({isCorrect1:"./images/games/Meteor_Crash.svg"});
-    //something that keeps track of lives
-  }
-  isStart1 = () => {
-
-    this.setState({isCorrect1:"./images/games/Meteor.svg"});
-    
-  }
-
-  //middle rocket 
-  isEnd2 = () => {
-
-    this.setState({isCorrect2:"./images/games/Meteor_Crash.svg"});
-    
-    //something that keeps track of lives
-  }
-  isStart2 = () => {
-
-    this.setState({isCorrect2:"./images/games/Meteor.svg"});
-    
-  }
-  //bottom rocket 
-  isEnd3 = () => {
-
-    this.setState({isCorrect3:"./images/games/Meteor_Crash.svg"});
-    //something that keeps track of lives
-  }
-  isStart3 = () => {
-
-    this.setState({isCorrect3:"./images/games/Meteor.svg"});
-    
   }
 
   spawnRocket = (word,rowNum) => {
@@ -387,6 +242,8 @@ class SpaceraceGame extends React.Component {
     let text= document.createElement('p')
     let img= document.createElement('img')
     img.src="./images/games/Meteor.svg" //need to add css to this
+    img.style.maxWidth="75%"
+    img.style.height="auto"
     text.textContent=word
     rocket.className= word
     rocket.appendChild(text)
@@ -402,24 +259,19 @@ class SpaceraceGame extends React.Component {
 
       to: { x: window.innerWidth/2 -350, y:0},
       duration: 5000,
-      //flip: Infinity,
-      // elapsed: 500,
-      loop: 10000000,
-      // yoyo: 5
+
     }).start(v => {
-      console.log(v)
+
       extraRocket.set({x:v.x})
       if(v.x >= window.innerWidth/2 -450){
         img.src="./images/games/Meteor_Crash.svg"
-       if (k === 0){
-        this.nextWord(0);
-       }
-       k = k+1 
+        setTimeout(function() {
+          rocket.style.visibility="hidden"
+        }, 1000);
       }
       else if(v.x <= 0){
         img.src= "./images/games/Meteor.svg"
-        this.isStart1(); 
-        k = 0; 
+        
       }
 
 
@@ -427,7 +279,6 @@ class SpaceraceGame extends React.Component {
     });
 
   }
-
 
 
   registerUserKeyPress = ({ key: keyPressed }) => {
@@ -451,31 +302,27 @@ class SpaceraceGame extends React.Component {
       const { whichList, wasFound } = this.doesWordExist(this.state.inputWord);
       if (wasFound) {
         console.log("i am in")
-        console.log(whichList)
-        this.nextWord(whichList);
-      }
-      this.spawnRocket('',1)
-      
+        //console.log(whichList)
+        this.spawnRocket(this.nextWord(this.state.count),1)
+        console.log(this.state.count)
+
+      }      
       this.setState({inputWord:''})
     }
     else {
       this.setState({nextWordUpdate: true});
       this.setState({inputWord:this.state.inputWord + keyPressed})
     }
-    //this.setState({isCorrect1:"./images/games/Meteor.svg"}); 
-    //this.setState({isCorrect2:"./images/games/Meteor.svg"}); 
-   // this.setState({isCorrect3:"./images/games/Meteor.svg"}); 
   }
 
   render() {
     const { currentList } = this.state;
-    const { isCorrect1 } = this.state;
-    const { isCorrect2 } = this.state;
-    const { isCorrect3 } = this.state;
+ 
 
-    console.log(currentList);
+    //console.log(currentList);
     const { 
-      headerLinks, 
+      headerLinks,
+      wordList, 
     } = this.state;
 
     return (
@@ -484,25 +331,25 @@ class SpaceraceGame extends React.Component {
       <RocketContainer>
         <RocketRow className="RocketRow">
           <Rocket>
-            <div className="box"style={{height:"25vh"}}><p>{currentList[0]}</p>
-              <img height="auto" width="100%" src={isCorrect1}/>
-            </div>
+            {/* <div className="box"style={{height:"25vh"}}><p>{wordList[0]}</p>
+              <img style={{maxWidth:"95%", height:"auto"}} src={isCorrect1}/>
+            </div> */}
           </Rocket>
         </RocketRow>
 
         <RocketRow className="RocketRow">
           <Rocket>
-            <div className="box2"style={{height:"25vh"}}><p>{currentList[1]}</p>
-              <img height="auto" width="100%" src={isCorrect2}/>
-            </div>
+            {/* <div className="box2"style={{height:"25vh"}}><p>{currentList[1]}</p>
+              <img style={{maxWidth:"95%", height:"auto"}} src={isCorrect2}/>
+            </div> */}
           </Rocket>
         </RocketRow>
 
         <RocketRow className="RocketRow">
         <Rocket>
-          <div className="box3"style={{height:"25vh"}}><p>{currentList[2]}</p>
-            <img height="auto" width="100%" src={isCorrect3}/>
-          </div>
+          {/* <div className="box3"style={{height:"25vh"}}><p>{currentList[2]}</p>
+            <img style={{maxWidth:"95%", height:"auto"}} src={isCorrect3}/>
+          </div> */}
         </Rocket>
         </RocketRow>
         
