@@ -37,6 +37,7 @@ const RocketRow = styled.div`
     flex-direction:inline-row;
     width:100vw;
     height:26vh;
+    text-align: center;
 `
 
 const SpaceRaceBackground = styled.div`
@@ -68,15 +69,38 @@ const SpaceRaceInputText = styled.div`
   border-color:white;
   border: 5px solid;
   border-radius:20px;
-
 `
 
 
 const RocketContainer = styled.div`
     display:flex;
     flex-direction:column;
-    align-items:center;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
 `
+
+const LivesContainer = styled.div`
+    margin-top:1vh;
+    margin-left:2vh;
+    display:flex;
+    flex-direction:row;
+    text-align: center;
+    font-size: 3em;
+
+    color: white;
+`
+const Lives = styled.div`
+    display:flex;
+    flex-direction:row;
+    width:5vw;
+    height:6vh;
+    text-align: left;
+
+`
+
+
+
 
 
 class SpaceraceGame extends React.Component {
@@ -93,8 +117,12 @@ class SpaceraceGame extends React.Component {
       inputWord: "", 
       zIndex:0,
       lives:3,
-      playerHasLost:false
-    }
+      playerHasLost:false, 
+      level:1, 
+      live1:"./images/games/Heart.svg", 
+      live2:"./images/games/Heart.svg", 
+      live3:"./images/games/Heart.svg"
+    } 
 
     this.doesWordExist = this.doesWordExist.bind(this)
     this.spawnRocket=this.spawnRocket.bind(this)
@@ -140,16 +168,33 @@ class SpaceraceGame extends React.Component {
     this.createRocket(rocketWord,this.state.rowNum,randIndex)
     this.setState({rowNum:this.state.rowNum + 1})
     this.setState({zIndex:this.state.zIndex + 1})
+    if (this.state.zIndex%5 === 0){
+      this.setState({zIndex:this.state.zIndex + 1})
+      console.log("level up"); 
+      console.log(this.state.zIndex); 
+
+    }
+    this.setState({level: this.state.level + 1})
     if(this.state.rowNum == 3){
       this.setState({rowNum:0})
     }
   }
 
   subtractLife= () =>{
+    if (this.state.lives === 3){
+      this.setState({live3: null})
+    }else if (this.state.lives === 2){
+      this.setState({live2: null})
+    }else if (this.state.lives === 1){
+      this.setState({live1: null})
+  }
+    
     this.setState({lives:this.state.lives -1})
     if(this.state.lives ==0){
       this.setState({playerHasLost:true})
     }
+
+    
   }
 
   destroyRocket= (targetDiv) => {
@@ -190,6 +235,15 @@ class SpaceraceGame extends React.Component {
     img.style.zIndex=this.state.zIndex
     text.textContent=word
     text.style.zIndex=this.state.zIndex
+    text.style.color = "white"
+    text.style.textAlign = "center"
+    text.style.position = "relative"
+    text.style.top = "2em"
+    text.style.left = "3em"
+
+
+
+    
     rocket.className= word
     rocket.id="not-destroyed"
     rocket.appendChild(text)
@@ -201,7 +255,8 @@ class SpaceraceGame extends React.Component {
     this.state.AvailableWords.splice(index,1)
     
     const extraRocket= styler(document.querySelector('.'+word))
-    let randDuration= Math.floor(10000 +  (Math.random() * (18000-10000)))
+    let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
+    console.log(randDuration)
     let haslostLife=false
     tween({
       from: {x:-window.innerWidth/3, y:0},
@@ -263,6 +318,10 @@ class SpaceraceGame extends React.Component {
 
   render() {
     const { currentList } = this.state;
+    const { live1 } = this.state;
+    const { live2 } = this.state;
+    const { live3 } = this.state;
+
 
     //console.log(currentList);
     const { 
@@ -274,6 +333,20 @@ class SpaceraceGame extends React.Component {
     return (
       <SpaceRaceBackground>
         <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
+        <LivesContainer>
+          <Lives className="Lives">
+            <img height="auto" width="100%" src={live1}/>
+          </Lives>
+          
+          <Lives className="Lives">
+            <img height="auto" width="100%" src={live2}/>
+          </Lives>
+
+          <Lives className="Lives">
+            <img height="auto" width="100%" src={live3}/>
+          </Lives>
+        </LivesContainer>
+
       <RocketContainer>
         <RocketRow className="RocketRow">
         </RocketRow>
