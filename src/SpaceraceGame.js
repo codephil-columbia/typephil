@@ -260,8 +260,8 @@ class SpaceraceGame extends React.Component {
     this.state.AvailableWords.splice(index,1)
     
     const extraRocket= styler(document.querySelector('.'+word))
-    // let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
-    let randDuration= Math.floor((Math.random() * 50000000)/ ((500*(Math.sqrt(this.state.level)))))
+    let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
+    // let randDuration= Math.floor((Math.random() * 50000000)/ ((500*(Math.sqrt(this.state.level)))))
 
     console.log(randDuration)
     let haslostLife=false
