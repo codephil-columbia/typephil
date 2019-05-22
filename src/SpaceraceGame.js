@@ -32,10 +32,6 @@ const RCGameText = styled.div`
   
 `
 
-const Rocket = styled.div`
-    opacity:${props => props.opacity};
-`
-
 const RocketRow = styled.div`
     display:flex;
     flex-direction:inline-row;
@@ -83,127 +79,157 @@ const RocketContainer = styled.div`
 `
 
 
-
-
 class SpaceraceGame extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
-      headerLinks: ["Games", "Learn", "Home"],
-      BoxOpacity1:1
-    }
-    this.doesWordExist = this.doesWordExist.bind(this)
-    this.nextWord = this.nextWord.bind(this)
-    this.spawnRocket=this.spawnRocket.bind(this)
-
-
-    const wordList = ["hi", "hello", "yay", "wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"]
-    const currentList = [wordList[this.state.count]];
-
     this.state = {
-      currentList,
-      wordList,
-      BoxOpacity1:1,
-      wordMap:{},
-      Windowidth:0, 
-      currentWord: 0.0,
+      headerLinks: ["Games", "Learn", "Home"],
+      AvailableWords:["wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"],
+      FirstWords:["hi", "hello", "yay"],
+      currentRockets:[],
+      rowNum:0,
       currentWordList: ["hi", "hello", "wow"],
       inputWord: "", 
-      nextWordUpdate: false,
-      i: 0, 
-      j: 0, 
-      k: 0, 
-      isEnd1:false, 
-      isStart1:true,
-      count: 0
+      zIndex:0,
+      lives:3,
+      playerHasLost:false
     }
 
+    this.doesWordExist = this.doesWordExist.bind(this)
+    this.spawnRocket=this.spawnRocket.bind(this)
+    this.destroyRocket=this.destroyRocket.bind(this)
+    this.subtractLife=this.subtractLife.bind(this)
     this.attachEventListener();
   } 
   state = { isMoving: true };
 
   componentDidMount() {
-    this.spawnRocket('target1',0)
-    this.spawnRocket('target2',1)
-    this.spawnRocket('target3',2)
+    //creates first three rockets
+    let word1=this.state.FirstWords[0]
+    let word2=this.state.FirstWords[1]
+    let word3=this.state.FirstWords[2]
+    this.createRocket(word1,0)
+    this.createRocket(word2,1)
+    this.createRocket(word3,2)
   }
 
 
   doesWordExist = checkWord => { 
-    let whichList = null;
-    let wasFound = false;
-
-    if (this.state.wordList.includes(checkWord)) {
-      whichList = 0;
-      wasFound = true
-      this.setState({isCorrect1:"./images/games/Meteor_Crash.svg"});   
-    } 
-   return { wasFound };
+    return this.state.currentRockets.includes(checkWord)
   }
 
   attachEventListener = () => {
     document.addEventListener("keydown", this.registerUserKeyPress);
   }
 
-  
-  nextWord(n) {
-    let newIndex;
-    let newWord;
-    console.log(this.state.count)
-    newIndex = this.state.count + 1
-    newWord = this.setState({count: newIndex })
-    return newWord
-
-  }
-
-
   nextWordUpdate = () => {
     return this.state.nextWordUpdate; 
   }
 
-  spawnRocket = (word,rowNum) => {
+  spawnRocket = () => {
+
+    // note need to account for different words
+    //determine word and rowNum where we need to spawn rocket
+    let AvailableWords= this.state.AvailableWords
+    console.log(this.state.AvailableWords)
+    let randIndex= Math.floor(Math.random()* AvailableWords.length)
+    let rocketWord=AvailableWords[randIndex]
+
+    //creates rocket and iterates over row - adds word to currentRockets 
+    this.createRocket(rocketWord,this.state.rowNum,randIndex)
+    this.setState({rowNum:this.state.rowNum + 1})
+    this.setState({zIndex:this.state.zIndex + 1})
+    if(this.state.rowNum == 3){
+      this.setState({rowNum:0})
+    }
+  }
+
+  subtractLife= () =>{
+    this.setState({lives:this.state.lives -1})
+    if(this.state.lives ==0){
+      this.setState({playerHasLost:true})
+    }
+  }
+
+  destroyRocket= (targetDiv) => {
+    let target = document.getElementsByClassName(targetDiv)[0]
+    let childNodes = target.childNodes
+    let text= childNodes[0]
+    let img = childNodes[1]
+    target.id="destroyed"
+    //find word in currentRockets and places it in available words
+    let index= this.state.currentRockets.findIndex(wordInArray => wordInArray === text.textContent)
+    this.state.currentRockets.splice(index,1)
+    this.state.AvailableWords.push(text.textContent)
+
+    //destory rocket
+    img.src="./images/games/Meteor_Crash.svg"
+    setTimeout(function() {
+      target.style.visibility="hidden"
+      target.style.width="0vw"
+      target.style.height="0vh"
+      target.className= "null"
+      text.textContent=""
+    }, 500);
+  }
+
+  
+  createRocket = (word,rowNum,index,) => {
+
     let rocket= document.createElement('div')
-    rocket.style.zIndex=2
     let text= document.createElement('p')
     let img= document.createElement('img')
+    let parent= document.getElementsByClassName("RocketRow")
     img.src="./images/games/Meteor.svg" //need to add css to this
-    img.style.maxWidth="75%"
+    img.style.width="100%"
+    rocket.style.width="15vw"
+    rocket.style.height="auto"
+    rocket.style.zIndex=this.state.zIndex
     img.style.height="auto"
+    img.style.zIndex=this.state.zIndex
     text.textContent=word
+    text.style.zIndex=this.state.zIndex
     rocket.className= word
+    rocket.id="not-destroyed"
     rocket.appendChild(text)
     rocket.appendChild(img)
-    let parent= document.getElementsByClassName("RocketRow")
     parent[rowNum].appendChild(rocket)
-    const extraRocket= styler(document.querySelector('.'+word))
-    
-    let randDuration= 7000 +  (Math.random() * (18000-7000))
-    console.log(randDuration)
 
+    //add randomword selected to rocket words (words that are on screen currently)
+    this.state.currentRockets.push(word)
+    this.state.AvailableWords.splice(index,1)
+    
+    const extraRocket= styler(document.querySelector('.'+word))
+    let randDuration= Math.floor(10000 +  (Math.random() * (18000-10000)))
+    let haslostLife=false
     tween({
       from: {x:-window.innerWidth/3, y:0},
 
-      to: { x: window.innerWidth -350, y:0},
+      to: { x: window.innerWidth -400, y:0},
       duration: randDuration,
 
     }).start(v => {
 
       extraRocket.set({x:v.x})
-      if(v.x >= window.innerWidth -400){
+      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -500 ){
+        this.subtractLife()
+        haslostLife=true
+      }
+      if(v.x >= window.innerWidth -500){
         img.src="./images/games/Meteor_Crash.svg"
         setTimeout(function() {
           rocket.style.visibility="hidden"
-        }, 1000);
+          rocket.style.width="0vw"
+          rocket.style.height="0vh"
+          rocket.className= "null"
+        }, 1000); // possibly change this
       }
       else if(v.x <= 0){
         img.src= "./images/games/Meteor.svg"
-        
-      }
-
-
-      
+      } 
     });
+    
 
   }
 
@@ -222,13 +248,11 @@ class SpaceraceGame extends React.Component {
       this.setState({inputWord:this.state.inputWord})
       
     } else if (keyPressed == ENTER){
-      const { whichList, wasFound } = this.doesWordExist(this.state.inputWord);
-      if (wasFound) {
-        console.log("i am in")
-        //console.log(whichList)
-        this.spawnRocket(this.nextWord(this.state.count),1)
-        console.log(this.state.count)
-
+      
+      if (this.doesWordExist(this.state.inputWord)) {
+        this.destroyRocket(this.state.inputWord)
+        this.spawnRocket() //make this variable time either delay it or use setinterval
+        
       }      
       this.setState({inputWord:''})
     }
@@ -240,7 +264,6 @@ class SpaceraceGame extends React.Component {
 
   render() {
     const { currentList } = this.state;
- 
 
     //console.log(currentList);
     const { 
@@ -248,6 +271,7 @@ class SpaceraceGame extends React.Component {
       wordList, 
     } = this.state;
 
+    if(!this.state.playerHasLost){
     return (
       <SpaceRaceBackground>
         <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
@@ -268,6 +292,9 @@ class SpaceraceGame extends React.Component {
 
       </SpaceRaceBackground>
     );
+    }else{
+     return( <div>insert stats page here</div>)
+    }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }
 }
