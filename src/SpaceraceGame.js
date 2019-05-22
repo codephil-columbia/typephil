@@ -396,11 +396,12 @@ class SpaceraceGame extends React.Component {
     rocket.appendChild(text)
     rocket.appendChild(img)
     let parent= document.getElementsByClassName("RocketRow")
-    console.log(parent)
+    //console.log(parent)
     parent[rowNum].appendChild(rocket)
     const extraRocket= styler(document.querySelector('.'+word))
     let k =0
     let needToExplode=false;
+
     tween({
       from: {x:-window.innerWidth/2 -100, y:0},
 
@@ -411,7 +412,7 @@ class SpaceraceGame extends React.Component {
       loop: 10000000,
       // yoyo: 5
     }).start(v => {
-      console.log(v)
+      //console.log(v)
       extraRocket.set({x:v.x})
       if(v.x >= window.innerWidth/2 -450){
         img.src="./images/games/Meteor_Crash.svg"
