@@ -69,12 +69,15 @@ const SpaceRaceInputText = styled.div`
   border-color:white;
   border: 5px solid;
   border-radius:20px;
+
+  margin: 0 auto;
 `
 
 
 const RocketContainer = styled.div`
     display:flex;
     flex-direction:column;
+    height: 80vh;
     text-align: center;
     font-size: 1.5em;
     color: white;
@@ -109,8 +112,8 @@ class SpaceraceGame extends React.Component {
 
     this.state = {
       headerLinks: ["Games", "Learn", "Home"],
-      AvailableWords:["wow", "word", "mehhh", "iliana", "sang", "matt", "cesar", "ehi", "i", "hate", "saddness"],
-      FirstWords:["hi", "hello", "yay"],
+      AvailableWords:["wow", "weightlifting", "word", "mehhh", "iliana", "ehi", "i", "hate", "saddness"],
+      FirstWords:["hi", "weightlifting", "yay"],
       currentRockets:[],
       rowNum:0,
       currentWordList: ["hi", "hello", "wow"],
@@ -228,7 +231,7 @@ class SpaceraceGame extends React.Component {
     let parent= document.getElementsByClassName("RocketRow")
     img.src="./images/games/Meteor.svg" //need to add css to this
     img.style.width="100%"
-    rocket.style.width="15vw"
+    rocket.style.width="25vw"
     rocket.style.height="auto"
     rocket.style.zIndex=this.state.zIndex
     img.style.height="auto"
@@ -236,11 +239,13 @@ class SpaceraceGame extends React.Component {
     text.textContent=word
     text.style.zIndex=this.state.zIndex
     text.style.color = "white"
+    text.style.fontSize = "2vw"
     text.style.textAlign = "center"
     text.style.position = "relative"
-    text.style.top = "2em"
-    text.style.left = "3em"
-
+    // text.style.top = "6.5rem"
+    // text.style.left = "7rem"
+    text.style.top = "5vw"
+    text.style.left = "5vw"
 
 
     
@@ -255,7 +260,9 @@ class SpaceraceGame extends React.Component {
     this.state.AvailableWords.splice(index,1)
     
     const extraRocket= styler(document.querySelector('.'+word))
-    let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
+    // let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
+    let randDuration= Math.floor((Math.random() * 50000000)/ ((500*(Math.sqrt(this.state.level)))))
+
     console.log(randDuration)
     let haslostLife=false
     tween({
