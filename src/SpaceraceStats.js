@@ -140,7 +140,7 @@ export default class Statistics extends Component{
 
     
     playAgain= () =>{
-        this.props.history.push("/spacerace")
+        this.props.reset()
     }
 
     exitGame= ()  =>{

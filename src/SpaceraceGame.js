@@ -6,7 +6,7 @@ import SplitText from 'react-pose-text';
 import { tween, styler } from 'popmotion';
 import styled from 'styled-components'; 
 import Header from './components/header';
-
+import {withRouter} from 'react-router'
 import Statistics from './SpaceraceStats'
 
 import './style/animation.css';
@@ -125,7 +125,8 @@ class SpaceraceGame extends React.Component {
       rowNum:0,
       seconds:0,
       currentWordList: ["hi", "hello", "wow"],
-      inputWord: "", 
+      inputWord: "",
+      startPeriod:true,
       wpm:20,
       zIndex:5,
       lives:3,
@@ -134,13 +135,15 @@ class SpaceraceGame extends React.Component {
       level:1, 
       duration:10,
       totalWordsTyped:0,
+      startPresses:0,
       totalCorrect:0,
       playerAccuracy:0,
-      ref1:setInterval(this.tick,1000),
-      ref2:setInterval(this.checkDifficultyIncrement, 1000),
+      ref1:0,
+      ref2:0,
       live1:"./images/games/Heart.svg", 
       live2:"./images/games/Heart.svg", 
-      live3:"./images/games/Heart.svg"
+      live3:"./images/games/Heart.svg",
+
     } 
 
     this.doesWordExist = this.doesWordExist.bind(this)
@@ -153,13 +156,17 @@ class SpaceraceGame extends React.Component {
     this.spawnInitRocket=this.spawnInitRocket.bind(this)
     this.initGame= this.initGame.bind(this)
     this.calculateStats=this.calculateStats.bind(this)
+    this.playAgain=this.playAgain.bind(this)
+    this.getParentDiv=this.getParentDiv.bind(this)
     this.attachEventListener();
-
+    
   } 
   state = { isMoving: true };
 
   componentDidMount() {
-    this.initGame()
+  }
+
+  componentWillUnmount() {
   }
 
   checkDifficultyIncrement = () => {
@@ -188,7 +195,8 @@ class SpaceraceGame extends React.Component {
   }
 
   incrementDifficulty = () => {
-     this.setState({wpm:this.state.wpm + 5})
+     this.setState({wpm:this.state.wpm + 5,
+    level:this.state.level +1 })
   }
 
   doesWordExist = checkWord => { 
@@ -201,6 +209,17 @@ class SpaceraceGame extends React.Component {
 
   nextWordUpdate = () => {
     return this.state.nextWordUpdate; 
+  }
+
+  playAgain(){
+    this.setState({
+    playerHasLost:false,
+    currentRockets:[],
+    lives:3,
+    live1:"./images/games/Heart.svg", 
+    live2:"./images/games/Heart.svg", 
+    live3:"./images/games/Heart.svg"})
+    console.log(this.rows)
   }
 
   spawnRocket = () => {
@@ -220,7 +239,6 @@ class SpaceraceGame extends React.Component {
     //   console.log("level up"); 
     //   console.log(this.state.zIndex); 
     // }
-    this.setState({level: this.state.level + 1})
     if(this.state.rowNum == 3){
       this.setState({rowNum:0})
     }
@@ -257,7 +275,6 @@ class SpaceraceGame extends React.Component {
 
     //destory rocket
     img.src="./images/games/Meteor_Crash.svg"
-    //check if need to increment
 
     setTimeout(function() {
       target.style.visibility="hidden"
@@ -350,12 +367,16 @@ class SpaceraceGame extends React.Component {
     this.spawnInitRocket(this.state.FirstWords[2],2,11)
   }
 
+  getParentDiv() {
+    return document.getElementsByClassName("RocketRow")
+  }
+
 
   spawnInitRocket = (word, row, d) => {
     let rocket= document.createElement('div')
     let text= document.createElement('p')
     let img= document.createElement('img')
-    let parent= document.getElementsByClassName("RocketRow")
+    let parent= this.getParentDiv()
     img.src="./images/games/Meteor.svg" //need to add css to this
     img.style.width="100%"
     rocket.style.width="25vw"
@@ -391,7 +412,7 @@ class SpaceraceGame extends React.Component {
       from: {x:-window.innerWidth/3, y:0},
 
       to: { x: window.innerWidth -600, y:0},
-      duration:d *1000,
+      duration:d *100,
 
     }).start(v => {
       extraRocket.set({x:v.x})
@@ -416,8 +437,22 @@ class SpaceraceGame extends React.Component {
     
   }
 
+  
+
   registerUserKeyPress = ({ key: keyPressed }) => {
-    if (keyPressed == BACKSPACE){
+    if(this.state.startPeriod){
+      this.setState({startPresses:this.state.startPresses +1})
+      if(this.state.startPresses==3){
+        this.setState({startPeriod:false})
+        this.setState({
+          ref1:setInterval(this.tick,1000),
+          ref2:setInterval(this.checkDifficultyIncrement, 1000),
+        })
+        this.spawnRocket()
+        this.spawnRocket()
+        this.spawnRocket()
+      }
+    }else if (keyPressed == BACKSPACE){
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
     //special inputs
     } else if (keyPressed == SHIFT){
@@ -444,6 +479,7 @@ class SpaceraceGame extends React.Component {
       this.setState({nextWordUpdate: true});
       this.setState({inputWord:this.state.inputWord + keyPressed})
     }
+
   }
 
   render() {
@@ -452,13 +488,13 @@ class SpaceraceGame extends React.Component {
     const { live2 } = this.state;
     const { live3 } = this.state;
 
-
     const { 
       headerLinks,
       wordList, 
     } = this.state;
 
     if(!this.state.playerHasLost){
+
     return (
       <SpaceRaceBackground>
         <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
@@ -477,18 +513,18 @@ class SpaceraceGame extends React.Component {
         </LivesContainer>
 
         <LevelContainer>
-          Level 4
+          Level {this.state.level}
         </LevelContainer>
 
       <RocketContainer>
-        <RocketRow className="RocketRow">
-        </RocketRow>
+        <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
+        </div>
 
-        <RocketRow className="RocketRow">
-        </RocketRow>
+        <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
+        </div>
 
-        <RocketRow className="RocketRow">
-        </RocketRow>
+        <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
+        </div>
 
         <SpaceRaceInputText>
           {this.state.inputWord}
@@ -498,10 +534,12 @@ class SpaceraceGame extends React.Component {
       </SpaceRaceBackground>
     );
     }else{
-     return( <Statistics/>)
+     return( <Statistics reset={this.playAgain}/>)
     }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }
 }
+
+const SpaceRaceGame = withRouter(SpaceraceGame)
 
 export default (SpaceraceGame);
