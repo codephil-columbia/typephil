@@ -8,7 +8,7 @@
       url(../fonts/Racetrack/Racetrack_Stencil.otf) format('opentype');
 }
 
-@font-face {
+/*@font-face {
     font-family: 'Avenir';
     font-style: normal;
     src:
@@ -24,4 +24,4 @@
         local('Aveni'),
         local('AvenirLTStd-Book'),
         url(../fonts/Racetrack/Racetrack_Stencil.otf) format('opentype');
-}
+}*/

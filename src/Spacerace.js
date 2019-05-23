@@ -185,7 +185,7 @@ class Spacerace extends Component {
       difficulty="hard"
     }
 
-    this.props.history.push("/spaceraceplay");
+    this.props.history.push("/spacerace");
 
   }
   render() {
@@ -220,7 +220,7 @@ class Spacerace extends Component {
             <SpaceraceDifficultyText>
                 <p> SELECT DIFFICULTY </p>
             </SpaceraceDifficultyText>
-            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected}/>            
+            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected} gameSource="SpaceRace"/>            
           </SpaceraceDifficultySelection>
           <SpaceracePlayButtonDiv>
             <SpaceraceCustomButton onClick={() => this.BeginSpaceRace(this.state)}>

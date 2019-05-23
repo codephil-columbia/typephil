@@ -17,6 +17,7 @@ import Challenge from './Challenge'
 import Boat from './BoatGame'
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
+import SpaceraceGame from './SpaceraceGame'
 import Spacerace from './Spacerace'
 import Animation from './animation'
 import DataDashboard from './DataDashboard'
@@ -70,7 +71,8 @@ class App extends Component {
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
         <Route path="/challenge" component={Challenge}/>
-        <Route path="/spacerace" component={Spacerace}/>
+        <Route path="/spacerace" component={SpaceraceGame}/>
+        <Route path="/spaceraceselect" component={Spacerace}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/selectGames" component={GameSelect}/>
         <Route path="/boat" component={Boat}/>
