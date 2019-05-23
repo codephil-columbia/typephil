@@ -227,6 +227,8 @@ class SpaceraceGame extends React.Component {
 
     //destory rocket
     img.src="./images/games/Meteor_Crash.svg"
+    img.style.width= "10vw"
+    img.style.height= "auto"
     setTimeout(function() {
       target.style.visibility="hidden"
       target.style.width="0vw"
@@ -298,6 +300,8 @@ class SpaceraceGame extends React.Component {
       }
       if(v.x >= window.innerWidth -600){
         img.src="./images/games/Meteor_Crash.svg"
+        img.style.width= "10vw"
+        img.style.height= "auto"
         setTimeout(function() {
           rocket.style.visibility="hidden"
           rocket.style.width="0vw"
