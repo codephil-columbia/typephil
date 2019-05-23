@@ -287,7 +287,6 @@ class SpaceraceGame extends React.Component {
 
   calculateStats= () =>  {
     let accuracy= Math.floor((this.state.totalCorrect/this.state.totalWordsTyped)*100)
-    console.log(accuracy)
     this.setState({playerAccuracy:accuracy})
   }
   
@@ -534,7 +533,7 @@ class SpaceraceGame extends React.Component {
       </SpaceRaceBackground>
     );
     }else{
-     return( <Statistics reset={this.playAgain}/>)
+     return( <Statistics data={this.state} reset={this.playAgain}/>)
     }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }

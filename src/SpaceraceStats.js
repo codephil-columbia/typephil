@@ -161,15 +161,15 @@ export default class Statistics extends Component{
                 	<StatsHeader>GAME STATS</StatsHeader>
                     <StatsRow>
                         <DataContainer>
-                            <StatsData>25</StatsData>
+                            <StatsData>{this.props.data.wpm}</StatsData>
                             <StatsText>WPM</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>80%</StatsData>
+                            <StatsData>{this.props.data.playerAccuracy}%</StatsData>
                             <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>2</StatsData>
+                            <StatsData>{this.props.data.level}</StatsData>
                             <StatsText>Level</StatsText>
                         </DataContainer>
                     </StatsRow>
