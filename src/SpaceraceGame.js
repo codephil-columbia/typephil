@@ -103,9 +103,6 @@ const Lives = styled.div`
 `
 
 
-
-
-
 class SpaceraceGame extends React.Component {
   constructor(props) {
     super(props);
@@ -116,13 +113,21 @@ class SpaceraceGame extends React.Component {
       FirstWords:["hi", "weightlifting", "yay"],
       currentRockets:[],
       rowNum:0,
+      seconds:0,
       currentWordList: ["hi", "hello", "wow"],
       inputWord: "", 
+      wpm:20,
       zIndex:5,
       lives:3,
       playerHasLost:false, 
+      needToincrement:false,
       level:1, 
       duration:10,
+      totalWordsTyped:0,
+      totalCorrect:0,
+      playerAccuracy:0,
+      ref1:setInterval(this.tick,1000),
+      ref2:setInterval(this.checkDifficultyIncrement, 1000),
       live1:"./images/games/Heart.svg", 
       live2:"./images/games/Heart.svg", 
       live3:"./images/games/Heart.svg"
@@ -132,13 +137,32 @@ class SpaceraceGame extends React.Component {
     this.spawnRocket=this.spawnRocket.bind(this)
     this.destroyRocket=this.destroyRocket.bind(this)
     this.subtractLife=this.subtractLife.bind(this)
-    this.initGame=this.initGame.bind(this)
+    this.incrementDifficulty=this.incrementDifficulty.bind(this)
+    this.tick=this.tick.bind(this)
+    this.checkDifficultyIncrement= this.checkDifficultyIncrement.bind(this)
+    this.spawnInitRocket=this.spawnInitRocket.bind(this)
+    this.initGame= this.initGame.bind(this)
+    this.calculateStats=this.calculateStats.bind(this)
     this.attachEventListener();
+
   } 
   state = { isMoving: true };
 
   componentDidMount() {
-    this.spawnRocket()
+    this.initGame()
+  }
+
+  checkDifficultyIncrement = () => {
+    if(this.state.seconds % 30 == 0){
+      this.incrementDifficulty()
+      this.setState({level:this.state.level +1})
+      console.log("current wpm: " + this.state.wpm)
+    }
+    console.log("checking need to increment ")
+  }
+  tick = () => {
+    this.setState({seconds:this.state.seconds + 1})
+    console.log(this.state.seconds)
   }
 
   incrementDuration = () => {
@@ -151,6 +175,10 @@ class SpaceraceGame extends React.Component {
       this.setState({duration:10})
     }
     return prevDuration * 1000
+  }
+
+  incrementDifficulty = () => {
+     this.setState({wpm:this.state.wpm + 5})
   }
 
   doesWordExist = checkWord => { 
@@ -166,7 +194,6 @@ class SpaceraceGame extends React.Component {
   }
 
   spawnRocket = () => {
-
     // note need to account for different words
     //determine word and rowNum where we need to spawn rocket
     let AvailableWords= this.state.AvailableWords
@@ -178,12 +205,11 @@ class SpaceraceGame extends React.Component {
     this.createRocket(rocketWord,this.state.rowNum,randIndex)
     this.setState({rowNum:this.state.rowNum + 1})
     this.setState({zIndex:this.state.zIndex + 1})
-    if (this.state.zIndex%5 === 0){
-      this.setState({zIndex:this.state.zIndex + 1})
-      console.log("level up"); 
-      console.log(this.state.zIndex); 
-
-    }
+    // if (this.state.zIndex%5 === 0){
+    //   this.setState({zIndex:this.state.zIndex + 1})
+    //   console.log("level up"); 
+    //   console.log(this.state.zIndex); 
+    // }
     this.setState({level: this.state.level + 1})
     if(this.state.rowNum == 3){
       this.setState({rowNum:0})
@@ -198,13 +224,14 @@ class SpaceraceGame extends React.Component {
     }else if (this.state.lives === 1){
       this.setState({live1: null})
   }
-    
     this.setState({lives:this.state.lives -1})
     if(this.state.lives ==0){
       this.setState({playerHasLost:true})
+      this.calculateStats()
+      console.log(this.state.level)
+      clearInterval(this.state.ref1)
+      clearInterval(this.state.ref2)
     }
-
-    
   }
 
   destroyRocket= (targetDiv) => {
@@ -220,23 +247,23 @@ class SpaceraceGame extends React.Component {
 
     //destory rocket
     img.src="./images/games/Meteor_Crash.svg"
+    //check if need to increment
+
     setTimeout(function() {
       target.style.visibility="hidden"
       target.style.width="0vw"
       target.style.height="0vh"
       target.className= "null"
       text.textContent=""
-    }, 500);
+    }, 100);
   }
 
-  initGame= () => {
-    for(let i =0;i<2;i++){
-      this.spawnRocket()
-    }
+  calculateStats= () =>  {
+    let accuracy= Math.floor((this.state.totalCorrect/this.state.totalWordsTyped)*100)
+    console.log(accuracy)
+    this.setState({playerAccuracy:accuracy})
   }
-
-
-
+  
   
   createRocket = (word,rowNum,index,) => {
 
@@ -284,7 +311,7 @@ class SpaceraceGame extends React.Component {
 
     }).start(v => {
       extraRocket.set({x:v.x})
-      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -500 ){
+      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -600 ){
         this.subtractLife()
         haslostLife=true
       }
@@ -306,6 +333,77 @@ class SpaceraceGame extends React.Component {
 
   }
 
+  initGame = () =>{
+    this.spawnInitRocket(this.state.FirstWords[0],0,10)
+    this.spawnInitRocket(this.state.FirstWords[1],1,12)
+    this.spawnInitRocket(this.state.FirstWords[2],2,11)
+  }
+
+
+  spawnInitRocket = (word, row, d) => {
+    let rocket= document.createElement('div')
+    let text= document.createElement('p')
+    let img= document.createElement('img')
+    let parent= document.getElementsByClassName("RocketRow")
+    img.src="./images/games/Meteor.svg" //need to add css to this
+    img.style.width="100%"
+    rocket.style.width="25vw"
+    rocket.style.height="auto"
+    rocket.style.zIndex=this.state.zIndex
+    img.style.height="auto"
+    img.style.zIndex=this.state.zIndex
+    text.textContent=word
+    text.style.zIndex=this.state.zIndex
+    text.style.color = "white"
+    text.style.fontSize = "2vw"
+    text.style.textAlign = "center"
+    text.style.position = "relative"
+    // text.style.top = "6.5rem"
+    // text.style.left = "7rem"
+    text.style.top = "5vw"
+    text.style.left = "5vw"
+
+
+    
+    rocket.className= word
+    rocket.id="not-destroyed"
+    rocket.appendChild(text)
+    rocket.appendChild(img)
+    parent[row].appendChild(rocket)
+
+    //add randomword selected to rocket words (words that are on screen currently)
+    this.state.currentRockets.push(word)
+    const extraRocket= styler(document.querySelector('.'+word))
+    let haslostLife=false
+
+    tween({
+      from: {x:-window.innerWidth/3, y:0},
+
+      to: { x: window.innerWidth -600, y:0},
+      duration:d *1000,
+
+    }).start(v => {
+      extraRocket.set({x:v.x})
+      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -600 ){
+        this.subtractLife()
+        haslostLife=true
+      }
+      if(v.x >= window.innerWidth -600){
+        img.src="./images/games/Meteor_Crash.svg"
+        setTimeout(function() {
+          rocket.style.visibility="hidden"
+          rocket.style.width="0vw"
+          rocket.style.height="0vh"
+          rocket.className= "null"
+        }, 1000); // possibly change this
+      }
+      else if(v.x <= 0){
+        img.src= "./images/games/Meteor.svg"
+      } 
+
+    });
+    
+  }
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     if (keyPressed == BACKSPACE){
@@ -321,10 +419,12 @@ class SpaceraceGame extends React.Component {
       this.setState({inputWord:this.state.inputWord})
       
     } else if (keyPressed == ENTER){
-      
+      this.setState({totalWordsTyped:this.state.totalWordsTyped + 1})
+
       if (this.doesWordExist(this.state.inputWord)) {
         this.destroyRocket(this.state.inputWord)
-        this.spawnRocket() //make this variable time either delay it or use setinterval
+        this.setState({totalCorrect: this.state.totalCorrect + 1})
+        setTimeout(this.spawnRocket(),this.state.wpm/60 )//make this variable time either delay it or use setinterval
         
       }      
       this.setState({inputWord:''})
@@ -342,7 +442,6 @@ class SpaceraceGame extends React.Component {
     const { live3 } = this.state;
 
 
-    //console.log(currentList);
     const { 
       headerLinks,
       wordList, 
