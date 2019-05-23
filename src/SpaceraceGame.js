@@ -5,10 +5,12 @@ import posed from 'react-pose';
 import SplitText from 'react-pose-text';
 import { tween, styler } from 'popmotion';
 import styled from 'styled-components'; 
-import Header from './components/header'
+import Header from './components/header';
 
+import Statistics from './SpaceraceStats'
 
 import './style/animation.css';
+import './style/font.css';
 
 const BACKSPACE = "Backspace";
 const ENTER = "Enter";
@@ -16,8 +18,6 @@ const SHIFT = "Shift";
 const CONTROL = "Control";
 const META = "Meta";
 const TAB = "Tab";
-
-
 
 const RCGameText = styled.div`
     margin-top:4vh;
@@ -29,7 +29,6 @@ const RCGameText = styled.div`
     font-size: 3.5rem;
     display:flex;
     justify-content:center;
-  
 `
 
 const RocketRow = styled.div`
@@ -102,8 +101,16 @@ const Lives = styled.div`
 
 `
 
-
-
+const LevelContainer = styled.div`
+  color: #DC367A;
+  position: absolute;
+  right: 3vw;
+  top: 8rem;
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-align: right;
+  font-family: Arcade_real;
+`
 
 
 class SpaceraceGame extends React.Component {
@@ -260,8 +267,8 @@ class SpaceraceGame extends React.Component {
     this.state.AvailableWords.splice(index,1)
     
     const extraRocket= styler(document.querySelector('.'+word))
-    let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
-    // let randDuration= Math.floor((Math.random() * 50000000)/ ((500*(Math.sqrt(this.state.level)))))
+    // let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
+    let randDuration= Math.floor((Math.random() * 50000000)/ ((100*(Math.sqrt(this.state.level)))))
 
     console.log(randDuration)
     let haslostLife=false
@@ -354,6 +361,10 @@ class SpaceraceGame extends React.Component {
           </Lives>
         </LivesContainer>
 
+        <LevelContainer>
+          Level 4
+        </LevelContainer>
+
       <RocketContainer>
         <RocketRow className="RocketRow">
         </RocketRow>
@@ -363,7 +374,7 @@ class SpaceraceGame extends React.Component {
 
         <RocketRow className="RocketRow">
         </RocketRow>
-        
+
         <SpaceRaceInputText>
           {this.state.inputWord}
         </SpaceRaceInputText>
@@ -372,7 +383,7 @@ class SpaceraceGame extends React.Component {
       </SpaceRaceBackground>
     );
     }else{
-     return( <div>insert stats page here</div>)
+     return( <Statistics/>)
     }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }
