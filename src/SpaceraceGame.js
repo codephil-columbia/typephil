@@ -68,7 +68,7 @@ const SpaceRaceInputText = styled.div`
   border-color:white;
   border: 5px solid;
   border-radius:20px;
-
+  z-index:2;
   margin: 0 auto;
 `
 
@@ -125,10 +125,11 @@ class SpaceraceGame extends React.Component {
       rowNum:0,
       currentWordList: ["hi", "hello", "wow"],
       inputWord: "", 
-      zIndex:0,
+      zIndex:5,
       lives:3,
       playerHasLost:false, 
       level:1, 
+      duration:10,
       live1:"./images/games/Heart.svg", 
       live2:"./images/games/Heart.svg", 
       live3:"./images/games/Heart.svg"
@@ -138,20 +139,26 @@ class SpaceraceGame extends React.Component {
     this.spawnRocket=this.spawnRocket.bind(this)
     this.destroyRocket=this.destroyRocket.bind(this)
     this.subtractLife=this.subtractLife.bind(this)
+    this.initGame=this.initGame.bind(this)
     this.attachEventListener();
   } 
   state = { isMoving: true };
 
   componentDidMount() {
-    //creates first three rockets
-    let word1=this.state.FirstWords[0]
-    let word2=this.state.FirstWords[1]
-    let word3=this.state.FirstWords[2]
-    this.createRocket(word1,0)
-    this.createRocket(word2,1)
-    this.createRocket(word3,2)
+    this.spawnRocket()
   }
 
+  incrementDuration = () => {
+    let prevDuration= this.state.duration
+    if(prevDuration==10){
+      this.setState({duration:12})
+    }else if(prevDuration==12){
+      this.setState({duration:11})
+    }else if( prevDuration==11){
+      this.setState({duration:10})
+    }
+    return prevDuration * 1000
+  }
 
   doesWordExist = checkWord => { 
     return this.state.currentRockets.includes(checkWord)
@@ -229,6 +236,14 @@ class SpaceraceGame extends React.Component {
     }, 500);
   }
 
+  initGame= () => {
+    for(let i =0;i<2;i++){
+      this.spawnRocket()
+    }
+  }
+
+
+
   
   createRocket = (word,rowNum,index,) => {
 
@@ -265,18 +280,15 @@ class SpaceraceGame extends React.Component {
     //add randomword selected to rocket words (words that are on screen currently)
     this.state.currentRockets.push(word)
     this.state.AvailableWords.splice(index,1)
-    
     const extraRocket= styler(document.querySelector('.'+word))
-    // let randDuration= Math.floor((Math.random() * 50000000)/ ((1000*(Math.sqrt(this.state.level)))))
-    let randDuration= Math.floor((Math.random() * 50000000)/ ((100*(Math.sqrt(this.state.level)))))
 
-    console.log(randDuration)
     let haslostLife=false
+
     tween({
       from: {x:-window.innerWidth/3, y:0},
 
-      to: { x: window.innerWidth -400, y:0},
-      duration: randDuration,
+      to: { x: window.innerWidth -600, y:0},
+      duration: this.incrementDuration(),
 
     }).start(v => {
       extraRocket.set({x:v.x})
@@ -284,7 +296,7 @@ class SpaceraceGame extends React.Component {
         this.subtractLife()
         haslostLife=true
       }
-      if(v.x >= window.innerWidth -500){
+      if(v.x >= window.innerWidth -600){
         img.src="./images/games/Meteor_Crash.svg"
         setTimeout(function() {
           rocket.style.visibility="hidden"
@@ -296,6 +308,7 @@ class SpaceraceGame extends React.Component {
       else if(v.x <= 0){
         img.src= "./images/games/Meteor.svg"
       } 
+
     });
     
 
