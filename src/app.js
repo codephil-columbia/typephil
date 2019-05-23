@@ -14,11 +14,12 @@ import HomePage from './HomePage';
 import GameSelect from './GameSelect'
 import FourOhFour from './components/FourOhFour';
 import Challenge from './Challenge'
+import Boat from './BoatGame'
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 import Spacerace from './Spacerace'
 import Animation from './animation'
-
+import DataDashboard from './DataDashboard'
 
 class App extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class App extends Component {
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/" component={HomePage}/>
+        <Route path="/challenge" component={Challenge}/>
         <Route path="/404"component={FourOhFour} />
       </Switch>
     )
@@ -71,6 +73,8 @@ class App extends Component {
         <Route path="/spacerace" component={Spacerace}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/selectGames" component={GameSelect}/>
+        <Route path="/boat" component={Boat}/>
+        <Route path="/userStats" component={DataDashboard}/>
         <Route component={FourOhFour} />
       </Switch>
     )

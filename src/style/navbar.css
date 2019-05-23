@@ -3,6 +3,76 @@
   background-color: #52B094;
   padding: 1rem; }
 
+.exit_button {
+  width: 35px;
+  padding-top: 4px;
+}
+
+.nav_tutorial_chapter_info {
+  display: inline-block;
+  position: relative;
+  width: 55%;
+}
+
+.no_nav_chapter_info {
+  display: inline-block;
+  position: relative;
+}
+
+.nav_tutorial_chapter_info_text {
+  font-size: 2.5rem;
+  color: white;
+  display: inline-block;
+
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 1100px) {
+    .nav_tutorial_chapter_info_text {
+        font-size: 2.3rem;
+    }
+
+    .nav_tutorial_chapter_info {
+      width: 45%;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    .nav_tutorial_chapter_info_text {
+        font-size: 2.1rem;
+    }
+
+    .nav_tutorial_chapter_info {
+      left: -32px;
+    }
+}
+
+@media only screen and (max-width: 820px) {
+    .nav_tutorial_chapter_info_text {
+        font-size: 1.9rem;
+    }
+    .nav_tutorial_chapter_info {
+      width: 40%;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .nav_tutorial_chapter_info_text {
+        font-size: 1.5rem;
+    }
+    .nav_tutorial_chapter_info {
+      width: 25%;
+    }
+}
+
+.nav_tutorial_chapter_info_text_bold {
+  font-weight: 600;
+  display: inline-block;
+}
+
 .navigation a {
   color: white; }
 
@@ -30,10 +100,14 @@
 .navigation-item:hover, .navigation-item:active {
   border-bottom-color: #FAFAFA; }
 
+.profile-bubble {
+  margin-top: 1px;
+}
+
 .dropbtn {
   color: #4A4A4A;
   background-color: #EDE7CB;
-  padding: 0 1em 1em 1em;
+  padding: 1px;
   font-size: 16px;
   border-radius: 50%;
   height: 2.5em;

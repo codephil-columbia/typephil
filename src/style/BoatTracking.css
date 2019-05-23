@@ -5,21 +5,42 @@
 
 .words {
     font-weight: 600;
-    border-bottom: 1px solid grey;
     font-size: 3rem;
-    margin-bottom: 5rem;
-    margin-left: 23%;
-    margin-right: 23%;
-    text-align: left;
+    border-bottom: none !important
 }
 
+.data-container{
+    width:100vw;
+    display:inline-flex;
+}
+
+#Buffer{
+    width:80vw;
+}
 .default-character {
     color: #545454;
     font-weight: 550;
 }
 
-.content-wrapper {
-    margin-top: 60px;
+
+.StreakCounter{
+    height:15vh;
+    width:10vw;
+    padding-left: 25px;
+    font-family: "Racetrack";
+}
+
+.StreakCounter{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+.game-tracker-container{
+    width: 100vw;
+    height: auto;
+    display:flex;
+    justify-content: center;
 }
 
 .highlighted {
@@ -34,20 +55,43 @@
     margin-left: 35%;
     margin-right: 35%;
     margin-top: 20%;
-    border-radius: 25px;
     color: #ffffff;
     text-align: center;
+}
+
+.correct-character {
+    color: green;
+    font-weight: 400;
+}
+
+.default-character {
+    color: #545454;
+    font-weight: 700;
+}
+
+.incorrect-character {
+    color: red;
+}
+
+.incorrect-space-character {
+    color: red;
+    text-decoration: underline
 }
 
 /*.form-buttons {
     background-color: #BFD8BD;
 }*/
 
-.keyboard-hands.row {
+.content-wrapper{
+    margin:0;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    align-content: center;
 }
 
+.time-container{
+    width:auto;
+}
 .modal-text {
     padding-top: 25px;
     padding-bottom: 20px;
@@ -55,19 +99,20 @@
     text-align: center;
 }
 
+
 .button-primary.solid.modal-button {
     margin-bottom:25px;
 }
 
 @media only screen and (max-width: 1300px) {
     .words {
-        font-size: 2.9rem;
+        font-size: 2.5rem;
     }
 }
 
 @media only screen and (max-width: 1150px) {
     .words {
-        font-size: 2.7rem;
+        font-size: 1.75vw;
         margin-left: 20%;
         margin-right: 20%;
     }
@@ -80,9 +125,5 @@
 @media only screen and (max-width: 900px) {
    .modal-text {
         font-size:1.6rem;
-    }
-
-    .words {
-        font-size: 2.6rem;
     }
 }

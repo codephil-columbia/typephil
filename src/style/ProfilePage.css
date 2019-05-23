@@ -3,9 +3,24 @@
 body {
   font-family: 'Nunito Sans', 'Open Sans', 'sans-serif'; }
 
-h1 {
-  font-size: 1.8em;
-  font-weight: 200; }
+
+.profile_name {
+  font-weight: 400;
+  text-align: center;
+  font-size: 2.3em;
+}
+
+.profile_main_div {
+  margin-top: 45px;
+}
+
+.profile_empty_div {
+  width: 5%;
+}
+
+.add_email {
+  color: #52B094;
+}
 
 h2 {
   font-size: 1.2em;

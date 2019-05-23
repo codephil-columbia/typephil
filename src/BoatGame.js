@@ -3,10 +3,9 @@ import Button from 'react-button-component'
 import styled from 'styled-components';
 import ReactCountdownClock from 'react-countdown-clock'
 import Header from './components/header'
-import Tutorial from './GameTracking'
-import Stats from './Statistics'
-import "./style/KeyTracking.css"
-import MainPage from './Challenge'
+import Tutorial from './BoatGameTracking'
+import Stats from './BoatStats'
+import MainPage from './BoatLevelSelect'
 import { Connect, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
@@ -33,7 +32,7 @@ const Ready = Button.extend`
 `
 
 
-class KeyTracking extends Component{
+class BoatGame extends Component{
     constructor(props){
         super(props);
         this.initiate=this.initiate.bind(this)
@@ -42,6 +41,9 @@ class KeyTracking extends Component{
         this.exitMainPage=this.exitMainPage.bind(this)
         this.incrementDifficulty=this.incrementDifficulty.bind(this)
         this.totalTime=this.totalTime.bind(this)
+        this.showStatspage=this.showStatspage.bind(this)
+        this.parse=this.parse.bind(this)
+        this.cleanContent=this.cleanContent.bind(this)
         this.returnMainPage=this.returnMainPage.bind(this)
         this.state={
             isPlayerReady:false,
@@ -49,34 +51,34 @@ class KeyTracking extends Component{
             beginningDifficulty:1,
             totalMinutes:0,
             wordsPerMinute:0,
+            content:"",
             accuracy:0,
             gameStart:false,
             playerDifficulty:1,
+            baseDifficulty:1,
             showMainPage:true,
             headerLinks: ["Games", "Learn", "Home"],
-            jsonArray:[]
         };
-
     }
 
-    componentWillMount = () => {
 
-        var shuffle = require('shuffle-array')
-        fetch("http://localhost:5000/game/coco")
-        .then(results => {
-            return results.json()
-        })
-        .then(data => {
-           this.setState({jsonArray:shuffle(data)})
-        })
-    
-      };
-    
 
-    returnMainPage(){
+  componentWillMount = () => {
+    fetch("http://localhost:5000/game/boatrace")
+    .then(results => {
+        return results.json()
+    })
+    .then(data => {
+       let randIndex= Math.floor(Math.random() * data.length)
+       this.setState({content:this.parse(data[randIndex].Txt)})
+    })
+
+  };
+     returnMainPage(){
         this.setState({showMainPage:true})
         this.componentWillMount()
     }
+
     exitMainPage(difficulty){
         var diffString= difficulty
         var diffNum=1
@@ -93,10 +95,64 @@ class KeyTracking extends Component{
         this.setState({
             showMainPage:false,
             gameStart:true,
-            playerDifficulty:diffNum
+            playerDifficulty:diffNum,
+            baseDifficulty:diffNum
         })
     }
 
+    cleanContent(content){
+        return content.replace(/(?:\r\n|\r|\n|\\n)/g, ' ').replace("\"\\n\""," ")
+    }
+
+    parse(response){
+        let currPhrase=""
+        let textArray=[]
+        let origin=0
+        let pointer=0
+        //Finds Title
+        while(response[pointer]+ response[pointer+1]!="\\n"){
+            pointer+=1
+        }
+        currPhrase=response.slice(origin, pointer);
+        textArray.push(currPhrase.trim())
+        currPhrase=""
+        origin=pointer+2
+        let content= response.slice(origin,)
+
+        //removes new line characters
+        content=this.cleanContent(content)
+        
+        while(pointer<content.length){
+            let currChar=content[pointer]
+            if ( currChar == "." || currChar =="?" || currChar=="!"){
+                pointer+=2
+                currPhrase=content.slice(origin,pointer) 
+                textArray.push(currPhrase)
+            }else if( currChar == " "){
+                pointer+=1
+                currPhrase=content.slice(origin,pointer)
+            }else{
+                while(content[pointer] !=" "){
+                    pointer-=1
+                }
+                pointer+=1
+                currPhrase=content.slice(origin,pointer)
+                textArray.push(currPhrase)
+            }
+            origin=pointer
+            pointer+=40
+            currPhrase=""
+        }
+        textArray.push(content.slice(origin,content.length))
+        console.log(textArray)
+        let finalstr=textArray[0]
+        for(let i=1;i<textArray.length;i++){
+            finalstr+=textArray[i] +"\\n"
+        }
+
+        console.log(finalstr)
+        return finalstr
+    }
 
     incrementDifficulty(){
         this.setState({playerDifficulty:this.state.playerDifficulty + 1})
@@ -137,14 +193,20 @@ class KeyTracking extends Component{
             wordsPerMinute:wpm
         })
     }
-    
-    render(){
-    
-    let cleanContent=""
-    for(var i =0;i<this.state.jsonArray.length; i++){
-        var string = this.state.jsonArray[i].Txt
-        cleanContent = cleanContent + string +"\n"
+
+    showStatspage= () => {
+        this.setState({
+            playerHasLost:true,
+            isPlayerReady:false,
+            gameStart:false,
+        })
+
     }
+    
+    render(){ 
+    let content = this.state.content
+    
+    console.log(content)
          // this == event, in this cases
     if(this.state.showMainPage){
         return (<MainPage commenceGame={this.exitMainPage} />)
@@ -171,9 +233,9 @@ class KeyTracking extends Component{
               } = this.state;
             
             return(
-            <div className="challenge-game-background">
+            <div className="">
                 <Header links={headerLinks}></Header>
-                <Tutorial playerHasLost={this.endGames} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={cleanContent}/>
+                <Tutorial playerHasLost={this.endGames} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
             </div>
             )
         }else if(this.state.playerHasLost){
@@ -203,7 +265,5 @@ const mapDispatchToProps = dispatch => {
       currentLessonName: app.currentLesson.lessonName
     }
   }
-
-  const main = withRouter(KeyTracking);
   
-  export default connect(mapStateToProps, mapDispatchToProps)(KeyTracking);
+  export default connect(mapStateToProps, mapDispatchToProps)(BoatGame);

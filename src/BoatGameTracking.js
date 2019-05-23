@@ -6,9 +6,9 @@ import Modal from 'react-modal';
 import styled from 'styled-components'
 import { postTutorialResults } from './actions/tutorial';
 
-import Counter from './counterPage'
+import Counter from './BoatTrackingCounterPage'
 
-import "./style/GameTracking.css"
+import "./style/BoatTracking.css"
 
 const BACKSPACE = "Backspace";
 const DEFAULT_STYLE = "default-character character";
@@ -21,77 +21,231 @@ const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
 
-const GameText = styled.div`
-    margin-top: 4vh;
-    padding-top: 1vh;
-    border: 5px solid #F5A623;  
-    border-radius: 10px;  
-    background-color: #FFFFFF;
-    width: 800vw;
-    height: 10vh;
-    text-align: center;
+const BoatraceGameBackground = styled.div`
+    background-image: url(/images/games/Waves_extended.svg);
+    //background-position: center bottom -130vh;
+    background-position: center bottom -130vh;
+    background-repeat: no-repeat;
+    background-size: 150vw auto;
+    // height: 100vh;
 
-    font-weight: 600;
-    font-size: 3.2rem;
-    margin-bottom: 5rem;
-    margin-left: 15%;
-    margin-right: 15%;
-    // margin-left: 13%;
-    // margin-right: 13%;
+    @media only screen and (max-width: 2200px) {
+      background-position: center bottom -140vh;
+    }
 
+    @media only screen and (max-width: 1900px) {
+      background-position: center bottom -135vh;
+    }
+    @media only screen and (max-width: 1850px) {
+      background-position: center bottom -130vh;
+    }
+    @media only screen and (max-width: 1800px) {
+      background-position: center bottom -125vh;
+    }
+    @media only screen and (max-width: 1750px) {
+      background-position: center bottom -120vh;
+    }
+    @media only screen and (max-width: 1700px) {
+      background-position: center bottom -100vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1650px) {
+      background-position: center bottom -95vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1600px) {
+      background-position: center bottom -90vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1550px) {
+      background-position: center bottom -85vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1500px) {
+      background-position: center bottom -80vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1450px) {
+      background-position: center bottom -75vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1400px) {
+      background-position: center bottom -70vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1350px) {
+      background-position: center bottom -65vh;
+      height: 100vh;
+    }
     @media only screen and (max-width: 1300px) {
-        font-size: 3.2rem;
+      background-position: center bottom -60vh;
+      height: 100vh;
     }
-
+    @media only screen and (max-width: 1250px) {
+      background-position: center bottom -55vh;
+      height: 100vh;
+    }
+    @media only screen and (max-width: 1200px) {
+      background-position: center bottom -50vh;
+      height: 100vh;
+    }
     @media only screen and (max-width: 1150px) {
-        font-size: 2.7rem;
-        padding-top: 2vh;
-        margin-left: 10%;
-        margin-right: 10%;
+      background-position: center bottom -45vh;
     }
-
+    @media only screen and (max-width: 1100px) {
+      background-position: center bottom -40vh;
+    }
+    @media only screen and (max-width: 1050px) {
+      background-position: center bottom -35vh;
+    }
+    @media only screen and (max-width: 1000px) {
+      background-position: center bottom -30vh;
+    }
+    @media only screen and (max-width: 950px) {
+      background-position: center bottom -25vh;
+    }
     @media only screen and (max-width: 900px) {
-        font-size:2.6rem;
+      background-position: center bottom -20vh;
     }
+    @media only screen and (max-width: 850px) {
+      background-position: center bottom -15vh;
+    }
+`
 
+const GameText = styled.div`
+    
 `
 
 const CounterText = styled.div`
-    height:15vh;
-    width:10vw;
-    padding-left: 25px;
-    padding-right: 25px;
-    color: #52B094;
-    font-family: "Racetrack";
-
-    display:flex;
-    flex-direction: column;
-    align-items:center;
 
 `
 
 const CounterNumber = styled.div`
-    font-size: 5rem;
-    margin-top: -.5rem;
-}
+
+`
+
+const BoatContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  bottom: -1vh;
+`
+
+const Boat = styled.div`
+  margin-left:${props => props.displacement}vw;
+  padding-bottom: 9.5vh;
+  height:auto;
+  width:auto;
+  transition: all .8s ease-in-out;
+`
+
+const BoatImage = styled.div`
+  content: url(/images/games/Boat.svg);
+  width: 15vw;
+
+  @media only screen and (max-width: 1400px) {
+    width: 20vw;
+  }
+  @media only screen and (max-width: 1150px) {
+    width: 25vw;
+  }
+  @media only screen and (max-width: 1000px) {
+    width: 25vw;
+  }
+`
+
+const BoatText = styled.div`
+  z-score: 10;
+  position: relative;
+  padding-left:5vw;
+  margin-bottom: -4vh;
+  font-weight: bold;
+
+  @media only screen and (max-width: 1400px) {
+    padding-left:7vw;
+  }
+  @media only screen and (max-width: 1150px) {
+    padding-left: 7.5vw;
+  }
+  @media only screen and (max-width: 1000px) {
+    padding-left: 7.5vw;
+  }
+`
+const PlayerText=styled.div`
+  z-score: 10;
+  position: relative;
+  padding-left:6.8vw;
+  margin-bottom: -4vh;
+  font-weight: bold;
+
+  @media only screen and (max-width: 1400px) {
+    padding-left:9vw;
+  }
+  @media only screen and (max-width: 1150px) {
+    padding-left: 11vw;
+  }
+  @media only screen and (max-width: 1000px) {
+    padding-left: 11vw;
+  }
+`
+
+const BoatParagraphText = styled.div`
+  display:flex; 
+  flex-direction:row; 
+  text-align:center;
+  align-content:center;
+  justify-content: center;
+  font-size:2.5rem;
+  width:100vw;
+
+  @media only screen and (max-width: 1100px) {
+    font-size:2.5rem;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    font-size:2.5rem;
+  }
+
+  @media only screen and (max-width: 950px) {
+    font-size:2rem;
+  }
+
+  @media only screen and (max-width: 900px) {
+    font-size:1.75rem;
+  }
+  
+`
+
+const LineStyling = styled.div`
+  margin-bottom: 3vh;
+  width: 80vw;
+  background-color: white;
+
+  @media only screen and (max-width: 1100px) {
+    width: 90vw;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    width: 95vw;
+  }
 `
 
 
 // http://reactcommunity.org/react-modal/accessibility/
 Modal.setAppElement('#root')
 
-class GameTracking extends Component {
+class BoatGameTracking extends Component {
   constructor(props) {
     super(props);
 
     const groupPtr = 0;
-    let { currentContent } = this.props;
-  
+    
+    let currentContent = this.props.currentContent
 
     const characterMapList = this.createCharacterMapLists(currentContent);
     let styleMapList = this.createStyleMapLists(currentContent);
     styleMapList[0] = styleMapList[0].set(0, 'default-character highlighted');
     this.buildRows=this.buildRows.bind(this)
+    this.endRace=this.endRace.bind(this)
     const rows = this.buildRows(characterMapList, styleMapList, 0);
 
     const currentKey = characterMapList[0].get(0);
@@ -99,11 +253,14 @@ class GameTracking extends Component {
     const totalLength = currentContent.length;
 
     this.resetIncrement=this.resetIncrement.bind(this)
+    this.calculateDisplacement=this.calculateDisplacement.bind(this)
+    this.intervalHandler;
     this.state = {
       rows,
       characterMapList,
       addTime: false,
       seconds: '00', 
+      displacement:0,
       minutes: '',
       styleMapList,
       upDifficulty:false,
@@ -112,10 +269,15 @@ class GameTracking extends Component {
       currentKey,
       totalLength,
       charPtr: 0,
+      numKeysPressed:0,
+      boat1Margin:0,
+      boat1Increment:0,
+      boat3Margin:0,
+      boat3Increment:0,
       correct: [],
       incorrect: [],
       edited: [],
-      Level:this.props.difficulty,
+      Level:1,
       previousCharCorrectness: false,
       LESSON_LENGTH: characterMapList.length,
       consecutiveIncorrectCount: 0,
@@ -126,6 +288,7 @@ class GameTracking extends Component {
       isFinished: false,
       startTime: 0,
       finishTime: 0,
+      stopTime:false,
       pauses: [],
       time: 0
     };
@@ -133,8 +296,67 @@ class GameTracking extends Component {
   }
 
   componentWillMount = () => {
+    this.determineSpeed();
     this.attachEventListener();
+    this.startRace();
   };
+
+  incrementMargin = () => {
+      this.setState({
+        boat1Margin:(this.state.boat1Margin + (this.state.boat1Increment)),
+        boat3Margin:(this.state.boat3Margin + (this.state.boat3Increment))
+      })
+      if(this.state.boat1Margin >= 85 || this.state.boat3Margin >= 85){
+        clearInterval(this.intervalHandler)
+        this.endRace()
+        
+      }
+
+    
+
+  }
+
+  startRace =() =>{
+    this.intervalHandler=setInterval(this.incrementMargin,1000);
+  }
+
+  determineSpeed = () =>{
+    var difficulty=this.props.baseDifficulty
+    var min=0
+    var max=0
+    var wpm1=0
+    var wpm2=0
+    if(difficulty == 1){
+      min=10
+      max=25
+    }
+    else if(difficulty ==2) {
+      min=30
+      max=60
+    }
+    else{
+      min=70
+      max=95
+
+    }
+    wpm1 = min + Math.random() * (max-min)
+    wpm2 = min + Math.random() * (max-min)
+
+    var time1 = (this.state.totalLength / 5) * (60/wpm1)
+    var time2 = (this.state.totalLength / 5) * (60/wpm2)
+
+    var increment1= 100/time1
+    var increment3= 100/time2
+
+    this.setState({
+      boat1Increment:increment1,
+      boat3Increment:increment3
+    })
+    console.log(wpm1)
+    console.log(wpm2)
+    console.log(difficulty)
+  };
+
   createCharacterMapLists = (chars) => {
     chars = this.breakInto30CharacterLists(chars);
     let characterMaps = [];
@@ -166,11 +388,18 @@ class GameTracking extends Component {
 
     if(keyPressed === BACKSPACE) {
       this.userDidPressBackspace();
+      this.setState({numKeysPressed:this.state.numKeysPressed-1})
       // TODO: Make sure this doesn't fire after group and index ptr have reached the end
     } else if(this.shouldCheckKey(keyPressed) && this.isNotFinished()) {
       this.validateUserKeyPressCorrectness(keyPressed);
+      this.setState({numKeysPressed:this.state.numKeysPressed+1})
+      this.calculateDisplacement();
     }
   };
+
+  endRace= () =>{
+     this.setState({stopTime:true})
+  }
 
   userDidPressBackspace = () => {
     let { charPtr, rows, correct, incorrect, edited, groupPtr, characterMapList, consecutiveIncorrectCount } = this.state;
@@ -194,7 +423,7 @@ class GameTracking extends Component {
         if(this.state.upDifficultyCount!=0){
           this.setState({upDifficultyCount:this.state.upDifficultyCount-1 })
           console.log("line counter " + this.state.upDifficultyCount)
-          if(this.state.upDifficultyCount == 10){
+          if(this.state.upDifficultyCount == 5){
             this.setState({
               upDifficulty:true,
               upDifficultyCount:0
@@ -204,8 +433,6 @@ class GameTracking extends Component {
           }
         }
         this.setState({upDifficultyCount:0})
-        this.setState({Level:this.state.Level + 1})
-        console.log(this.state.Level)
       }
     }
     //we also want to pop previous result and add it to edited keys group
@@ -253,20 +480,14 @@ class GameTracking extends Component {
             upDifficultyCount:0
           })
           this.props.incrementDifficulty()
-          this.state.Level += 1
         console.log("new level reached: " + this.props.difficulty)
         }
         if(groupPtr + 1 < LESSON_LENGTH) {
           newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
         } else {
-          this.props.isFinished();
+          this.endRace();
           this.setState({ isFinished: true,  finishTime: Date.now() });
-          this.props.updateResults({
-            time: this.calculateTutorialTime(),
-            length: this.state.totalLength,
-            incorrect: this.state.incorrect.length
-          });
           newGroupPtr = groupPtr;
         }
       } else {
@@ -343,21 +564,32 @@ class GameTracking extends Component {
     });
   };
 
+  calculateDisplacement = () => {
+    var margin= (this.state.numKeysPressed/this.state.totalLength)*100
+    var prevDisplacement= this.state.displacement
+    console.log("previous displacement: " + prevDisplacement)
+    console.log("new displacement: " + (margin))
+    if(margin >= prevDisplacement){
+      this.setState({displacement:(margin)})
+    }
+  };
+
   /*
     Builds rows of characters for Tutorial's current indexPtr. 
     NOTE: If the amount of characters in Tutorial's current indexPtr > 30, 
           then we will group them into chunks of 30 character rows 
   */
-  buildRows = (characterMapList, styleMapList, groupPtr) => {
+    buildRows = (characterMapList, styleMapList, groupPtr) => {
     let row = [];
     let rows = [];
-    let groupIterator = [groupPtr];
 
-    if(groupPtr + 1 <= characterMapList.length - 1 ) {
+    let groupIterator = [groupPtr];
+    // We always include 2 rows if possible, if not just show one
+    if(groupPtr + 1 <= characterMapList.length - 2) {
       groupIterator.push(groupPtr+1);
     }
-
-      groupIterator.forEach((i) => {
+    
+    groupIterator.forEach((i) => {
       const styleMapListForRow = styleMapList[i];
       const characterMapListForRow = characterMapList[i];
       characterMapListForRow.mapKeys((index) => {
@@ -368,7 +600,10 @@ class GameTracking extends Component {
       rows.push(row);
       row = [];
     });
-    rows = rows.map(row => <GameText>{[...row]}</GameText>);
+
+    // rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw", backgroundColor:"white"}} className="line">{[...row]}</p>);
+    rows = rows.map(row => <LineStyling className="line">{[...row]}</LineStyling>);
+    console.log(rows)
     return rows;
   };
 
@@ -393,7 +628,7 @@ class GameTracking extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
-    return line.match(/.{1,30}/g);
+    return line.split("\\n")
   };
 
   closeModal = () => {
@@ -443,35 +678,43 @@ class GameTracking extends Component {
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
     return (
 
-      <div>
-      <div className="data-container">
-        <CounterText>
-            <div className="CounterName">Streak</div>
-          <CounterNumber>{this.state.consecutiveCorrect}</CounterNumber>
-        </CounterText>  
-        <div id="Buffer"/>
-        <CounterText>
-          <div className="CounterName">Level</div>
-          <CounterNumber>{this.props.difficulty}</CounterNumber>
-        </CounterText>
-      </div>
-       <div className="content-wrapper">
-        <Modal 
-          isOpen={this.state.shouldShowModal}
-          onAfterOpen={this.onModalOpen}
-          className="tutorial-modal"
-        >
-          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
-          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
-        </Modal>
-        <div className="timer-container">
-            <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
-        </div> 
-      </div> 
-      <div className="game-tracker-container">
-          {rows[0]}
+      <BoatraceGameBackground>
+        <div className="content-wrapper">
+          <Modal 
+            isOpen={this.state.shouldShowModal}
+            onAfterOpen={this.onModalOpen}
+            className="tutorial-modal"
+          >
+            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
+            <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
+          </Modal>
+          <div className="timer-container">
+              <Counter accuracyInfo={this.state} timerShortStop={this.state.stopTime} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
+          </div> 
         </div>
-    </div>
+        <BoatParagraphText>
+            {rows[0]}
+        </BoatParagraphText>
+        <BoatParagraphText>
+            {rows[1]}
+        </BoatParagraphText>   
+
+        <BoatContainer>
+          <Boat displacement={this.state.boat1Margin}>
+            <BoatText>Challenger 1</BoatText>
+            <BoatImage></BoatImage>
+          </Boat>
+          <Boat displacement={this.state.displacement}>
+            <PlayerText>You</PlayerText>
+            <BoatImage></BoatImage>
+          </Boat>
+          <Boat displacement={this.state.boat3Margin}>
+            <BoatText>Challenger 2</BoatText>
+            <BoatImage></BoatImage>
+          </Boat>
+        </BoatContainer>
+
+      </BoatraceGameBackground>
     )
   }
 }
@@ -485,4 +728,4 @@ const mapStateToProps = ({ app }) => ({
   lessonID: app.currentLesson.lessonID
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameTracking);
+export default connect(mapStateToProps, mapDispatchToProps)(BoatGameTracking);

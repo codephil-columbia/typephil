@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
-import { withRouter } from 'react-router'
-
 
 import styled  from 'styled-components'
 
@@ -15,7 +13,6 @@ const NavigationContainer= styled.div`
     width:90vw;
 
 `
-
 
 const CustomButton = Button.extend`
     @font-face {
@@ -52,7 +49,7 @@ const StatsRow = styled.div`
     margin-left:20.5vw;
     margin-right:20.5vw
 
-    color: #F5A623;
+    color: #199893;
 
     padding-bottom: 2vh;
 `
@@ -67,7 +64,7 @@ const StatsHighScoreRow = styled.div`
     margin-left:20.5vw;
     margin-right:20.5vw
 
-    color: #F5A623;
+    color: #199893;
 
     border-style: solid;
     border-color: #F5A623;
@@ -119,7 +116,7 @@ const HighScoreLabel = styled.div`
     margin-left: 37vw;
     margin-right: 37vw;
     align-content: center;
-    color: #F5A623;
+    color: #199893;
 
     font-family:"Arcade";
     width: 26vw;
@@ -159,6 +156,7 @@ export default class Statistics extends Component{
 
     render()
     {
+        console.log(this.props.data)
         const { 
             headerLinks, 
           } = this.state;
@@ -177,7 +175,7 @@ export default class Statistics extends Component{
                             <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>{this.props.data.playerDifficulty}</StatsData>
+                            <StatsData>{this.props.data.baseDifficulty}</StatsData>
                             <StatsText>Level</StatsText>
                         </DataContainer>
                     </StatsRow>

@@ -12,7 +12,8 @@ const Header = (props) => {
         <nav className="navigation">
             <div className="">
                 <HeaderLeft/>
-                <HeaderRight links={props.links} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout}/>
+                <HeaderCenter isTutorial={props.isTutorial} tutorialInfo={props.tutorialInfo} />
+                <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout}/>
             </div>
         </nav>
     )
@@ -26,10 +27,35 @@ const HeaderLeft = (_) => {
     )
 };
 
+const HeaderCenter = (props) => {
+    if (props.isTutorial == null) {
+        return (
+            <div className="no_nav_chapter_info"></div>
+        )
+    }
+    this.chapter_num = props.tutorialInfo["chapterName"].match(/\d+(?=:)/g)[0];
+    this.lesson_num = props.tutorialInfo["lessonName"].match(/\d+(?=:)/g)[0];
+    this.lesson_name = props.tutorialInfo["lessonName"].match(/: (.+)/g)[0].substring(1);
+    return (
+        <div className="nav_tutorial_chapter_info">{props.isTutorial &&
+            <p className="nav_tutorial_chapter_info_text">
+                <p className="nav_tutorial_chapter_info_text_bold">
+                Ch. {this.chapter_num}.
+                {this.lesson_num}&nbsp;</p>
+                {
+                    this.lesson_name
+                }</p> 
+        }
+        </div>
+    )
+};
+
+
 const HeaderRight = (props) => {
     return (
         <ul className="navigation-list float-right nav-right-list">
             { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} dispatch={props.dispatch}/></li>}
+            { props.isTutorial && <Link to="/home"><img class="exit_button" src="images/buttons/exit_button.svg"/></Link> }
             { props.links === undefined ? "" : props.links.map((link, i) => {
                 const routePath = `/${link.toLowerCase()}`;
                 return (

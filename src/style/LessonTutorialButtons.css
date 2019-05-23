@@ -4,11 +4,45 @@
     margin-top: 2rem;
 }
 
-.lock-description {
-	margin-top:15px;
-}
-
 .learn-start-button {
 	background-color: #BFD8BD;
 	border: #BFD8BD;
+}
+
+.tutorial-progress-bar {
+	width: 50%;
+	padding-top: 16px;
+}
+
+.tutorial-nav-button-left {
+	width: 16%;
+}
+
+.tutorial-nav-button-right {
+	width: 14%;
+}
+
+.progress-segment {
+    content: "&nbsp;";
+    flex: 1;
+    margin-left: 2px;
+    margin-right: 2px;
+    background-color: #d6d7d9;
+/*    width:18%;*/
+    display: inline-block;
+    height: 11px;
+}
+
+.progress-segment-complete {
+    background-color: #52B094;
+    height: 11px;
+}
+
+.progress-bar-segmented {
+	width: 50%;
+	padding-top: 22px;
+}
+
+.container-tutorial {
+	width: 100% !important;
 }

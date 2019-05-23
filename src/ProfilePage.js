@@ -74,14 +74,11 @@ class Profile extends Component {
             <div className="row top">
 
               <div className="column column-100">
-                <h2>Name</h2>
-                <h1>{this.props.currentUser.firstName} {this.props.currentUser.lastName}</h1>
+                <p className="profile_name">{this.props.currentUser.firstName} {this.props.currentUser.lastName}</p>
               </div>
             </div>
 
-            <hr></hr>
-
-            <div className="row">
+            <div className="row profile_main_div">
               <div className="column column-33">
                 <h3>Username</h3>
               </div>
@@ -100,7 +97,7 @@ class Profile extends Component {
                   {/*{ this.state.viewing ? auth.currentUser.password : '*'.repeat(auth.currentUser.password.length) } // TODO put this back
 
                    TODO this is pretty egregiously insecure} */}
-
+                  ******
                 </p>
                 <input className={ this.state.editing ? (markError() ? "error" : "") : "hide" } placeholder="" name="password" type="password" onBlur={this.handleBlur} onChange={this.handleInputChange}/>
               </div>
@@ -116,8 +113,19 @@ class Profile extends Component {
                   </button>
                 </div>
               </div>
-
             </div>
+
+            {
+            // <div className="row">
+            //   <div className="column column-33">
+            //     <h3>Email</h3>
+            //   </div>
+            //   <div className="column column-10"></div>
+            //   <div className="column column-50">
+            //     <p className="add_email"><a>Add e-mail address</a></p>
+            //   </div>
+            // </div>
+            }
           </div>
         </div>
       </div>
