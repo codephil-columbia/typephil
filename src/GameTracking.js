@@ -53,7 +53,7 @@ const GameText = styled.div`
     @media only screen and (max-width: 900px) {
         font-size:2.6rem;
     }
-    
+
 `
 
 const CounterText = styled.div`
@@ -115,7 +115,7 @@ class GameTracking extends Component {
       correct: [],
       incorrect: [],
       edited: [],
-      Level:1,
+      Level:this.props.difficulty,
       previousCharCorrectness: false,
       LESSON_LENGTH: characterMapList.length,
       consecutiveIncorrectCount: 0,
@@ -251,6 +251,7 @@ class GameTracking extends Component {
             upDifficultyCount:0
           })
           this.props.incrementDifficulty()
+          this.state.Level += 1
         console.log("new level reached: " + this.props.difficulty)
         }
         if(groupPtr + 1 < LESSON_LENGTH) {
