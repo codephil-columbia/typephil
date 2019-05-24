@@ -92,7 +92,7 @@ class KeyTracking extends Component{
         }
         this.setState({
             showMainPage:false,
-            gameStart:true,
+            isPlayerReady:true,
             playerDifficulty:diffNum
         })
     }
