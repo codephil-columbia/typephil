@@ -2,11 +2,9 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
 import posed from 'react-pose';
-import SplitText from 'react-pose-text';
 import { tween, styler } from 'popmotion';
 import styled from 'styled-components'; 
 import Header from './components/header';
-import {withRouter} from 'react-router'
 import Statistics from './SpaceraceStats'
 
 import './style/animation.css';
@@ -175,12 +173,14 @@ class SpaceraceGame extends React.Component {
     this.calculateStats=this.calculateStats.bind(this)
     this.playAgain=this.playAgain.bind(this)
     this.getParentDiv=this.getParentDiv.bind(this)
+    this.exitGame=this.exitGame.bind(this)
     this.attachEventListener();
     
   } 
   state = { isMoving: true };
 
   componentDidMount() {
+    
   }
 
   componentWillUnmount() {
@@ -237,6 +237,7 @@ class SpaceraceGame extends React.Component {
     live2:"./images/games/Heart.svg", 
     live3:"./images/games/Heart.svg"})
     console.log(this.rows)
+    this.props.history.push("/spaceraceselect")
   }
 
   spawnRocket = () => {
@@ -388,6 +389,10 @@ class SpaceraceGame extends React.Component {
 
   getParentDiv() {
     return document.getElementsByClassName("RocketRow")
+  }
+
+  exitGame = () =>{
+    this.props.history.push("/selectGames")
   }
 
 
@@ -558,12 +563,10 @@ class SpaceraceGame extends React.Component {
       </SpaceRaceBackground>
     );
     }else{
-     return( <Statistics data={this.state} reset={this.playAgain}/>)
+     return( <Statistics data={this.state} exit={this.exitGame} reset={this.playAgain}/>)
     }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }
 }
-
-const SpaceRaceGame = withRouter(SpaceraceGame)
 
 export default (SpaceraceGame);
