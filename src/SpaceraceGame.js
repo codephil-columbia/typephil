@@ -195,8 +195,9 @@ class SpaceraceGame extends React.Component {
   }
 
   incrementDifficulty = () => {
-     this.setState({wpm:this.state.wpm + 5,
-    level:this.state.level +1 })
+     this.setState({wpm:this.state.wpm + 5,})
+     this.setState({level:this.state.level +1 })
+    console.log(this.state.level)
   }
 
   doesWordExist = checkWord => { 
@@ -464,8 +465,7 @@ class SpaceraceGame extends React.Component {
     } else if (keyPressed == CONTROL){
       this.setState({inputWord:this.state.inputWord})
     } else if (keyPressed == TAB){
-      this.setState({inputWord:this.state.inputWord})
-      
+      this.setState({inputWord:this.state.inputWord})    
     } else if (keyPressed == ENTER){
       this.setState({totalWordsTyped:this.state.totalWordsTyped + 1})
 
