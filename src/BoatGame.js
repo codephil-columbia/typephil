@@ -231,7 +231,7 @@ class BoatGame extends Component{
         playerDifficulty:1,
         baseDifficulty:1,
         showMainPage:true})
-        this.props.history.push("/spaceraceselect")
+        this.props.history.push("/boat")
     }
     exitGame = () =>{
         this.props.history.push("/selectGames")

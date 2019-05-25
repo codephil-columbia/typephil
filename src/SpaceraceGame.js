@@ -1,14 +1,11 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
-import ReactDOM from 'react-dom';
-import posed from 'react-pose';
 import { tween, styler } from 'popmotion';
 import styled from 'styled-components'; 
 import Header from './components/header';
 import Statistics from './SpaceraceStats'
 import Spacerace from './Spacerace'
-import ReactCountdownClock from 'react-countdown-clock'
-
+import data from "./offline_data.json"
 
 
 import './style/animation.css';
@@ -20,6 +17,7 @@ const SHIFT = "Shift";
 const CONTROL = "Control";
 const META = "Meta";
 const TAB = "Tab";
+const CAPSLOCK = "CapsLock";
 
 const RCGameText = styled.div`
     margin-top:4vh;
@@ -138,12 +136,12 @@ class SpaceraceGame extends React.Component {
 
     this.state = {
       headerLinks: ["Games", "Learn", "Home"],
-      AvailableWords:["wow", "weightlifting", "word", "mehhh", "iliana", "ehi", "i", "hate", "saddness"],
-      FirstWords:["hi", "weightlifting", "yay"],
+      AvailableWords:[],
+      FirstWords:["Friday", "Monday", "Sunday"],
       currentRockets:[],
       rowNum:0,
       seconds:0,
-      currentWordList: ["hi", "hello", "wow"],
+      currentWordList: ["Friday", "Monday", "Sunday"],
       inputWord: "",
       startPeriod:true,
       wpm:20,
@@ -190,6 +188,25 @@ class SpaceraceGame extends React.Component {
   state = { isMoving: true };
 
   componentDidMount() {
+    fetch("http://localhost:5000/game/spacerace")
+    .then(results => {
+        return results.json()
+    })
+    .then(data => {
+       
+       console.log(data.length)
+       for (let i=0;i<data.length;i++){
+           let content=this.parse(data[i].Txt)
+           //console.log(content)
+       }
+    })
+
+    let shuffle = require('shuffle-array')
+    console.log(shuffle(data.games.spacerace))
+    this.setState({AvailableWords:data.games.spacerace})
+    console.log("AVAILABLE")
+    console.log(this.state.AvailableWords)
+ //console.log(data.games.spacerace)
     
   }
 
@@ -267,7 +284,7 @@ class SpaceraceGame extends React.Component {
     live2:"./images/games/Heart.svg", 
     live3:"./images/games/Heart.svg"})
     console.log(this.rows)
-    this.props.history.push("/spaceraceselect")
+    this.props.history.push("/spacerace")
   }
 
   spawnRocket = () => {
@@ -517,6 +534,8 @@ class SpaceraceGame extends React.Component {
     //special inputs
     } else if (keyPressed == SHIFT){
       this.setState({inputWord:this.state.inputWord})
+    } else if (keyPressed == CAPSLOCK){
+      this.setState({inputWord:this.state.inputWord})
     } else if (keyPressed == META){
       this.setState({inputWord:this.state.inputWord})
     } else if (keyPressed == CONTROL){
@@ -542,7 +561,6 @@ class SpaceraceGame extends React.Component {
   }
 
   render() {
-    const { currentList } = this.state;
     const { live1 } = this.state;
     const { live2 } = this.state;
     const { live3 } = this.state;

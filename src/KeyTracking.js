@@ -161,7 +161,7 @@ class KeyTracking extends Component{
         gameStart:false,
         playerDifficulty:1,
         showMainPage:true })
-        this.props.history.push("/challenge")
+        this.props.history.push("/coco")
     }
 
     exitGame = () =>{
