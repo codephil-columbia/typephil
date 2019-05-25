@@ -170,8 +170,12 @@ class Spacerace extends Component {
     })
     console.log("difficulty selected: Hard" )
   }
+
   BeginSpaceRace(state){
     var difficulty="";
+    console.log(state.isEzActive)
+    console.log(state.isMidActive)
+    console.log(state.isHardActive)
     if(state.isEzActive == true)
     {
       difficulty="easy"
@@ -180,12 +184,12 @@ class Spacerace extends Component {
     {
       difficulty="medium"
     }
-    else (state.isHardActive == true)
+    else if (state.isHardActive == true)
     {
       difficulty="hard"
     }
-
-    this.props.history.push("/spacerace");
+    console.log(difficulty)
+    this.props.commenceGame(difficulty);
 
   }
   render() {
