@@ -184,7 +184,7 @@ class Spacerace extends Component {
     {
       difficulty="medium"
     }
-    else if (state.isHardActive == true)
+    else if(state.isHardActive == true)
     {
       difficulty="hard"
     }
