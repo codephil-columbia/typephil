@@ -73,7 +73,6 @@ class App extends Component {
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
         <Route path="/selectGames" component={GameSelect}/>
-        <Route path="/challenge" component={Challenge}/>
         <Route path="/spacerace" component={SpaceraceGame}/>
         <Route path="/spaceraceselect" component={Spacerace}/>
         <Route path="/coco" component={KeyTracker}/>
