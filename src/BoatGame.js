@@ -8,6 +8,7 @@ import Stats from './BoatStats'
 import MainPage from './BoatLevelSelect'
 import { Connect, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import data from "./offline_data.json"
 
 
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -70,8 +71,18 @@ class BoatGame extends Component{
     })
     .then(data => {
        let randIndex= Math.floor(Math.random() * data.length)
-       this.setState({content:this.parse(data[randIndex].Txt)})
+       console.log(data.length)
+       for (let i=0;i<data.length;i++){
+           let content=this.parse(data[i].Txt)
+           console.log(content)
+       }
     })
+
+    console.log(data.games.boatrace)
+
+    let randIndex= Math.floor(Math.random() * data.games.boatrace.length)
+    console.log(data.games.boatrace[randIndex])
+    this.setState({content:(data.games.boatrace[randIndex])})
 
   };
      returnMainPage(){
@@ -115,23 +126,26 @@ class BoatGame extends Component{
             pointer+=1
         }
         currPhrase=response.slice(origin, pointer);
-        textArray.push(currPhrase.trim())
+        textArray.push(currPhrase.trim()+"\\n")
         currPhrase=""
         origin=pointer+2
         let content= response.slice(origin,)
+        origin=0
+        pointer=40
 
+        
         //removes new line characters
         content=this.cleanContent(content)
-        
         while(pointer<content.length){
             let currChar=content[pointer]
             if ( currChar == "." || currChar =="?" || currChar=="!"){
                 pointer+=2
-                currPhrase=content.slice(origin,pointer) 
+                currPhrase=content.slice(origin,pointer)
                 textArray.push(currPhrase)
             }else if( currChar == " "){
                 pointer+=1
                 currPhrase=content.slice(origin,pointer)
+                textArray.push(currPhrase)
             }else{
                 while(content[pointer] !=" "){
                     pointer-=1
@@ -145,7 +159,6 @@ class BoatGame extends Component{
             currPhrase=""
         }
         textArray.push(content.slice(origin,content.length))
-        console.log(textArray)
         let finalstr=textArray[0]
         for(let i=1;i<textArray.length;i++){
             finalstr+=textArray[i] +"\\n"
@@ -169,7 +182,6 @@ class BoatGame extends Component{
     totalTime(time){
         var minutes=time/60
         this.setState({totalMinutes:minutes})
-
     }
     
     beginGames(){

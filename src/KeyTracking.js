@@ -10,7 +10,7 @@ import MainPage from './Challenge'
 import { Connect, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
-
+import data from "./offline_data.json"
 import { Route, Switch, Redirect } from 'react-router-dom'
 
 import { 
@@ -54,21 +54,30 @@ class KeyTracking extends Component{
             playerDifficulty:1,
             showMainPage:true,
             headerLinks: ["Games", "Learn", "Home"],
-            jsonArray:[]
+            jsonArray:[],
+            dataArray:[]
         };
 
     }
 
     componentWillMount = () => {
 
-        var shuffle = require('shuffle-array')
-        fetch("http://localhost:5000/game/coco")
-        .then(results => {
-            return results.json()
-        })
-        .then(data => {
-           this.setState({jsonArray:shuffle(data)})
-        })
+        // let shuffle = require('shuffle-array')
+        // let cocoContent= data.games.challenge
+        // console.log(cocoContent)
+
+
+      
+        
+
+        
+        // fetch(data)
+        // .then(results => {
+        //     return results.json()
+        // })
+        // .then(data => {
+        //    this.setState({jsonArray:shuffle(data)})
+        // })
     
       };
     
@@ -139,10 +148,12 @@ class KeyTracking extends Component{
     }
     
     render(){
-    
+        
+    let shuffle = require('shuffle-array')
+    console.log(shuffle(data.games.challenge))
     let cleanContent=""
-    for(var i =0;i<this.state.jsonArray.length; i++){
-        var string = this.state.jsonArray[i].Txt
+    for(var i =0;i<data.games.challenge.length; i++){
+        var string = data.games.challenge[i]
         cleanContent = cleanContent + string +"\n"
     }
          // this == event, in this cases
