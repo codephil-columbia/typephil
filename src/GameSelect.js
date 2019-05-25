@@ -191,7 +191,7 @@ export default class GameSelect extends Component {
 				this.props.history.push("/spaceraceselect");
 
 			} else if (this.state.challengeEnabled === true){
-				this.props.history.push("/challenge");
+				this.props.history.push("/coco");
 
 			} else if (this.state.boatraceEnabled === true){
 				this.props.history.push("/boatselect");
