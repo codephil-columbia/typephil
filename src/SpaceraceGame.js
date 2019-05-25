@@ -258,6 +258,8 @@ class SpaceraceGame extends React.Component {
   playAgain(){
     this.setState({
     playerHasLost:false,
+    startPeriod:true,
+    showMainPage:true,
     difficulty:"",
     wpm:20,
     currentRockets:[],
@@ -549,6 +551,7 @@ class SpaceraceGame extends React.Component {
     if(this.state.showMainPage){
       return (<Spacerace data={this.state} commenceGame={this.exitMainPage} />)
     } else if(!this.state.playerHasLost){
+      console.log("starting wpm: " + this.state.wpm)
         return (
           <SpaceRaceBackground>
             <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
