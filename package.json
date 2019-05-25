@@ -2,7 +2,9 @@
   "name": "typephil",
   "version": "0.1.0",
   "private": true,
+  "main": "public/main.js",
   "dependencies": {
+    "electron": "^2.0.8",
     "autoprefixer": "7.1.2",
     "axios": "^0.17.0",
     "babel-core": "6.25.0",
@@ -84,12 +86,14 @@
     "build": "react-scripts build",
     "test": "npm run tests/test.js",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "electron-start": "electron ."
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.16",
     "@storybook/addon-links": "^3.2.16",
     "@storybook/react": "^3.2.16",
+    "electron": "^5.0.2",
     "jest": "^21.2.1",
     "node-sass": "^4.8.3",
     "sass-loader": "^7.0.1",
