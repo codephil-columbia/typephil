@@ -94,7 +94,8 @@ class BoatGame extends Component{
         }
         this.setState({
             showMainPage:false,
-            gameStart:true,
+            isPlayerReady:true,
+            gameStart:false,
             playerDifficulty:diffNum,
             baseDifficulty:diffNum
         })
@@ -207,6 +208,7 @@ class BoatGame extends Component{
     let content = this.state.content
     
     console.log(content)
+    console.log(this.state.showMainPage)
          // this == event, in this cases
     if(this.state.showMainPage){
         return (<MainPage commenceGame={this.exitMainPage} />)
