@@ -46,6 +46,8 @@ class BoatGame extends Component{
         this.parse=this.parse.bind(this)
         this.cleanContent=this.cleanContent.bind(this)
         this.returnMainPage=this.returnMainPage.bind(this)
+        this.exitGame=this.exitGame.bind(this)
+        this.playAgain=this.playAgain.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -215,6 +217,25 @@ class BoatGame extends Component{
         })
 
     }
+
+    playAgain(){
+        this.setState({
+        isPlayerReady:false,
+        beginCountDown:false,
+        beginningDifficulty:1,
+        totalMinutes:0,
+        wordsPerMinute:0,
+        content:"",
+        accuracy:0,
+        gameStart:false,
+        playerDifficulty:1,
+        baseDifficulty:1,
+        showMainPage:true})
+        this.props.history.push("/spaceraceselect")
+    }
+    exitGame = () =>{
+        this.props.history.push("/selectGames")
+      }
     
     render(){ 
     let content = this.state.content
@@ -253,7 +274,7 @@ class BoatGame extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats restore={this.returnMainPage} data={this.state}></Stats>)
+            return(<Stats data={this.state} exit={this.exitGame} reset={this.playAgain}/>)
         }
     }
 }
