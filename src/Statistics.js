@@ -150,11 +150,11 @@ export default class Statistics extends Component{
 
     
     playAgain= () =>{
-        this.props.restore()
+        this.props.reset()
     }
 
     exitGame= ()  =>{
-        this.props.history.push("/")
+        this.props.exit()
     }
 
     render()
@@ -201,7 +201,7 @@ export default class Statistics extends Component{
                 </StatsWrapper>
                 <NavigationContainer>
                         <CustomButton onClick={this.playAgain}>PLAY AGAIN</CustomButton>
-                        <CustomButton>EXIT</CustomButton>
+                        <CustomButton onClick={this.exitGame}>EXIT</CustomButton>
                 </NavigationContainer>
             </div>
         )

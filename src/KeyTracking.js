@@ -43,6 +43,8 @@ class KeyTracking extends Component{
         this.incrementDifficulty=this.incrementDifficulty.bind(this)
         this.totalTime=this.totalTime.bind(this)
         this.returnMainPage=this.returnMainPage.bind(this)
+        this.playAgain=this.playAgain.bind(this)
+        this.exitGame=this.exitGame.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -137,7 +139,25 @@ class KeyTracking extends Component{
             wordsPerMinute:wpm
         })
     }
-    
+
+    playAgain(){
+        this.setState({
+        isPlayerReady:false,
+        beginCountDown:false,
+        beginningDifficulty:1,
+        totalMinutes:0,
+        wordsPerMinute:0,
+        accuracy:0,
+        gameStart:false,
+        playerDifficulty:1,
+        showMainPage:true })
+        this.props.history.push("/challenge")
+    }
+
+    exitGame = () =>{
+        this.props.history.push("/selectGames")
+      }
+
     render(){
     
     let cleanContent=""
@@ -177,7 +197,7 @@ class KeyTracking extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats restore={this.returnMainPage} data={this.state}></Stats>)
+            return(<Stats data={this.state} exit={this.exitGame} reset={this.playAgain}></Stats>)
         }
     }
 }
