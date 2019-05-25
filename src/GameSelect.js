@@ -7,6 +7,7 @@ import Button from 'react-button-component';
 import styled from 'styled-components';
 import './style/font.css';
 
+
 const LeftGameSelectionPanel = styled.div`
 	float: left;
 	width: 50%;
@@ -112,6 +113,7 @@ export default class GameSelect extends Component {
 		this.spaceraceSelected = this.spaceraceSelected.bind(this);
 		this.boatraceSelected = this.boatraceSelected.bind(this);
 		this.challengeSelected = this.challengeSelected.bind(this);
+		this.BeginGame = this.BeginGame.bind(this)
     }
 
     componentDidMount(){
@@ -182,7 +184,21 @@ export default class GameSelect extends Component {
 	      gameScreenshot: "/images/games/challenge_placeholder.png"
     	})
     	console.log("challenge selected")
-    }
+		}
+		
+		BeginGame(state){
+			if (this.state.spaceraceEnabled === true){
+				this.props.history.push("/spaceraceselect");
+
+			} else if (this.state.challengeEnabled === true){
+				this.props.history.push("/challenge");
+
+			} else if (this.state.boatraceEnabled === true){
+				this.props.history.push("/boatselect");
+
+
+			}	
+		}
 
     render() {
 	    const { 
@@ -229,7 +245,7 @@ export default class GameSelect extends Component {
             			<img src={this.state.gameScreenshot}/>
             		</GameScreenshot>
 
-		            <GameSelectionButton>
+		            <GameSelectionButton onClick={() => this.BeginGame(this.state)}>
 		              <p>PLAY GAME</p>
 		            </GameSelectionButton>
 

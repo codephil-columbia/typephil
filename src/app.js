@@ -21,6 +21,8 @@ import SpaceraceGame from './SpaceraceGame'
 import Spacerace from './Spacerace'
 import Animation from './animation'
 import DataDashboard from './DataDashboard'
+import BoatSelect from './BoatLevelSelect'
+
 
 class App extends Component {
   constructor(props) {
@@ -70,11 +72,12 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
+                <Route path="/selectGames" component={GameSelect}/>
         <Route path="/challenge" component={Challenge}/>
         <Route path="/spacerace" component={SpaceraceGame}/>
         <Route path="/spaceraceselect" component={Spacerace}/>
         <Route path="/coco" component={KeyTracker}/>
-        <Route path="/selectGames" component={GameSelect}/>
+        <Route path="/boatselect" component={BoatSelect}/>
         <Route path="/boat" component={Boat}/>
         <Route path="/userStats" component={DataDashboard}/>
         <Route component={FourOhFour} />
