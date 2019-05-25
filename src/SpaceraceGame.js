@@ -189,7 +189,6 @@ class SpaceraceGame extends React.Component {
   checkDifficultyIncrement = () => {
     if(this.state.seconds % 30 == 0){
       this.incrementDifficulty()
-      this.setState({level:this.state.level +1})
       console.log("current wpm: " + this.state.wpm)
     }
     console.log("checking need to increment ")
