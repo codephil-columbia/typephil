@@ -112,6 +112,23 @@ const LevelContainer = styled.div`
   font-family: Arcade_real;
 `
 
+const StartingInstructions = styled.div`
+  position: absolute;
+  color: #DC367A;
+  font-family: Arcade_real;
+  font-size: 3.5rem;
+  top: 30vh;
+  width: 80vw;
+  margin: 0 auto;
+  left: 10vw;
+  text-align: center;
+  text-decoration: underline;
+  // background-color: #25365A;
+  // visibility: hidden;
+
+  ${props => props.hasStarted ? ' ' : 'visibility: hidden;' };
+`
+
 
 class SpaceraceGame extends React.Component {
   constructor(props) {
@@ -443,9 +460,11 @@ class SpaceraceGame extends React.Component {
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     if(this.state.startPeriod){
-      this.setState({startPresses:this.state.startPresses +1})
-      if(this.state.startPresses==3){
+      this.setState({startPresses:this.state.startPresses + 1})
+      if(this.state.startPresses==1){
+        console.log(this.state.startPeriod)
         this.setState({startPeriod:false})
+        console.log(this.state.startPeriod)
         this.setState({
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
@@ -517,6 +536,10 @@ class SpaceraceGame extends React.Component {
         <LevelContainer>
           Level {this.state.level}
         </LevelContainer>
+
+        <StartingInstructions hasStarted={this.state.startPeriod}>
+          Press Any Key To Start!
+        </StartingInstructions>
 
       <RocketContainer>
         <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
