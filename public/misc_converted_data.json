@@ -1,17 +1,40 @@
 {
-  "tutorial": {
-  	"chapter1": {
-  		"chapterName": "Chapter 0: The Basics",
-  		"chapterDescription": "In this chapter, you will learn the importance of touch typing as well as proper posture while using the keyboard. You will also encounter the entire finger map of the keyboard, which will serve as your guidelines for the rest of the tutorial.",
-  		"lessons": {
-  			"lesson1": {
-  				"lessonName": "Lesson 1: The Importance of Touch Typing",
-  				"lessonText": ["Typing faster with better accuracy will help you increase your productivity.", "In this tutorial, you will learn how to touch type. Touch typing is typing without looking at the keyboard to find the keys. If you master touch typing, you will remember the location of keys on the keyboard through muscle memory.", "Touch typing will allow you to type faster with accuracy, increase productivity, and decrease fatigue. Typing can be difficult mentally and physically without touch typing. But learning how to touch type can make typing more enjoyable!"],
-  				"minimumScoreToPass": [0,0,0],
-  				"lessonDescriptions": ["","",""],
-  				"image": ["","",""]
-  			}
-  		}
-  	}
-   }
+  	"tutorial": {
+		"chapter0": {
+			"chapterName": "Chapter 0: The Basics",
+			"chapterDescription": "In this chapter, you will learn the importance of touch typing as well as proper posture while using the keyboard. You will also encounter the entire finger map of the keyboard, which will serve as your guidelines for the rest of the tutorial.",
+			"lessons": {
+				"lesson1": {
+					"lessonName": "Lesson 1: The Importance of Touch Typing",
+					"lessonText": ["Typing faster with better accuracy will help you increase your productivity.", "In this tutorial, you will learn how to touch type. Touch typing is typing without looking at the keyboard to find the keys. If you master touch typing, you will remember the location of keys on the keyboard through muscle memory.", "Touch typing will allow you to type faster with accuracy, increase productivity, and decrease fatigue. Typing can be difficult mentally and physically without touch typing. But learning how to touch type can make typing more enjoyable!"],
+					"minimumScoreToPass": [0,0,0],
+					"lessonDescriptions": ["","",""],
+					"image": ["","",""]
+				},
+				"lesson2": {
+
+				}
+			}
+		},
+		"chapter1": {
+			"chapterName": "",
+			"chapterDescription": "",
+			"lessons": {
+				"lesson1": {
+					"lessonName": "",
+					"lessonText": [],
+					"minimumScoreToPass": [],
+					"lessonDescriptions": [],
+					"image": []
+				},
+				"lesson2": {
+					"lessonName": "",
+					"lessonText": [],
+					"minimumScoreToPass": [],
+					"lessonDescriptions": [],
+					"image": []
+				}
+			}
+		},
+   	}
 }
