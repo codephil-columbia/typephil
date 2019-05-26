@@ -1,6 +1,7 @@
 import { User } from "./models";
 
 import uuid from "uuid";
+import _ from "lodash";
 
 function initLocalStorage() {
   const userStore = new Authenticator(new DatabaseAccessor());
@@ -53,16 +54,19 @@ class UserStore {
 }
 
 class Authenticator extends UserStore {
-  signUp(user) {
-    let users = localStorage.getItem("users");
-    console.log(users);
-    users = JSON.parse(users.toString());
-    users["1"] = "1";
-    console.log(users);
-    localStorage.set("users", JSON.stringify(users));
 
-    // user.uid = uuid.v4();
-    // this.db.set(user.uid, user);
+  static get UserExists() {
+    return "User already exists";
+  }
+
+  signUp(user) {
+    let users = JSON.parse(localStorage.getItem("users"));
+    if (_.find(users, u => u.uid === user.uid)) {
+      return Authenticator.UserExists;
+    } else {
+      users.push(user);
+      localStorage.setItem("users", JSON.stringify(users));
+    }
   }
 
   authenticate(username, password) {
