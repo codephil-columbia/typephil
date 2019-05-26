@@ -234,6 +234,12 @@ class SpaceraceGame extends React.Component {
       this.incrementDifficulty()
       console.log("current wpm: " + this.state.wpm)
     }
+    if(this.state.seconds % 60 ==0){
+      this.spawnRocket()
+      this.spawnRocket()
+      this.spawnRocket()
+      
+    }
     console.log("checking need to increment ")
   }
   tick = () => {
