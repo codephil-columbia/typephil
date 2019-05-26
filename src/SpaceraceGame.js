@@ -234,7 +234,7 @@ class SpaceraceGame extends React.Component {
       this.incrementDifficulty()
       console.log("current wpm: " + this.state.wpm)
     }
-    if(this.state.seconds % 60 ==0){
+    if(this.state.seconds % 120 ==0){
       this.spawnRocket()
       this.spawnRocket()
       this.spawnRocket()
@@ -283,6 +283,7 @@ class SpaceraceGame extends React.Component {
     playerHasLost:false,
     startPeriod:true,
     showMainPage:true,
+    startPresses:0,
     difficulty:"",
     wpm:20,
     currentRockets:[],
@@ -291,7 +292,7 @@ class SpaceraceGame extends React.Component {
     live2:"./images/games/Heart.svg", 
     live3:"./images/games/Heart.svg"})
     console.log(this.rows)
-    this.props.history.push("/spacerace")
+    
   }
 
   spawnRocket = () => {
@@ -522,7 +523,9 @@ class SpaceraceGame extends React.Component {
   
 
   registerUserKeyPress = ({ key: keyPressed }) => {
+    console.log("key was pressed")
     if(this.state.startPeriod){
+      console.log("has reached here1")
       this.setState({startPresses:this.state.startPresses + 1})
       if(this.state.startPresses==1){
         console.log(this.state.startPeriod)
@@ -532,11 +535,12 @@ class SpaceraceGame extends React.Component {
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
         })
+        console.log("has reached here2")
         this.spawnRocket()
         this.spawnRocket()
         this.spawnRocket()
       }
-    }else if (keyPressed == BACKSPACE){
+    } else if (keyPressed == BACKSPACE){
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
     //special inputs
     } else if (keyPressed == SHIFT){
