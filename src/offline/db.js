@@ -66,12 +66,16 @@ class Authenticator extends UserStore {
 
   signUp(user) {
     let users = JSON.parse(localStorage.getItem("users"));
+    let records = JSON.parse(localStorage.getItem("records"));
     if (_.find(users, u => u.username === user.username)) {
       return Authenticator.UserExists;
     } else {
       user.uid = uuid.v4();
       users.push(user);
       localStorage.setItem("users", JSON.stringify(users));
+
+      records[user.uid] = [];
+      localStorage.setItem("records", JSON.stringify(records));
     }
   }
 

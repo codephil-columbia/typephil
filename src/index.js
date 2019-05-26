@@ -7,6 +7,7 @@ import App from './app'
 
 import { Authenticator, initLocalStorage, DatabaseAccessor } from "./offline/db";
 import { User } from "./offline/models";
+import { tutorialText } from "./tutorialText";
 
 import './style/styles.scss';
 import './style/index.scss';
@@ -20,6 +21,9 @@ const Loading = () => {
 if (!localStorage.getItem("hasBeenInited")) {
   localStorage.setItem("hasBeenInited", true);
   localStorage.setItem("users", JSON.stringify([]));
+  
+  localStorage.setItem("tutorial", JSON.stringify(tutorialText));
+  localStorage.setItem("records", JSON.stringify({}));
 }
 
 const auth = new Authenticator(new DatabaseAccessor());
