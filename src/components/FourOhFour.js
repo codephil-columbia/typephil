@@ -1,20 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Button from 'react-button-component'
 import '../style/fourOhFour.css';
 
 
-const FourOhFour = () => {
+
+const CustomButton = Button.extend`
+    margin-top:10vh;
+    font-size:1.5rem;
+    color: #52B094;
+
+`
+
+export default class FourOhFour extends Component {
+    constructor(props) {
+        super(props);
+  
+        this.state = {
+          headerLinks: ["Learn", "Home" ],
+          badges: ["WPM", "Accuracy"],
+          badgeDescriptions: [
+            "Words Per Minute. \n The faster you type, \n the higher the number",
+            "Accuracy is how \n accurately you type \n words that appear."
+          ]
+        }
+        this.exitGame = this.exitGame.bind(this)
+
+    }
+
+    exitGame = () =>{
+        this.props.history.push("/")
+      }
+    
+    render(){
+        console.log(this.props)
     return (
-        <React.Fragment>
-        <div className="container fourOhFourWrap">
-	        <div className="fourOhFourBody">
-	    		<img src="images/universal/404_error.svg"></img>
-	            <h1 className="oops">Oops!</h1>
-	            <h2 className="pageNotFound">Page not found</h2>
-	            <h3 className="pageNotFoundText">The requested URL was not found on this server.</h3>
-	        </div>
-        </div>
-        </React.Fragment>
-    )
+            <div className="container fourOhFourWrap">
+            yeeta
+            <CustomButton onClick={this.exitGame}>EXIT</CustomButton>
+            </div>
+        )
+    }
 }
 
-export default FourOhFour;
