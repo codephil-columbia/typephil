@@ -40,7 +40,7 @@ const RocketRow = styled.div`
 `
 
 const SpaceRaceBackground = styled.div`
-    background-image: url(/images/games/Stars_Background.svg), url(/images/games/Earth.svg);
+    background-image: url(./images/games/Stars_Background.svg), url(./images/games/Earth.svg);
     background-position: center bottom 0vh, center right;
     background-repeat: repeat, no-repeat;
     background-size: 100vw auto, 30vw auto;

@@ -76,13 +76,13 @@ export default class DifficultyTab extends Component {
     var gameSource = this.props.gameSource
 
     if (gameSource == "Challenge") {
-      this.imagePath = "/images/games/Yellow_Arrow.svg"
+      this.imagePath = "./images/games/Yellow_Arrow.svg"
       this.selectedColor = '#F5A623'
     } else if (gameSource == "BoatRace") {
-      this.imagePath = "/images/games/Teal_Arrow.svg"
+      this.imagePath = "./images/games/Teal_Arrow.svg"
       this.selectedColor = '#199893'
     } else if (gameSource == "SpaceRace") {
-      this.imagePath = "/images/games/Blue_Arrow.svg"
+      this.imagePath = "./images/games/Blue_Arrow.svg"
       this.selectedColor = '#326BAE'
     }
   }

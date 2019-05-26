@@ -129,7 +129,7 @@ export default class GameSelect extends Component {
 			make it to the next level. As the levels increase, the number of \
 			asteroids also increase in number.\
 	      ",
-	      gameScreenshot: "/images/games/spacerace_placeholder.png"
+	      gameScreenshot: "./images/games/spacerace_placeholder.png"
     	})
     	console.log("spacerace selected on default")
     }
@@ -148,7 +148,7 @@ export default class GameSelect extends Component {
 			make it to the next level. As the levels increase, the number of \
 			asteroids also increase in number.\
 	      ",
-	      gameScreenshot: "/images/games/spacerace_placeholder.png"
+	      gameScreenshot: "./images/games/spacerace_placeholder.png"
     	})
     	console.log("spacerace selected")
     }
@@ -165,7 +165,7 @@ export default class GameSelect extends Component {
 			will travel. Try to beat your opponents and your own \
 			best WPM as you race towards the finish line!\
 	      ",
-	      gameScreenshot: "/images/games/boatrace_placeholder.png"
+	      gameScreenshot: "./images/games/boatrace_placeholder.png"
     	})
     	console.log("boatrace selected")
     }
@@ -181,7 +181,7 @@ export default class GameSelect extends Component {
 			Every time you correctly type a phrase, more time will be \
 			added to your counter and your streak will increase.\
 	      ",
-	      gameScreenshot: "/images/games/challenge_placeholder.png"
+	      gameScreenshot: "./images/games/challenge_placeholder.png"
     	})
     	console.log("challenge selected")
 		}
