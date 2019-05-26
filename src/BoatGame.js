@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Button from 'react-button-component'
 import styled from 'styled-components';
-import ReactCountdownClock from 'react-countdown-clock'
 import Header from './components/header'
 import Tutorial from './BoatGameTracking'
 import Stats from './BoatStats'
