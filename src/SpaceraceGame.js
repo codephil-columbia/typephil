@@ -214,34 +214,52 @@ class SpaceraceGame extends React.Component {
   }
 
   exitMainPage = (difficulty) =>{
-    this.setState({
-      difficultySelected:difficulty,
-      showMainPage:false,
-      isPlayerReady:true
-    })
+    console.log(difficulty)
+    this.setState({difficultySelected: difficulty})
+    this.setState({showMainPage:false})
+    this.setState({isPlayerReady:true})
 
-    if(difficulty=="easy"){
+    if(difficulty==="easy"){
       this.setState({wpm:20})
-    }else if(difficulty=="medium"){
+      this.setState({difficultySelected : "easy"})
+      console.log(this.state.difficultySelected)
+    }else if(difficulty==="Medium"){
       this.setState({wpm:25})
-    }else if(difficulty=="hard"){
+      this.setState({difficultySelected : "medium"})
+    }else if(difficulty==="Hard"){
       this.setState({wpm:30})
+      this.setState({difficultySelected : "hard"})
     }
   }
   
   checkDifficultyIncrement = () => {
+    console.log(this.state.difficultySelected)
     if(this.state.seconds % 30 == 0){
       this.incrementDifficulty()
       console.log("current wpm: " + this.state.wpm)
     }
-    if(this.state.seconds % 120 ==0){
-      this.spawnRocket()
-      this.spawnRocket()
-      this.spawnRocket()
-      console.log("spawned 3")
-      
+
+    if (this.state.difficultySelected === "easy"){
+      console.log("i am in")
+      if(this.state.seconds % 15 == 0){
+        this.spawnRocket()    
+      }
     }
-    console.log("checking need to increment ")
+    if (this.state.difficultySelected === "medium"){
+      if(this.state.seconds % 15 == 0){
+        this.spawnRocket()    
+        this.spawnRocket()  
+      }
+    }
+    if (this.state.difficultySelected === "hard"){
+      if(this.state.seconds % 15 == 0){
+        
+        this.spawnRocket()    
+        this.spawnRocket()  
+        this.spawnRocket() 
+        console.log("have three rockets") 
+      }
+    }
   }
   tick = () => {
     this.setState({seconds:this.state.seconds + 1})
@@ -324,7 +342,7 @@ class SpaceraceGame extends React.Component {
       this.setState({live2: null})
     }else if (this.state.lives === 1){
       this.setState({live1: null})
-  }
+    }
     this.setState({lives:this.state.lives -1})
     if(this.state.lives ==0){
       this.setState({playerHasLost:true})
@@ -431,8 +449,7 @@ class SpaceraceGame extends React.Component {
         img.src= "./images/games/Meteor.svg"
       } 
 
-    });
-    
+    });   
 
   }
 
@@ -441,9 +458,20 @@ class SpaceraceGame extends React.Component {
   }
 
   initGame = () =>{
-    this.spawnInitRocket(this.state.FirstWords[0],0,10)
-    this.spawnInitRocket(this.state.FirstWords[1],1,12)
-    this.spawnInitRocket(this.state.FirstWords[2],2,11)
+    if(this.state.difficultySelected === "easy"){
+      this.spawnInitRocket(this.state.FirstWords[1],1,12)
+
+    }
+    else if (this.state.difficultySelected == "medium"){
+      this.spawnInitRocket(this.state.FirstWords[1],1,12)
+      this.spawnInitRocket(this.state.FirstWords[0],0,10)
+
+    }
+    else if (this.state.difficultySelected == "hard"){
+      this.spawnInitRocket(this.state.FirstWords[1],1,12)
+      this.spawnInitRocket(this.state.FirstWords[0],0,10)
+      this.spawnInitRocket(this.state.FirstWords[2],2,11)
+    }
   }
 
   getParentDiv() {
@@ -533,9 +561,31 @@ class SpaceraceGame extends React.Component {
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
         })
-        this.spawnRocket()
-        this.spawnRocket()
-        this.spawnRocket()
+        if(this.state.difficultySelected === "easy"){
+          //this.spawnInitRocket(this.state.FirstWords[1],1,12)
+          this.spawnRocket()
+    
+        }
+        if (this.state.difficultySelected === "medium"){
+          this.spawnRocket()
+          this.spawnRocket()
+
+          // this.spawnInitRocket(this.state.FirstWords[1],1,12)
+          // this.spawnInitRocket(this.state.FirstWords[0],0,10)
+    
+        }
+        if (this.state.difficultySelected === "hard"){
+          console.log("commin at u now")
+          this.spawnRocket()
+          this.spawnRocket()
+          this.spawnRocket()
+          // this.spawnInitRocket(this.state.FirstWords[1],1,12)
+          // this.spawnInitRocket(this.state.FirstWords[0],0,10)
+          // this.spawnInitRocket(this.state.FirstWords[2],2,11)
+        }
+        //this.spawnRocket()
+        //this.spawnRocket()
+        //this.spawnRocket()
       }
     } else if (keyPressed == BACKSPACE){
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
