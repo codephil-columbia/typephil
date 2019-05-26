@@ -523,9 +523,7 @@ class SpaceraceGame extends React.Component {
   
 
   registerUserKeyPress = ({ key: keyPressed }) => {
-    console.log("key was pressed")
     if(this.state.startPeriod){
-      console.log("has reached here1")
       this.setState({startPresses:this.state.startPresses + 1})
       if(this.state.startPresses==1){
         console.log(this.state.startPeriod)
@@ -535,7 +533,6 @@ class SpaceraceGame extends React.Component {
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
         })
-        console.log("has reached here2")
         this.spawnRocket()
         this.spawnRocket()
         this.spawnRocket()

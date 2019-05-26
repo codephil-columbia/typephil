@@ -74,9 +74,7 @@ class App extends Component {
         <Route path="/signup" component={SignupPage}/>
         <Route path="/selectGames" component={GameSelect}/>
         <Route path="/spacerace" component={SpaceraceGame}/>
-        <Route path="/spaceraceselect" component={Spacerace}/>
         <Route path="/coco" component={KeyTracker}/>
-        <Route path="/boatselect" component={BoatSelect}/>
         <Route path="/boat" component={Boat}/> 
         <Route path="/userStats" component={DataDashboard}/>
         <Route component={FourOhFour} />
