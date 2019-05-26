@@ -103,7 +103,7 @@ class KeyTracking extends Component{
         }
         this.setState({
             showMainPage:false,
-            gameStart:false,
+            gameStart:true,
             isPlayerReady:true,
             playerDifficulty:diffNum
         })
@@ -180,24 +180,7 @@ class KeyTracking extends Component{
          // this == event, in this cases
     if(this.state.showMainPage){
         return (<MainPage commenceGame={this.exitMainPage} />)
-    }else if(this.state.isPlayerReady){
-        {
-            const { 
-                headerLinks, 
-                } = this.state;
-
-            return(  
-                <div>
-                    <Header links={headerLinks}></Header>
-                    <div className="countdown-clock-description">Starting Game In...</div>
-                    <div style={{width:"100vw", height:"45vh", display:"flex", justifyContent:"center", alignItems:"center"}}>
-                        <ReactCountdownClock className="countdown-clock" color="#52B094" seconds={3} size={300} onComplete={this.beginGames}/> 
-                    </div>
-                </div>
-
-            )
-        }
-        }else if(this.state.gameStart){
+    }else if(this.state.gameStart){
             const { 
                 headerLinks,
               } = this.state;
