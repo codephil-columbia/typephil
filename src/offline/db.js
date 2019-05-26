@@ -55,6 +55,11 @@ class UserStore {
 
 class Authenticator extends UserStore {
 
+  AuthenticationResult = Object.freeze({
+    SUCCESS: "SUCCESS",
+    FAILED: "FAILED"
+  });
+
   static get UserExists() {
     return "User already exists";
   }
@@ -70,7 +75,13 @@ class Authenticator extends UserStore {
   }
 
   authenticate(username, password) {
-    // have to do a linear search through all of the uids and check to see if the username exists 
+    let users = JSON.parse(localStorage.getItem("users"));
+    const user = _.find(users, u => u.username === username);
+    if (user.password === password) {
+      return this.AuthenticationResult.SUCCESS;
+    } else {
+      return this.AuthenticationResult.FAILED;
+    }
   }
 
   find(username) {
