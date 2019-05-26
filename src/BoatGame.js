@@ -67,18 +67,18 @@ class BoatGame extends Component{
 
 
   componentWillMount = () => {
-    fetch("http://localhost:5000/game/boatrace")
-    .then(results => {
-        return results.json()
-    })
-    .then(data => {
-       let randIndex= Math.floor(Math.random() * data.length)
-       console.log(data.length)
-       for (let i=0;i<data.length;i++){
-           let content=this.parse(data[i].Txt)
-           console.log(content)
-       }
-    })
+    // fetch("http://localhost:5000/game/boatrace")
+    // .then(results => {
+    //     return results.json()
+    // })
+    // .then(data => {
+    //    let randIndex= Math.floor(Math.random() * data.length)
+    //    console.log(data.length)
+    //    for (let i=0;i<data.length;i++){
+    //        let content=this.parse(data[i].Txt)
+    //        console.log(content)
+    //    }
+    // })
 
     console.log(data.games.boatrace)
 

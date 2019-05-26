@@ -188,18 +188,18 @@ class SpaceraceGame extends React.Component {
   state = { isMoving: true };
 
   componentDidMount() {
-    fetch("http://localhost:5000/game/spacerace")
-    .then(results => {
-        return results.json()
-    })
-    .then(data => {
+    // fetch("http://localhost:5000/game/spacerace")
+    // .then(results => {
+    //     return results.json()
+    // })
+    // .then(data => {
        
-       console.log(data.length)
-       for (let i=0;i<data.length;i++){
-           let content=this.parse(data[i].Txt)
-           //console.log(content)
-       }
-    })
+    //    console.log(data.length)
+    //    for (let i=0;i<data.length;i++){
+    //        let content=this.parse(data[i].Txt)
+    //        //console.log(content)
+    //    }
+    // })
 
     let shuffle = require('shuffle-array')
     console.log(shuffle(data.games.spacerace))
