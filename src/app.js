@@ -11,11 +11,17 @@ import Profile from './ProfilePage';
 import Learn from './Learn';
 import Tutorial from './Tutorial';                               
 import HomePage from './HomePage';
+import GameSelect from './GameSelect'
 import FourOhFour from './components/FourOhFour';
 import Challenge from './Challenge'
-import CocoType from './CocoType';
+import Boat from './BoatGame'
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
+import SpaceraceGame from './SpaceraceGame'
+import Spacerace from './Spacerace'
+import Animation from './animation'
+import DataDashboard from './DataDashboard'
+import BoatSelect from './BoatLevelSelect'
 
 
 class App extends Component {
@@ -53,6 +59,7 @@ class App extends Component {
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/" component={HomePage}/>
+        <Route path="/challenge" component={Challenge}/>
         <Route path="/404"component={FourOhFour} />
       </Switch>
     )
@@ -65,9 +72,14 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={SignupPage}/>
+                <Route path="/selectGames" component={GameSelect}/>
         <Route path="/challenge" component={Challenge}/>
+        <Route path="/spacerace" component={SpaceraceGame}/>
+        <Route path="/spaceraceselect" component={Spacerace}/>
         <Route path="/coco" component={KeyTracker}/>
-        <Route path="/finalstats" component={Stats}/>
+        <Route path="/boatselect" component={BoatSelect}/>
+        <Route path="/boat" component={Boat}/>
+        <Route path="/userStats" component={DataDashboard}/>
         <Route component={FourOhFour} />
       </Switch>
     )

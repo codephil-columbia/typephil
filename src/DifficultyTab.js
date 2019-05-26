@@ -23,7 +23,8 @@ const DifficultyLevel = styled.div`
 }  
   font-family:'Arcade';
   font-size:3rem;
-  color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
+  color: ${props => props.isActive ? props.textColor :'#4A4A4A' };
+  background-color: white;
 `
 const DifficultyContainer=styled.div`
 display:flex;
@@ -44,7 +45,9 @@ export default class DifficultyTab extends Component {
     this.state={
       ezChosen:false,
       midChosen:false,
-      hardChosen:false
+      hardChosen:false,
+      imagePath:"",
+      selectedColor:'#000000'
     }
     this.disableOtherOptions = this.disableOtherOptions.bind(this);
     this.ezEnabled   = this.ezEnabled.bind(this);
@@ -52,6 +55,13 @@ export default class DifficultyTab extends Component {
     this.hardEnabled = this.hardEnabled.bind(this);
  
   }
+  componentDidMount(){
+    this.setState({
+      medChosen:true
+    })
+    this.getGameCSS()
+  }
+  
   disableOtherOptions(){
     this.setState(
       {
@@ -60,6 +70,21 @@ export default class DifficultyTab extends Component {
         hardChosen:false
       }
     )
+  }
+
+  getGameCSS() {
+    var gameSource = this.props.gameSource
+
+    if (gameSource == "Challenge") {
+      this.imagePath = "/images/games/Yellow_Arrow.svg"
+      this.selectedColor = '#F5A623'
+    } else if (gameSource == "BoatRace") {
+      this.imagePath = "/images/games/Teal_Arrow.svg"
+      this.selectedColor = '#199893'
+    } else if (gameSource == "SpaceRace") {
+      this.imagePath = "/images/games/Blue_Arrow.svg"
+      this.selectedColor = '#326BAE'
+    }
   }
 
   ezEnabled(){
@@ -86,20 +111,20 @@ export default class DifficultyTab extends Component {
           <div>
           <DifficultyContainer>
             <DifficultyLevelWrapper onClick={this.ezEnabled}>
-              <DifficultyPointer selected={this.state.ezChosen}><img src="/images/games/Yellow_Arrow.svg"/></DifficultyPointer>
-              <DifficultyLevel isActive={this.state.ezChosen}>Easy</DifficultyLevel>
+              <DifficultyPointer selected={this.state.ezChosen}><img src={this.imagePath}/></DifficultyPointer>
+              <DifficultyLevel isActive={this.state.ezChosen} textColor={this.selectedColor}>Easy</DifficultyLevel>
             </DifficultyLevelWrapper>
           
 
             <DifficultyLevelWrapper onClick={this.medEnabled}>
-              <DifficultyPointer selected={this.state.medChosen}><img src="/images/games/Yellow_Arrow.svg"/></DifficultyPointer>
-              <DifficultyLevel isActive={this.state.medChosen}>Medium</DifficultyLevel>
+              <DifficultyPointer selected={this.state.medChosen}><img src={this.imagePath}/></DifficultyPointer>
+              <DifficultyLevel isActive={this.state.medChosen} textColor={this.selectedColor}>Medium</DifficultyLevel>
             </DifficultyLevelWrapper>
           
             
             <DifficultyLevelWrapper onClick={this.hardEnabled}>
-                <DifficultyPointer selected={this.state.hardChosen}><img src="/images/games/Yellow_Arrow.svg"/></DifficultyPointer>
-                <DifficultyLevel isActive={this.state.hardChosen}>Hard</DifficultyLevel>
+                <DifficultyPointer selected={this.state.hardChosen}><img src={this.imagePath}/></DifficultyPointer>
+                <DifficultyLevel isActive={this.state.hardChosen} textColor={this.selectedColor}>Hard</DifficultyLevel>
             </DifficultyLevelWrapper>
           </DifficultyContainer>
           </div>

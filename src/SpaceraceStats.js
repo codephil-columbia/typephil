@@ -2,33 +2,30 @@ import React, {Component} from 'react'
 import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
-import { withRouter } from 'react-router'
-
 
 import styled  from 'styled-components'
+import './style/font.css'
 
+
+const EntireWrapper = styled.div`
+    background-color: #25365A;
+    height: 100vh;
+`
 
 const NavigationContainer= styled.div`
     display:flex;
     justify-content:space-between;
     padding-left:10vw;
     width:90vw;
-
 `
 
-
 const CustomButton = Button.extend`
-    @font-face {
-        font-family: 'Arcade';
-        src: url(${Arcade}) format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    } 
     margin-top:10vh;
     font-size:1.5rem;
-    font-family:"Arcade";
+    font-family:"Arcade_real";
     color: #52B094;
-
+    border-color: #52B094;
+    background-color: transparent;
 `
 
 const StatsWrapper = styled.div`
@@ -38,8 +35,8 @@ const StatsWrapper = styled.div`
     align-content:center;
     text-align:center;
     padding-top: 7vh;
-
-    width: 100%
+    width: 100%;
+    // background-color: #25365A;
 `
 
 const StatsRow = styled.div`
@@ -51,9 +48,7 @@ const StatsRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
-
-    color: #F5A623;
-
+    color: #DC367A;
     padding-bottom: 2vh;
 `
 
@@ -66,11 +61,9 @@ const StatsHighScoreRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
-
-    color: #F5A623;
-
+    color: #DC367A;
     border-style: solid;
-    border-color: #F5A623;
+    border-color: #DC367A;
     height: 15vh;
     padding-top: 2vh
     padding-bottom: 2vh
@@ -83,7 +76,6 @@ const DataContainer = styled.div`
         font-weight: normal;
         font-style: normal;
     } 
-
     display:flex
     flex-direction:column;
     align-content:center;
@@ -97,7 +89,6 @@ const StatsHeader = styled.div`
     align-content:center;
     text-align:center;
     width:100vw;
-
     font-family:"Arcade";
     color: #52B094;
     font-size: 2.9rem;
@@ -119,19 +110,18 @@ const HighScoreLabel = styled.div`
     margin-left: 37vw;
     margin-right: 37vw;
     align-content: center;
-    color: #F5A623;
-
+    color: #DC367A;
     font-family:"Arcade";
     width: 26vw;
 	text-align: center;
 	margin-bottom: -13px;
 	z-index: 2;
-	background-color: white;
 	font-size: 1.3rem;
-
 	@media only screen and (max-width: 1050px) {
 		padding-top: 3vw;
 	}
+
+    background-color: #25365A;
 `
 
 
@@ -150,7 +140,7 @@ export default class Statistics extends Component{
 
     
     playAgain= () =>{
-        this.props.restore()
+        this.props.reset()
     }
 
     exitGame= ()  =>{
@@ -159,25 +149,27 @@ export default class Statistics extends Component{
 
     render()
     {
+        console.log(this.props.data)
         const { 
             headerLinks, 
           } = this.state;
         return (
             <div>
+                <EntireWrapper>
                 <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} />
                 <StatsWrapper>
                 	<StatsHeader>GAME STATS</StatsHeader>
                     <StatsRow>
                         <DataContainer>
-                            <StatsData>{this.props.data.wordsPerMinute}</StatsData>
+                            <StatsData>{this.props.data.wpm}</StatsData>
                             <StatsText>WPM</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>{this.props.data.accuracy}%</StatsData>
+                            <StatsData>{this.props.data.playerAccuracy}%</StatsData>
                             <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>{this.props.data.playerDifficulty}</StatsData>
+                            <StatsData>{this.props.data.level}</StatsData>
                             <StatsText>Level</StatsText>
                         </DataContainer>
                     </StatsRow>
@@ -203,10 +195,23 @@ export default class Statistics extends Component{
                         <CustomButton onClick={this.playAgain}>PLAY AGAIN</CustomButton>
                         <CustomButton>EXIT</CustomButton>
                 </NavigationContainer>
+                </EntireWrapper>
             </div>
         )
     }
+                    // <StatsRow>
+                    //     <DataContainer>
+                    //         <StatsData>{this.props.data.wordsPerMinute}</StatsData>
+                    //         <StatsText>WPM</StatsText>
+                    //     </DataContainer>
+                    //     <DataContainer>
+                    //         <StatsData>{this.props.data.accuracy}%</StatsData>
+                    //         <StatsText>Accuracy</StatsText>
+                    //     </DataContainer>
+                    //     <DataContainer>
+                    //         <StatsData>{this.props.data.baseDifficulty}</StatsData>
+                    //         <StatsText>Level</StatsText>
+                    //     </DataContainer>
+                    // </StatsRow>
 
 }
-
-

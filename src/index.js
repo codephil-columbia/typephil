@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom'
 import App from './app'
 
+import { Authenticator, initLocalStorage} from "./offline/db";
+
 import './style/styles.scss';
 import './style/index.scss';
 
@@ -13,6 +15,8 @@ import { store, persistor } from './store';
 const Loading = () => {
   return <div>Loading</div>
 }
+
+localStorage.setItem("users", {});
 
 ReactDOM.render(
   <PersistGate loading={<Loading/>} persistor={persistor}>
