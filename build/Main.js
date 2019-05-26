@@ -18,4 +18,4 @@ function createWindow () {
 	win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
 }   
 
-ac
+app.on('ready', createWindow)
