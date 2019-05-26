@@ -22,7 +22,7 @@ const INCORRECT = "incorrect";
 
 
 const BoatraceGameBackground = styled.div`
-    background-image: url(/images/games/Waves_extended.svg);
+    background-image: url(./images/games/Waves_extended.svg);
     //background-position: center bottom -130vh;
     background-position: center bottom -130vh;
     background-repeat: no-repeat;
@@ -139,7 +139,7 @@ const Boat = styled.div`
 `
 
 const BoatImage = styled.div`
-  content: url(/images/games/Boat.svg);
+  content: url(./images/games/Boat.svg);
   width: 15vw;
 
   @media only screen and (max-width: 1400px) {
