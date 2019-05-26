@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Button from 'react-button-component'
 import styled from 'styled-components';
-import ReactCountdownClock from 'react-countdown-clock'
 import Header from './components/header'
 import Tutorial from './BoatGameTracking'
 import Stats from './BoatStats'
@@ -108,7 +107,7 @@ class BoatGame extends Component{
         this.setState({
             showMainPage:false,
             isPlayerReady:true,
-            gameStart:false,
+            gameStart:true,
             playerDifficulty:diffNum,
             baseDifficulty:diffNum
         })
@@ -245,24 +244,7 @@ class BoatGame extends Component{
          // this == event, in this cases
     if(this.state.showMainPage){
         return (<MainPage commenceGame={this.exitMainPage} />)
-    }else if(this.state.isPlayerReady){
-        {
-            const { 
-                headerLinks, 
-                } = this.state;
-
-            return(  
-                <div>
-                    <Header links={headerLinks}></Header>
-                    <div className="countdown-clock-description">Starting Game In...</div>
-                    <div style={{width:"100vw", height:"45vh", display:"flex", justifyContent:"center", alignItems:"center"}}>
-                        <ReactCountdownClock className="countdown-clock" color="#52B094" seconds={3} size={300} onComplete={this.beginGames}/> 
-                    </div>
-                </div>
-
-            )
-        }
-        }else if(this.state.gameStart){
+    }else if(this.state.gameStart){
             const { 
                 headerLinks,
               } = this.state;
