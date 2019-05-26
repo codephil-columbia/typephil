@@ -16,14 +16,14 @@ export const statsForUser = (state = {}, action) => {
 
     case GET_AVG_STATS_SUCCESS: {
       const {
-        avgAccuracy,
-        avgWPM
+        wpm,
+        accuracy
       } = action.data;
 
       return { 
         ...state, 
-        avgAccuracy,
-        avgWPM,
+        accuracy,
+        wpm,
         isStatsLoading: false,
       }
     }
@@ -47,10 +47,8 @@ export const chapterProgressPercentage = (
     }
 
     case GET_CHAPTER_PROGRESS_SUCCESS: {
-      const { compcount, totallessons } = action.data;
-      const percentageComplete = Math.trunc(
-        (compcount / totallessons) * 100
-      );
+      const percentage = action.data;
+      const percentageComplete = Math.trunc(percentage*100);
       return { 
         ...state, 
         percentageComplete,

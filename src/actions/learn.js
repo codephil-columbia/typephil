@@ -25,20 +25,18 @@ const fetchAllChapterNamesFailed = err => {
   }
 }
 
-export const fetchAllChapterNames = _ => {
-  return function(dispatch) {
-    dispatch(fetchAllChapterNamesRequest());
-    return axios.get(`${api_url}/chapter/getAllNames`)
-      .then(res => {
-        const {
-          data
-        } = res;
-        dispatch(fetchAllChapterNamesSuccess(data));
-      })
-      .catch(err => {
-        dispatch(fetchAllChapterNamesFailed(err));
-      })
-  }
+export const fetchAllChapterNames = _ => dispatch => {
+  dispatch(fetchAllChapterNamesRequest());
+  return axios.get(`${api_url}/chapter/`)
+    .then(res => {
+      const chapters = res.data;
+      const chapterNames = chapters.map(c => c.chapterName);
+
+      dispatch(fetchAllChapterNamesSuccess(chapterNames));
+    })
+    .catch(err => {
+      dispatch(fetchAllChapterNamesFailed(err));
+    })
 }
 
 export const FETCH_ALL_PAIRS_REQUEST = "FETCH_ALL_PAIRS_REQUEST"
@@ -65,20 +63,24 @@ const fetchAllPairsFailed = err => {
   }
 }
 
-export const fetchAllPairs = uid => {
-  return function(dispatch) {
-    dispatch(fetchAllPairsRequest());
-    return axios.get(`${api_url}/chapter/getAllInfo`)
-      .then(res => {
-        const {
-          data
-        } = res;
-        dispatch(fetchAllPairsSuccess(data));
-      })
-      .catch(err => {
-        dispatch(fetchAllPairsFailed(err));
-      })
-  }
+export const fetchAllPairs = uid => dispatch => {
+  dispatch(fetchAllPairsRequest());
+
+  return Promise.all([
+    axios.get(`${api_url}/chapter/`),
+    axios.get(`${api_url}/lesson/`)
+  ]).then(([r1, r2]) => {
+    const chapters = r1.data;
+    const lessons = r2.data;
+    
+    let lessonsPerChapter = chapters.map(chapter => {
+      const lessonsInChapter = lessons.filter(l => l.chapterID === chapter.chapterID)
+      return {chapter, lessons:lessonsInChapter}
+    })
+    dispatch(fetchAllPairsSuccess(lessonsPerChapter));
+  }).catch(err => {
+    throw new Error(err);
+  })
 }
 
 export const FETCH_COMPLETED_LESSONS = "FETCH_COMPLETED_LESSONS"
@@ -106,18 +108,21 @@ const fetchCompletedLessonsFailed = err => {
 }
 
 
-export const fetchCompletedLessons = uid => {
-  return function(dispatch) {
-    dispatch(fetchCompletedLessonsRequest());
-    return axios.post(`${api_url}/lesson/getCompletedLessons`, { uid })
-      .then(res => {
-        const { data } = res;
-        dispatch(fetchCompletedLessonsSuccess(data));
-      })
-      .catch(err => {
-        dispatch(fetchCompletedLessonsFailed(err));
-      })
-  }
+export const fetchCompletedLessons = uid => dispatch => {
+  dispatch(fetchCompletedLessonsRequest());
+
+  return Promise.all([
+    axios.get(`${api_url}/records/tutorial/lessons/${uid}`),
+    axios.get(`${api_url}/lesson/`)
+  ]).then(([r1, r2]) => {
+    const recordIDs = new Set(r1.data.map(record => record.lessonID));
+    const lessons = r2.data;
+
+    const completedLessons = lessons.filter(lesson => recordIDs.has(lesson.lessonID));
+    dispatch(fetchCompletedLessonsSuccess(completedLessons));
+  }).catch(err => {
+    throw new Error(err);
+  })
 }
 
 export const RESET_CURRENT_LESSON = "RESET_CURRENT_LESSON";
@@ -145,7 +150,6 @@ export const fetchLessonById = ({ lessonID }) => dispatch => {
   return axios.post(`${api_url}/lesson/get`, { lessonID })
     .then(({ data }) => {
       dispatch(fetchLessonByIdSuccess(data));
-      console.log(data);
     })
     .catch(err => console.log(err));
 }

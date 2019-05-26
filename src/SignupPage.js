@@ -58,24 +58,24 @@ class SignupPage extends Component {
     });
 
     // TODO turn this over to middleware
-    if(field === 'username') {
-      const username = e.target.value;
-      //this.props.dispatchUsername(username);
-      fetch('http://localhost:5000/auth/usernameValid', { 
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username })
-      }).then(res => res.json()
-      ).then((res) => {
-        if(res && this.state.username === username)
-          this.setState({ usernameValid : true });
-        else
-          this.setState({ usernameValid : res });
-      });
-    }
+    // if(field === 'username') {
+    //   const username = e.target.value;
+    //   //this.props.dispatchUsername(username);
+    //   fetch('http://localhost:5000/auth/usernameValid', { 
+    //     method: 'POST',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ username })
+    //   }).then(res => res.json()
+    //   ).then((res) => {
+    //     if(res && this.state.username === username)
+    //       this.setState({ usernameValid : true });
+    //     else
+    //       this.setState({ usernameValid : res });
+    //   });
+    // }
   }
 
   handleInputChange = (e) => {

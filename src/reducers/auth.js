@@ -2,7 +2,6 @@ import { LOG_IN, LOG_OUT } from '../actions/auth';
 
 export const auth = (state = authInitialState, action) => {
     const { payload } = action;
-    console.log("ACTION:", action);
     switch (action.type) {
       case LOG_IN:
         return {

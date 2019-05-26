@@ -56,7 +56,7 @@ const persistedReducer = persistReducer(
 
 export let store = createStore( 
     persistedReducer,
-    composeWithDevTools(applyMiddleware(thunk, requestTextConverter))
+    composeWithDevTools(applyMiddleware(thunk))
 );
 
 export let persistor = persistStore( store );

@@ -13,7 +13,7 @@ import ShowSpinner from './components/spinner';
 import TutorialStats from './components/TutorialStats';
 import TutorialImage from './components/TutorialImage';
 
-import { postTutorialResults, fetchLesson, redirectToNextLesson } from './actions/tutorial';
+import { postTutorialResults, redirectToNextLesson } from './actions/tutorial';
 import { getCurrentLessonForUser } from './actions/homepage';
 
 
@@ -27,6 +27,9 @@ class Tutorial extends Component {
     } else {
       currentLesson = this.props.currentLesson;
     }
+
+    console.log(this.props);
+
     const { lessonDescriptions, lessonText, lessonImages } = currentLesson;
 
     const contentList = [];
@@ -330,7 +333,6 @@ class Tutorial extends Component {
       headerLinks,
       shouldFreeze,
       indexPtr,
-      totalContentLength,
       shouldShowStats,
       didUserPassLesson,
       resultsForCurrentLesson,
@@ -343,6 +345,8 @@ class Tutorial extends Component {
 
     const { content, userState } = this.getContent(indexPtr);
 
+    console.log(this.props);
+
     let hasImage;
     let imagePath;
     if(userState === this.appState.READING && lessonImages[indexPtr] !== "") {
@@ -354,8 +358,7 @@ class Tutorial extends Component {
     }
 
     const { username } = this.props.currentUser
-    // console.log("!!!!!");
-    // console.log(this.props.currentLesson);
+
     return (
       <React.Fragment>
         <Header links={headerLinks} isLoggedIn={true} username={username} 
@@ -418,7 +421,6 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators ({ 
     postTutorialResults,
     getCurrentLessonForUser,
-    fetchLesson,
     redirectToNextLesson,
   }, dispatch)
 }
