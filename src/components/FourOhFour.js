@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from 'react-button-component'
+import Button from 'react-button-component';
 import '../style/fourOhFour.css';
 
 
@@ -28,15 +28,14 @@ export default class FourOhFour extends Component {
     }
 
     exitGame = () =>{
-        this.props.history.push("/")
+        this.props.history.push("/selectGames")
       }
     
     render(){
         console.log(this.props)
     return (
             <div className="container fourOhFourWrap">
-            yeeta
-            <CustomButton onClick={this.exitGame}>EXIT</CustomButton>
+            <CustomButton onClick={this.exitGame}>Start</CustomButton>
             </div>
         )
     }
