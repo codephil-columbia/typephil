@@ -5,6 +5,13 @@ import { bindActionCreators } from 'redux';
 import Header from './components/header';
 import Button from 'react-button-component';
 import styled from 'styled-components';
+import BoatGame from './BoatGame'
+import BoatGameTracking from './BoatGameTracking'
+import BoatLevelSelect from './BoatLevelSelect'
+import Statistics from './BoatStats'
+import Counter from './BoatTrackingCounterPage'
+import Tutorial from './BoatTutorial'
+
 import './style/font.css';
 
 
@@ -137,8 +144,9 @@ export default class GameSelect extends Component {
     spaceraceSelected()
     {
     	this.setState({
-	      spaceraceEnabled:true,
-	      boatraceEnabled:false,
+				spaceraceEnabled:true,
+				boatraceEnabled:false,
+				showBoatRace:false,
 	      challengeEnabled:false,
 	      gameDescription: "\
 			Type the words on the asteroids as they appear \
@@ -189,14 +197,11 @@ export default class GameSelect extends Component {
 		BeginGame(state){
 			if (this.state.spaceraceEnabled === true){
 				this.props.history.push("/spacerace");
-
 			} else if (this.state.challengeEnabled === true){
 				this.props.history.push("/coco");
-
 			} else if (this.state.boatraceEnabled === true){
-				this.props.history.push("/boat");
-
-
+				this.setState({showBoatRace:true})
+				console.log("was reached")
 			}	
 		}
 
@@ -204,7 +209,11 @@ export default class GameSelect extends Component {
 	    const { 
 	      headerLinks, 
 	    } = this.state;
+			if(this.state.showBoatRace){
+				console.log("boat has been activated")
+				return(<BoatGame/>)
 
+			}else{
         return(
             <div>
             	<Header links={headerLinks}/>
@@ -251,7 +260,8 @@ export default class GameSelect extends Component {
 
             	</RightGameSelectionPanel>
             </div>
-        )
+				)
+			}
     }
 }
 
