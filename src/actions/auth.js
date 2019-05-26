@@ -51,24 +51,12 @@ export const dispatchLogout = () => {
 }
 
 export const dispatchLogin = (username, password) => {
-  // new Promise(function(resolve, reject) {
-  //   console.log(username, password);
-  //   const endpoint = api_url + '/user/authenticate';
-  //   axios.post(endpoint, {username, password})
-  //   .then(res => {
-  //       if(res.status !== 200) {
-  //         dispatch(loginError());
-  //         reject(0); // 0 : failed login. TODO unhack this since props are passed
-  //       } else {
-  //         store.dispatch(login(res));
-  //         dispatch(login(res));
-  //         //store.dispatch(login(username));
-  //         resolve(1); // 1 : successful login
-  //       }
-  //   }).catch(err => {
-  //     dispatch(loginError());
-  //     reject(0);
-  //   })
+    const authenticator = new Authenticator(new DatabaseAccessor());
+    if (authenticator.authenticate(username, password) === Authenticator.AuthenticationResult.FAILED) {
+      return loginError();
+    } else {
+      return login({"data": authenticator.getUser(username)});
+    }
   };
 
 // export const dispatchLogin = (username, password) => dispatch => {
@@ -97,8 +85,11 @@ export const dispatchSignup = (data) => {
   // }
 
   const userAcessor = new Authenticator(new DatabaseAccessor());
-  userAcessor.signUp(data);
-  return signupSuccess();
+  if (userAcessor.signUp(data) === Authenticator.UserExists) {
+    return signupError();
+  } else {
+    return signupSuccess();
+  }
 }
 
 export const dispatchPassword = (username, password) => {

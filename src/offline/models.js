@@ -12,9 +12,10 @@
 	WhichOccupation string     `json:"whichOccupation"`
  */
 
+import uuid from "uuid";
+
 class User {
   constructor(
-    uid,
     createdAt,
     firstName,
     lastName,
@@ -24,7 +25,7 @@ class User {
     occupation,
     whichOccupation
   ) {
-    this.uid = uid;
+    this.uid = uuid.v4();
     this.createdAt = createdAt;
     this.firstName = firstName;
     this.lastName = lastName;

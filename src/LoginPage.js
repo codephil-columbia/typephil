@@ -30,7 +30,8 @@ class LoginPage extends Component {
     this.props.dispatchLogin(
       username,
       password
-    ).then((res) => this.handleAfterLogin(res));
+    // ).then((res) => this.handleAfterLogin(res));
+    )
   }
 
   handleKeyPress = (e) => {
@@ -38,12 +39,12 @@ class LoginPage extends Component {
       this.handleLogin(e);
   }
 
-  handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
-    if(res) { // res = 1 means successful login TODO unhack this since props are passed
-      this.setState({ loginWasSuccessful: true });
-      this.props.onSuccessfulAuth();
-    }
-  }
+  // handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
+  //   if(res) { // res = 1 means successful login TODO unhack this since props are passed
+  //     this.setState({ loginWasSuccessful: true });
+  //     this.props.onSuccessfulAuth();
+  //   }
+  // }
 
   handleSignup = e => {
     e.preventDefault();

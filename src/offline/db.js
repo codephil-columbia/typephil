@@ -55,7 +55,7 @@ class UserStore {
 
 class Authenticator extends UserStore {
 
-  AuthenticationResult = Object.freeze({
+  static AuthenticationResult = Object.freeze({
     SUCCESS: "SUCCESS",
     FAILED: "FAILED"
   });
@@ -66,9 +66,10 @@ class Authenticator extends UserStore {
 
   signUp(user) {
     let users = JSON.parse(localStorage.getItem("users"));
-    if (_.find(users, u => u.uid === user.uid)) {
+    if (_.find(users, u => u.username === user.username)) {
       return Authenticator.UserExists;
     } else {
+      user.uid = uuid.v4();
       users.push(user);
       localStorage.setItem("users", JSON.stringify(users));
     }
@@ -77,18 +78,25 @@ class Authenticator extends UserStore {
   authenticate(username, password) {
     let users = JSON.parse(localStorage.getItem("users"));
     const user = _.find(users, u => u.username === username);
+    if (!user) {
+      return Authenticator.AuthenticationResult.FAILED;
+    }
+
     if (user.password === password) {
-      return this.AuthenticationResult.SUCCESS;
+      return Authenticator.AuthenticationResult.SUCCESS;
     } else {
-      return this.AuthenticationResult.FAILED;
+      return Authenticator.AuthenticationResult.FAILED;
     }
   }
 
-  find(username) {
-    // let users = localStorage.get("users");
-    // Object.keys(users).forEach(uid => {
-      
-    // });
+  getUser(username) {
+    let users = JSON.parse(localStorage.getItem("users"));
+    const user = _.find(users, u => u.username === username);
+    if (!user) {
+      return null;
+    } else {
+      return user;
+    }
   }
 };
 
