@@ -675,7 +675,7 @@ class SpaceraceGame extends React.Component {
           </SpaceRaceBackground>
         );
     }else{
-     return( <Statistics data={this.state} exit={this.exitGame} reset={this.playAgain}/>)
+     return( <Statistics data={this.state} exit={this.props.exit} reset={this.playAgain}/>)
     }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }

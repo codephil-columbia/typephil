@@ -119,6 +119,7 @@ export default class GameSelect extends Component {
 		this.spaceraceSelected = this.spaceraceSelected.bind(this);
 		this.boatraceSelected = this.boatraceSelected.bind(this);
 		this.challengeSelected = this.challengeSelected.bind(this);
+		this.returnToSelection=this.returnToSelection.bind(this)
 		this.BeginGame = this.BeginGame.bind(this)
     }
 
@@ -157,7 +158,15 @@ export default class GameSelect extends Component {
 	      gameScreenshot: "./images/games/spacerace_placeholder.png"
     	})
     	console.log("spacerace selected")
-    }
+		}
+		
+		returnToSelection(){
+			this.setState({
+				showBoatRace:false,
+				showChallenge:false,
+				showSpaceRace:false
+			})
+		}
 
     boatraceSelected()
     {
@@ -209,13 +218,13 @@ export default class GameSelect extends Component {
 	    } = this.state;
 			if(this.state.showBoatRace){
 				console.log("boat has been activated")
-				return(<BoatGame/>)
+				return(<BoatGame exit={this.returnToSelection}/>)
 			}else if(this.state.showChallenge){
 				console.log("challenge has been activated")
-				return(<KeyTracking/>)
+				return(<KeyTracking exit={this.returnToSelection}/>)
 			}else if(this.state.showSpaceRace){
 				console.log("spaceRace has been activated")
-				return(<SpaceraceGame/>)
+				return(<SpaceraceGame exit={this.returnToSelection}/>)
 			}else{
         return(
             <div>

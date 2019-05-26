@@ -256,7 +256,7 @@ class BoatGame extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats data={this.state} exit={this.exitGame} reset={this.playAgain}/>)
+            return(<Stats data={this.state} exit={this.props.exit} reset={this.playAgain}/>)
         }
     }
 }
