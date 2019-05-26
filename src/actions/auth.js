@@ -6,9 +6,10 @@ import { Authenticator, DatabaseAccessor } from '../offline/db';
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 
-export const signupSuccess = () => {
+export const signupSuccess = ({ data }) => {
   return {
-    type: 'SIGNUP_SUCCESS'
+    type: 'SIGNUP_SUCCESS',
+    data
   }
 }
 
@@ -21,13 +22,14 @@ export const signupError = err => {
 
 export const login = res => {
   const { data } = res;
+  console.log(data);
   return {
     type: LOG_IN,
     payload: {
       username: data.username,
       uid: data.uid, 
-      firstName: data.firstname,  
-      lastName: data.lastname,
+      firstName: data.firstName,  
+      lastName: data.lastName,
       isLoggedIn: true
     }
   }
@@ -59,36 +61,12 @@ export const dispatchLogin = (username, password) => {
     }
   };
 
-// export const dispatchLogin = (username, password) => dispatch => {
-//   axios.post(`${api_url}/user/authenticate`)
-//     .then(res => {
-//       dispatch(login(res));
-//     })
-//     .catch(err => {
-//       dispatch(loginError());
-//     })
-// }
-
 export const dispatchSignup = (data) => { 
-  // const endpoint = api_url + '/user/';
-  // return function(dispatch) {
-  //   axios.post(endpoint, data)
-  //   .then(res => {
-  //     if(res.status !== 200) {
-  //       dispatch(signupError());
-  //     }
-  //     dispatch(signupSuccess());
-  //     store.dispatch(login(res)); // isusername correct key? dispatch vs store.dispatch?
-  //   }).catch(err => {
-  //     dispatch(signupError());
-  //   });
-  // }
-
   const userAcessor = new Authenticator(new DatabaseAccessor());
   if (userAcessor.signUp(data) === Authenticator.UserExists) {
     return signupError();
   } else {
-    return signupSuccess();
+    return signupSuccess({"data": userAcessor.getUser(data.username)});
   }
 }
 

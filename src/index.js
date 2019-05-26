@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom'
 import App from './app'
 
-import { Authenticator, initLocalStorage} from "./offline/db";
+import { Authenticator, initLocalStorage, DatabaseAccessor } from "./offline/db";
+import { User } from "./offline/models";
 
 import './style/styles.scss';
 import './style/index.scss';
@@ -16,7 +17,25 @@ const Loading = () => {
   return <div>Loading</div>
 }
 
-localStorage.setItem("users", {});
+if (!localStorage.getItem("hasBeenInited")) {
+  localStorage.setItem("hasBeenInited", true);
+  localStorage.setItem("users", JSON.stringify([]));
+}
+
+const auth = new Authenticator(new DatabaseAccessor());
+auth.signUp(new User(
+  "now",
+  "cesar",
+  "ibarra",
+  "cibarra",
+  "cibarra@gmail.com",
+  "password",
+  "student",
+  "student"
+));
+
+// console.log(auth.authenticate("cibarra", "q"));
+// localStorage.clear();
 
 ReactDOM.render(
   <PersistGate loading={<Loading/>} persistor={persistor}>

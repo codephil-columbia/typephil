@@ -32,6 +32,9 @@ class LoginPage extends Component {
       password
     // ).then((res) => this.handleAfterLogin(res));
     )
+    if (this.props.isLoggedIn) {
+      this.handleAfterLogin(true);
+    }
   }
 
   handleKeyPress = (e) => {
@@ -39,12 +42,12 @@ class LoginPage extends Component {
       this.handleLogin(e);
   }
 
-  // handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
-  //   if(res) { // res = 1 means successful login TODO unhack this since props are passed
-  //     this.setState({ loginWasSuccessful: true });
-  //     this.props.onSuccessfulAuth();
-  //   }
-  // }
+  handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
+    if(res) { // res = 1 means successful login TODO unhack this since props are passed
+      this.setState({ loginWasSuccessful: true });
+      this.props.onSuccessfulAuth();
+    }
+  }
 
   handleSignup = e => {
     e.preventDefault();

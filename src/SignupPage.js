@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import { dispatchSignup } from './actions/auth';
+import { dispatchSignup, dispatchLogin } from './actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './components/header';
@@ -102,8 +102,8 @@ class SignupPage extends Component {
     const { firstname, lastname, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstname, lastname to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
     this.props.dispatchSignup({ 
-      firstname,
-      lastname,
+      firstName: firstname,
+      lastName: lastname,
       username,
       password,
       occupation,
@@ -112,6 +112,7 @@ class SignupPage extends Component {
       dob,
       schoolyear
     });
+    this.props.dispatchLogin(username, password)
     this.setState({ signedIn : true });
   }
 
@@ -284,7 +285,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchSignup }, dispatch);
+  return bindActionCreators({ dispatchSignup, dispatchLogin }, dispatch);
 }
 
 
