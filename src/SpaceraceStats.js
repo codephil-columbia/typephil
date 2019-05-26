@@ -4,7 +4,10 @@ import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
 
 import styled  from 'styled-components'
+
 import './style/font.css'
+import { withRouter } from "react-router";
+
 
 
 const EntireWrapper = styled.div`
@@ -124,7 +127,6 @@ const HighScoreLabel = styled.div`
     background-color: #25365A;
 `
 
-
 export default class Statistics extends Component{
     constructor(props) {
         super(props);
@@ -136,15 +138,12 @@ export default class Statistics extends Component{
         this.exitGame = this.exitGame.bind(this)
       }
 
-
-
-    
     playAgain= () =>{
         this.props.reset()
     }
 
     exitGame= ()  =>{
-        this.props.history.push("/")
+       this.props.exit()
     }
 
     render()
@@ -193,7 +192,7 @@ export default class Statistics extends Component{
                 </StatsWrapper>
                 <NavigationContainer>
                         <CustomButton onClick={this.playAgain}>PLAY AGAIN</CustomButton>
-                        <CustomButton>EXIT</CustomButton>
+                        <CustomButton onClick={this.exitGame}>EXIT </CustomButton>
                 </NavigationContainer>
                 </EntireWrapper>
             </div>

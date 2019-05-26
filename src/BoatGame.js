@@ -8,7 +8,8 @@ import Stats from './BoatStats'
 import MainPage from './BoatLevelSelect'
 import { Connect, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router'
+import data from "./offline_data.json"
+
 
 import { Route, Switch, Redirect } from 'react-router-dom'
 
@@ -45,6 +46,8 @@ class BoatGame extends Component{
         this.parse=this.parse.bind(this)
         this.cleanContent=this.cleanContent.bind(this)
         this.returnMainPage=this.returnMainPage.bind(this)
+        this.exitGame=this.exitGame.bind(this)
+        this.playAgain=this.playAgain.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -70,8 +73,18 @@ class BoatGame extends Component{
     })
     .then(data => {
        let randIndex= Math.floor(Math.random() * data.length)
-       this.setState({content:this.parse(data[randIndex].Txt)})
+       console.log(data.length)
+       for (let i=0;i<data.length;i++){
+           let content=this.parse(data[i].Txt)
+           console.log(content)
+       }
     })
+
+    console.log(data.games.boatrace)
+
+    let randIndex= Math.floor(Math.random() * data.games.boatrace.length)
+    console.log(data.games.boatrace[randIndex])
+    this.setState({content:(data.games.boatrace[randIndex])})
 
   };
      returnMainPage(){
@@ -115,23 +128,26 @@ class BoatGame extends Component{
             pointer+=1
         }
         currPhrase=response.slice(origin, pointer);
-        textArray.push(currPhrase.trim())
+        textArray.push(currPhrase.trim()+"\\n")
         currPhrase=""
         origin=pointer+2
         let content= response.slice(origin,)
+        origin=0
+        pointer=40
 
+        
         //removes new line characters
         content=this.cleanContent(content)
-        
         while(pointer<content.length){
             let currChar=content[pointer]
             if ( currChar == "." || currChar =="?" || currChar=="!"){
                 pointer+=2
-                currPhrase=content.slice(origin,pointer) 
+                currPhrase=content.slice(origin,pointer)
                 textArray.push(currPhrase)
             }else if( currChar == " "){
                 pointer+=1
                 currPhrase=content.slice(origin,pointer)
+                textArray.push(currPhrase)
             }else{
                 while(content[pointer] !=" "){
                     pointer-=1
@@ -145,7 +161,6 @@ class BoatGame extends Component{
             currPhrase=""
         }
         textArray.push(content.slice(origin,content.length))
-        console.log(textArray)
         let finalstr=textArray[0]
         for(let i=1;i<textArray.length;i++){
             finalstr+=textArray[i] +"\\n"
@@ -169,7 +184,6 @@ class BoatGame extends Component{
     totalTime(time){
         var minutes=time/60
         this.setState({totalMinutes:minutes})
-
     }
     
     beginGames(){
@@ -203,6 +217,25 @@ class BoatGame extends Component{
         })
 
     }
+
+    playAgain(){
+        this.setState({
+        isPlayerReady:false,
+        beginCountDown:false,
+        beginningDifficulty:1,
+        totalMinutes:0,
+        wordsPerMinute:0,
+        content:"",
+        accuracy:0,
+        gameStart:false,
+        playerDifficulty:1,
+        baseDifficulty:1,
+        showMainPage:true})
+        this.componentWillMount()
+    }
+    exitGame = () =>{
+        this.props.history.push("/selectGames")
+      }
     
     render(){ 
     let content = this.state.content
@@ -241,7 +274,7 @@ class BoatGame extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats restore={this.returnMainPage} data={this.state}></Stats>)
+            return(<Stats data={this.state} exit={this.exitGame} reset={this.playAgain}/>)
         }
     }
 }

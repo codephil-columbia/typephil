@@ -10,7 +10,7 @@ import MainPage from './Challenge'
 import { Connect, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
-
+import data from "./offline_data.json"
 import { Route, Switch, Redirect } from 'react-router-dom'
 
 import { 
@@ -43,6 +43,8 @@ class KeyTracking extends Component{
         this.incrementDifficulty=this.incrementDifficulty.bind(this)
         this.totalTime=this.totalTime.bind(this)
         this.returnMainPage=this.returnMainPage.bind(this)
+        this.playAgain=this.playAgain.bind(this)
+        this.exitGame=this.exitGame.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -54,21 +56,30 @@ class KeyTracking extends Component{
             playerDifficulty:1,
             showMainPage:true,
             headerLinks: ["Games", "Learn", "Home"],
-            jsonArray:[]
+            jsonArray:[],
+            dataArray:[]
         };
 
     }
 
     componentWillMount = () => {
 
-        var shuffle = require('shuffle-array')
-        fetch("http://localhost:5000/game/coco")
-        .then(results => {
-            return results.json()
-        })
-        .then(data => {
-           this.setState({jsonArray:shuffle(data)})
-        })
+        // let shuffle = require('shuffle-array')
+        // let cocoContent= data.games.challenge
+        // console.log(cocoContent)
+
+
+      
+        
+
+        
+        // fetch(data)
+        // .then(results => {
+        //     return results.json()
+        // })
+        // .then(data => {
+        //    this.setState({jsonArray:shuffle(data)})
+        // })
     
       };
     
@@ -92,7 +103,8 @@ class KeyTracking extends Component{
         }
         this.setState({
             showMainPage:false,
-            gameStart:true,
+            gameStart:false,
+            isPlayerReady:true,
             playerDifficulty:diffNum
         })
     }
@@ -137,12 +149,32 @@ class KeyTracking extends Component{
             wordsPerMinute:wpm
         })
     }
-    
+
+    playAgain(){
+        this.setState({
+        isPlayerReady:false,
+        beginCountDown:false,
+        beginningDifficulty:1,
+        totalMinutes:0,
+        wordsPerMinute:0,
+        accuracy:0,
+        gameStart:false,
+        playerDifficulty:1,
+        showMainPage:true })
+        this.props.history.push("/coco")
+    }
+
+    exitGame = () =>{
+        this.props.history.push("/selectGames")
+      }
+
     render(){
-    
+        
+    let shuffle = require('shuffle-array')
+    console.log(shuffle(data.games.challenge))
     let cleanContent=""
-    for(var i =0;i<this.state.jsonArray.length; i++){
-        var string = this.state.jsonArray[i].Txt
+    for(var i =0;i<data.games.challenge.length; i++){
+        var string = data.games.challenge[i]
         cleanContent = cleanContent + string +"\n"
     }
          // this == event, in this cases
@@ -177,7 +209,7 @@ class KeyTracking extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats restore={this.returnMainPage} data={this.state}></Stats>)
+            return(<Stats data={this.state} exit={this.exitGame} reset={this.playAgain}></Stats>)
         }
     }
 }
