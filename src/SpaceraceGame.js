@@ -238,6 +238,7 @@ class SpaceraceGame extends React.Component {
       this.spawnRocket()
       this.spawnRocket()
       this.spawnRocket()
+      console.log("spawned 3")
       
     }
     console.log("checking need to increment ")
