@@ -6,12 +6,8 @@ import Header from './components/header';
 import Button from 'react-button-component';
 import styled from 'styled-components';
 import BoatGame from './BoatGame'
-import BoatGameTracking from './BoatGameTracking'
-import BoatLevelSelect from './BoatLevelSelect'
-import Statistics from './BoatStats'
-import Counter from './BoatTrackingCounterPage'
-import Tutorial from './BoatTutorial'
-
+import KeyTracking from './KeyTracking'
+import SpaceraceGame from './SpaceraceGame'
 import './style/font.css';
 
 
@@ -113,9 +109,12 @@ export default class GameSelect extends Component {
 	    super(props);
 	    this.state = { 
 	      headerLinks: ["Games", "Learn", "Home"],
-	      spaceraceEnabled:false,
-	      boatraceEnabled:false,
-	      challengeEnabled:false
+				spaceraceEnabled:false,
+				showSpaceRace:false,
+				boatraceEnabled:false,
+				showBoatRace:false,
+				challengeEnabled:false,
+				showChallenge:false,
 	    }
 		this.spaceraceSelected = this.spaceraceSelected.bind(this);
 		this.boatraceSelected = this.boatraceSelected.bind(this);
@@ -146,7 +145,6 @@ export default class GameSelect extends Component {
     	this.setState({
 				spaceraceEnabled:true,
 				boatraceEnabled:false,
-				showBoatRace:false,
 	      challengeEnabled:false,
 	      gameDescription: "\
 			Type the words on the asteroids as they appear \
@@ -196,9 +194,9 @@ export default class GameSelect extends Component {
 		
 		BeginGame(state){
 			if (this.state.spaceraceEnabled === true){
-				this.props.history.push("/spacerace");
+				this.setState({showSpaceRace:true})
 			} else if (this.state.challengeEnabled === true){
-				this.props.history.push("/coco");
+				this.setState({showChallenge:true})
 			} else if (this.state.boatraceEnabled === true){
 				this.setState({showBoatRace:true})
 				console.log("was reached")
@@ -212,7 +210,12 @@ export default class GameSelect extends Component {
 			if(this.state.showBoatRace){
 				console.log("boat has been activated")
 				return(<BoatGame/>)
-
+			}else if(this.state.showChallenge){
+				console.log("challenge has been activated")
+				return(<KeyTracking/>)
+			}else if(this.state.showSpaceRace){
+				console.log("spaceRace has been activated")
+				return(<SpaceraceGame/>)
 			}else{
         return(
             <div>
