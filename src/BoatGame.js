@@ -47,12 +47,18 @@ class BoatGame extends Component{
         this.returnMainPage=this.returnMainPage.bind(this)
         this.exitGame=this.exitGame.bind(this)
         this.playAgain=this.playAgain.bind(this)
+        this.setTotalWords=this.setTotalWords.bind(this)
+        this.limitWords=this.limitWords.bind(this)
+        this.setInitContent=this.setInitContent.bind(this)
+        this.setLimitedContent=this.setLimitedContent.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
             beginningDifficulty:1,
+            totalWords:100,
             totalMinutes:0,
             wordsPerMinute:0,
+            originalContent:"",
             content:"",
             accuracy:0,
             gameStart:false,
@@ -83,8 +89,7 @@ class BoatGame extends Component{
 
     let randIndex= Math.floor(Math.random() * data.games.boatrace.length)
     console.log(data.games.boatrace[randIndex])
-    this.setState({content:(data.games.boatrace[randIndex])})
-
+    this.setInitContent(data.games.boatrace[randIndex])
   };
      returnMainPage(){
         this.setState({showMainPage:true})
@@ -104,6 +109,7 @@ class BoatGame extends Component{
         else{
             diffNum=3
         }
+        this.setLimitedContent()
         this.setState({
             showMainPage:false,
             isPlayerReady:true,
@@ -111,10 +117,17 @@ class BoatGame extends Component{
             playerDifficulty:diffNum,
             baseDifficulty:diffNum
         })
+        
     }
 
     cleanContent(content){
         return content.replace(/(?:\r\n|\r|\n|\\n)/g, ' ').replace("\"\\n\""," ")
+    }
+
+    setInitContent(fullContent){
+        this.setState({
+            originalContent:fullContent,
+            content:this.limitWords(fullContent)})
     }
 
     parse(response){
@@ -164,7 +177,22 @@ class BoatGame extends Component{
         for(let i=1;i<textArray.length;i++){
             finalstr+=textArray[i] +"\\n"
         }
+        if(this.state.totalWords !=0){
+            let wordsProcessed=0
+            let i=0
+            while(wordsProcessed<=this.state.totalWords){
+                if(finalstr[i+=1]===" "){
+                    wordsProcessed+=1
+                }
+            }
+            while(finalstr[i]!="." || finalstr[i]!="?" || finalstr[i]!="\"" || finalstr[i]!="!"){
+                i-=1
+            }
 
+            finalstr=finalstr.split(0,i)
+            i=0
+            wordsProcessed=0
+        }
         console.log(finalstr)
         return finalstr
     }
@@ -172,6 +200,49 @@ class BoatGame extends Component{
     incrementDifficulty(){
         this.setState({playerDifficulty:this.state.playerDifficulty + 1})
     }
+
+    setTotalWords(wordNum){
+        this.setState({totalWords:wordNum})
+        console.log(this.state.totalWords)
+    }
+
+    setLimitedContent(){
+        this.setState({content:this.limitWords(this.state.originalContent)})
+        console.log(this.state.content)
+    }
+
+    limitWords(finalstr){
+        let wordsProcessed=0
+        let currWord=""
+        let wordLimit=this.state.totalWords
+        if(wordLimit !=0){
+            for(let pointer=0;pointer<finalstr.length;pointer++){
+                if(finalstr[pointer]==" "){
+                    wordsProcessed+=1
+                    currWord=""
+                    if(wordsProcessed==wordLimit){
+                        finalstr=finalstr.slice(0,pointer)
+                        pointer-=1
+                        if(finalstr[pointer]!="." || finalstr[pointer]!="!" || finalstr[pointer] !="?" || finalstr[pointer] != "\""){
+                            let periodLastIndex=finalstr.lastIndexOf(".")
+                            let qmarkLastIndex=finalstr.lastIndexOf("!")
+                            let quoteLastIndex=finalstr.lastIndexOf("?")
+                            let excLastIndex=finalstr.lastIndexOf("\"")
+                            let endPointArray=[periodLastIndex,qmarkLastIndex,quoteLastIndex,excLastIndex]
+                            let max= Math.max(...endPointArray)
+                            finalstr=finalstr.slice(0,max+1)
+                        }
+
+                        return finalstr
+                    }
+                }
+                currWord+=finalstr[pointer]
+            }
+        }
+        return finalstr
+    }
+
+    
 
     initiate(){
         this.setState({
@@ -238,12 +309,11 @@ class BoatGame extends Component{
     
     render(){ 
     let content = this.state.content
-    
-    console.log(content)
+    console.log(this.state.totalWords)
     console.log(this.state.showMainPage)
          // this == event, in this cases
     if(this.state.showMainPage){
-        return (<MainPage commenceGame={this.exitMainPage} />)
+        return (<MainPage setWords={this.setTotalWords} commenceGame={this.exitMainPage} />)
     }else if(this.state.gameStart){
             const { 
                 headerLinks,
