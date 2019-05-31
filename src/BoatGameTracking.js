@@ -194,38 +194,38 @@ const BoatParagraphText = styled.div`
   text-align:center;
   align-content:center;
   justify-content: center;
-  font-size:2.5rem;
+  font-size:2.9rem;
   width:100vw;
 
   @media only screen and (max-width: 1100px) {
-    font-size:2.5rem;
+    font-size:3rem;
   }
 
   @media only screen and (max-width: 1000px) {
-    font-size:2.5rem;
+    font-size:2.8rem;
   }
 
   @media only screen and (max-width: 950px) {
-    font-size:2rem;
+    font-size:2.6rem;
   }
 
   @media only screen and (max-width: 900px) {
-    font-size:1.75rem;
+    font-size:2.1rem;
   }
   
 `
 
 const LineStyling = styled.div`
   margin-bottom: 3vh;
-  width: 80vw;
+  width: 90vw;
   background-color: white;
 
   @media only screen and (max-width: 1100px) {
-    width: 90vw;
+    width: 100vw;
   }
 
   @media only screen and (max-width: 1000px) {
-    width: 95vw;
+    width: 100vw;
   }
 `
 

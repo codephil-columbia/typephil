@@ -78,7 +78,7 @@ const RocketContainer = styled.div`
     flex-direction:column;
     height: 80vh;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 2em;
     color: white;
 `
 
@@ -366,7 +366,7 @@ class SpaceraceGame extends React.Component {
 
     //destory rocket
     img.src="./images/games/Meteor_Crash.svg"
-    img.style.width= "10vw"
+    img.style.width= "5vw"
     img.style.height= "auto"
     setTimeout(function() {
       target.style.visibility="hidden"
@@ -399,13 +399,14 @@ class SpaceraceGame extends React.Component {
     text.textContent=word
     text.style.zIndex=this.state.zIndex
     text.style.color = "white"
-    text.style.fontSize = "2vw"
+    text.style.fontSize = "2.6vw"
+    text.style.fontWeight = "bold"
     text.style.textAlign = "center"
     text.style.position = "relative"
     // text.style.top = "6.5rem"
     // text.style.left = "7rem"
-    text.style.top = "5vw"
-    text.style.left = "5vw"
+    text.style.top = "5.5vw"
+    text.style.left = "5.5vw"
 
 
     
@@ -436,7 +437,7 @@ class SpaceraceGame extends React.Component {
       }
       if(v.x >= window.innerWidth -600){
         img.src="./images/games/Meteor_Crash.svg"
-        img.style.width= "10vw"
+        img.style.width= "5vw"
         img.style.height= "auto"
         setTimeout(function() {
           rocket.style.visibility="hidden"
@@ -498,13 +499,13 @@ class SpaceraceGame extends React.Component {
     text.textContent=word
     text.style.zIndex=this.state.zIndex
     text.style.color = "white"
-    text.style.fontSize = "2vw"
+    text.style.fontSize = "2.6vw"
     text.style.textAlign = "center"
     text.style.position = "relative"
     // text.style.top = "6.5rem"
     // text.style.left = "7rem"
-    text.style.top = "5vw"
-    text.style.left = "5vw"
+    text.style.top = "5.5vw"
+    text.style.left = "5.5vw"
 
 
     
@@ -533,6 +534,8 @@ class SpaceraceGame extends React.Component {
       }
       if(v.x >= window.innerWidth -600){
         img.src="./images/games/Meteor_Crash.svg"
+        img.style.width= "5vw"
+        img.style.height= "auto"
         setTimeout(function() {
           rocket.style.visibility="hidden"
           rocket.style.width="0vw"
