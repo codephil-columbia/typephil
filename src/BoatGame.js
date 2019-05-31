@@ -6,6 +6,7 @@ import Tutorial from './BoatGameTracking'
 import Stats from './BoatStats'
 import MainPage from './BoatLevelSelect'
 import { Connect, connect } from 'react-redux';
+import { tween, styler } from 'popmotion';
 import { bindActionCreators } from 'redux';
 import data from "./offline_data.json"
 
@@ -20,6 +21,7 @@ import {
   } from './actions/learn'
   
 import { getCurrentLessonForUser } from './actions/homepage';
+import GameOverSign from "./components/gameOver";
 
 const Ready = Button.extend`
     margin-top:4vh;
@@ -51,10 +53,12 @@ class BoatGame extends Component{
         this.limitWords=this.limitWords.bind(this)
         this.setInitContent=this.setInitContent.bind(this)
         this.setLimitedContent=this.setLimitedContent.bind(this)
+        this.assignPlayerPlace=this.assignPlayerPlace.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
             beginningDifficulty:1,
+            showSign:false,
             totalWords:100,
             totalMinutes:0,
             wordsPerMinute:0,
@@ -62,7 +66,9 @@ class BoatGame extends Component{
             content:"",
             accuracy:0,
             gameStart:false,
+            playerPlace:0,
             playerDifficulty:1,
+            inputOff:false,
             baseDifficulty:1,
             showMainPage:true,
             headerLinks: ["Games", "Learn", "Home"],
@@ -264,19 +270,24 @@ class BoatGame extends Component{
             gameStart:true
         })
     }
+    assignPlayerPlace = (position) =>{
+        this.setState({playerPlace:position})
+    }
 
     endGames= (state, time) =>{
         var minutes=time/60
         var totalChars= state.incorrect.length + state.correct.length   
         var playerAccuracy= Math.floor((1- state.incorrect.length/totalChars)*100)
         var wpm = Math.floor(totalChars/(5*minutes))
-        this.setState({
+        this.setState({showSign:true,inputOff:true})
+        setTimeout(()=> {
+            this.setState({
             playerHasLost:true,
             isPlayerReady:false,
             gameStart:false,
             accuracy:playerAccuracy,
-            wordsPerMinute:wpm
-        })
+            wordsPerMinute:wpm,
+        })},6000)
     }
 
     showStatspage= () => {
@@ -300,6 +311,8 @@ class BoatGame extends Component{
         gameStart:false,
         playerDifficulty:1,
         baseDifficulty:1,
+        showSign:false,
+        playerPlace:0,
         showMainPage:true})
         this.componentWillMount()
     }
@@ -321,8 +334,9 @@ class BoatGame extends Component{
             
             return(
             <div className="">
+                {this.state.showSign && <GameOverSign isBoatGame={true} place={this.state.playerPlace}/>}
                 <Header links={headerLinks}></Header>
-                <Tutorial playerHasLost={this.endGames} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
+                <Tutorial playerHasLost={this.endGames} inputOff={this.state.inputOff} assignPosition={this.assignPlayerPlace} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
             </div>
             )
         }else if(this.state.playerHasLost){

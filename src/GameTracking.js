@@ -99,6 +99,7 @@ class GameTracking extends Component {
     const totalLength = currentContent.length;
 
     this.resetIncrement=this.resetIncrement.bind(this)
+    this.userFinished=this.userFinished.bind(this)
     this.state = {
       rows,
       characterMapList,
@@ -277,6 +278,9 @@ class GameTracking extends Component {
       // Apply highlight key
       return { newCharPtr, newGroupPtr };
   };
+  userFinished = () => {
+    this.setState({userFinished:true})
+  }
 
   validateUserKeyPressCorrectness = (keyPressed) => {
     let { 
@@ -431,10 +435,10 @@ class GameTracking extends Component {
  
 
   render() {
-    const { isFinished } = this.state;
-    if(isFinished) {
+    const { userFinished } = this.state;
+    if(userFinished) {
+      console.log("has terminated")
       this.removeEventListener();
-      this.props.showStats();
     }
 
     const { rows } = this.state;
@@ -465,7 +469,7 @@ class GameTracking extends Component {
           <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
         </Modal>
         <div className="timer-container">
-            <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
+            <Counter accuracyInfo={this.state} userFinished={this.userFinished} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
         </div> 
       </div> 
       <div className="game-tracker-container">

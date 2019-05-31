@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
 import data from "./offline_data.json"
 import { Route, Switch, Redirect } from 'react-router-dom'
+import GameOverSign from './components/gameOver'
 
 import { 
     fetchAllChapterNames, 
@@ -47,6 +48,7 @@ class KeyTracking extends Component{
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
+            inputOff:false,
             beginningDifficulty:1,
             totalMinutes:0,
             wordsPerMinute:0,
@@ -55,6 +57,7 @@ class KeyTracking extends Component{
             playerDifficulty:1,
             showMainPage:true,
             headerLinks: ["Games", "Learn", "Home"],
+            showSign:false,
             jsonArray:[],
             dataArray:[]
         };
@@ -81,8 +84,8 @@ class KeyTracking extends Component{
         // })
     
       };
-    
 
+    
     returnMainPage(){
         this.setState({showMainPage:true})
         this.componentWillMount()
@@ -140,13 +143,16 @@ class KeyTracking extends Component{
         var totalChars= state.incorrect.length + state.correct.length   
         var playerAccuracy= Math.floor((1- state.incorrect.length/totalChars)*100)
         var wpm = Math.floor(totalChars/(5*minutes))
-        this.setState({
-            playerHasLost:true,
-            isPlayerReady:false,
-            gameStart:false,
-            accuracy:playerAccuracy,
-            wordsPerMinute:wpm
-        })
+        this.setState({showSign:true,inputOff:true})
+        setTimeout(()=>{
+            this.setState({
+                playerHasLost:true,
+                isPlayerReady:false,
+                gameStart:false,
+                accuracy:playerAccuracy,
+                wordsPerMinute:wpm
+            })
+        },6000)
     }
 
     playAgain(){
@@ -159,8 +165,8 @@ class KeyTracking extends Component{
         accuracy:0,
         gameStart:false,
         playerDifficulty:1,
-        showMainPage:true })
-        this.props.history.push("/coco")
+        showMainPage:true,
+        showSign:false})
     }
 
     exitGame = () =>{
@@ -186,8 +192,9 @@ class KeyTracking extends Component{
             
             return(
             <div className="challenge-game-background">
+                {this.state.showSign && <GameOverSign/>}
                 <Header links={headerLinks}></Header>
-                <Tutorial playerHasLost={this.endGames} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={cleanContent}/>
+                <Tutorial playerHasLost={this.endGames} inputOff={this.state.inputOff} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={cleanContent}/>
             </div>
             )
         }else if(this.state.playerHasLost){

@@ -254,6 +254,7 @@ class BoatGameTracking extends Component {
 
     this.resetIncrement=this.resetIncrement.bind(this)
     this.calculateDisplacement=this.calculateDisplacement.bind(this)
+    this.calculatePlayerPlace=this.calculatePlayerPlace.bind(this)
     this.intervalHandler;
     this.state = {
       rows,
@@ -310,10 +311,7 @@ class BoatGameTracking extends Component {
       if(this.state.boat1Margin >= 85 || this.state.boat3Margin >= 85){
         clearInterval(this.intervalHandler)
         this.endRace()
-        
       }
-
-    
 
   }
 
@@ -398,8 +396,22 @@ class BoatGameTracking extends Component {
     }
   };
 
+  calculatePlayerPlace = () =>{
+    let position;
+    let boat1Position=this.state.boat1Margin
+    let playerPosition=this.state.displacement
+    let boat3position=this.state.boat3Margin
+    let margins=[boat1Position,playerPosition,boat3position]
+    console.log(margins)
+    margins.sort().reverse()
+    return margins.indexOf(playerPosition) + 1
+  }
+  
   endRace= () =>{
      this.setState({stopTime:true})
+     console.log("race has ended")
+     let playerPosition= this.calculatePlayerPlace()
+     this.props.assignPosition(playerPosition)
   }
 
   userDidPressBackspace = () => {
@@ -668,9 +680,8 @@ class BoatGameTracking extends Component {
 
   render() {
     const { isFinished } = this.state;
-    if(isFinished) {
+    if(this.props.inputOff) {
       this.removeEventListener();
-      this.props.showStats();
     }
 
     const { rows } = this.state;

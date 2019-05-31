@@ -151,6 +151,7 @@ class Counter extends React.Component {
 
       if (min === 0 & sec === 0) {
         clearInterval(this.intervalHandle);
+        this.props.userFinished()
         this.props.PlayerLost(this.props.accuracyInfo,this.state.timeElapse)
       }
       

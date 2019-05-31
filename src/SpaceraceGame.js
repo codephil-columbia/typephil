@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Header from './components/header';
 import Statistics from './SpaceraceStats'
 import Spacerace from './Spacerace'
+import GameOverSign from './components/gameOver'
 import data from "./offline_data.json"
 
 
@@ -162,6 +163,7 @@ class SpaceraceGame extends React.Component {
       live3:"./images/games/Heart.svg",
       showMainPage:true,
       isPlayerReady:false,
+      showSign:false,
       difficultySelected:""
 
     } 
@@ -183,7 +185,6 @@ class SpaceraceGame extends React.Component {
     this.exitMainPage=this.exitMainPage.bind(this)
 
     this.attachEventListener();
-    
   } 
   state = { isMoving: true };
 
@@ -301,6 +302,8 @@ class SpaceraceGame extends React.Component {
     playerHasLost:false,
     startPeriod:true,
     showMainPage:true,
+    showSign:false,
+    seconds:0,
     startPresses:0,
     difficulty:"",
     wpm:20,
@@ -309,6 +312,7 @@ class SpaceraceGame extends React.Component {
     live1:"./images/games/Heart.svg", 
     live2:"./images/games/Heart.svg", 
     live3:"./images/games/Heart.svg"})
+    this.attachEventListener();
     console.log(this.rows)
     
   }
@@ -345,11 +349,15 @@ class SpaceraceGame extends React.Component {
     }
     this.setState({lives:this.state.lives -1})
     if(this.state.lives ==0){
-      this.setState({playerHasLost:true})
-      this.calculateStats()
-      console.log(this.state.level)
+      this.setState({showSign:true})
       clearInterval(this.state.ref1)
       clearInterval(this.state.ref2)
+      document.removeEventListener("keydown", this.registerUserKeyPress);
+      this.calculateStats()
+      setTimeout(()=>{
+      this.setState({playerHasLost:true})
+      console.log(this.state.level)
+      },6000)
     }
   }
 
@@ -637,6 +645,7 @@ class SpaceraceGame extends React.Component {
       console.log("starting wpm: " + this.state.wpm)
         return (
           <SpaceRaceBackground>
+            {this.state.showSign && <GameOverSign/>}
             <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
             <LivesContainer>
               <Lives className="Lives">
