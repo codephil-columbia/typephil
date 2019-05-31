@@ -298,6 +298,7 @@ class BoatGameTracking extends Component {
   componentWillMount = () => {
     this.determineSpeed();
     this.attachEventListener();
+    console.log(this.props.currentContent)
     this.startRace();
   };
 

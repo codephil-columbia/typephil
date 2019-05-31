@@ -146,6 +146,7 @@ class BoatLevelSelect extends Component {
     super(props);
     this.state = { 
       headerLinks: ["Games", "Learn", "Home"],
+      numOfWords:0,
       isEzActive:false,
       isMidActive:false,
       isHardActive: false
@@ -168,6 +169,7 @@ class BoatLevelSelect extends Component {
       isMidActive:false,
       isHardActive: false
     })
+    this.props.setWords(50)
     console.log("difficulty selected:Easy")
   }
 
@@ -178,7 +180,8 @@ class BoatLevelSelect extends Component {
       isMidActive:true,
       isHardActive: false
     })
-    console.log("difficulty selected: Medium ")
+    this.props.setWords(100)
+    console.log("difficulty selected: Medium and words")
   }
 
   HardSelected()
@@ -188,6 +191,7 @@ class BoatLevelSelect extends Component {
       isMidActive:false,
       isHardActive: true
     })
+    this.props.setWords(0)
     console.log("difficulty selected: Hard" )
   }
   BeginChallenge(state){
