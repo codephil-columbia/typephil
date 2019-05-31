@@ -38,6 +38,7 @@ const SpaceRaceSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 10vh;
+	cursor: pointer;
 	color: ${props => props.isActive ? '#326BAE' :'#4A4A4A' };
 
 	@media only screen and (max-width: 1150px) {
@@ -51,6 +52,7 @@ const BoatRaceSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 12vh;
+	cursor: pointer;
 	color: ${props => props.isActive ? '#039894' :'#4A4A4A' };
 
 	@media only screen and (max-width: 924px) {
@@ -64,6 +66,7 @@ const ChallengeSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 11vh;
+	cursor: pointer;
 	color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
 `
 
