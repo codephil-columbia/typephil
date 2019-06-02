@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import showLessonStats from './components/lessonStats';
 import Lock from './components/lock';
+import { lime100 } from 'material-ui/styles/colors';
 
 
 class LessonsView extends Component {
@@ -20,8 +21,21 @@ class LessonsView extends Component {
     }
 
     return completed.find(({ lessonID }) => {
-      return currentLesson.LessonID === lessonID;
+      return currentLesson.lessonID === lessonID;
     });
+  }
+
+  sortLessonsByName = (l1, l2) => {
+    // We want Tests to be sorted to be the last lessons in each chapter
+    if (l1.lessonName.includes("Test")) {
+      return 1;
+    } 
+    
+    if (l2.lessonName.includes("Test")) {
+      return -1;
+    }
+
+    return l1.lessonName.localeCompare(l2.lessonName);
   }
 
   render() {
@@ -33,26 +47,30 @@ class LessonsView extends Component {
 
     const { currentSelectedLesson } = this.state;
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
+    console.log(currentSelectedLesson, completed, lessonStats);
+
+    // Lessons don't come sorted
+    this.props.lessons.sort(this.sortLessonsByName);
 
     let lessonStatView;
     if(lessonStats) {
       lessonStatView = showLessonStats(currentSelectedLesson, lessonStats, doRestartLesson);
     } else {
-      lessonStatView = <Lock isMostRecentLesson={this.props.mostRecentLessonName === currentSelectedLesson.LessonName} />
+      lessonStatView = <Lock isMostRecentLesson={this.props.mostRecentLessonName === currentSelectedLesson.lessonName} />
     }
 
     return (
       <div className="container lesson-wrapper"> 
         <div className="container lesson-left">
           {lessons.map((lesson, i) => {
-            if(lesson.LessonName === currentSelectedLesson.LessonName) { 
+            if(lesson.lessonName === currentSelectedLesson.lessonName) { 
               return (
                 <h4 
                   className='lesson-view-text'
                   style={{color: 'green'}} 
                   key={i}
                   onClick={() => this.userDidChangeLesson(lesson)}>
-                  {lesson.LessonName}
+                  {lesson.lessonName}
                 </h4>
               )
           } else if (this.hasCompletedLesson(lesson, completed)) {
@@ -61,7 +79,7 @@ class LessonsView extends Component {
                   className='lesson-view-text' 
                   key={i} 
                   onClick={() => this.userDidChangeLesson(lesson)}>
-                  {lesson.LessonName}
+                  {lesson.lessonName}
                 </h4>
               )
           } else {
@@ -71,7 +89,7 @@ class LessonsView extends Component {
                   style={{color: 'grey'}} 
                   key={i}
                   onClick={() => this.userDidChangeLesson(lesson)}>
-                  {lesson.LessonName}
+                  {lesson.lessonName}
                 </h4>
               )
             }
@@ -80,7 +98,7 @@ class LessonsView extends Component {
         <vl className="lesson-sep"/>
         <div className="container lesson-right">
           <div className="lesson-stats">
-            {lessonStatView}
+            { lessonStatView }
           </div>
         </div>
       </div>

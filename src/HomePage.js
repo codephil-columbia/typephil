@@ -79,7 +79,7 @@ class HomePage extends Component {
 
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={true} username={username} />
+        <Header links={headerLinks} isLoggedIn={true} username={username} history={this.props.history}/>
         <div className="container">
           <div className="title-homepage row">
             <p className="homepage-welcome">Welcome Back, {username}!</p>
@@ -119,11 +119,12 @@ const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage })
   return {
     lessonName: app.currentLesson.lessonName,
     chapterName: app.currentLesson.chapterName,
+    chapter: app.chapter,
     hasFinishedLoading: app.currentLesson.hasFinishedLoading,
     showSpinner: app.currentLesson.showSpinner,
     imagePath: app.currentLesson.chapterImage,
-    avgWPM: statsForUser.avgWPM,
-    avgAccuracy: statsForUser.avgAccuracy,
+    avgWPM: statsForUser.wpm,
+    avgAccuracy: statsForUser.accuracy,
     isStatsLoading: statsForUser.isStatsLoading,
     percentageComplete: chapterProgressPercentage.percentageComplete,
     isPercentageLoading: chapterProgressPercentage.isPercentageLoading,

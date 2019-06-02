@@ -58,24 +58,24 @@ class SignupPage extends Component {
     });
 
     // TODO turn this over to middleware
-    if(field === 'username') {
-      const username = e.target.value;
-      //this.props.dispatchUsername(username);
-      fetch('http://localhost:5000/auth/usernameValid', { 
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username })
-      }).then(res => res.json()
-      ).then((res) => {
-        if(res && this.state.username === username)
-          this.setState({ usernameValid : true });
-        else
-          this.setState({ usernameValid : res });
-      });
-    }
+    // if(field === 'username') {
+    //   const username = e.target.value;
+    //   //this.props.dispatchUsername(username);
+    //   fetch('http://localhost:5000/auth/usernameValid', { 
+    //     method: 'POST',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ username })
+    //   }).then(res => res.json()
+    //   ).then((res) => {
+    //     if(res && this.state.username === username)
+    //       this.setState({ usernameValid : true });
+    //     else
+    //       this.setState({ usernameValid : res });
+    //   });
+    // }
   }
 
   handleInputChange = (e) => {
@@ -102,8 +102,8 @@ class SignupPage extends Component {
     const { firstname, lastname, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstname, lastname to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
     this.props.dispatchSignup({ 
-      firstname,
-      lastname,
+      firstName:firstname,
+      lastName:lastname,
       username,
       password,
       occupation,
@@ -111,8 +111,11 @@ class SignupPage extends Component {
       gender,
       dob,
       schoolyear
-    });
-    this.setState({ signedIn : true });
+    }).then(() => {
+      this.props.onSuccessfulAuth();
+    }).catch(err => {
+      console.error(err);
+    })
   }
 
   // Conditions hold `true` iff there is an error.
@@ -129,16 +132,6 @@ class SignupPage extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
-    
-    if(isLoggedIn) {
-      this.props.onSuccessfulAuth();
-    }
-
-    if(this.state.signedIn) {
-      console.log("SIGNED IN!", this.state);
-      return <Redirect to='/home'/>
-    }
 
     const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(moment.monthsShort().indexOf(this.state.month)+1, this.state.year);
     const { firstname, lastname, username, password, password_c, schoolyear, occupation } = this.state;

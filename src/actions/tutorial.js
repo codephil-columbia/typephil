@@ -36,7 +36,7 @@ export const resetTutorial = () => ({
 
 export const POST_TUTORIAL = "POST_TUTORIAL";
 export const postTutorialResults = (tutorialResult, source) => (dispatch) => {
-  axios.post(`${api_url}/lesson/complete`, tutorialResult)
+  axios.post(`${api_url}/records/tutorial/save/lesson`, tutorialResult)
     .then(res => {
       dispatch(postTutorialSuccess());
       if(source === "HomePage") { 
