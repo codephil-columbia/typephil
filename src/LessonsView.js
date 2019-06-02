@@ -47,6 +47,7 @@ class LessonsView extends Component {
 
     const { currentSelectedLesson } = this.state;
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
+    console.log(currentSelectedLesson, completed, lessonStats);
 
     // Lessons don't come sorted
     this.props.lessons.sort(this.sortLessonsByName);

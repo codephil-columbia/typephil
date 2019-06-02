@@ -13,7 +13,7 @@ const Header = (props) => {
             <div className="">
                 <HeaderLeft/>
                 <HeaderCenter isTutorial={props.isTutorial} tutorialInfo={props.tutorialInfo} />
-                <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout}/>
+                <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout} history={props.history}/>
             </div>
         </nav>
     )
@@ -54,7 +54,7 @@ const HeaderCenter = (props) => {
 const HeaderRight = (props) => {
     return (
         <ul className="navigation-list float-right nav-right-list">
-            { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} dispatch={props.dispatch}/></li>}
+            { props.isLoggedIn && <li className="navigation-item profile-bubble"><ProfileOptions username={props.username} history={props.history} dispatch={props.dispatch}/></li>}
             { props.isTutorial && <Link to="/home"><img class="exit_button" src="images/buttons/exit_button.svg"/></Link> }
             { props.links === undefined ? "" : props.links.map((link, i) => {
                 const routePath = `/${link.toLowerCase()}`;
@@ -69,9 +69,9 @@ const HeaderRight = (props) => {
     )
 };
 
-const logout = (dispatch) => {
+const logout = (dispatch, history) => {
   dispatch();
-  window.location.href = '/';
+  history.push("/")
 }
 
 const ProfileOptions = (props) => {
@@ -82,7 +82,7 @@ const ProfileOptions = (props) => {
 				<div>  
 					<Link to="/profile" className="nav-bar-options" >My Account</Link>
 				</div>
-				<div className="nav-bar-options" onClick={() => logout(props.dispatch)}>
+				<div className="nav-bar-options" onClick={() => logout(props.dispatch, props.history)}>
 					Log Out
 				</div>
 			</div>

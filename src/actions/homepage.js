@@ -36,7 +36,7 @@ export const getCurrentLessonForUser = uid => dispatch => {
 
     dispatch(getCurrentLessonForUserSuccess({ currentLesson, currentChapter }));
   }).catch(err => {
-    throw new Error(err);
+    console.error(err);
   })
 }
 
@@ -60,19 +60,11 @@ export const getAverageStats = uid => dispatch => {
   dispatch(getAverageStatsReq());
   return axios.get(`${api_url}/stats/tutorial/lesson/${uid}`)
   .then(res => {
-    const records = res.data;
-    let avgWPM = 0;
-    let avgAccuracy = 0;
-
-    records.forEach(({ wpm, accuracy }) => {
-      avgWPM += Number(wpm);
-      avgAccuracy += Number(accuracy); 
-    });
-
-    dispatch(getAverageStatsSuccess({ wpm: avgWPM/records.length, accuracy: avgAccuracy/records.length }));
+    const { wpm, accuracy } = res.data;
+    dispatch(getAverageStatsSuccess({ wpm, accuracy }));
   })
   .catch(err => {
-    throw new Error(err);
+    console.error(err);
   })
 }
 
@@ -94,19 +86,12 @@ const getChapterProgressReq = () => {
 
 export const getChapterProgress = uid => dispatch => {
   dispatch(getChapterProgressReq());
-  return Promise.all([
-    axios.get(`${api_url}/lesson/current/${uid}`),
-    axios.get(`${api_url}/lesson/`),
-    axios.get(`${api_url}/records/tutorial/lessons/${uid}`)
-  ]).then(resps => {
-    const currentLesson = resps[0].data;
-    const lessons = resps[1].data;
-    const records = resps[2].data;
-
-    const lessonsInChapterCount = lessons.filter(lesson => lesson.chapterID === currentLesson.chapterID).length;
-    const finshedLessonsInChapter = records.filter(record => record.chapterID === currentLesson.chapterID).length;
-    dispatch(getChapterProgressSuccess(Number(finshedLessonsInChapter/lessonsInChapterCount)));
-  }).catch(err => {
-    throw new Error(err);
-  })
+  return axios.get(`${api_url}/stats/tutorial/chapter/${uid}`)
+    .then(res => {
+      const { percentComplete } = res.data;
+      dispatch(getChapterProgressSuccess(percentComplete));
+    })
+    .catch(err => {
+      console.error(err);
+    })
 }

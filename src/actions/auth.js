@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {api_url} from '../constants'
-import persistor, {store} from '../store'
+import {persistor, store} from '../store'
 
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
@@ -20,6 +20,7 @@ export const signupError = err => {
 
 export const login = res => {
   const { data } = res;
+  console.log(res);
   return {
     type: LOG_IN,
     payload: {
@@ -51,7 +52,6 @@ export const dispatchLogout = () => {
 
 export const dispatchLogin = (username, password) => (dispatch) =>
   new Promise(function(resolve, reject) {
-    console.log(username, password);
     const endpoint = api_url + '/user/authenticate';
     axios.post(endpoint, {username, password})
     .then(res => {
@@ -80,20 +80,34 @@ export const dispatchLogin = (username, password) => (dispatch) =>
 //     })
 // }
 
-export const dispatchSignup = (data) => { 
+export const dispatchSignup = (data) => dispatch => { 
   const endpoint = api_url + '/user/';
-  return function(dispatch) {
+  // return function(dispatch) {
+  //   axios.post(endpoint, data)
+  //   .then(res => {
+  //     if(res.status !== 200) {
+  //       dispatch(signupError());
+  //     }
+  //     dispatch(signupSuccess());
+  //     dispatch(login(res)); // isusername correct key? dispatch vs store.dispatch?
+  //   }).catch(err => {
+  //     dispatch(signupError());
+  //   });
+  // }
+  return new Promise((resolve, reject) => {
     axios.post(endpoint, data)
     .then(res => {
       if(res.status !== 200) {
         dispatch(signupError());
       }
       dispatch(signupSuccess());
-      store.dispatch(login(res)); // isusername correct key? dispatch vs store.dispatch?
+      dispatch(login(res)); // isusername correct key? dispatch vs store.dispatch?
+      resolve();
     }).catch(err => {
       dispatch(signupError());
+      reject(err);
     });
-  }
+  })
 }
 
 export const dispatchPassword = (username, password) => {

@@ -79,7 +79,7 @@ class HomePage extends Component {
 
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={true} username={username} />
+        <Header links={headerLinks} isLoggedIn={true} username={username} history={this.props.history}/>
         <div className="container">
           <div className="title-homepage row">
             <p className="homepage-welcome">Welcome Back, {username}!</p>

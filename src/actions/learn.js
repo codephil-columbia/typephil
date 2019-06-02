@@ -79,7 +79,7 @@ export const fetchAllPairs = uid => dispatch => {
     })
     dispatch(fetchAllPairsSuccess(lessonsPerChapter));
   }).catch(err => {
-    throw new Error(err);
+    console.error(err)
   })
 }
 
@@ -111,18 +111,23 @@ const fetchCompletedLessonsFailed = err => {
 export const fetchCompletedLessons = uid => dispatch => {
   dispatch(fetchCompletedLessonsRequest());
 
-  return Promise.all([
-    axios.get(`${api_url}/records/tutorial/lessons/${uid}`),
-    axios.get(`${api_url}/lesson/`)
-  ]).then(([r1, r2]) => {
-    const recordIDs = new Set(r1.data.map(record => record.lessonID));
-    const lessons = r2.data;
+  // return Promise.all([
+  //   axios.get(`${api_url}/records/tutorial/lessons/${uid}`),
+  //   axios.get(`${api_url}/lesson/`)
+  // ]).then(([r1, r2]) => {
+  //   const recordIDs = new Set(r1.data.map(record => record.lessonID));
+  //   const lessons = r2.data;
 
-    const completedLessons = lessons.filter(lesson => recordIDs.has(lesson.lessonID));
-    dispatch(fetchCompletedLessonsSuccess(completedLessons));
-  }).catch(err => {
-    throw new Error(err);
-  })
+  //   const completedLessons = lessons.filter(lesson => recordIDs.has(lesson.lessonID));
+  //   dispatch(fetchCompletedLessonsSuccess(completedLessons));
+  // }).catch(err => {
+  //   console.error(err);
+  // })
+  return axios.get(`${api_url}/records/tutorial/lessons/${uid}`)
+    .then(res => {
+      const records = res.data;
+      dispatch(fetchCompletedLessonsSuccess(records));
+    })
 }
 
 export const RESET_CURRENT_LESSON = "RESET_CURRENT_LESSON";

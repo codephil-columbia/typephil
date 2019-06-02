@@ -70,9 +70,6 @@ class LoginPage extends Component {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
 
-    //if(isLoggedIn) 
-      //return <Redirect to="home"/>
-
     return (
       <div>
         <Header links={isLoggedIn? headerLinks : []} isLoggedIn={this.props.isLoggedIn} username=""/>

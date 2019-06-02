@@ -13,6 +13,11 @@ export const auth = (state = authInitialState, action) => {
           },
           isLoggedIn: payload.isLoggedIn
         }
+      case 'SIGNUP_SUCCESS':
+        return {
+          isLoggedIn: true,
+          ...authInitialState,
+        }
       case LOG_OUT:
         return authInitialState
       default:
