@@ -7,13 +7,16 @@ import { store } from '../store.js';
 import { Link } from 'react-router-dom';
 import '../style/navbar.css'
 
+import { LocalStorageCache } from "../services";
+
 const Header = (props) => {
+    const cache = new LocalStorageCache();
     return (
         <nav className="navigation">
             <div className="">
                 <HeaderLeft/>
                 <HeaderCenter isTutorial={props.isTutorial} tutorialInfo={props.tutorialInfo} />
-                <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={props.dispatchLogout} history={props.history}/>
+                <HeaderRight links={props.links} isTutorial={props.isTutorial} isLoggedIn={props.isLoggedIn} username={props.username} dispatch={cache.clear} history={props.history}/>
             </div>
         </nav>
     )

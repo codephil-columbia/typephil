@@ -40,7 +40,7 @@ class LoginPage extends Component {
         this.cache.set("uid", user.uid);
         this.cache.set("username", user.username);
 
-        this.props.onSuccessfulAuth();
+        this.props.onSuccessfulAuth(user.username, user.uid);
         this.setState({ loginWasSuccessful: true });
       })
       .catch(err => {

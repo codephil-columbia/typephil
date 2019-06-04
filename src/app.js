@@ -17,10 +17,14 @@ import CocoType from './CocoType';
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 
+import { LocalStorageCache } from "./services";
+
 
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.cache = new LocalStorageCache();
 
     this._isMounted = false;
     this.state = { isAuthenticated: false };
@@ -30,13 +34,13 @@ class App extends Component {
    * Passed down to components in charge of auth, when successful, we manually retrigger React router to change the 
    * url to the Home component.
    */
-  onSuccessfulAuth = () => {
+  onSuccessfulAuth = (username, uid) => {
     this.setState({ isAuthenticated: true })
+    this.cache.set("isLoggedIn", true);
+    this.cache.set("username", username);
+    this.cache.set("uid", uid);
 
     this.props.history.push("/home");
-    // Safely reset isAuthenticated, e.g. if user has logged out.
-    if(!this.props.isLoggedIn)
-      this.setState({ isAuthenticated: false })
   }
 
   /**
@@ -74,7 +78,9 @@ class App extends Component {
   }
 
   render() {
-    const App = (this.props.auth.isLoggedIn) ? this.userHasBeenAuthenticated() : this.userHasNotBeenAuthenticated()
+    const App = (this.state.isAuthenticated || this.cache.get("isLoggedIn")) 
+      ? this.userHasBeenAuthenticated() 
+      : this.userHasNotBeenAuthenticated()
     return (
       <React.Fragment>
         { App }
