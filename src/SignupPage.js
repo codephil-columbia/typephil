@@ -12,6 +12,8 @@ import './style/styles.css';
 import './style/SignupPage.css';
 import HomePage from './HomePage';
 
+import { UserService, LocalStorageCache } from "./services";
+
 const schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
 const months = moment.monthsShort();
 const years = Array.apply(null, {length: 50}).map(
@@ -22,14 +24,18 @@ const years = Array.apply(null, {length: 50}).map(
 class SignupPage extends Component {
   constructor(props) {
     super(props);
+
+    this.userService = new UserService()
+    this.cache = new LocalStorageCache();
+
     this.state = {
       // Default month and year. User updates these values later.
       month: 'Month',
       day: 'Day',
       year: 'Year',
 
-      firstname: '',
-      lastname: '',
+      firstName: '',
+      lastName: '',
       username: '',
       password: '',
       password_c: '',
@@ -39,8 +45,8 @@ class SignupPage extends Component {
       occupation: '',
 
       touched: {
-        firstname: false,
-        lastname: false,
+        firstName: false,
+        lastName: false,
         username: false,
         password: false,
         password_c: false,
@@ -98,31 +104,25 @@ class SignupPage extends Component {
 
   signup = (e) => {
     e.preventDefault();
-    console.log( "SIGN UP" );
-    const { firstname, lastname, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstname, lastname to db model (?)
+    const { firstName, lastName, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstName, lastName to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
-    this.props.dispatchSignup({ 
-      firstName:firstname,
-      lastName:lastname,
+    
+    this.userService.signup({
+      firstName, 
+      lastName,
       username,
       password,
       occupation,
       whichOccupation,
-      gender,
-      dob,
-      schoolyear
-    }).then(() => {
-      this.props.onSuccessfulAuth();
-    }).catch(err => {
-      console.error(err);
-    })
+    }).then(() => this.props.onSuccessfulAuth())
+    .catch(err => console.log(err));
   }
 
   // Conditions hold `true` iff there is an error.
-  validate = (firstname, lastname, username, password, password_c, schoolyear, occupation) => {
+  validate = (firstName, lastName, username, password, password_c, schoolyear, occupation) => {
     return {
-      firstname: firstname.length === 0,
-      lastname: lastname.length === 0,
+      firstName: firstName.length === 0,
+      lastName: lastName.length === 0,
       username: username.length === 0,
       password: password !== password_c,
       password_c: password !== password_c,
@@ -134,8 +134,8 @@ class SignupPage extends Component {
   render() {
 
     const days = (this.state.month === 'Month' || this.state.year === 'Year') ? this.getDays(moment().month(), moment().year()) : this.getDays(moment.monthsShort().indexOf(this.state.month)+1, this.state.year);
-    const { firstname, lastname, username, password, password_c, schoolyear, occupation } = this.state;
-    const errors = this.validate(firstname, lastname, username, password, password_c, schoolyear, occupation);
+    const { firstName, lastName, username, password, password_c, schoolyear, occupation } = this.state;
+    const errors = this.validate(firstName, lastName, username, password, password_c, schoolyear, occupation);
     const markError = (field) => {
       return errors[field] ? this.state.touched[field] : false;
     }
@@ -173,11 +173,11 @@ class SignupPage extends Component {
               <div className="row">
                   <div className="column column-50">
                       <h2>FIRST NAME</h2>
-                      <input className={markError('firstname') ? "error" : ""} onBlur={this.handleBlur('firstname')} placeholder="" name="firstname" type="text" value={this.state.firstname} onChange={this.handleInputChange}/>
+                      <input className={markError('firstName') ? "error" : ""} onBlur={this.handleBlur('firstName')} placeholder="" name="firstName" type="text" value={this.state.firstName} onChange={this.handleInputChange}/>
                   </div>
                   <div className="column column-50">
                       <h2>LAST NAME</h2>
-                      <input className={markError('lastname') ? "error" : ""} onBlur={this.handleBlur('lastname')} placeholder="" name="lastname" type="text" value={this.state.lastname} onChange={this.handleInputChange}/>
+                      <input className={markError('lastName') ? "error" : ""} onBlur={this.handleBlur('lastName')} placeholder="" name="lastName" type="text" value={this.state.lastName} onChange={this.handleInputChange}/>
                   </div>
               </div>
 
@@ -268,17 +268,5 @@ class SignupPage extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn,
-    isSignedUp: state.isSignedUp,
-    usernameValid: state.usernameValid
-  }
-}
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchSignup }, dispatch);
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);
+export default SignupPage;
