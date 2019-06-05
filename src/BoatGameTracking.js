@@ -47,47 +47,47 @@ const BoatraceGameBackground = styled.div`
     }
     @media only screen and (max-width: 1700px) {
       background-position: center bottom -100vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1650px) {
       background-position: center bottom -95vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1600px) {
       background-position: center bottom -90vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1550px) {
       background-position: center bottom -85vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1500px) {
       background-position: center bottom -80vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1450px) {
       background-position: center bottom -75vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1400px) {
       background-position: center bottom -70vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1350px) {
       background-position: center bottom -65vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1300px) {
       background-position: center bottom -60vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1250px) {
       background-position: center bottom -55vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1200px) {
       background-position: center bottom -50vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1150px) {
       background-position: center bottom -45vh;
@@ -194,23 +194,23 @@ const BoatParagraphText = styled.div`
   text-align:center;
   align-content:center;
   justify-content: center;
-  font-size:2.9rem;
+  font-size:3.5rem;
   width:100vw;
 
   @media only screen and (max-width: 1100px) {
-    font-size:3rem;
+    font-size:3.5rem;
   }
 
   @media only screen and (max-width: 1000px) {
-    font-size:2.8rem;
+    font-size:3.2rem;
   }
 
   @media only screen and (max-width: 950px) {
-    font-size:2.6rem;
+    font-size:3rem;
   }
 
   @media only screen and (max-width: 900px) {
-    font-size:2.1rem;
+    font-size:2.4rem;
   }
   
 `

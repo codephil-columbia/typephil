@@ -18,9 +18,12 @@ const GameOverWrapper=styled.div`
 
 const GameOverText=styled.div`
     z-index:99999999999;
-    width:20vw;
-    height:3vh;
-    border-bottom: 5px solid red;
+    width:50vw;
+    height:10vh;
+    font-size: 5rem;
+    font-weight: bold;
+    background-color: white;
+    border: 5px solid #199893;
 `
 
 export default class GameOverSign extends Component{
