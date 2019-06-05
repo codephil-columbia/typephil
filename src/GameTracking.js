@@ -101,6 +101,7 @@ class GameTracking extends Component {
     this.resetIncrement=this.resetIncrement.bind(this)
     this.userFinished=this.userFinished.bind(this)
     this.turnOffAllowTimeFlag=this.turnOffAllowTimeFlag.bind(this)
+    this.modalCountdown=this.modalCountdown.bind(this)
     this.state = {
       rows,
       characterMapList,
@@ -131,6 +132,7 @@ class GameTracking extends Component {
       isFinished: false,
       startTime: 0,
       finishTime: 0,
+      modelCount:3,
       pauses: [],
       time: 0
     };
@@ -423,11 +425,23 @@ class GameTracking extends Component {
     this.setState({ shouldShowModal: false, pauses });
   };
 
+  modalCountdown() {
+    this.setState({modelCount:this.state.modelCount-1})
+    console.log("seconds left: " + this.state.modelCount)
+}
+
   onModalOpen = () => {
     this.removeEventListener();
     let { pauses } = this.state;
     pauses.push(Date.now());
     this.setState({ pauses })
+    let ref= setInterval(this.modalCountdown,1000)
+    setTimeout(()=>{
+      clearInterval(ref)
+      this.setState({modelCount:3})
+      this.setState({consecutiveIncorrectCount:0})
+      this.closeModal()
+    }, 3000)
   }
 
   removeEventListener = () => {
@@ -482,7 +496,7 @@ class GameTracking extends Component {
           className="tutorial-modal"
         >
           <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
-          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
+          <div>{this.state.modelCount}</div>
         </Modal>
         <div className="timer-container">
             <Counter resetFlag={this.turnOffAllowTimeFlag} accuracyInfo={this.state} userFinished={this.userFinished} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}

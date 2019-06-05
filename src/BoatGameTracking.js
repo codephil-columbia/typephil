@@ -246,15 +246,14 @@ class BoatGameTracking extends Component {
     styleMapList[0] = styleMapList[0].set(0, 'default-character highlighted');
     this.buildRows=this.buildRows.bind(this)
     this.endRace=this.endRace.bind(this)
+    this.closeModal=this.closeModal.bind(this)
     const rows = this.buildRows(characterMapList, styleMapList, 0);
-
     const currentKey = characterMapList[0].get(0);
-
     const totalLength = currentContent.length;
-
     this.resetIncrement=this.resetIncrement.bind(this)
     this.calculateDisplacement=this.calculateDisplacement.bind(this)
     this.calculatePlayerPlace=this.calculatePlayerPlace.bind(this)
+    this.modalCountdown=this.modalCountdown.bind(this)
     this.intervalHandler;
     this.state = {
       rows,
@@ -263,6 +262,7 @@ class BoatGameTracking extends Component {
       seconds: '00', 
       displacement:0,
       minutes: '',
+      modelCount:3,
       styleMapList,
       upDifficulty:false,
       upDifficultyCount:0,
@@ -653,11 +653,25 @@ class BoatGameTracking extends Component {
     this.setState({ shouldShowModal: false, pauses });
   };
 
+  modalCountdown() {
+      this.setState({modelCount:this.state.modelCount-1})
+      console.log("seconds left: " + this.state.modelCount)
+  }
+
+
+
   onModalOpen = () => {
     this.removeEventListener();
     let { pauses } = this.state;
     pauses.push(Date.now());
     this.setState({ pauses })
+    let ref= setInterval(this.modalCountdown,1000)
+    setTimeout(()=>{
+      clearInterval(ref)
+      this.setState({modelCount:3})
+      this.setState({consecutiveIncorrectCount:0})
+      this.closeModal()
+    }, 3000)
   }
 
   removeEventListener = () => {
@@ -699,8 +713,8 @@ class BoatGameTracking extends Component {
             onAfterOpen={this.onModalOpen}
             className="tutorial-modal"
           >
-            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
-            <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
+            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please focus on accuracy!</p>
+            <div>{this.state.modelCount}</div>
           </Modal>
           <div className="timer-container">
               <Counter accuracyInfo={this.state} timerShortStop={this.state.stopTime} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
