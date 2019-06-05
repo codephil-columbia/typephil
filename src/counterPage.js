@@ -14,6 +14,7 @@ import { getCurrentLessonForUser } from './actions/homepage';
 
 import './style/counterPage.css'
 import { DeviceSignalWifiOff } from "material-ui/svg-icons";
+import { timingSafeEqual } from "crypto";
 
 class TimerInput extends React.Component {
   render() {
@@ -157,12 +158,14 @@ class Counter extends React.Component {
       
 
       this.secondsRemaining--
-      if(this.props.NeedsToIncrement){
+      if(this.props.NeedsToIncrement && this.props.accuracyInfo.allowedToAddTime){
+        console.log("time was incremented")
         if(this.state.lowerIncrement){
            this.calculateIncrement()
         }
         this.secondsRemaining = this.secondsRemaining +this.state.increment
         this.props.resetFunction();
+        this.props.resetFlag()
       }
     }
   
