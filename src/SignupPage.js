@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import { dispatchSignup } from './actions/auth';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Header from './components/header';
 import Dropdown from 'react-dropdown';
 import moment from 'moment';
-import 'react-dropdown/style.css';
-//import './style/milligram.min.css'; // TODO for no connectivity only
-import './style/styles.css';
-import './style/SignupPage.css';
-import HomePage from './HomePage';
 
 import { UserService, LocalStorageCache } from "./services";
+
+import 'react-dropdown/style.css';
+import './style/styles.css';
+import './style/SignupPage.css';
 
 const schoolyears = ['Kindergarten'].concat(Array.apply(null, {length: 12}).map(function(_, i) { return 'Grade ' + (i+1) })).concat(['College', 'Other']);
 const months = moment.monthsShort();
@@ -62,26 +57,6 @@ class SignupPage extends Component {
     this.setState({
       touched: {...this.state.touched, [field]: true}
     });
-
-    // TODO turn this over to middleware
-    // if(field === 'username') {
-    //   const username = e.target.value;
-    //   //this.props.dispatchUsername(username);
-    //   fetch('http://localhost:5000/auth/usernameValid', { 
-    //     method: 'POST',
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ username })
-    //   }).then(res => res.json()
-    //   ).then((res) => {
-    //     if(res && this.state.username === username)
-    //       this.setState({ usernameValid : true });
-    //     else
-    //       this.setState({ usernameValid : res });
-    //   });
-    // }
   }
 
   handleInputChange = (e) => {
@@ -267,6 +242,5 @@ class SignupPage extends Component {
     )
   }
 }
-
 
 export default SignupPage;

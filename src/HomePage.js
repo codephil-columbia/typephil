@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Line } from 'rc-progress';
 
-import axios from "axios";
-
+import { LocalStorageCache, TutorialService, ChapterService } from "./services";
 import ShowSpinner from './components/spinner';
 import Header from './components/header';
 import avgUserStats from './components/avgUserStats';
 
-import { 
-  getCurrentLessonForUser,
-  getAverageStats,
-  getChapterProgress
-} from './actions/homepage';
-
 import "./style/styles.css";
 import "./style/HomePage.css";
-import { api_url } from './constants';
-import { LocalStorageCache, TutorialService, ChapterService } from "./services";
 
 class HomePage extends Component {
   constructor(props) {
@@ -30,7 +19,6 @@ class HomePage extends Component {
       this.chapterService = new ChapterService();
 
       const uid = this.cache.get("uid");
-      this.setup(uid);
 
       this.state = {
         uid,
@@ -58,26 +46,12 @@ class HomePage extends Component {
   }
 
   setup(uid) {
-
-    // this.props.getCurrentLessonForUser(uid);
-    // this.props.getAverageStats(uid);
-    // this.props.getChapterProgress(uid);
     return Promise.all([
       this.tutorialService.getTutorialInfo(uid),
       this.tutorialService.getTutorialAvgs(uid),
       this.chapterService.getChapterProgressPercentage(uid),
     ])
   }
-
-  // componentDidMount() {
-  //   axios.post(`${api_url}/lesson/`)
-  //     .then(res => {
-  //       this.setState({ lessons: res.data });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
 
   redirectLesson = () => {
       this.setState({redirectLesson: true})
@@ -90,10 +64,10 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log(this.state);
     if(this.state.isLoading) {
       return ShowSpinner();
     }
+
     const { 
       badges, 
       headerLinks, 
@@ -103,11 +77,6 @@ class HomePage extends Component {
       chapterProgress,
       username
     } = this.state;
-    const {
-      hasFinishedLoading, 
-      isStatsLoading,
-      isPercentageLoading,
-    } = this.props;
 
     const { lesson, chapter } = tutorialInfo;
     const { chapterImage } = chapter; 
@@ -155,30 +124,4 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage }) => {
-  return {
-    lessonName: app.currentLesson.lessonName,
-    chapterName: app.currentLesson.chapterName,
-    chapter: app.chapter,
-    hasFinishedLoading: app.currentLesson.hasFinishedLoading,
-    showSpinner: app.currentLesson.showSpinner,
-    chapterImage: app.currentLesson.chapterImage,
-    wpm: statsForUser.wpm,
-    avgAccuracy: statsForUser.accuracy,
-    isStatsLoading: statsForUser.isStatsLoading,
-    percentageComplete: chapterProgressPercentage.percentageComplete,
-    isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ 
-    getCurrentLessonForUser,
-    getAverageStats,
-    getChapterProgress
-  }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePage;

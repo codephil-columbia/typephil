@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
-import { dispatchLogin } from './actions/auth';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import { UserService, LocalStorageCache } from "./services";
-
 import Header from './components/header';
 
 import './style/LoginPage.css';
 import './style/styles.css';
-// import './style/milligram.min.css';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -152,17 +146,6 @@ class LoginPage extends Component {
       </div>
     )
   }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchLogin }, dispatch);
-}
-
-const componentDidMount = () => {
-  this._isMounted = true;
-}
-const componentWillUnmount = () => {
-  this._isMounted = false;
 }
 
 export default LoginPage;

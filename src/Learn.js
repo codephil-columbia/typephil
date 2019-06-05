@@ -1,36 +1,26 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
-import './style/Learn.css';
 
 import Header from './components/header'
 import LessonsView from './LessonsView';
 import ChaptersView from './ChaptersView';
 import ShowSpinner from './components/spinner';
 
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
+import { ChapterService, TutorialService, LocalStorageCache } from './services';
 
-import { getCurrentLessonForUser } from './actions/homepage';
+import './style/Learn.css';
 
 class Learn extends Component {
   constructor(props) {
     super(props);
 
-    this.props.fetchAllChapterNames();
-    this.props.fetchAllPairs(this.props.currentUser.uid);
-    this.props.fetchCompletedLessons(this.props.currentUser.uid);
-
-    if(this.props.currentLessonName === "") {
-      this.props.getCurrentLessonForUser(this.props.currentUser.uid);
-    }
+    this.chapterService = new ChapterService();
+    this.tutorialService = new TutorialService();
+    this.cache = new LocalStorageCache();
 
     this.state = {
+      isLoading: true,
+      uid: this.cache.get("uid"),
       shouldRedirectToLesson: false,
       currentChapterIndex: -1,
       shouldShowLessons: false,
@@ -38,6 +28,32 @@ class Learn extends Component {
       carouselDesc: "",
       headerLinks: ["Learn", "Home"],
     }
+  }
+
+  componentDidMount() {
+    this.setState({isLoading: true});
+
+    Promise.all([
+      this.chapterService.getChapterNames(),
+      this.chapterService.getChaptersAndLessons(),
+      this.tutorialService.getCompletedLessons(this.state.uid),
+      this.tutorialService.getCurrentLesson(this.state.uid)
+    ]).then(([
+        chapterNames, 
+        chapterLessonPairs, 
+        completedLessons,
+        currentLesson
+      ]) => {
+      this.setState({ 
+        chapterNames, 
+        chapterLessonPairs, 
+        completedLessons, 
+        currentLesson,
+        isLoading: false
+      })
+    }).catch(err => {
+      console.log(err);
+    })
   }
   
   doRestartLesson = lessonID => {
@@ -55,10 +71,10 @@ class Learn extends Component {
   nextChapter = () => {
     let { 
       currentChapterIndex,
-      shouldShowLessons
+      shouldShowLessons,
+      chapterLessonPairs
     } = this.state;
 
-    const { chapterLessonPairs } = this.props;
     const chapterCount = chapterLessonPairs.length;
     currentChapterIndex = Number(currentChapterIndex);
 
@@ -75,8 +91,7 @@ class Learn extends Component {
   }
 
   prevChapter = () => {
-    let { currentChapterIndex,shouldShowLessons } = this.state;
-    const { chapterLessonPairs } = this.props;
+    let { currentChapterIndex,shouldShowLessons, chapterLessonPairs } = this.state;
     const chapterCount = chapterLessonPairs.length;
     currentChapterIndex = Number(currentChapterIndex);
     
@@ -95,15 +110,7 @@ class Learn extends Component {
   }
 
   render() {
-    const { 
-      isLoading, 
-      chapterLessonPairs, 
-      allChapters, 
-      completedLessons,
-      currentLessonName
-    } = this.props;
-
-    if(isLoading) {
+    if(this.state.isLoading) {
       return <ShowSpinner />
     } 
 
@@ -112,7 +119,11 @@ class Learn extends Component {
       shouldShowLessons, 
       currentChapterIndex,  
       carouselDesc,
-      shouldRedirectToLesson
+      shouldRedirectToLesson,
+      chapterLessonPairs, 
+      chapterNames, 
+      completedLessons,
+      currentLesson
     } = this.state;
 
     if(shouldRedirectToLesson) {
@@ -126,22 +137,19 @@ class Learn extends Component {
         <LessonsView 
           lessons={chapterLessonPairs[currentChapterIndex].lessons} 
           completed={completedLessons} 
-          mostRecentLessonName={currentLessonName}
+          mostRecentLessonName={currentLesson.lessonName}
           doRestartLesson={this.doRestartLesson}
         />
       );
       title = chapterLessonPairs[currentChapterIndex]['chapterName']
     } else {
-      body = <ChaptersView chapters={allChapters} userDidClickChapter={this.userDidClickChapter} />
+      body = <ChaptersView chapters={chapterNames} userDidClickChapter={this.userDidClickChapter} />
       title = "Chapter Overview"
     }
 
-    console.log(this.props);
-    // console.log(chapterLessonPairs[currentChapterIndex]);
-    // const { chapter } = chapterLessonPairs[currentChapterIndex]
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
+        <Header links={headerLinks} isLoggedIn={this.cache.get("isLoggedIn")} username={this.cache.get("username")}/>
         <div className="content container title-container">
           <div className="title">
             <h2 className="title">Fundamentals of Typing Tutorial</h2>
@@ -173,26 +181,4 @@ class Learn extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ 
-    fetchAllChapterNames, 
-    fetchAllPairs, 
-    fetchCompletedLessons,
-    fetchLessonById,
-    getCurrentLessonForUser
-  }, dispatch);
-}
-
-const mapStateToProps = ({ app, auth }) => {
-  return {
-    allChapters: app.allChapters,
-    isLoading: app.isLoading,
-    chapterLessonPairs: app.chapterLessonPairs,
-    completedLessons: app.completedLessons,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn,
-    currentLessonName: app.currentLesson.lessonName
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Learn);
+export default Learn;
