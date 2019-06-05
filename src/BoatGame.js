@@ -311,6 +311,7 @@ class BoatGame extends Component{
         baseDifficulty:1,
         showSign:false,
         playerPlace:0,
+        inputOff:false,
         showMainPage:true})
         this.componentWillMount()
     }

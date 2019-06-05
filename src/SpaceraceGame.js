@@ -318,6 +318,7 @@ class SpaceraceGame extends React.Component {
     difficultySelected:"",
     difficulty:"",
     wpm:20,
+    level:1,
     currentRockets:[],
     lives:3,
     live1:"./images/games/Heart.svg", 
@@ -363,13 +364,8 @@ class SpaceraceGame extends React.Component {
     }
     this.setState({lives:this.state.lives -1})
     if(this.state.lives ==0){
-<<<<<<< HEAD
       this.setState({showSign:true})
-=======
-      this.setState({playerHasLost:true})
-      this.calculateStats()
       //console.log(this.state.level)
->>>>>>> 10d73c31b38bbccf1f65762611a3f030ea974fcf
       clearInterval(this.state.ref1)
       clearInterval(this.state.ref2)
       document.removeEventListener("keydown", this.registerUserKeyPress);
