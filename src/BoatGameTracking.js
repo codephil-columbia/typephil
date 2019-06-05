@@ -20,6 +20,12 @@ const HIGHLIGHTED = "highlighted character";
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
+const ModalCountDownDiv = styled.div`
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #F5A623;
+  padding-bottom: 1rem;
+`
 
 const BoatraceGameBackground = styled.div`
     background-image: url(./images/games/Waves_extended.svg);
@@ -262,7 +268,7 @@ class BoatGameTracking extends Component {
       seconds: '00', 
       displacement:0,
       minutes: '',
-      modelCount:3,
+      modelCount:5,
       styleMapList,
       upDifficulty:false,
       upDifficultyCount:0,
@@ -668,10 +674,10 @@ class BoatGameTracking extends Component {
     let ref= setInterval(this.modalCountdown,1000)
     setTimeout(()=>{
       clearInterval(ref)
-      this.setState({modelCount:3})
+      this.setState({modelCount:5})
       this.setState({consecutiveIncorrectCount:0})
       this.closeModal()
-    }, 3000)
+    }, 5000)
   }
 
   removeEventListener = () => {
@@ -713,8 +719,8 @@ class BoatGameTracking extends Component {
             onAfterOpen={this.onModalOpen}
             className="tutorial-modal"
           >
-            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please focus on accuracy!</p>
-            <div>{this.state.modelCount}</div>
+            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please focus on <strong>accuracy</strong>!</p>
+            <ModalCountDownDiv>{this.state.modelCount}</ModalCountDownDiv>
           </Modal>
           <div className="timer-container">
               <Counter accuracyInfo={this.state} timerShortStop={this.state.stopTime} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
