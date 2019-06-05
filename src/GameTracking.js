@@ -184,7 +184,7 @@ class GameTracking extends Component {
   userDidPressBackspace = () => {
     let { charPtr, rows, correct, incorrect, edited, groupPtr, characterMapList, consecutiveIncorrectCount } = this.state;
     const { previousCharCorrectness, styleMapList } = this.state;
-
+    this.setState({consecutiveCorrect:0})
     // Set current indexPtr style to default
     this.applyStyle(`${DEFAULT_STYLE}`, charPtr, groupPtr);
     
