@@ -9,6 +9,17 @@ import './style/styles.scss';
 import './style/index.scss';
 
 import { store, persistor } from './store';
+// import initLocalStorage, { createUser } from "./offline";
+
+// initLocalStorage();
+// createUser({username: "Cesar", password: "password"});
+function initLocalStorage() {
+  localStorage.setItem("users", JSON.stringify([]));
+} 
+
+if (process.env.REACT_APP_IS_OFFLINE) {
+  initLocalStorage();
+}
 
 const Loading = () => {
   return <div>Loading</div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import uuid from "uuid";
 
 import {api_url} from "../constants";
 
@@ -25,17 +26,21 @@ const sendGetReq = url => {
 }
 
 class UserService {
-  endpoints = Object.freeze({
-      AUTHENTICATE: "/user/authenticate",
-      SIGN_UP: "/user/"
-  });
+  constructor() {
+    if(process.env.REACT_APP_IS_OFFLINE) {
+      console.log("using offline service");
+      this.service = new OfflineUserService();
+    } else {
+      this.service = new OnlineUserService();
+    }
+  }
 
   authenticate = (username, password) => {
-      return sendPostReq(`${api_url}${this.endpoints.AUTHENTICATE}`, { username, password })
+      return this.service.authenticate(username, password);
   }
 
   signup = user => {
-      return sendPostReq(`${api_url}${this.endpoints.SIGN_UP}`, { ...user })
+      return this.service.signup(user);
   }
 }
 
@@ -53,6 +58,70 @@ class LocalStorageCache {
     localStorage.clear()
   }
 }
+
+const localStorageKeys = Object.freeze({
+  USERS: "users"
+});
+
+function getLocalStorageVal(fromKey) {
+  let val = localStorage.getItem(fromKey);
+  return JSON.parse(val);
+}
+
+function setLocalStorageVal(key, val) {
+  localStorage.setItem(key, JSON.stringify(val));
+}
+
+class OnlineUserService {
+  endpoints = Object.freeze({
+    AUTHENTICATE: "/user/authenticate",
+    SIGN_UP: "/user/"
+  });
+
+  authenticate = (username, password) => {
+    return sendPostReq(`${api_url}${this.endpoints.AUTHENTICATE}`, { username, password })
+  }
+
+  signup = user => {
+      return sendPostReq(`${api_url}${this.endpoints.SIGN_UP}`, { ...user })
+  }
+}
+
+class OfflineUserService {
+  authenticate(username, password) {
+    return new Promise((res, rej) => {
+      let users = getLocalStorageVal(localStorageKeys.USERS);
+
+      // Check to see if user exits
+      const user = users.find(user => user.username === username);
+      if (!user) {
+        return rej("User does not exist");
+      }
+
+      // Check to see if passwords are equal
+      if (user.password !== password) {
+        return rej(new Error("user passwords do not match"));
+      }
+
+      res(user);
+    })
+  }
+
+  signup(user) {
+      // TODO: figure out password hashing
+      return new Promise((res, rej) => {
+        // user.password = hashPassword(user.password);
+        let users = getLocalStorageVal(localStorageKeys.USERS)
+        user.uid = uuid.v4();
+
+        users.push(user);
+
+        setLocalStorageVal(localStorageKeys.USERS, users);
+        res(user);
+      })
+  }
+}
+
 
 class TutorialService {
   endpoints = Object.freeze({
