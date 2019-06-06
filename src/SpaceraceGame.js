@@ -147,7 +147,8 @@ class SpaceraceGame extends React.Component {
       wpm:20,
       zIndex:5,
       lives:3,
-      playerHasLost:false, 
+      playerHasLost:false,
+      playerHasBegun:false, 
       needToincrement:false,
       level:1, 
       duration:10,
@@ -157,6 +158,7 @@ class SpaceraceGame extends React.Component {
       playerAccuracy:0,
       ref1:0,
       ref2:0,
+      ref3:0,
       live1:"./images/games/Heart.svg", 
       live2:"./images/games/Heart.svg", 
       live3:"./images/games/Heart.svg",
@@ -184,6 +186,7 @@ class SpaceraceGame extends React.Component {
     this.returnMainPage=this.returnMainPage.bind(this)
     this.exitMainPage=this.exitMainPage.bind(this)
     this.setAvailableWords = this.setAvailableWords.bind(this)
+    this.createStyler=this.createStyler.bind(this)
     this.attachEventListener();
     
   } 
@@ -253,13 +256,7 @@ class SpaceraceGame extends React.Component {
     }else if (this.state.difficultySelected === "hard"){
       if(this.state.seconds % 5 == 0){
         this.spawnRocket();   
-        
-
-        console.log("have three rockets") 
-      }
-      if(this.state.seconds % 25 == 0){
-        this.spawnRocket();   
-         
+      
 
         console.log("have three rockets") 
       }
@@ -289,8 +286,12 @@ class SpaceraceGame extends React.Component {
   }
 
   incrementDifficulty = () => {
-     this.setState({wpm:this.state.wpm + 5,})
      this.setState({level:this.state.level +1 })
+     clearInterval(this.state.ref3)
+     this.setState({wpm:this.state.wpm + 5,})
+     this.setState({ref3:setInterval(this.spawnRocket,this.state.wpm/60 *10000)})
+     
+
     console.log(this.state.level)
   }
 
@@ -311,15 +312,18 @@ class SpaceraceGame extends React.Component {
     playerHasLost:false,
     startPeriod:true,
     showMainPage:true,
+    startRocketSpawning:false,
     startPresses:0,
     difficultySelected:"",
     difficulty:"",
     wpm:20,
     currentRockets:[],
+    level:1,
     lives:3,
     live1:"./images/games/Heart.svg", 
     live2:"./images/games/Heart.svg", 
-    live3:"./images/games/Heart.svg"})
+    live3:"./images/games/Heart.svg"}),
+ 
     console.log(this.rows)
     
   }
@@ -364,12 +368,15 @@ class SpaceraceGame extends React.Component {
       //console.log(this.state.level)
       clearInterval(this.state.ref1)
       clearInterval(this.state.ref2)
+      clearInterval(this.state.ref3)
     }
   }
 
   destroyRocket= (targetDiv) => {
-    let target = document.getElementsByClassName(targetDiv)[0]
-
+    if(!document.getElementsByClassName(targetDiv)[0]){
+      return
+    }
+    let target=document.getElementsByClassName(targetDiv)[0]
     let childNodes = target.childNodes
     let text= childNodes[0]
     let img = childNodes[1]
@@ -390,6 +397,7 @@ class SpaceraceGame extends React.Component {
       target.className= "null"
       text.textContent=""
     }, 100);
+    //this.spawnRocket(); 
     
   }
 
@@ -409,11 +417,11 @@ class SpaceraceGame extends React.Component {
     img.style.width="100%"
     rocket.style.width="25vw"
     rocket.style.height="auto"
-    rocket.style.zIndex=this.state.zIndex
+    //rocket.style.zIndex=this.state.zIndex
     img.style.height="auto"
-    img.style.zIndex=this.state.zIndex
+    //img.style.zIndex=this.state.zIndex
     text.textContent=word
-    text.style.zIndex=this.state.zIndex
+    //text.style.zIndex=this.state.zIndex
     text.style.color = "white"
     text.style.fontSize = "2.6vw"
     text.style.fontWeight = "bold"
@@ -423,7 +431,6 @@ class SpaceraceGame extends React.Component {
     // text.style.left = "7rem"
     text.style.top = "5.5vw"
     text.style.left = "5.5vw"
-
 
     
     rocket.className= word
@@ -435,7 +442,7 @@ class SpaceraceGame extends React.Component {
     //add randomword selected to rocket words (words that are on screen currently)
     this.state.currentRockets.push(word)
     this.state.AvailableWords.splice(index,1)
-    const extraRocket= styler(document.querySelector('.'+word))
+    const extraRocket= this.createStyler(word)
 
     let haslostLife=false
 
@@ -447,7 +454,7 @@ class SpaceraceGame extends React.Component {
 
     }).start(v => {
       extraRocket.set({x:v.x})
-      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -600 ){
+      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -600 ){ //i think this might be an issue 
         this.subtractLife()
         haslostLife=true
       }
@@ -465,9 +472,11 @@ class SpaceraceGame extends React.Component {
       else if(v.x <= 0){
         img.src= "./images/games/Meteor.svg"
       } 
-
     });   
 
+  }
+  createStyler= (word) => {
+    return styler(document.querySelector('.'+word))
   }
 
   returnMainPage(){
@@ -495,7 +504,7 @@ class SpaceraceGame extends React.Component {
   }
 
   initGame = () =>{
-    //this.spawnInitRocket(this.state.FirstWords[1],1,12)
+    this.spawnInitRocket(this.state.FirstWords[1],1,12)
 
     if (this.state.difficultySelected == "medium"){
       this.spawnInitRocket(this.state.FirstWords[0],0,10)
@@ -591,16 +600,17 @@ class SpaceraceGame extends React.Component {
       this.setState({startPresses:this.state.startPresses + 1})
       if(this.state.startPresses==1){
         //console.log(this.state.startPeriod)
-        this.setState({startPeriod:false})
+        this.setState({startPeriod:false,startRocketSpawning:true})
         //console.log(this.state.startPeriod)
         this.setState({
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
         })
-        this.spawnRocket()
+        this.setState({ref3:setInterval(this.spawnRocket,this.state.wpm/60 *10000)})
+        console.log("spawn init")
         if ((this.state.difficultySelected === "medium") && (this.state.seconds%1000=== 0) ){
           //this.spawnRocket()
-
+          
           // this.spawnInitRocket(this.state.FirstWords[1],1,12)
           // this.spawnInitRocket(this.state.FirstWords[0],0,10)
     
@@ -636,8 +646,8 @@ class SpaceraceGame extends React.Component {
       if (this.doesWordExist(this.state.inputWord)) {
         this.destroyRocket(this.state.inputWord)
         this.setState({totalCorrect: this.state.totalCorrect + 1})
-        setTimeout(this.spawnRocket(),this.state.wpm/40 )//make this variable time either delay it or use setinterval
-        
+        // console.log(this.state.wpm/60)
+        // setTimeout(this.spawnRocket(),this.state.wpm/60 )//make this variable time either delay it or use setinterval 
       }      
       this.setState({inputWord:''})
     }
