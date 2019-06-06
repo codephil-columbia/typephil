@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import BoatGame from './BoatGame'
 import KeyTracking from './KeyTracking'
 import SpaceraceGame from './SpaceraceGame'
+import GameOverSign from './components/gameOver'
 import './style/font.css';
 
 
@@ -111,7 +112,7 @@ export default class GameSelect extends Component {
   	constructor(props) {
 	    super(props);
 	    this.state = { 
-	      headerLinks: ["Games", "Learn", "Home"],
+				headerLinks: ["Games", "Learn", "Home"],
 				spaceraceEnabled:false,
 				showSpaceRace:false,
 				boatraceEnabled:false,
@@ -191,7 +192,7 @@ export default class GameSelect extends Component {
     challengeSelected()
     {
     	this.setState({
-	      spaceraceEnabled:false,
+				spaceraceEnabled:false,
 	      boatraceEnabled:false,
 	      challengeEnabled:true,
 	      gameDescription: "\
@@ -232,7 +233,6 @@ export default class GameSelect extends Component {
         return(
             <div>
             	<Header links={headerLinks}/>
-
             	<LeftGameSelectionPanel>
             		<SpaceRaceSelection onClick={this.spaceraceSelected} 
             		isActive={this.state.spaceraceEnabled}>

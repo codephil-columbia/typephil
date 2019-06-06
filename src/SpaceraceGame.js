@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Header from './components/header';
 import Statistics from './SpaceraceStats'
 import Spacerace from './Spacerace'
+import GameOverSign from './components/gameOver'
 import data from "./offline_data.json"
 
 
@@ -165,7 +166,8 @@ class SpaceraceGame extends React.Component {
       showMainPage:true,
       AvailableWords:[],
       isPlayerReady:false,
-      difficultySelected:"", 
+      showSign:false,
+      difficultySelected:"",
       rocketsCreated: 0
 
     } 
@@ -188,7 +190,6 @@ class SpaceraceGame extends React.Component {
     this.setAvailableWords = this.setAvailableWords.bind(this)
     this.createStyler=this.createStyler.bind(this)
     this.attachEventListener();
-    
   } 
   state = { isMoving: true };
 
@@ -313,17 +314,20 @@ class SpaceraceGame extends React.Component {
     startPeriod:true,
     showMainPage:true,
     startRocketSpawning:false,
+    showSign:false,
+    seconds:0,
     startPresses:0,
     difficultySelected:"",
     difficulty:"",
     wpm:20,
+    level:1,
     currentRockets:[],
     level:1,
     lives:3,
     live1:"./images/games/Heart.svg", 
     live2:"./images/games/Heart.svg", 
-    live3:"./images/games/Heart.svg"}),
- 
+    live3:"./images/games/Heart.svg"})
+    this.attachEventListener();
     console.log(this.rows)
     
   }
@@ -363,12 +367,17 @@ class SpaceraceGame extends React.Component {
     }
     this.setState({lives:this.state.lives -1})
     if(this.state.lives ==0){
-      this.setState({playerHasLost:true})
-      this.calculateStats()
+      this.setState({showSign:true})
       //console.log(this.state.level)
       clearInterval(this.state.ref1)
       clearInterval(this.state.ref2)
       clearInterval(this.state.ref3)
+      document.removeEventListener("keydown", this.registerUserKeyPress);
+      this.calculateStats()
+      setTimeout(()=>{
+      this.setState({playerHasLost:true})
+      console.log(this.state.level)
+      },6000)
     }
   }
 
@@ -675,6 +684,7 @@ class SpaceraceGame extends React.Component {
       console.log("Diff:" + this.state.difficultySelected)
         return (
           <SpaceRaceBackground>
+            {this.state.showSign && <GameOverSign/>}
             <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
             <LivesContainer>
               <Lives className="Lives">

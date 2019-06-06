@@ -14,6 +14,7 @@ import { getCurrentLessonForUser } from './actions/homepage';
 
 import './style/counterPage.css'
 import { DeviceSignalWifiOff } from "material-ui/svg-icons";
+import { timingSafeEqual } from "crypto";
 
 class TimerInput extends React.Component {
   render() {
@@ -102,7 +103,7 @@ class Counter extends React.Component {
         }else if(difficulty==2){
           secondsGiven=17
           this.setState({
-            increment:6,
+            increment:5,
             difficulty:2
           })
         }else{
@@ -151,17 +152,20 @@ class Counter extends React.Component {
 
       if (min === 0 & sec === 0) {
         clearInterval(this.intervalHandle);
+        this.props.userFinished()
         this.props.PlayerLost(this.props.accuracyInfo,this.state.timeElapse)
       }
       
 
       this.secondsRemaining--
-      if(this.props.NeedsToIncrement){
+      if(this.props.NeedsToIncrement && this.props.accuracyInfo.allowedToAddTime){
+        console.log("time was incremented")
         if(this.state.lowerIncrement){
            this.calculateIncrement()
         }
         this.secondsRemaining = this.secondsRemaining +this.state.increment
         this.props.resetFunction();
+        this.props.resetFlag()
       }
     }
   

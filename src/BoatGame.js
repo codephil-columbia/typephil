@@ -6,6 +6,7 @@ import Tutorial from './BoatGameTracking'
 import Stats from './BoatStats'
 import MainPage from './BoatLevelSelect'
 import { Connect, connect } from 'react-redux';
+import { tween, styler } from 'popmotion';
 import { bindActionCreators } from 'redux';
 import data from "./offline_data.json"
 
@@ -20,6 +21,7 @@ import {
   } from './actions/learn'
   
 import { getCurrentLessonForUser } from './actions/homepage';
+import GameOverSign from "./components/gameOver";
 
 const Ready = Button.extend`
     margin-top:4vh;
@@ -51,10 +53,12 @@ class BoatGame extends Component{
         this.limitWords=this.limitWords.bind(this)
         this.setInitContent=this.setInitContent.bind(this)
         this.setLimitedContent=this.setLimitedContent.bind(this)
+        this.assignPlayerPlace=this.assignPlayerPlace.bind(this)
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
             beginningDifficulty:1,
+            showSign:false,
             totalWords:100,
             totalMinutes:0,
             wordsPerMinute:0,
@@ -62,7 +66,9 @@ class BoatGame extends Component{
             content:"",
             accuracy:0,
             gameStart:false,
+            playerPlace:0,
             playerDifficulty:1,
+            inputOff:false,
             baseDifficulty:1,
             showMainPage:true,
             headerLinks: ["Games", "Learn", "Home"],
@@ -85,11 +91,15 @@ class BoatGame extends Component{
     //    }
     // })
 
-    console.log(data.games.boatrace)
+    //enable this for prev settings
+    // console.log(data.games.boatrace)
 
     let randIndex= Math.floor(Math.random() * data.games.boatrace.length)
     console.log(data.games.boatrace[randIndex])
     this.setInitContent(data.games.boatrace[randIndex])
+
+
+
   };
      returnMainPage(){
         this.setState({showMainPage:true})
@@ -121,13 +131,17 @@ class BoatGame extends Component{
     }
 
     cleanContent(content){
-        return content.replace(/(?:\r\n|\r|\n|\\n)/g, ' ').replace("\"\\n\""," ")
+        console.log(content.replace(/(?:\r\n|\r|\n|\\n)/g, '').replace("\"\\n\"",""))
+        return content.replace(/(?:\r\n|\r|\n|\\n)/g, '').replace("\"\\n\"","")
     }
 
     setInitContent(fullContent){
+        let parsedContent=this.parse(fullContent)
         this.setState({
-            originalContent:fullContent,
-            content:this.limitWords(fullContent)})
+            originalContent:parsedContent,
+            content:this.limitWords(parsedContent)
+        })
+
     }
 
     parse(response){
@@ -145,7 +159,7 @@ class BoatGame extends Component{
         origin=pointer+2
         let content= response.slice(origin,)
         origin=0
-        pointer=40
+        pointer=35
 
         
         //removes new line characters
@@ -155,10 +169,12 @@ class BoatGame extends Component{
             if ( currChar == "." || currChar =="?" || currChar=="!"){
                 pointer+=2
                 currPhrase=content.slice(origin,pointer)
+                console.log("pushing1:" + currPhrase)
                 textArray.push(currPhrase)
             }else if( currChar == " "){
                 pointer+=1
                 currPhrase=content.slice(origin,pointer)
+                console.log("pushing2:" + currPhrase)
                 textArray.push(currPhrase)
             }else{
                 while(content[pointer] !=" "){
@@ -166,10 +182,11 @@ class BoatGame extends Component{
                 }
                 pointer+=1
                 currPhrase=content.slice(origin,pointer)
+                console.log("pushing3:" + currPhrase)
                 textArray.push(currPhrase)
             }
             origin=pointer
-            pointer+=40
+            pointer+=35
             currPhrase=""
         }
         textArray.push(content.slice(origin,content.length))
@@ -177,22 +194,7 @@ class BoatGame extends Component{
         for(let i=1;i<textArray.length;i++){
             finalstr+=textArray[i] +"\\n"
         }
-        if(this.state.totalWords !=0){
-            let wordsProcessed=0
-            let i=0
-            while(wordsProcessed<=this.state.totalWords){
-                if(finalstr[i+=1]===" "){
-                    wordsProcessed+=1
-                }
-            }
-            while(finalstr[i]!="." || finalstr[i]!="?" || finalstr[i]!="\"" || finalstr[i]!="!"){
-                i-=1
-            }
-
-            finalstr=finalstr.split(0,i)
-            i=0
-            wordsProcessed=0
-        }
+        console.log("parsed string")
         console.log(finalstr)
         return finalstr
     }
@@ -239,6 +241,8 @@ class BoatGame extends Component{
                 currWord+=finalstr[pointer]
             }
         }
+        console.log("limit words string")
+        console.log(finalstr)
         return finalstr
     }
 
@@ -264,19 +268,24 @@ class BoatGame extends Component{
             gameStart:true
         })
     }
+    assignPlayerPlace = (position) =>{
+        this.setState({playerPlace:position})
+    }
 
     endGames= (state, time) =>{
         var minutes=time/60
         var totalChars= state.incorrect.length + state.correct.length   
         var playerAccuracy= Math.floor((1- state.incorrect.length/totalChars)*100)
         var wpm = Math.floor(totalChars/(5*minutes))
-        this.setState({
+        this.setState({showSign:true,inputOff:true})
+        setTimeout(()=> {
+            this.setState({
             playerHasLost:true,
             isPlayerReady:false,
             gameStart:false,
             accuracy:playerAccuracy,
-            wordsPerMinute:wpm
-        })
+            wordsPerMinute:wpm,
+        })},6000)
     }
 
     showStatspage= () => {
@@ -300,6 +309,9 @@ class BoatGame extends Component{
         gameStart:false,
         playerDifficulty:1,
         baseDifficulty:1,
+        showSign:false,
+        playerPlace:0,
+        inputOff:false,
         showMainPage:true})
         this.componentWillMount()
     }
@@ -321,8 +333,9 @@ class BoatGame extends Component{
             
             return(
             <div className="">
+                {this.state.showSign && <GameOverSign isBoatGame={true} place={this.state.playerPlace}/>}
                 <Header links={headerLinks}></Header>
-                <Tutorial playerHasLost={this.endGames} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
+                <Tutorial playerHasLost={this.endGames} inputOff={this.state.inputOff} assignPosition={this.assignPlayerPlace} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
             </div>
             )
         }else if(this.state.playerHasLost){

@@ -77,7 +77,6 @@ class App extends Component {
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/boat" component={Boat}/> 
         <Route path="/userStats" component={DataDashboard}/>
-        <Route component={GameSelect} />
       </Switch>
     )
   }
