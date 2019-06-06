@@ -223,7 +223,7 @@ class GameTracking extends Component {
           console.log("new level reached: " + this.props.difficulty)
           }
         }
-        this.setState({upDifficultyCount:0})
+        this.setState({upDifficultyCount:0,upDifficulty:false})
         this.setState({Level:this.state.Level + 1})
         console.log(this.state.Level)
       }
@@ -402,7 +402,7 @@ class GameTracking extends Component {
   };
 
   resetIncrement = () => {
-    this.setState({addTime:false})
+    this.setState({addTime:false,upDifficulty:false})
   }
 
 
