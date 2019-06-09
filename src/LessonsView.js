@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import showLessonStats from './components/lessonStats';
 import Lock from './components/lock';
-import { lime100 } from 'material-ui/styles/colors';
 
 
 class LessonsView extends Component {
@@ -16,10 +15,9 @@ class LessonsView extends Component {
   }
 
   hasCompletedLesson = (currentLesson, completed) => {
-    if (completed === null) {
+    if (!completed) {
       return;
     }
-
     return completed.find(({ lessonID }) => {
       return currentLesson.lessonID === lessonID;
     });
@@ -44,10 +42,10 @@ class LessonsView extends Component {
       completed,
       doRestartLesson
     } = this.props;
+    console.log(this.props);
 
     const { currentSelectedLesson } = this.state;
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
-    console.log(currentSelectedLesson, completed, lessonStats);
 
     // Lessons don't come sorted
     this.props.lessons.sort(this.sortLessonsByName);

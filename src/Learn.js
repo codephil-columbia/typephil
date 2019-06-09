@@ -141,7 +141,8 @@ class Learn extends Component {
           doRestartLesson={this.doRestartLesson}
         />
       );
-      title = chapterLessonPairs[currentChapterIndex]['chapterName']
+      console.log(chapterLessonPairs[currentChapterIndex].chapter.chapterName)
+      title = chapterLessonPairs[currentChapterIndex].chapter.chapterName
     } else {
       body = <ChaptersView chapters={chapterNames} userDidClickChapter={this.userDidClickChapter} />
       title = "Chapter Overview"

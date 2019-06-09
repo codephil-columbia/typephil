@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Connect, connect } from 'react-redux';
 import { withRouter } from 'react-router'
-
-import { Route, Switch, Redirect } from 'react-router-dom'
-
+import { Route, Switch } from 'react-router-dom'
 
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
@@ -11,9 +8,8 @@ import Profile from './ProfilePage';
 import Learn from './Learn';
 import Tutorial from './Tutorial';                               
 import HomePage from './HomePage';
-import FourOhFour from './components/FourOhFour';
+import Component404 from './components/404';
 import Challenge from './Challenge'
-import CocoType from './CocoType';
 import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 
@@ -43,6 +39,10 @@ class App extends Component {
     this.props.history.push("/home");
   }
 
+  onLogout = () => {
+    this.setState({ isAuthenticated: false });
+  }
+
   /**
    * Routes for an authenticated user. Has a default 404 component that can show text or just redirect back to home.
    * We need to keep the signup route here since App's render method will rerender signup after we have logged in, 
@@ -51,13 +51,13 @@ class App extends Component {
   userHasBeenAuthenticated = () => {
     return (
       <Switch>
-        <Route path="/home" component={HomePage}/>
+        <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history}/>}/>
         <Route path="/learn" component={Learn}/>
         <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/" component={HomePage}/>
-        <Route path="/404"component={FourOhFour} />
+        <Route path="/404"component={Component404} />
       </Switch>
     )
   }
@@ -72,7 +72,7 @@ class App extends Component {
         <Route path="/challenge" component={Challenge}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/finalstats" component={Stats}/>
-        <Route component={FourOhFour} />
+        <Route component={Component404} />
       </Switch>
     )
   }
@@ -104,4 +104,4 @@ const mapStateToProps = ({ auth, app }) => ({
   app
 })
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(App);

@@ -40,9 +40,11 @@ class HomePage extends Component {
   componentDidMount() {
     this.setState({ isLoading: true })
     this.setup(this.state.uid)
-      .then(([tutorialInfo, tutorialAvgs, chapterProgress]) => {
-        this.setState({ tutorialInfo, tutorialAvgs, chapterProgress, isLoading: false });
-      });
+      .then(
+        ([tutorialInfo, tutorialAvgs, chapterProgress]) => {
+          this.setState({ tutorialInfo, tutorialAvgs, chapterProgress, isLoading: false });
+        }
+      );
   }
 
   setup(uid) {
@@ -78,6 +80,8 @@ class HomePage extends Component {
       username
     } = this.state;
 
+    console.log(this.state);
+
     const { lesson, chapter } = tutorialInfo;
     const { chapterImage } = chapter; 
     const { percentageComplete } = chapterProgress;
@@ -88,7 +92,13 @@ class HomePage extends Component {
 
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={true} username={username} history={this.props.history}/>
+        <Header 
+          links={headerLinks} 
+          isLoggedIn={true} 
+          username={username} 
+          history={this.props.history}
+          onLogout={this.props.onLogout}
+        />
         <div className="container">
           <div className="title-homepage row">
             <p className="homepage-welcome">Welcome Back, {username}!</p>
