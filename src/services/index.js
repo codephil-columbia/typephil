@@ -180,12 +180,31 @@ class TutorialService {
 
 
 class OnlineTutorialService {
+  constructor() {
+    this.chapterService = new OnlineChapterService();
+  }
+
   endpoints = Object.freeze({
-    GET_USER_CURRENT_LESSON: uid => `${api_url}/lesson/current/${uid}`,
-    GET_USER_CURRENT_CHAPTER: uid => `${api_url}/chapter/current/${uid}`,
     GET_USER_TUTORIAL_AVGS: uid => `${api_url}/stats/tutorial/lesson/${uid}`,
-    GET_USER_COMPLETED_LESSONS: uid => `${api_url}/records/tutorial/lessons/${uid}`
+    POST_USER_LESSON_RESULT: `${api_url}/records/tutorial/save/lesson`,
+    
+    GET_USER_CURRENT_CHAPTER: uid => `${api_url}/chapter/current/${uid}`,
+
+    GET_USER_CURRENT_LESSON: uid => `${api_url}/lesson/current/${uid}`,
+    GET_USER_COMPLETED_LESSONS: uid => `${api_url}/records/tutorial/lessons/${uid}`,
+    GET_LESSON_PROGRESS_IN_CHAPTER: uid => `${api_url}/stats/tutorial/chapter/${uid}`,
+    GET_LESSON: lessonID => `${api_url}/lesson/${lessonID}`
   })
+
+  saveTutorialResult({ wpm, accuracy, uid, chapterID, lessonID }) {
+    return sendPostReq(this.endpoints.POST_USER_LESSON_RESULT, {
+      wpm,
+      accuracy,
+      uid, 
+      chapterID,
+      lessonID
+    });
+  }
 
   getTutorialInfo(uid) {
     return Promise.all([
@@ -204,6 +223,18 @@ class OnlineTutorialService {
 
   getCompletedLessons(uid) {
     return sendGetReq(this.endpoints.GET_USER_COMPLETED_LESSONS(uid));
+  }
+
+  getLessonProgressInChapter(uid) {
+    return sendGetReq(this.endpoints.GET_LESSON_PROGRESS_IN_CHAPTER(uid));
+  }
+
+  getLesson(lessonID) {
+    return sendGetReq(this.endpoints.GET_LESSON(lessonID));
+  }
+
+  getChapter(chapterID) {
+    return this.chapterService.getChapter(chapterID);
   }
 }
 
@@ -397,7 +428,7 @@ class ChapterService {
     if(process.env.REACT_APP_ENV === "offline") {
       this.service = new OfflineChapterService();
     } else {
-      this.service = new OnlineTutorialService();
+      this.service = new OnlineChapterService();
     }
   }
 
@@ -423,9 +454,14 @@ class OnlineChapterService {
   endpoints = Object.freeze({
     GET_CHAPTER_PROGRESS: uid => `${api_url}/stats/tutorial/chapter/${uid}`,
     GET_CHAPTERS: `${api_url}/chapter/`,
+    GET_CHAPTER: chapterID => `${api_url}/chapter/${chapterID}`,
 
     GET_LESSONS: `${api_url}/lesson/`
   });
+
+  getChapter(chapterID) {
+    return sendGetReq(this.endpoints.GET_CHAPTER(chapterID));
+  }
 
   getChapterProgressPercentage(uid) {
     return sendGetReq(this.endpoints.GET_CHAPTER_PROGRESS(uid));
