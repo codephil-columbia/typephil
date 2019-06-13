@@ -1,0 +1,273 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { bindActionCreators } from 'redux';
+import Header from './components/header';
+import Button from 'react-button-component';
+import styled from 'styled-components';
+
+import ExamPage from './ExamPage'
+import ExamStatistics from './ExamStats'
+
+import './style/font.css';
+
+
+const LeftExamSelectionPanel = styled.div`
+	float: left;
+	width: 50%;
+	height: 93vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const RightExamSelectionPanel = styled.div`
+	float: right;
+	width: 50%;
+	height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid #52B094;
+    margin-top: 5vh;
+    marign-bottom: -5vh;
+`
+
+const FiveMinuteSelection = styled.div`
+	font-family: "SpaceRaceFont";
+	font-size: 5rem;
+	height: 33%;
+	text-align: center;
+	padding-top: 10vh;
+	cursor: pointer;
+	color: ${props => props.isActive ? '#326BAE' :'#4A4A4A' };
+
+	@media only screen and (max-width: 1150px) {
+		font-size: 4rem;
+	}
+`
+
+const ThreeMinuteSelection = styled.div`
+	font-family: "ReadySetTypeFont";
+	font-size: 5rem;
+	height: 33%;
+	text-align: center;
+	padding-top: 12vh;
+	cursor: pointer;
+	color: ${props => props.isActive ? '#039894' :'#4A4A4A' };
+
+	@media only screen and (max-width: 924px) {
+		padding-top: 5vh;
+	}
+`
+
+const OneMinuteSelection = styled.div`
+	font-family: "Racetrack";
+	font-size: 5rem;
+	height: 33%;
+	text-align: center;
+	padding-top: 11vh;
+	cursor: pointer;
+	color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
+`
+
+const ExamSelectionLine = styled.div`
+	border-bottom: 1px solid #979797;
+	width: 10vw;
+`
+
+const InstructionsHeader = styled.div`
+	padding-top: 4vh;
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #52B094;
+`
+
+const InstructionsDescription = styled.div`
+	padding-top: 2.5rem;
+	padding-right: 10vw;
+	padding-left: 10vw;
+`
+
+
+
+const ExamSelectionButton = Button.extend`
+	margin-top: 4vh;
+	background-color: #52B094;
+	border-radius: 10px;
+	font-size: 1.5rem;
+	color: white;
+`
+
+export default class ExamSelection extends Component {
+  	constructor(props) {
+	    super(props);
+	    this.state = { 
+				headerLinks: ["Games", "Learn", "Home"],
+				oneMinuteExamEnabled:false,
+				showOneMinuteExam:false,
+				threeMinuteExamEnabled:false,
+				showThreeMinuteExam:false,
+				fiveMinuteEnabled:false,
+				showfiveMinuteExam:false,
+	    }
+		this.oneMinuteExamSelected = this.oneMinuteExamSelected.bind(this);
+		this.threeMinuteExamSelected = this.threeMinuteExamSelected.bind(this);
+		this.fiveMinuteExamSelected = this.fiveMinuteExamSelected.bind(this);
+		this.returnToSelection=this.returnToSelection.bind(this)
+		this.BeginExam = this.BeginExam.bind(this)
+		this.exit=this.exit.bind(this)
+    }
+
+    componentDidMount(){
+    	this.setState({
+	      oneMinuteExamEnabled:true,
+	      threeMinuteExamEnabled:false,
+	      fiveMinuteExamEnabled:false,
+	      gameDescription: "\
+			Type the words on the asteroids as they appear \
+			to eliminate them before they make impact on Earth. \
+			Each time an asteroid makes it through, you will lose a life. \
+			You start with three lives. You can gain a life each time you \
+			make it to the next level. As the levels increase, the number of \
+			asteroids also increase in number.\
+	      ",
+    	})
+    }
+
+    oneMinuteExamSelected()
+    {
+    	this.setState({
+				oneMinuteExamEnabled:true,
+	      threeMinuteExamEnabled:false,
+	      fiveMinuteExamEnabled:false,
+	      examDescription: "\
+			Type the words on the asteroids as they appear \
+			to eliminate them before they make impact on Earth. \
+			Each time an asteroid makes it through, you will lose a life. \
+			You start with three lives. You can gain a life each time you \
+			make it to the next level. As the levels increase, the number of \
+			asteroids also increase in number.\
+	      ",
+    	})
+		}
+		
+		returnToSelection(){
+			this.setState({
+				showBoatRace:false,
+				showChallenge:false,
+				showSpaceRace:false
+			})
+		}
+
+    threeMinuteExamSelected()
+    {
+    	this.setState({
+				oneMinuteExamEnabled:false,
+	      threeMinuteExamEnabled:true,
+	      fiveMinuteExamEnabled:false,
+	      examDescription: "\
+			Type the long passages as quickly and accurately as \
+			you can. The faster you type, the faster your boat \
+			will travel. Try to beat your opponents and your own \
+			best WPM as you race towards the finish line!\
+	      ",
+    	})
+    	console.log("boatrace selected")
+    }
+
+    fiveMinuteExamSelected()
+    {
+    	this.setState({
+				oneMinuteExamEnabled:false,
+	      threeMinuteExamEnabled:false,
+	      fiveMinuteExamEnabled:true,
+	      examDescription: "\
+			Type as many phrases as possible before time runs out. \
+			Every time you correctly type a phrase, more time will be \
+			added to your counter and your streak will increase.\
+	      ",
+    	})
+    	console.log("challenge selected")
+		}
+		
+		BeginExam(){
+			if (this.state.oneMinuteExamEnabled === true){
+				this.setState({showOneMinuteExam:true})
+			} else if (this.state.threeMinuteExamEnabled === true){
+				this.setState({showThreeMinuteExam:true})
+			} else if (this.state.fiveMinuteExamEnabled === true){
+				this.setState({showFiveMinuteExam:true})
+				console.log("was reached")
+			}	
+		}
+
+		exit= () =>{
+			this.setState({
+				showOneMinuteExam:false,
+				showThreeMinuteExam:false,
+				showFiveMinuteExam:false
+			})
+		}
+
+    render() {
+	    const { 
+				headerLinks,
+				showOneMinuteExam,
+				showThreeMinuteExam,
+				showFiveMinuteExam
+			} = this.state;
+			
+			if(showOneMinuteExam){
+				return(<ExamPage exit={this.exit} time={1}/>)
+			}else if(showThreeMinuteExam){
+				return(<ExamPage time={3}/>)
+			}else if(showFiveMinuteExam){
+				return(<ExamPage time={5}/>)
+			}else{
+        return(
+            <div>
+            	<Header links={headerLinks}/>
+            	<LeftExamSelectionPanel>
+            		<OneMinuteSelection onClick={this.oneMinuteExamSelected} 
+            		isActive={this.state.oneMinuteExamEnabled}>
+            			One Minute
+            		</OneMinuteSelection>
+
+            		<ExamSelectionLine/>
+
+            		<ThreeMinuteSelection onClick={this.threeMinuteExamSelected} 
+            		isActive={this.state.threeMinuteExamEnabled}>
+            			Three Minutes
+            		</ThreeMinuteSelection>
+
+            		<ExamSelectionLine/>
+
+            		<FiveMinuteSelection onClick={this.fiveMinuteExamSelected} 
+            		isActive={this.state.fiveMinuteExamEnabled}>
+            			Five Minutes
+            		</FiveMinuteSelection>
+            	</LeftExamSelectionPanel>
+
+
+            	<RightExamSelectionPanel>
+            		<InstructionsHeader>
+            			INSTRUCTIONS
+            		</InstructionsHeader>
+
+            		<InstructionsDescription>
+            			{this.state.gameDescription}
+
+            		</InstructionsDescription>
+
+		            <ExamSelectionButton onClick={() => this.BeginExam()}>
+		              <p>START TEST</p>
+		            </ExamSelectionButton>
+
+            	</RightExamSelectionPanel>
+            </div>
+				)
+			}
+    }
+}
+
