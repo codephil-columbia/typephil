@@ -1,21 +1,8 @@
-import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
-
-import { getCurrentLessonForUser } from './actions/homepage';
+import React, {Component} from "react";
 
 import './style/counterPage.css'
-import { DeviceSignalWifiOff } from "material-ui/svg-icons";
 
-class TimerInput extends React.Component {
+class TimerInput extends Component {
   render() {
     return (
       <div style={{marginLeft:100}}>
@@ -203,30 +190,6 @@ class Counter extends React.Component {
       }
     }
   }
-
-
-
-  const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ 
-      fetchAllChapterNames, 
-      fetchAllPairs, 
-      fetchCompletedLessons,
-      fetchLessonById,
-      getCurrentLessonForUser
-    }, dispatch);
-  }
   
-  const mapStateToProps = ({ app, auth }) => {
-    return {
-      allChapters: app.allChapters,
-      isLoading: app.isLoading,
-      chapterLessonPairs: app.chapterLessonPairs,
-      completedLessons: app.completedLessons,
-      currentUser: auth.currentUser,
-      isLoggedIn: auth.isLoggedIn,
-      currentLessonName: app.currentLesson.lessonName
-    }
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+  export default Counter;
   

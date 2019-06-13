@@ -85,6 +85,7 @@ class Tutorial extends Component {
         this.tutorialService.getLesson(this.cache.get("lessonID")),
         this.tutorialService.getChapter(this.cache.get("chapterID"))
       ]).then(([ currentLesson, chapter ]) => {
+        console.log(currentLesson, chapter, "LearnPage");
         this.setUpTutorial(currentLesson, chapter)
       })
         .catch(err => console.log(err));
@@ -92,6 +93,7 @@ class Tutorial extends Component {
       this.setState({ nextURLLocation: "TutorialPage" });
       this.tutorialService.getTutorialInfo(this.state.uid)
         .then(({lesson, chapter})  => {
+          console.log(lesson, chapter, "Homepage");
           this.setUpTutorial(lesson, chapter)
         })
         .catch(err => console.log(err));
@@ -99,7 +101,7 @@ class Tutorial extends Component {
   }
 
   setUpTutorial(lesson, chapter) {
-    const { lessonDescriptions, lessonText, image } = lesson;
+    const { lessonDescriptions, lessonText, lessonImages } = lesson;
 
     const contentList = [];
     const contentTypeList = [];
@@ -122,7 +124,7 @@ class Tutorial extends Component {
       contentTypeList,
       lessonDescriptions, 
       lessonText,
-      lessonImages: image,
+      lessonImages,
       totalContentLength,
       content: contentList[0],
 

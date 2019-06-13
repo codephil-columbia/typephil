@@ -2,36 +2,17 @@ import React, { Component } from "react";
 import Button from 'react-button-component'
 import styled from 'styled-components';
 import ReactCountdownClock from 'react-countdown-clock'
-import Header from './components/header'
-import Tutorial from './GameTracking'
-import Stats from './Statistics'
-import "./style/KeyTracking.css"
-import MainPage from './Challenge'
-import { Connect, connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
+
+import Tutorial from './GameTracking'
+import Stats from './Statistics'
+import MainPage from './Challenge'
+import Header from './components/header'
+
+import "./style/KeyTracking.css"
+
 import data from "./offline_data.json"
-import { Route, Switch, Redirect } from 'react-router-dom'
-
-import { 
-    fetchAllChapterNames, 
-    fetchAllPairs, 
-    fetchCompletedLessons,
-    fetchLessonById
-  } from './actions/learn'
-  
-import { getCurrentLessonForUser } from './actions/homepage';
-
-const Ready = Button.extend`
-    margin-top:4vh;
-    height: 82px;	
-    width: 270px;	
-    border: 5px solid #F5A623;	
-    border-radius: 10px;	
-    background-color: #FFFFFF;
-    font-size:30px;
-`
-
 
 class KeyTracking extends Component{
     constructor(props){
@@ -214,28 +195,4 @@ class KeyTracking extends Component{
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ 
-      fetchAllChapterNames, 
-      fetchAllPairs, 
-      fetchCompletedLessons,
-      fetchLessonById,
-      getCurrentLessonForUser
-    }, dispatch);
-  }
-  
-  const mapStateToProps = ({ app, auth }) => {
-    return {
-      allChapters: app.allChapters,
-      isLoading: app.isLoading,
-      chapterLessonPairs: app.chapterLessonPairs,
-      completedLessons: app.completedLessons,
-      currentUser: auth.currentUser,
-      isLoggedIn: auth.isLoggedIn,
-      currentLessonName: app.currentLesson.lessonName
-    }
-  }
-
-  const main = withRouter(KeyTracking);
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(KeyTracking);
+export default KeyTracking;

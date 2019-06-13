@@ -3,3 +3,4 @@ src/style/.sass_cache
 src/.sass_cache
 *.map
 *.DS_STORE
+.vscode/

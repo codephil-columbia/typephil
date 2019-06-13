@@ -1,21 +1,8 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
-
-import { getCurrentLessonForUser } from './actions/homepage';
 
 import './style/counterPage.css'
-import { DeviceSignalWifiOff } from "material-ui/svg-icons";
 
-class TimerInput extends React.Component {
+class TimerInput extends Component {
   render() {
     return (
       <div style={{marginLeft:100}}>
@@ -137,53 +124,29 @@ class Counter extends React.Component {
       this.intervalHandle = setInterval(this.tick, 1000);
     }
   
-    render() {
-      const clicked = this.state.isClicked;
-      if(clicked){
+  render() {
+    const clicked = this.state.isClicked;
+    if(clicked){
+    return (
+      <div>
+      
+      </div>
+    );
+    }else{
       return (
         <div>
-        
-        </div>
-      );
-      }else{
-        return (
-          <div>
-            <div className="row">
-              <div className="col-md-4"></div>
-              <div className="col-md-4">
-                <TimerInput value={this.state.value} handleChange={this.handleChange} />
-                <Timer value={this.state.value} seconds={this.state.seconds} />
-                <StartButton startCountDown={this.startCountDown} value={this.state.value} />
-              </div>
+          <div className="row">
+            <div className="col-md-4"></div>
+            <div className="col-md-4">
+              <TimerInput value={this.state.value} handleChange={this.handleChange} />
+              <Timer value={this.state.value} seconds={this.state.seconds} />
+              <StartButton startCountDown={this.startCountDown} value={this.state.value} />
             </div>
           </div>
-        );
-      }
+        </div>
+      );
     }
   }
-
-
-
-  const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ 
-      fetchAllChapterNames, 
-      fetchAllPairs, 
-      fetchCompletedLessons,
-      fetchLessonById,
-      getCurrentLessonForUser
-    }, dispatch);
-  }
+}
   
-  const mapStateToProps = ({ app, auth }) => {
-    return {
-      allChapters: app.allChapters,
-      isLoading: app.isLoading,
-      chapterLessonPairs: app.chapterLessonPairs,
-      completedLessons: app.completedLessons,
-      currentUser: auth.currentUser,
-      isLoggedIn: auth.isLoggedIn,
-      currentLessonName: app.currentLesson.lessonName
-    }
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+  export default Counter;

@@ -49,7 +49,7 @@ class HomePage extends Component {
       this.tutorialService.getTutorialInfo(uid),
       this.tutorialService.getTutorialAvgs(uid),
       this.tutorialService.getLessonProgressInChapter(uid),
-    ])
+    ]);
   }
 
   redirectLesson = () => {
@@ -76,6 +76,8 @@ class HomePage extends Component {
       chapterProgress,
       username
     } = this.state;
+
+    console.log(this.state);
 
     const { lesson, chapter } = tutorialInfo;
     const { chapterImage } = chapter; 

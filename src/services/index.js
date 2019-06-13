@@ -309,7 +309,7 @@ class OfflineTutorialService {
 
     // If there are no records, return the first lesson
     if (userLessonRecords.length === 0) {
-      return this.getLesson("1");
+      return this.getLesson(1);
     }
 
     this.sortRecords(userLessonRecords, "lessonID");
@@ -338,7 +338,10 @@ class OfflineTutorialService {
 
   getLesson(lessonID) {
     const lessons = getLocalStorageVal("lessons");
-    return lessons.find(l => l.lessonID === lessonID);
+    console.log(lessons);
+    const lesson = lessons.find(l => l.lessonID === lessonID);
+    console.log(lesson);
+    return lesson;
   }
 
   getChapter(chapterID) {

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import styled from 'styled-components'
-import { postTutorialResults } from './actions/tutorial';
 
 import Counter from './BoatTrackingCounterPage'
 
@@ -719,13 +718,4 @@ class BoatGameTracking extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ postTutorialResults }, dispatch)
-}
-
-const mapStateToProps = ({ app }) => ({
-  chapterID: app.currentLesson.chapterID,
-  lessonID: app.currentLesson.lessonID
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(BoatGameTracking);
+export default BoatGameTracking;

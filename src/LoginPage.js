@@ -28,16 +28,6 @@ class LoginPage extends Component {
   handleLogin = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
-<<<<<<< HEAD
-    this.props.dispatchLogin(
-      username,
-      password
-    // ).then((res) => this.handleAfterLogin(res));
-    )
-    if (this.props.isLoggedIn) {
-      this.handleAfterLogin(true);
-    }
-=======
 
     this.userService.authenticate(username, password)
       .then(user => {
@@ -51,7 +41,6 @@ class LoginPage extends Component {
         console.log(err);
         this.setState({ loginWasSuccessful: false });
       })
->>>>>>> offline-actions
   }
 
   handleKeyPress = (e) => {

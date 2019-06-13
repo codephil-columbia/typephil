@@ -1,32 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import styled from 'styled-components'
+
 import Button from 'react-button-component'
 import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
-import styled from 'styled-components'
+
 import './style/font.css'
-
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
-
-import { getCurrentLessonForUser } from './actions/homepage';
-
-const CustomButton = Button.extend`
-    margin-top:4vh;
-    height: 82px;	
-    width: 270px;	
-    border: 5px solid #F5A623;	
-    border-radius: 10px;	
-    background-color: #FFFFFF;
-    font-size:30px;
-
-`
 
 const BoatracePlayButtonDiv = styled.div`
     p {
@@ -248,26 +229,4 @@ class BoatLevelSelect extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ 
-    fetchAllChapterNames, 
-    fetchAllPairs, 
-    fetchCompletedLessons,
-    fetchLessonById,
-    getCurrentLessonForUser
-  }, dispatch);
-}
-
-const mapStateToProps = ({ app, auth }) => {
-  return {
-    allChapters: app.allChapters,
-    isLoading: app.isLoading,
-    chapterLessonPairs: app.chapterLessonPairs,
-    completedLessons: app.completedLessons,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn,
-    currentLessonName: app.currentLesson.lessonName
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BoatLevelSelect);
+export default BoatLevelSelect;

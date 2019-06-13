@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import './style/spacerace.css';
-import './style/styles.css';
+import styled from 'styled-components'
 import Button from 'react-button-component'
+
 import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
-import styled from 'styled-components'
-
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
-
-import { getCurrentLessonForUser } from './actions/homepage';
 
 const SpaceracePlayButtonDiv = styled.div`
     p {
@@ -236,27 +224,6 @@ class Spacerace extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ 
-    fetchAllChapterNames, 
-    fetchAllPairs, 
-    fetchCompletedLessons,
-    fetchLessonById,
-    getCurrentLessonForUser
-  }, dispatch);
-}
 
-const mapStateToProps = ({ app, auth }) => {
-  return {
-    allChapters: app.allChapters,
-    isLoading: app.isLoading,
-    chapterLessonPairs: app.chapterLessonPairs,
-    completedLessons: app.completedLessons,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn,
-    currentLessonName: app.currentLesson.lessonName
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Spacerace);
+export default Spacerace; 
 

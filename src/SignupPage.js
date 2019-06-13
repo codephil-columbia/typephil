@@ -1,11 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-import { Redirect, Link } from 'react-router-dom';
-import { dispatchSignup, dispatchLogin } from './actions/auth';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-=======
->>>>>>> offline-actions
 import Header from './components/header';
 import Dropdown from 'react-dropdown';
 import moment from 'moment';
@@ -88,31 +81,16 @@ class SignupPage extends Component {
     e.preventDefault();
     const { firstName, lastName, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstName, lastName to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
-<<<<<<< HEAD
-    this.props.dispatchSignup({ 
-      firstName: firstname,
-      lastName: lastname,
-=======
     
     this.userService.signup({
       firstName, 
       lastName,
->>>>>>> offline-actions
       username,
       password,
       occupation,
       whichOccupation,
-<<<<<<< HEAD
-      gender,
-      dob,
-      schoolyear
-    });
-    this.props.dispatchLogin(username, password)
-    this.setState({ signedIn : true });
-=======
     }).then(user => this.props.onSuccessfulAuth(user.username, user.uid))
     .catch(err => console.log(err));
->>>>>>> offline-actions
   }
 
   // Conditions hold `true` iff there is an error.
@@ -265,21 +243,4 @@ class SignupPage extends Component {
   }
 }
 
-<<<<<<< HEAD
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn,
-    isSignedUp: state.isSignedUp,
-    usernameValid: state.usernameValid
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchSignup, dispatchLogin }, dispatch);
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);
-=======
 export default SignupPage;
->>>>>>> offline-actions
