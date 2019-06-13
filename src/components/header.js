@@ -57,7 +57,6 @@ const HeaderCenter = props => {
     )
 };
 
-
 const HeaderRight = props => {
     return (
         <ul className="navigation-list float-right nav-right-list">
@@ -90,21 +89,20 @@ const logout = (dispatch, history, onLogout) => {
     localStorage.setItem("uid", "");
     localStorage.setItem("isLoggedIn", false);
     localStorage.setItem("username", "");
-    onLogout();
   } else {
     dispatch();
   }
+  onLogout();
   history.push("/")
 }
 
 const ProfileOptions = props => {
-    console.log(props);
   return (
     <div className="dropdown">
       <button className="dropbtn">{ props.username ? props.username.charAt(0) : '' }</button>
 			<div className="dropdown-content">
 				<div>  
-					<Link to="/profile" className="nav-bar-options" >My Account</Link>
+					<Link to="/profile" className="nav-bar-options">My Account</Link>
 				</div>
 				<div className="nav-bar-options" onClick={() => logout(props.dispatch, props.history, props.onLogout)}>
 					Log Out

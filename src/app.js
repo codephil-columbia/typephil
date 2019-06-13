@@ -58,7 +58,7 @@ class App extends Component {
         <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history}/>} />
         <Route path="/learn" component={() => <Learn onLogout={this.onLogout} history={this.props.history}/>} />
         <Route path="/tutorial" component={Tutorial}/>
-        <Route path="/profile" component={Profile}/>
+        <Route path="/profile" component={() => <Profile onLogout={this.onLogout} history={this.props.history} />}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/games" component={GameSelect}/>
         <Route path="/spacerace" component={SpaceraceGame}/>

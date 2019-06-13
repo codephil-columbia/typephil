@@ -70,20 +70,41 @@ class UserService {
   signup = user => {
       return this.service.signup(user);
   }
+
+  getUser(uid) {
+    return this.service.getUser(uid);
+  }
+
+  changePassword(username, newPassword) {
+    return this.service.changePassword(username, newPassword);
+  }
 }
 
 class OnlineUserService {
   endpoints = Object.freeze({
     AUTHENTICATE: "/user/authenticate",
-    SIGN_UP: "/user/"
+    SIGN_UP: "/user/",
+
+    GET_USER: uid => `${api_url}/user/${uid}`,
+    EDIT_PASSWORD: `${api_url}/user/edit/password`
   });
 
   authenticate = (username, password) => {
+    console.log("calling authenticate")
     return sendPostReq(`${api_url}${this.endpoints.AUTHENTICATE}`, { username, password })
   }
 
   signup = user => {
-      return sendPostReq(`${api_url}${this.endpoints.SIGN_UP}`, { ...user })
+    console.log(user);
+    return sendPostReq(`${api_url}${this.endpoints.SIGN_UP}`, { ...user })
+  }
+
+  getUser(uid) {
+    return sendGetReq(this.endpoints.GET_USER(uid));
+  }
+
+  changePassword(username, newPassword) {
+    return sendPostReq(this.endpoints.EDIT_PASSWORD, { username, password: newPassword });
   }
 }
 
