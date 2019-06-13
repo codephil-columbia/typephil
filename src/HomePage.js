@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Line } from 'rc-progress';
 
-import { LocalStorageCache, TutorialService, ChapterService } from "./services";
+import { LocalStorageCache, TutorialService } from "./services";
 import ShowSpinner from './components/spinner';
 import Header from './components/header';
-import avgUserStats from './components/avgUserStats';
+import AvgUserStats from './components/avgUserStats';
 
 import "./style/styles.css";
 import "./style/HomePage.css";
@@ -16,8 +16,6 @@ class HomePage extends Component {
 
       this.cache = new LocalStorageCache();
       this.tutorialService = new TutorialService();
-      this.chapterService = new ChapterService();
-
       const uid = this.cache.get("uid");
 
       this.state = {
@@ -33,30 +31,29 @@ class HomePage extends Component {
 
         tutorialInfo: {},
         tutorialAvgs: {},
-        chapterProgress: {}
+        chapterProgress: ""
       }
   }
 
   componentDidMount() {
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true });
     this.setup(this.state.uid)
-      .then(
-        ([tutorialInfo, tutorialAvgs, chapterProgress]) => {
+      .then(([tutorialInfo, tutorialAvgs, chapterProgress]) => {
           this.setState({ tutorialInfo, tutorialAvgs, chapterProgress, isLoading: false });
-        }
-      );
+      })
+      .catch(err => console.log(err));
   }
 
   setup(uid) {
     return Promise.all([
       this.tutorialService.getTutorialInfo(uid),
       this.tutorialService.getTutorialAvgs(uid),
-      this.chapterService.getChapterProgressPercentage(uid),
+      this.tutorialService.getLessonProgressInChapter(uid),
     ])
   }
 
   redirectLesson = () => {
-      this.setState({redirectLesson: true})
+      this.setState({ redirectLesson: true })
   }
 
   formatText = (chapterName, lessonName) => {
@@ -80,16 +77,11 @@ class HomePage extends Component {
       username
     } = this.state;
 
-    console.log(this.state);
-
     const { lesson, chapter } = tutorialInfo;
     const { chapterImage } = chapter; 
-    const { percentageComplete } = chapterProgress;
     const { accuracy, wpm } = tutorialAvgs;
 
     const { title, lessonName } = this.formatText(chapter.chapterName, lesson.lessonName);
-    const stats = avgUserStats(badges, badgeDescriptions, [wpm, accuracy]);
-
     return (
       <div>
         <Header 
@@ -107,18 +99,23 @@ class HomePage extends Component {
             <div className="qs-lesson-info column" align="left">
               <h3 className="qs-lesson-title">{title}</h3>
               <h3 className="qs-lesson-excersise">{lessonName}</h3>
-              <Link to="/tutorial">
-                <img src="images/buttons/Start-button.svg"/> 
+              <Link 
+                to={{
+                  pathname: "/tutorial",
+                  state: { prevLocation: "HomePage" }
+                }}
+              >
+                <img src="images/buttons/Start-button.svg" alt="Page Modal"/> 
               </Link>
               <div className="homepage-spacing"> </div>
               <Line 
-                percent={percentageComplete} 
+                percent={chapterProgress} 
                 strokeWidth="2" 
                 strokeColor="#77BFA3" 
               />
               <div>
                 <h4 className="qs-progress-info">
-                  Current Progress - {percentageComplete}%
+                  Current Progress - {chapterProgress}%
                 </h4>
               </div>
             </div>
@@ -127,7 +124,11 @@ class HomePage extends Component {
             </div>
           </div>
           <hr className="line row"/>
-          {stats}
+          <AvgUserStats 
+            badges={badges} 
+            badgeDescriptions={badgeDescriptions} 
+            stats={[wpm, accuracy]}>
+          </AvgUserStats>
         </div>
       </div>
     )

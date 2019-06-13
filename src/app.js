@@ -51,8 +51,8 @@ class App extends Component {
   userHasBeenAuthenticated = () => {
     return (
       <Switch>
-        <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history}/>}/>
-        <Route path="/learn" component={Learn}/>
+        <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/learn" component={() => <Learn onLogout={this.onLogout} history={this.props.history}/>} />
         <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
@@ -83,7 +83,7 @@ class App extends Component {
       : this.userHasNotBeenAuthenticated()
     return (
       <React.Fragment>
-        { App }
+        {App}
       </React.Fragment>
     )
   }
@@ -98,10 +98,5 @@ const componentDidMount = () => {
 const componentWillUnmount = () => {
   this._isMounted = false;
 }
-
-const mapStateToProps = ({ auth, app }) => ({
-  auth,
-  app
-})
 
 export default withRouter(App);

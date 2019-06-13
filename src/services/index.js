@@ -57,7 +57,6 @@ class LocalStorageCache {
 class UserService {
   constructor() {
     if(process.env.REACT_APP_ENV === "offline") {
-      console.log("using offline service");
       this.service = new OfflineUserService();
     } else {
       this.service = new OnlineUserService();
@@ -122,13 +121,6 @@ class OfflineUserService {
         res(user);
       })
   }
-
-  // addUserToRecordList(uid) {
-  //   let records = getLocalStorageVal("records");
-  //   records.lessonRecords.push({ uid, })
-
-  //   setLocalStorageVal("records", recordsForUser);
-  // }
 }
 
 
@@ -139,6 +131,10 @@ class TutorialService {
     } else {
       this.service = new OnlineTutorialService();
     }
+  }
+
+  getLessonProgressInChapter(uid) {
+    return this.service.getLessonProgressInChapter(uid)
   }
 
   getTutorialInfo(uid) {
@@ -155,6 +151,14 @@ class TutorialService {
 
   getCompletedLessons(uid) {
     return this.service.getCompletedLessons(uid);
+  }
+
+  getLesson(lessonID) {
+    return this.service.getLesson(lessonID);
+  }
+
+  getChapter(chapterID) {
+    return this.service.getChapter(chapterID);
   }
 
   saveTutorialResult({
@@ -235,14 +239,35 @@ class OfflineTutorialService {
     })
   }
 
-  saveLessonRecord({ wpm, accuracy, uid, chapterID, lessonID }) {
-    let records = getLocalStorageVal("records");
-    records.lessonRecords.push({ wpm, uid, lessonID, chapterID, accuracy });
-
-    setLocalStorageVal("records", records);
-    return new Promise((res, rej) => {
-      res();
+  recordExists(uid, lessonID) {
+    const userRecords = this.getLessonRecords(uid);
+    return userRecords.find(l => l.lessonID === lessonID && l.uid === uid)
+  }
+  
+  updateRecord({ wpm, accuracy, uid, lessonID }) {
+    const { lessonRecords } = getLocalStorageVal("records");
+    // Update record in place
+    lessonRecords.forEach(record => {
+      if (record.uid === uid && record.lessonID === lessonID) {
+        if (Number(record.wpm) < Number(wpm)) {
+          record.wpm = Number(wpm);
+        }
+        if (Number(record.accuracy) < Number(accuracy)) {
+          record.accuracy = Number(accuracy);
+        }
+      }
     })
+  }
+
+  saveLessonRecord({ wpm, accuracy, uid, chapterID, lessonID }) {
+    if (this.recordExists(uid, lessonID)) {
+      this.updateRecord({ wpm, accuracy, uid, lessonID})
+    } else {
+      let records = getLocalStorageVal("records");
+      records.lessonRecords.push({ wpm, uid, lessonID, chapterID, accuracy });
+      setLocalStorageVal("records", records);
+    }
+    return new Promise((res, rej) => res());
   }
 
   saveChapterRecord({ chapterID, uid }) {
@@ -250,9 +275,6 @@ class OfflineTutorialService {
     records.chapterRecords.push({ uid, chapterID });
 
     setLocalStorageVal("records", records);
-    return new Promise((res, rej) => {
-      res();
-    })
   }
 
   getTutorialInfo(uid) {
@@ -261,7 +283,7 @@ class OfflineTutorialService {
       this.getCurrentChapter(uid)
     ]).then(([lesson, chapter]) => {
       return { lesson, chapter };
-    })
+    });
   }
 
   getTutorialAvgs(uid) {
@@ -287,7 +309,7 @@ class OfflineTutorialService {
 
     // If there are no records, return the first lesson
     if (userLessonRecords.length === 0) {
-      return this.lessons[0];
+      return this.getLesson("1");
     }
 
     this.sortRecords(userLessonRecords, "lessonID");
@@ -295,7 +317,7 @@ class OfflineTutorialService {
     const lastCompletedLesson = this.getLesson(lastCompletedRecord.lessonID);
     const nextLesson = this.getLesson(lastCompletedLesson.nextLessonID);
     
-    return new Promise((res, rej) => res(nextLesson));
+    return Promise.resolve(nextLesson);
   }
 
   getCurrentChapter(uid) {
@@ -303,7 +325,7 @@ class OfflineTutorialService {
 
     // If there are no records, return the first chapter
     if (userChapterRecords.length === 0) {
-      return this.chapters[0];
+      return new Promise(res => res(this.chapters[0]));
     }
 
     this.sortRecords(userChapterRecords, "chapterID");
@@ -321,13 +343,32 @@ class OfflineTutorialService {
 
   getChapter(chapterID) {
     const chapters = getLocalStorageVal("chapters");
-    return chapters.find(c => c.chapterID === chapterID);
+    return chapters.find(c => c.chapterID === Number(chapterID));
+  }
+
+  getLessonProgressInChapter(uid) {
+    const userChapterRecords = this.getChapterRecords(uid);
+
+    // If there are no records, return the first chapter
+    if (userChapterRecords.length === 0) {
+      return new Promise(res => res(0));
+    }
+
+    this.sortRecords(userChapterRecords, "chapterID");
+    const lastCompletedRecord = userChapterRecords[userChapterRecords.length - 1];
+    const lastCompletedChapter = this.getChapter(lastCompletedRecord.chapterID);
+    const nextChapter = this.getChapter(lastCompletedChapter.nextChapterID);
+
+    const { lessonRecords } = getLocalStorageVal("records");
+    const count = lessonRecords.filter(r => r.uid === uid && r.chapterID === nextChapter.chapterID).length;
+    const total = this.lessons.filter(l => l.chapterID === nextChapter.chapterID).length;
+        
+    return Promise.resolve(Math.floor(Number(count) / Number(total) * 100));
   }
 
   getCompletedLessons(uid) {
-    const { lessonRecords } = getLocalStorageVal("records");
-    const userRecords = lessonRecords.filter(l => l.uid === uid);
-    
+    const userRecords = this.getLessonRecords(uid);
+
     return new Promise((res, rej) => {
       res(userRecords);
     });
@@ -420,7 +461,7 @@ class OfflineChapterService {
   getChapterRecordsForUser(uid) {
     const { chapterRecords } = getLocalStorageVal("records");
     return new Promise((res, rej) => {
-      res(chapterRecords.map(r => r.uid === uid));
+      res(chapterRecords.filter(r => r.uid === uid));
     });
   }
 

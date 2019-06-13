@@ -56,8 +56,11 @@ class Learn extends Component {
     })
   }
   
-  doRestartLesson = lessonID => {
-    this.props.fetchLessonById({ lessonID });
+  doRestartLesson = (lessonID, chapterID) => {
+    this.cache.set("tutorialLessonSource", "LearnPage");
+    this.cache.set("lessonID", lessonID);
+    this.cache.set("chapterID", chapterID);
+
     this.setState({ shouldRedirectToLesson: true });
   }
 
@@ -79,7 +82,6 @@ class Learn extends Component {
     currentChapterIndex = Number(currentChapterIndex);
 
     if(currentChapterIndex + 1 >= chapterCount) {
-      console.log(currentChapterIndex + 1, chapterCount);
       currentChapterIndex = -1;
       shouldShowLessons = false;
     }  else {
@@ -114,21 +116,27 @@ class Learn extends Component {
       return <ShowSpinner />
     } 
 
+    if(this.state.shouldRedirectToLesson) {
+      return (
+        <Redirect 
+          to={{
+            pathname: "/tutorial",
+            state: { prevLocation: "LearnPage" }
+          }}
+        />
+      );
+    }
+    
     const { 
       headerLinks, 
       shouldShowLessons, 
       currentChapterIndex,  
       carouselDesc,
-      shouldRedirectToLesson,
       chapterLessonPairs, 
       chapterNames, 
       completedLessons,
       currentLesson
     } = this.state;
-
-    if(shouldRedirectToLesson) {
-      return <Redirect to="/tutorial" />
-    }
 
     let title;
     let body;
@@ -139,9 +147,9 @@ class Learn extends Component {
           completed={completedLessons} 
           mostRecentLessonName={currentLesson.lessonName}
           doRestartLesson={this.doRestartLesson}
+          
         />
       );
-      console.log(chapterLessonPairs[currentChapterIndex].chapter.chapterName)
       title = chapterLessonPairs[currentChapterIndex].chapter.chapterName
     } else {
       body = <ChaptersView chapters={chapterNames} userDidClickChapter={this.userDidClickChapter} />
@@ -150,7 +158,13 @@ class Learn extends Component {
 
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={this.cache.get("isLoggedIn")} username={this.cache.get("username")}/>
+        <Header 
+          links={headerLinks} 
+          isLoggedIn={this.cache.get("isLoggedIn")} 
+          username={this.cache.get("username")}
+          onLogout={this.props.onLogout}
+          history={this.props.history}
+        />
         <div className="content container title-container">
           <div className="title">
             <h2 className="title">Fundamentals of Typing Tutorial</h2>
@@ -161,11 +175,11 @@ class Learn extends Component {
               <div className="carousel-content column">
                 <div className="carousel-title">
                   <div onClick={this.prevChapter} className="learn-carousel-buttons left-carousel-button">
-                    <img src="images/buttons/Left_Arrow_Thin.svg"></img>
+                    <img src="images/buttons/Left_Arrow_Thin.svg" alt="Arrow Left"></img>
                   </div>
                   <h2 className="chapter-title">{title}</h2>
                   <div onClick={this.nextChapter} className="learn-carousel-buttons right-carousel-button">
-                    <img src="images/buttons/Right_Arrow_Thin.svg"></img>
+                    <img src="images/buttons/Right_Arrow_Thin.svg" alt="Arrow Right"></img>
                   </div>
               </div>
               <div className="carousel-desc">

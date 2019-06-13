@@ -1,12 +1,8 @@
-import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import { OrderedMap } from 'immutable';
 
 import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
-
-import { postTutorialResults } from '../actions/tutorial';
 
 import "../style/TutorialContent.css"
 
@@ -137,7 +133,7 @@ class LessonTutorialContent extends Component {
     } 
 
     const newCurrentKey = characterMapList[groupPtr].get(charPtr);
-    
+
     if(consecutiveIncorrectCount - 1 >= 0) {
       consecutiveIncorrectCount -= 1;
     }
@@ -165,9 +161,12 @@ class LessonTutorialContent extends Component {
         if(groupPtr + 1 < LESSON_LENGTH) {
           newCharPtr = 0;
           newGroupPtr = groupPtr + 1;
-        } else {
+        } else {  
+          // TODO Fix this mess :(
           this.props.isFinished();
           this.setState({ isFinished: true,  finishTime: Date.now() });
+          this.props.showStats();
+          this.removeEventListener();
           this.props.updateResults({
             time: this.calculateTutorialTime(),
             length: this.state.totalLength,
@@ -213,7 +212,7 @@ class LessonTutorialContent extends Component {
       correct.push(keyPressed);
     } else {
       consecutiveIncorrectCount += 1;
-      if(characterWanted == " ") {
+      if(characterWanted === " ") {
         styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_SPACE_STYLE);
       } else {
         styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
@@ -261,19 +260,19 @@ class LessonTutorialContent extends Component {
       groupIterator.push(groupPtr+1);
     }
     
-    groupIterator.forEach((i) => {
+    groupIterator.forEach(i => {
       const styleMapListForRow = styleMapList[i];
       const characterMapListForRow = characterMapList[i];
-      characterMapListForRow.mapKeys((index) => {
+      characterMapListForRow.mapKeys(index => {
         const char = characterMapListForRow.get(index);
         const style = styleMapListForRow.get(index);
-        row.push(<span className={style}>{char}</span>);
+        row.push(<span key={index} className={style}>{char}</span>);
       });
       rows.push(row);
       row = [];
     });
 
-    rows = rows.map(row => <div className="words">{[...row]}</div>);
+    rows = rows.map((row, key) => <div className="words" key={key}>{[...row]}</div>);
     return rows;
   };
 
@@ -329,16 +328,10 @@ class LessonTutorialContent extends Component {
   }
 
   render() {
-    const { isFinished } = this.state;
-    if(isFinished) {
-      this.removeEventListener();
-      this.props.showStats();
-    }
-
     const { rows } = this.state;
     let { currentKey } = this.state;
 
-    currentKey = (currentKey === " ") ? "spacebar" : currentKey;
+    currentKey = currentKey === " " ? "spacebar" : currentKey;
 
     return (
       <div className="content-wrapper">
@@ -350,20 +343,11 @@ class LessonTutorialContent extends Component {
           <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
           <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
         </Modal>
-        {rows}
+        { rows }
         <LessonTutorialHandsKeyboard currentKey={currentKey}/>
       </div>
     )
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ postTutorialResults }, dispatch)
-}
-
-const mapStateToProps = ({ app }) => ({
-  chapterID: app.currentLesson.chapterID,
-  lessonID: app.currentLesson.lessonID
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(LessonTutorialContent);
+export default LessonTutorialContent;

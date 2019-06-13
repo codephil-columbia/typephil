@@ -1,10 +1,7 @@
 import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import styled from 'styled-components'
-import { postTutorialResults } from './actions/tutorial';
 
 import Counter from './counterPage'
 
@@ -400,13 +397,4 @@ class GameTracking extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ postTutorialResults }, dispatch)
-}
-
-const mapStateToProps = ({ app }) => ({
-  chapterID: app.currentLesson.chapterID,
-  lessonID: app.currentLesson.lessonID
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(GameTracking);
+export default GameTracking;

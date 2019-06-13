@@ -1,7 +1,4 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import './style/Tutorial.css'
+import React, { Component, Fragment } from 'react';
 
 import LessonTutorialButtons from './components/TutorialButtons';
 import TutorialContent from './components/TutorialContent';
@@ -13,9 +10,9 @@ import ShowSpinner from './components/spinner';
 import TutorialStats from './components/TutorialStats';
 import TutorialImage from './components/TutorialImage';
 
-import { postTutorialResults, redirectToNextLesson } from './actions/tutorial';
-import { getCurrentLessonForUser } from './actions/homepage';
 import { TutorialService, LocalStorageCache } from './services';
+
+import './style/Tutorial.css'
 
 class Tutorial extends Component {
   constructor(props) {
@@ -54,7 +51,9 @@ class Tutorial extends Component {
         time: 0,
         length: 0,
         incorrect: 0
-      }
+      },
+
+      nextURLLocation: ""
     };
   }
 
@@ -79,14 +78,28 @@ class Tutorial extends Component {
     })
 
     this.setState({ isLoading: true });
-    this.tutorialService.getTutorialInfo(this.state.uid)
-      .then(({lesson: currentLesson, chapter})  => this.setUpTutorial(currentLesson, chapter))
-      .catch(err => console.log(err));
+
+    if(this.props.location.state.prevLocation === "LearnPage") {
+      this.setState({ nextURLLocation: "LearnPage" });
+      Promise.all([
+        this.tutorialService.getLesson(this.cache.get("lessonID")),
+        this.tutorialService.getChapter(this.cache.get("chapterID"))
+      ]).then(([ currentLesson, chapter ]) => {
+        this.setUpTutorial(currentLesson, chapter)
+      })
+        .catch(err => console.log(err));
+    } else {
+      this.setState({ nextURLLocation: "TutorialPage" });
+      this.tutorialService.getTutorialInfo(this.state.uid)
+        .then(({lesson, chapter})  => {
+          this.setUpTutorial(lesson, chapter)
+        })
+        .catch(err => console.log(err));
+    }
   }
 
-  setUpTutorial(currentLesson, chapter) {
-    console.log(currentLesson);
-    const { lessonDescriptions, lessonText, image } = currentLesson;
+  setUpTutorial(lesson, chapter) {
+    const { lessonDescriptions, lessonText, image } = lesson;
 
     const contentList = [];
     const contentTypeList = [];
@@ -101,10 +114,10 @@ class Tutorial extends Component {
       }
     });
     const totalContentLength = contentList.length;
-    currentLesson.chapterName = chapter.chapterName;
+    lesson.chapterName = chapter.chapterName;
 
     this.setState({
-      currentLesson,
+      currentLesson: lesson,
       contentList,
       contentTypeList,
       lessonDescriptions, 
@@ -274,6 +287,11 @@ class Tutorial extends Component {
       chapterID: this.state.currentLesson.chapterID,
       lessonID: this.state.currentLesson.lessonID
     });
+    if (this.state.nextURLLocation === "LearnPage") {
+      this.props.history.push("/learn");
+    } else {
+      window.location = "/tutorial";
+    }
   }
 
   // In the case the last rendered content is text, we still want to make sure we record the lesson, 
@@ -285,7 +303,12 @@ class Tutorial extends Component {
       uid: this.state.uid,
       chapterID: this.state.currentLesson.chapterID,
       lessonID: this.state.currentLesson.lessonID
-    })
+    });
+    if (this.state.nextURLLocation === "LearnPage") {
+      this.props.history.push("/learn");
+    } else {
+      window.location = "/tutorial";
+    }
   }
 
   showStats = () => {
@@ -307,12 +330,11 @@ class Tutorial extends Component {
       lessonImages,
       username
     } = this.state;
-
-    console.log(this.state);
     
     if (this.state.isLoading) {
       return <ShowSpinner />
     }
+
     const { content, userState } = this.getContent(indexPtr);
 
     let hasImage;
@@ -320,13 +342,12 @@ class Tutorial extends Component {
     if(userState === this.appState.READING && lessonImages[indexPtr] !== "") {
       hasImage = true;
       imagePath = lessonImages[indexPtr];
-      console.log(imagePath);
     } else {
       hasImage = false;
     }
 
     return (
-      <React.Fragment>
+      <Fragment>
         <Header links={headerLinks} isLoggedIn={true} username={username} 
         isTutorial={true} tutorialInfo={this.state.currentLesson}/>
         <div className="container-tutorial container tutorial">
@@ -378,24 +399,9 @@ class Tutorial extends Component {
             didUserPassLesson={didUserPassLesson}
           />
         </div>
-      </React.Fragment>
+      </Fragment>
     )
   }
 }
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators ({ 
-    postTutorialResults,
-    getCurrentLessonForUser,
-    redirectToNextLesson,
-  }, dispatch)
-}
-
-const mapStateToProps = ({ app, auth }) => ({
-  currentLesson: app.currentLesson,
-  chosenLessonFromLearn: app.chosenLessonFromLearn,
-  source: app.source,
-  currentUser: auth.currentUser
-})
 
 export default Tutorial;

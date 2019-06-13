@@ -14,7 +14,7 @@ class Keyboard extends Component {
         if(currentKey === "spacebar"){
             currentKey = "spacebar";
         } else if(isAlpha(currentKey)) {
-            if(currentKey == currentKey.toUpperCase()) {
+            if(currentKey === currentKey.toUpperCase()) {
                 shouldFillShift = true;
             } else {
                 shouldFillShift = false;

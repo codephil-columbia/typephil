@@ -1,19 +1,7 @@
 import React, { Component } from 'react';
-import Header from './components/header'
 import ShowSpinner from './components/spinner';
-import KeyPressTracker from './KeyTracking.js'
 import './style/CocoType.css'
 import styled from 'styled-components';
-
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
-
-import { getCurrentLessonForUser } from './actions/homepage';
-import { PassThrough } from 'stream';
 
 
 const GameText = styled.div`
