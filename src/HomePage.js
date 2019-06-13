@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Line } from 'rc-progress';
 
+import { LocalStorageCache, TutorialService } from "./services";
 import ShowSpinner from './components/spinner';
 import Header from './components/header';
-import avgUserStats from './components/avgUserStats';
-
-import { 
-  getCurrentLessonForUser,
-  getAverageStats,
-  getChapterProgress
-} from './actions/homepage';
+import AvgUserStats from './components/avgUserStats';
 
 import "./style/styles.css";
 import "./style/HomePage.css";
@@ -21,27 +14,46 @@ class HomePage extends Component {
   constructor(props) {
       super(props);
 
-      const { uid } = this.props.currentUser;
-      this.setup(uid);
+      this.cache = new LocalStorageCache();
+      this.tutorialService = new TutorialService();
+      const uid = this.cache.get("uid");
 
       this.state = {
+        uid,
+        username: this.cache.get("username"),
+        isLoading: true,
         headerLinks: ["Learn", "Home" ],
         badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
           "Accuracy is how \n accurately you type \n words that appear."
-        ]
+        ],
+
+        tutorialInfo: {},
+        tutorialAvgs: {},
+        chapterProgress: ""
       }
   }
 
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    this.setup(this.state.uid)
+      .then(([tutorialInfo, tutorialAvgs, chapterProgress]) => {
+          this.setState({ tutorialInfo, tutorialAvgs, chapterProgress, isLoading: false });
+      })
+      .catch(err => console.log(err));
+  }
+
   setup(uid) {
-    this.props.getCurrentLessonForUser(uid);
-    this.props.getAverageStats(uid);
-    this.props.getChapterProgress(uid);
+    return Promise.all([
+      this.tutorialService.getTutorialInfo(uid),
+      this.tutorialService.getTutorialAvgs(uid),
+      this.tutorialService.getLessonProgressInChapter(uid),
+    ])
   }
 
   redirectLesson = () => {
-      this.setState({redirectLesson: true})
+      this.setState({ redirectLesson: true })
   }
 
   formatText = (chapterName, lessonName) => {
@@ -51,35 +63,34 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log(this.props);
-    const { 
-      badges, 
-      headerLinks, 
-      badgeDescriptions 
-    } = this.state;
-    const { 
-      chapterName, 
-      lessonName, 
-      hasFinishedLoading, 
-      imagePath,
-      avgWPM,
-      avgAccuracy,
-      isStatsLoading,
-      percentageComplete,
-      isPercentageLoading,
-    } = this.props;
-
-    if(!hasFinishedLoading || isStatsLoading || isPercentageLoading) {
+    if(this.state.isLoading) {
       return ShowSpinner();
     }
 
-    const { title, lesson } = this.formatText(chapterName, lessonName);
-    const stats = avgUserStats(badges, badgeDescriptions, [avgWPM, avgAccuracy]);
-    const { username } = this.props.currentUser
+    const { 
+      badges, 
+      headerLinks, 
+      badgeDescriptions,
+      tutorialAvgs,
+      tutorialInfo,
+      chapterProgress,
+      username
+    } = this.state;
 
+    const { lesson, chapter } = tutorialInfo;
+    const { chapterImage } = chapter; 
+    const { accuracy, wpm } = tutorialAvgs;
+
+    const { title, lessonName } = this.formatText(chapter.chapterName, lesson.lessonName);
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={true} username={username} />
+        <Header 
+          links={headerLinks} 
+          isLoggedIn={true} 
+          username={username} 
+          history={this.props.history}
+          onLogout={this.props.onLogout}
+        />
         <div className="container">
           <div className="title-homepage row">
             <p className="homepage-welcome">Welcome Back, {username}!</p>
@@ -87,58 +98,41 @@ class HomePage extends Component {
           <div className="quickstart row">
             <div className="qs-lesson-info column" align="left">
               <h3 className="qs-lesson-title">{title}</h3>
-              <h3 className="qs-lesson-excersise">{lesson}</h3>
-              <Link to="/tutorial">
-                <img src="images/buttons/Start-button.svg"/> 
+              <h3 className="qs-lesson-excersise">{lessonName}</h3>
+              <Link 
+                to={{
+                  pathname: "/tutorial",
+                  state: { prevLocation: "HomePage" }
+                }}
+              >
+                <img src="images/buttons/Start-button.svg" alt="Page Modal"/> 
               </Link>
               <div className="homepage-spacing"> </div>
               <Line 
-                percent={percentageComplete} 
+                percent={chapterProgress} 
                 strokeWidth="2" 
                 strokeColor="#77BFA3" 
               />
               <div>
                 <h4 className="qs-progress-info">
-                  Current Progress - {percentageComplete}%
+                  Current Progress - {chapterProgress}%
                 </h4>
               </div>
             </div>
             <div className="qs-image column chapter-image-homepage">
-              <img src={imagePath} alt="lesson" className="homepage-chapter-image"></img>
+              <img src={chapterImage} alt="lesson" className="homepage-chapter-image"></img>
             </div>
           </div>
           <hr className="line row"/>
-          {stats}
+          <AvgUserStats 
+            badges={badges} 
+            badgeDescriptions={badgeDescriptions} 
+            stats={[wpm, accuracy]}>
+          </AvgUserStats>
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ auth, app, statsForUser, chapterProgressPercentage }) => {
-  return {
-    lessonName: app.currentLesson.lessonName,
-    chapterName: app.currentLesson.chapterName,
-    chapter: app.chapter,
-    hasFinishedLoading: app.currentLesson.hasFinishedLoading,
-    showSpinner: app.currentLesson.showSpinner,
-    imagePath: app.currentLesson.chapterImage,
-    avgWPM: statsForUser.wpm,
-    avgAccuracy: statsForUser.accuracy,
-    isStatsLoading: statsForUser.isStatsLoading,
-    percentageComplete: chapterProgressPercentage.percentageComplete,
-    isPercentageLoading: chapterProgressPercentage.isPercentageLoading,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ 
-    getCurrentLessonForUser,
-    getAverageStats,
-    getChapterProgress
-  }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePage;

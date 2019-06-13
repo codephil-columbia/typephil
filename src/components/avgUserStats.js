@@ -6,15 +6,11 @@ const splitBadgeDescriptionByLine = desc => {
 
 const contentClass = ['square', 'circle', 'badge'];
 
-const avgUserStats = (
-  badgeList, 
-  badgeDescriptions, 
-  stats
-) => {
+const AvgUserStats = ({ badges, badgeDescriptions, stats }) => {
 
   return (
     <div className="row">
-      {badgeList.map((badge, i) => {
+      {badges.map((badge, i) => {
         const badgeDescSplit = splitBadgeDescriptionByLine(badgeDescriptions[i]);
         return (
           <div className="column badge" key={i}>
@@ -24,8 +20,8 @@ const avgUserStats = (
             <div className="badge-description" align="left">
               <h3 className="badge-name">{badge}</h3>
               <p>
-                {badgeDescSplit.map(desc => {
-                  return <span>{desc}<br></br></span>
+                {badgeDescSplit.map((desc, i) => {
+                  return <span key={i}>{desc}<br></br></span>
                 })}
               </p>
             </div>
@@ -36,4 +32,4 @@ const avgUserStats = (
   )
 }
 
-export default avgUserStats;
+export default AvgUserStats;

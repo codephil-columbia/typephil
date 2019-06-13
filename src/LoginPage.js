@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
-import { dispatchLogin } from './actions/auth';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+
+import { UserService, LocalStorageCache } from "./services";
 import Header from './components/header';
 
 import './style/LoginPage.css';
 import './style/styles.css';
-// import './style/milligram.min.css';
 
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
+
+    this.userService = new UserService();
+    this.cache = new LocalStorageCache();
+
     this.state = {
       username: "",
       password: "",
@@ -27,6 +28,7 @@ class LoginPage extends Component {
   handleLogin = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
+<<<<<<< HEAD
     this.props.dispatchLogin(
       username,
       password
@@ -35,18 +37,26 @@ class LoginPage extends Component {
     if (this.props.isLoggedIn) {
       this.handleAfterLogin(true);
     }
+=======
+
+    this.userService.authenticate(username, password)
+      .then(user => {
+        this.cache.set("uid", user.uid);
+        this.cache.set("username", user.username);
+
+        this.props.onSuccessfulAuth(user.username, user.uid);
+        this.setState({ loginWasSuccessful: true });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ loginWasSuccessful: false });
+      })
+>>>>>>> offline-actions
   }
 
   handleKeyPress = (e) => {
     if(e.key === 'Enter')
       this.handleLogin(e);
-  }
-
-  handleAfterLogin = (res) => { // TODO handle blur pause while login is being processed
-    if(res) { // res = 1 means successful login TODO unhack this since props are passed
-      this.setState({ loginWasSuccessful: true });
-      this.props.onSuccessfulAuth();
-    }
   }
 
   handleSignup = e => {
@@ -73,9 +83,6 @@ class LoginPage extends Component {
   render() {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
-
-    //if(isLoggedIn) 
-      //return <Redirect to="home"/>
 
     return (
       <div>
@@ -135,7 +142,7 @@ class LoginPage extends Component {
                   <div className="form-inputs">
                     <input type="text" placeholder="Enter your username" id="nameField" className="form-input" onChange={this.getUsernameData} onKeyPress={this.handleKeyPress}/>
                     <input type="password" placeholder="Enter your password" id="passwordField" className="form-input" onChange={this.getPasswordData} onKeyPress={this.handleKeyPresss}/>
-                    <div className={this.state.touched['signin'] ? (this.props.isLoggedIn ? "warning-hide" : "warning") : "warning-hide"}>Sorry, your username or password is incorrect.</div>
+                    <div className={this.state.touched['signin'] ? (this.loginWasSuccessful ? "warning-hide" : "warning") : "warning-hide"}>Sorry, your username or password is incorrect.</div>
                   </div>
                   <div className="form-buttons">
                     <button className="form-button button-primary solid" onBlur={this.handleBlur('signin')}>SIGN IN</button>
@@ -152,31 +159,4 @@ class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isloggedIn: state.auth.isLoggedIn,
-    currentUser: state.auth.currentUser
-  }
-}
-
-/*
-const mapStateToProps = ({ auth }) => {
-  return {
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn
-  }
-}
-*/
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchLogin }, dispatch);
-}
-
-const componentDidMount = () => {
-  this._isMounted = true;
-}
-const componentWillUnmount = () => {
-  this._isMounted = false;
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default LoginPage;

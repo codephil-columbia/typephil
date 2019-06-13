@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 
 import showLessonStats from './components/lessonStats';
 import Lock from './components/lock';
-import { lime100 } from 'material-ui/styles/colors';
 
 
 class LessonsView extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentSelectedLesson: this.props.lessons[0] };
+
+    this.state = {
+      currentSelectedLesson: this.props.lessons[0]
+    };
   }
 
   userDidChangeLesson = (clickedLesson) => {
@@ -16,10 +18,9 @@ class LessonsView extends Component {
   }
 
   hasCompletedLesson = (currentLesson, completed) => {
-    if (completed === null) {
+    if (!completed) {
       return;
     }
-
     return completed.find(({ lessonID }) => {
       return currentLesson.lessonID === lessonID;
     });
@@ -46,16 +47,25 @@ class LessonsView extends Component {
     } = this.props;
 
     const { currentSelectedLesson } = this.state;
+    
     const lessonStats = this.hasCompletedLesson(currentSelectedLesson, completed);
 
     // Lessons don't come sorted
     this.props.lessons.sort(this.sortLessonsByName);
 
+    console.log(this.props, currentSelectedLesson, lessonStats);
+
+
     let lessonStatView;
     if(lessonStats) {
       lessonStatView = showLessonStats(currentSelectedLesson, lessonStats, doRestartLesson);
     } else {
-      lessonStatView = <Lock isMostRecentLesson={this.props.mostRecentLessonName === currentSelectedLesson.lessonName} />
+      lessonStatView = 
+        <Lock 
+          isMostRecentLesson={this.props.mostRecentLessonName === currentSelectedLesson.lessonName}
+          currentSelectedLesson={currentSelectedLesson}
+          doRestartLesson={doRestartLesson}
+        />
     }
 
     return (

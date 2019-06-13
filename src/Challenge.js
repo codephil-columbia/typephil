@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import './style/Challenge.css';
 import './style/styles.css';
 import Button from 'react-button-component'
 import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
-
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
-
-import { getCurrentLessonForUser } from './actions/homepage';
 
 const CustomButton = Button.extend`
     margin-top:4vh;
@@ -27,7 +16,6 @@ const CustomButton = Button.extend`
     font-size:30px;
 
 `
-
 
 class Challenge extends Component {
   constructor(props) {
@@ -137,26 +125,4 @@ class Challenge extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ 
-    fetchAllChapterNames, 
-    fetchAllPairs, 
-    fetchCompletedLessons,
-    fetchLessonById,
-    getCurrentLessonForUser
-  }, dispatch);
-}
-
-const mapStateToProps = ({ app, auth }) => {
-  return {
-    allChapters: app.allChapters,
-    isLoading: app.isLoading,
-    chapterLessonPairs: app.chapterLessonPairs,
-    completedLessons: app.completedLessons,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn,
-    currentLessonName: app.currentLesson.lessonName
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Challenge);
+export default Challenge;

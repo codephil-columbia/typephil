@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { PersistGate } from 'redux-persist/integration/react'
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom'
+
 import App from './app'
+import { lessons, chapters } from "./services/tutorialLessons";
 
 import { Authenticator, initLocalStorage, DatabaseAccessor } from "./offline/db";
 import { User } from "./offline/models";
@@ -12,7 +12,28 @@ import { tutorialText } from "./tutorialText";
 import './style/styles.scss';
 import './style/index.scss';
 
-import { store, persistor } from './store';
+/**
+ * If the app is online, we keep one reference to the lessons and chapters
+ * to avoid reintantiating it multiple times throughout the app
+ */
+export let tutorialData = {}
+if (process.env.REACT_APP_ENV === "offline") {
+  tutorialData.lessons = lessons;
+  tutorialData.chapters = chapters;
+}
+
+export function initLocalStorage() {
+  localStorage.setItem("hasBeenSetup", true);
+  localStorage.setItem("users", JSON.stringify([]));
+  localStorage.setItem("records", JSON.stringify({lessonRecords: [], chapterRecords: []}));
+  localStorage.setItem("lessons", JSON.stringify(lessons));
+  localStorage.setItem("chapters", JSON.stringify(chapters));
+} 
+
+const hasBeenSetup = localStorage.getItem("hasBeenSetup");
+if (process.env.REACT_APP_ENV === "offline" && !hasBeenSetup) {
+  initLocalStorage();
+}
 
 const Loading = () => {
   return <div>Loading</div>
@@ -42,12 +63,8 @@ auth.signUp(new User(
 // localStorage.clear();
 
 ReactDOM.render(
-  <PersistGate loading={<Loading/>} persistor={persistor}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App/>
-      </BrowserRouter>
-    </Provider>
-  </PersistGate>,
+  <BrowserRouter>
+    <App/>
+  </BrowserRouter>,
   document.getElementById('root')
 );

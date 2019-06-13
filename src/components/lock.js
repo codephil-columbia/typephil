@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import '../style/LessonTutorialButtons.css';
 
-const lock = ({ isMostRecentLesson }) => {
+const lock = ({ isMostRecentLesson, doRestartLesson, currentSelectedLesson }) => {
   return (
     <div>
       <div>
@@ -10,10 +10,18 @@ const lock = ({ isMostRecentLesson }) => {
       </div>
       <div>
         {isMostRecentLesson ? (
-          <React.Fragment>
+          <Fragment>
             <h4>In order to continue onto other lessons, you must for complete this one!</h4>
-            <Link to="/tutorial" className="button learn-start-button">Start lesson</Link>
-          </React.Fragment>
+            <Link 
+              to={{
+                pathname: "/tutorial",
+                state: { prevLocation: "LearnPage" }
+              }} className="button learn-start-button"
+              onClick={() => doRestartLesson(currentSelectedLesson.lessonID, currentSelectedLesson.chapterID)}
+            >
+              Start lesson
+            </Link>
+          </Fragment>
         ) : (
           <h4 className="lock-description">To unlock this lesson, please complete the previous lessons</h4>
         )}

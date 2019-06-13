@@ -1,36 +1,26 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
-import './style/Learn.css';
 
 import Header from './components/header'
 import LessonsView from './LessonsView';
 import ChaptersView from './ChaptersView';
 import ShowSpinner from './components/spinner';
 
-import { 
-  fetchAllChapterNames, 
-  fetchAllPairs, 
-  fetchCompletedLessons,
-  fetchLessonById
-} from './actions/learn'
+import { ChapterService, TutorialService, LocalStorageCache } from './services';
 
-import { getCurrentLessonForUser } from './actions/homepage';
+import './style/Learn.css';
 
 class Learn extends Component {
   constructor(props) {
     super(props);
 
-    this.props.fetchAllChapterNames();
-    this.props.fetchAllPairs(this.props.currentUser.uid);
-    this.props.fetchCompletedLessons(this.props.currentUser.uid);
-
-    if(this.props.currentLessonName === "") {
-      this.props.getCurrentLessonForUser(this.props.currentUser.uid);
-    }
+    this.chapterService = new ChapterService();
+    this.tutorialService = new TutorialService();
+    this.cache = new LocalStorageCache();
 
     this.state = {
+      isLoading: true,
+      uid: this.cache.get("uid"),
       shouldRedirectToLesson: false,
       currentChapterIndex: -1,
       shouldShowLessons: false,
@@ -39,9 +29,38 @@ class Learn extends Component {
       headerLinks: ["Learn", "Home"],
     }
   }
+
+  componentDidMount() {
+    this.setState({isLoading: true});
+
+    Promise.all([
+      this.chapterService.getChapterNames(),
+      this.chapterService.getChaptersAndLessons(),
+      this.tutorialService.getCompletedLessons(this.state.uid),
+      this.tutorialService.getCurrentLesson(this.state.uid)
+    ]).then(([
+        chapterNames, 
+        chapterLessonPairs, 
+        completedLessons,
+        currentLesson
+      ]) => {
+      this.setState({ 
+        chapterNames, 
+        chapterLessonPairs, 
+        completedLessons, 
+        currentLesson,
+        isLoading: false
+      })
+    }).catch(err => {
+      console.log(err);
+    })
+  }
   
-  doRestartLesson = lessonID => {
-    this.props.fetchLessonById({ lessonID });
+  doRestartLesson = (lessonID, chapterID) => {
+    this.cache.set("tutorialLessonSource", "LearnPage");
+    this.cache.set("lessonID", lessonID);
+    this.cache.set("chapterID", chapterID);
+
     this.setState({ shouldRedirectToLesson: true });
   }
 
@@ -55,15 +74,14 @@ class Learn extends Component {
   nextChapter = () => {
     let { 
       currentChapterIndex,
-      shouldShowLessons
+      shouldShowLessons,
+      chapterLessonPairs
     } = this.state;
 
-    const { chapterLessonPairs } = this.props;
     const chapterCount = chapterLessonPairs.length;
     currentChapterIndex = Number(currentChapterIndex);
 
     if(currentChapterIndex + 1 >= chapterCount) {
-      console.log(currentChapterIndex + 1, chapterCount);
       currentChapterIndex = -1;
       shouldShowLessons = false;
     }  else {
@@ -75,8 +93,7 @@ class Learn extends Component {
   }
 
   prevChapter = () => {
-    let { currentChapterIndex,shouldShowLessons } = this.state;
-    const { chapterLessonPairs } = this.props;
+    let { currentChapterIndex,shouldShowLessons, chapterLessonPairs } = this.state;
     const chapterCount = chapterLessonPairs.length;
     currentChapterIndex = Number(currentChapterIndex);
     
@@ -95,29 +112,31 @@ class Learn extends Component {
   }
 
   render() {
-    const { 
-      isLoading, 
-      chapterLessonPairs, 
-      allChapters, 
-      completedLessons,
-      currentLessonName
-    } = this.props;
-
-    if(isLoading) {
+    if(this.state.isLoading) {
       return <ShowSpinner />
     } 
 
+    if(this.state.shouldRedirectToLesson) {
+      return (
+        <Redirect 
+          to={{
+            pathname: "/tutorial",
+            state: { prevLocation: "LearnPage" }
+          }}
+        />
+      );
+    }
+    
     const { 
       headerLinks, 
       shouldShowLessons, 
       currentChapterIndex,  
       carouselDesc,
-      shouldRedirectToLesson
+      chapterLessonPairs, 
+      chapterNames, 
+      completedLessons,
+      currentLesson
     } = this.state;
-
-    if(shouldRedirectToLesson) {
-      return <Redirect to="/tutorial" />
-    }
 
     let title;
     let body;
@@ -126,22 +145,26 @@ class Learn extends Component {
         <LessonsView 
           lessons={chapterLessonPairs[currentChapterIndex].lessons} 
           completed={completedLessons} 
-          mostRecentLessonName={currentLessonName}
+          mostRecentLessonName={currentLesson.lessonName}
           doRestartLesson={this.doRestartLesson}
+          
         />
       );
-      title = chapterLessonPairs[currentChapterIndex]['chapterName']
+      title = chapterLessonPairs[currentChapterIndex].chapter.chapterName
     } else {
-      body = <ChaptersView chapters={allChapters} userDidClickChapter={this.userDidClickChapter} />
+      body = <ChaptersView chapters={chapterNames} userDidClickChapter={this.userDidClickChapter} />
       title = "Chapter Overview"
     }
 
-    console.log(this.props);
-    // console.log(chapterLessonPairs[currentChapterIndex]);
-    // const { chapter } = chapterLessonPairs[currentChapterIndex]
     return (
       <div>
-        <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
+        <Header 
+          links={headerLinks} 
+          isLoggedIn={this.cache.get("isLoggedIn")} 
+          username={this.cache.get("username")}
+          onLogout={this.props.onLogout}
+          history={this.props.history}
+        />
         <div className="content container title-container">
           <div className="title">
             <h2 className="title">Fundamentals of Typing Tutorial</h2>
@@ -152,11 +175,11 @@ class Learn extends Component {
               <div className="carousel-content column">
                 <div className="carousel-title">
                   <div onClick={this.prevChapter} className="learn-carousel-buttons left-carousel-button">
-                    <img src="images/buttons/Left_Arrow_Thin.svg"></img>
+                    <img src="images/buttons/Left_Arrow_Thin.svg" alt="Arrow Left"></img>
                   </div>
                   <h2 className="chapter-title">{title}</h2>
                   <div onClick={this.nextChapter} className="learn-carousel-buttons right-carousel-button">
-                    <img src="images/buttons/Right_Arrow_Thin.svg"></img>
+                    <img src="images/buttons/Right_Arrow_Thin.svg" alt="Arrow Right"></img>
                   </div>
               </div>
               <div className="carousel-desc">
@@ -173,26 +196,4 @@ class Learn extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ 
-    fetchAllChapterNames, 
-    fetchAllPairs, 
-    fetchCompletedLessons,
-    fetchLessonById,
-    getCurrentLessonForUser
-  }, dispatch);
-}
-
-const mapStateToProps = ({ app, auth }) => {
-  return {
-    allChapters: app.allChapters,
-    isLoading: app.isLoading,
-    chapterLessonPairs: app.chapterLessonPairs,
-    completedLessons: app.completedLessons,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn,
-    currentLessonName: app.currentLesson.lessonName
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Learn);
+export default Learn;

@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { dispatchPassword } from './actions/auth';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Header from './components/header';
-import localforage from 'localforage';
 import './style/styles.css';
 import './style/ProfilePage.css';
 
@@ -135,15 +130,4 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { 
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ dispatchPassword }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default Profile;
