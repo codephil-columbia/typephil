@@ -5,6 +5,7 @@ import Button from 'react-button-component'
 import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
+import { LocalStorageCache } from './services';
 
 const CustomButton = Button.extend`
     margin-top:4vh;
@@ -20,11 +21,17 @@ const CustomButton = Button.extend`
 class Challenge extends Component {
   constructor(props) {
     super(props);
+
+    this.cache = new LocalStorageCache();
+    
     this.state = { 
       headerLinks: ["Games", "Learn", "Home"],
       isEzActive:false,
       isMidActive:false,
-      isHardActive: false
+      isHardActive: false,
+
+      isLoggedIn: this.cache.get("isLoggedIn"),
+      username: this.cache.get("username")
     }
     this.BeginChallenge=this.BeginChallenge.bind(this)
     this.EzSelected= this.EzSelected.bind(this)
@@ -96,7 +103,7 @@ class Challenge extends Component {
 
       return (
         <div className="challenge-game-selection-background">
-          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
+          <Header links={headerLinks} isLoggedIn={this.state.isLoggedIn} username={this.state.username}/>
           <div className="game-title-container">
             <div className="game-description-title">
                 <p>Challenge</p>

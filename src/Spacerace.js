@@ -5,6 +5,7 @@ import Button from 'react-button-component'
 import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
+import { LocalStorageCache } from './services';
 
 const SpaceracePlayButtonDiv = styled.div`
     p {
@@ -117,11 +118,17 @@ const SpaceraceGameSelectionBackground = styled.div`
 class Spacerace extends Component {
   constructor(props) {
     super(props);
+
+    this.cache = new LocalStorageCache();
+
     this.state = { 
       headerLinks: ["Games", "Learn", "Home"],
       isEzActive:false,
       isMidActive:false,
-      isHardActive: false
+      isHardActive: false,
+
+      isLoggedIn: this.cache.get("isLoggedIn"),
+      username: this.cache.get("username")
     }
     this.BeginSpaceRace=this.BeginSpaceRace.bind(this)
     this.EzSelected= this.EzSelected.bind(this)
@@ -164,15 +171,15 @@ class Spacerace extends Component {
     console.log(state.isEzActive)
     console.log(state.isMidActive)
     console.log(state.isHardActive)
-    if(state.isEzActive == true)
+    if(state.isEzActive)
     {
       difficulty="easy"
     }
-    else if(state.isMidActive == true)
+    else if(state.isMidActive)
     {
       difficulty="medium"
     }
-    else if(state.isHardActive == true)
+    else if(state.isHardActive)
     {
       difficulty="hard"
     }
@@ -195,7 +202,7 @@ class Spacerace extends Component {
 
       return (
         <SpaceraceGameSelectionBackground>
-          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
+          <Header links={headerLinks} isLoggedIn={this.state.isLoggedIn} username={this.state.username}/>
           <SpaceraceGameTitleContainer>
             <SpaceraceGameDescriptionTitle>
                 <p>Spacerace</p>

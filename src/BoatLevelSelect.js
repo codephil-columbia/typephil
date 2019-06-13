@@ -8,6 +8,7 @@ import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
 
 import './style/font.css'
+import { LocalStorageCache } from './services';
 
 const BoatracePlayButtonDiv = styled.div`
     p {
@@ -125,11 +126,17 @@ const BoatraceGameSelectionBackground = styled.div`
 class BoatLevelSelect extends Component {
   constructor(props) {
     super(props);
+
+    this.cache = new LocalStorageCache();
+
     this.state = { 
       headerLinks: ["Games", "Learn", "Home"],
       isEzActive:false,
       isMidActive:false,
-      isHardActive: false
+      isHardActive: false,
+
+      isLoggedIn: this.cache.get("isLoggedIn"),
+      username: this.cache.get("username")
     }
     this.BeginChallenge=this.BeginChallenge.bind(this)
     this.EzSelected= this.EzSelected.bind(this)
@@ -201,7 +208,7 @@ class BoatLevelSelect extends Component {
 
       return (
         <BoatraceGameSelectionBackground>
-          <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
+          <Header links={headerLinks} isLoggedIn={this.state.isLoggedIn} username={this.state.username}/>
           <BoatraceGameTitleContainer>
             <BoatraceGameDescriptionTitle>
                 <p>Ready, Set, Type!</p>
