@@ -60,7 +60,7 @@ class App extends Component {
         <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route path="/selectGames" component={GameSelect}/>
+        <Route path="/games" component={GameSelect}/>
         <Route path="/spacerace" component={SpaceraceGame}/>
         <Route path="/boat" component={Boat}/> 
         <Route path="/userStats" component={DataDashboard}/>

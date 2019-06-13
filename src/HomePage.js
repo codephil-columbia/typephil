@@ -22,7 +22,7 @@ class HomePage extends Component {
         uid,
         username: this.cache.get("username"),
         isLoading: true,
-        headerLinks: ["Learn", "Home" ],
+        headerLinks: ["Games", "Learn", "Home" ],
         badges: ["WPM", "Accuracy"],
         badgeDescriptions: [
           "Words Per Minute. \n The faster you type, \n the higher the number",
