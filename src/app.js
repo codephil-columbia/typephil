@@ -60,6 +60,13 @@ class App extends Component {
         <Route path="/tutorial" component={Tutorial}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
+        <Route path="/selectGames" component={GameSelect}/>
+        <Route path="/spacerace" component={SpaceraceGame}/>
+        <Route path="/boat" component={Boat}/> 
+        <Route path="/userStats" component={DataDashboard}/>
+        <Route path="/challenge" component={Challenge}/>
+        <Route path="/coco" component={KeyTracker}/>
+        <Route path="/finalstats" component={Stats}/>
         <Route path="/" component={HomePage}/>
         <Route path="/404"component={Component404} />
       </Switch>
@@ -72,14 +79,7 @@ class App extends Component {
     return (
       <Switch>
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route path="/selectGames" component={GameSelect}/>
-        <Route path="/spacerace" component={SpaceraceGame}/>
-        <Route path="/boat" component={Boat}/> 
-        <Route path="/userStats" component={DataDashboard}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route path="/challenge" component={Challenge}/>
-        <Route path="/coco" component={KeyTracker}/>
-        <Route path="/finalstats" component={Stats}/>
         <Route component={Component404} />
       </Switch>
     )
