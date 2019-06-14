@@ -69,8 +69,8 @@ class LessonsView extends Component {
     }
 
     return (
-      <div className="container lesson-wrapper"> 
-        <div className="container lesson-left">
+      <div className="learn-container lesson-wrapper"> 
+        <div className="learn-container lesson-left">
           {lessons.map((lesson, i) => {
             if(lesson.lessonName === currentSelectedLesson.lessonName) { 
               return (
@@ -105,7 +105,7 @@ class LessonsView extends Component {
           })}
         </div>
         <vl className="lesson-sep"/>
-        <div className="container lesson-right">
+        <div className="learn-container lesson-right">
           <div className="lesson-stats">
             { lessonStatView }
           </div>

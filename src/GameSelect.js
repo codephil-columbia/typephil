@@ -207,7 +207,9 @@ export default class GameSelect extends Component {
 
         return(
             <div>
-            	<Header links={headerLinks}/>
+		        <Header 
+		          links={headerLinks} 
+		        />
 
             	<LeftGameSelectionPanel>
             		<SpaceRaceSelection onClick={this.spaceraceSelected} 

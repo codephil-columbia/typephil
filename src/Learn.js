@@ -26,7 +26,7 @@ class Learn extends Component {
       shouldShowLessons: false,
       carouselTitle: "Chapter Overview",
       carouselDesc: "",
-      headerLinks: ["Learn", "Home"],
+      headerLinks: ["Games", "Learn", "Home"],
     }
   }
 
@@ -165,9 +165,9 @@ class Learn extends Component {
           onLogout={this.props.onLogout}
           history={this.props.history}
         />
-        <div className="content container title-container">
-          <div className="title">
-            <h2 className="title">Fundamentals of Typing Tutorial</h2>
+        <div className="content learn-container title-container">
+          <div className="learn-title">
+            <h2 className="learn-title">Fundamentals of Typing Tutorial</h2>
           </div>
           <div className="block">
             <div className="carousel row">

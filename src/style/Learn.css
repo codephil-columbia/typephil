@@ -1,4 +1,4 @@
-.title {
+.learn-title {
   margin-top: 3%;
   color: #77BFA3;
   font-size: 3.5rem;
@@ -7,6 +7,16 @@
   margin-left: 9rem;
   margin-bottom: 4rem;
   font-weight: 400; }
+
+.learn-container {
+
+  max-width: 30vw;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  width: 90% !important;
+  max-width: 100vw !important;
+}
 
 .title-container {
   text-align: left; }
@@ -28,7 +38,8 @@
 .learn-carousel-buttons {
   background-color: white;
   border: white;
-  color: #77BFA3; }
+  color: #77BFA3; 
+  cursor: pointer;}
 
 .left-carousel-button {
   padding-left: 20rem; }
@@ -82,7 +93,7 @@
   margin-bottom: 5rem; }
 
 .lesson-right {
-  margin-left: 5rem; }
+  padding-left: 10vw; }
 
 .lesson-left {
   text-align: left; }
@@ -172,7 +183,10 @@
 
 .chapter {
   display: flex;
-  margin-bottom: 2%; }
+  margin-bottom: 2%; 
+  cursor: pointer;
+
+}
 
 .num {
   margin-top: 4px;
@@ -201,7 +215,9 @@
   padding-left: 200px;
   padding-top: 5px; }
   .lesson-view-text:hover {
-    color: #77BFA3; }
+    color: #77BFA3; 
+    cursor: pointer;
+  }
 
 .percent-sign {
   font-size: 2.5rem;
@@ -225,8 +241,8 @@
     font-size: 2rem;
     padding-left: 160px; } }
 @media only screen and (max-width: 1300px) {
-  .title {
-    font-size: 2.5rem;
+  .learn-title {
+    font-size: 2.8rem;
     margin-right: -10rem; }
 
   .chapter-title {
@@ -287,9 +303,9 @@
     font-size: 2rem;
   }
 
-  .title {
-    font-size: 2.2rem;
-    margin-right: -11rem; }
+  .learn-title {
+    font-size: 2.8rem;
+    margin-left: 4rem; }
 
   .chapter-title {
     font-weight: 500;
@@ -313,7 +329,7 @@
     font-weight: 500;
     line-height: 1.5;
     font-size: 1.8rem;
-    padding-left: 50px; }
+    padding-left: 1px; }
 
   .left-carousel-button {
     padding-left: 15rem; }
@@ -334,7 +350,7 @@
     font-weight: 500;
     line-height: 1.5;
     font-size: 1.8rem;
-    padding-left: 25px; }
+    padding-left: 1px; }
 
   .left-carousel-button {
     padding-left: 10rem; }

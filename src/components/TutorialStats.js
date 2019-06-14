@@ -14,7 +14,7 @@ const TutorialStats = ({ time, length, incorrect, didUserPassLesson }) => {
           <h1><b>{Math.trunc(time)}</b></h1>
         </div>
       </div>
-      <div className="row">
+      <div className="row tutorial-stats-caption">
         <div className="column">
           <h1>WPM</h1>
         </div>
