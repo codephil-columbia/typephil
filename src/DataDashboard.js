@@ -3,6 +3,8 @@ import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
 import styled  from 'styled-components'
+import { LocalStorageCache} from "./services";
+
 
 import './style/font.css'
 
@@ -286,11 +288,14 @@ const SideButtonImage = styled.div`
 export default class DataDashboard extends Component{
     constructor(props) {
         super(props);
+        this.cache = new LocalStorageCache();
+
         this.resetOptions=this.resetOptions.bind(this)
         this.activateProgress=this.activateProgress.bind(this)
         this.activateGameScore=this.activateGameScore.bind(this)
         this.activateBadges=this.activateBadges.bind(this)
         this.state = { 
+            username: this.cache.get("username"),
             headerLinks: ["Games", "Learn", "Home"],
             progressActive:true,
             gameScoreActive:false,
@@ -332,12 +337,20 @@ export default class DataDashboard extends Component{
         console.log(this.props.data)
         console.log(this.state.progressActive)
         const { 
+            badges, 
             headerLinks, 
-          } = this.state;
+            username
+        } = this.state; 
         return (
             <div>
-             <Header links={headerLinks}/>
-            <ContentContainer>
+                <Header 
+                    links={headerLinks} 
+                    isLoggedIn={true} 
+                    username={username} 
+                    history={this.props.history}
+                    onLogout={this.props.onLogout}
+                />   
+                <ContentContainer>
                 <SideBar>
                     <SideTab onClick={this.activateProgress} isActive={this.state.progressActive}>
                       <SideButtonImage>

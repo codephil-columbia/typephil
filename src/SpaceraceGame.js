@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import Header from './components/header';
 import Statistics from './SpaceraceStats'
 import Spacerace from './Spacerace'
+import { LocalStorageCache} from "./services";
+
 import data from "./offline_data.json"
 
 
@@ -133,8 +135,11 @@ const StartingInstructions = styled.div`
 class SpaceraceGame extends React.Component {
   constructor(props) {
     super(props);
+    this.cache = new LocalStorageCache();
+
 
     this.state = {
+      username: this.cache.get("username"),
       headerLinks: ["Games", "Learn", "Home"],
       AvailableWords:[],
       FirstWords:["Friday", "Monday", "Sunday"],
@@ -574,8 +579,9 @@ class SpaceraceGame extends React.Component {
     const { live3 } = this.state;
 
     const { 
-      headerLinks,
-      wordList, 
+      badges, 
+      headerLinks, 
+      username
     } = this.state;
 
     if(this.state.showMainPage){
@@ -584,7 +590,13 @@ class SpaceraceGame extends React.Component {
       console.log("starting wpm: " + this.state.wpm)
         return (
           <SpaceRaceBackground>
-            <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
+		        <Header 
+              links={headerLinks} 
+              isLoggedIn={true} 
+              username={username} 
+              history={this.props.history}
+              onLogout={this.props.onLogout}
+						/>
             <LivesContainer>
               <Lives className="Lives">
                 <img height="auto" width="100%" src={live1}/>

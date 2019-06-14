@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
+import { LocalStorageCache} from "./services";
+
 
 import styled  from 'styled-components'
 
@@ -135,7 +137,10 @@ const HighScoreLabel = styled.div`
 export default class Statistics extends Component{
     constructor(props) {
         super(props);
+        this.cache = new LocalStorageCache();
+
         this.state = { 
+            username: this.cache.get("username"),
             headerLinks: ["Games", "Learn", "Home"],
         }
 
@@ -159,11 +164,21 @@ export default class Statistics extends Component{
     {
         console.log(this.props.data)
         const { 
+            badges, 
             headerLinks, 
-          } = this.state;
+            username
+        } = this.state;
+
         return (
             <div>
-                <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} />
+                <Header 
+                    links={headerLinks} 
+                    isLoggedIn={true} 
+                    username={username} 
+                    history={this.props.history}
+                    onLogout={this.props.onLogout}
+                />
+
                 <StatsWrapper>
                 	<StatsHeader>GAME STATS</StatsHeader>
                     <StatsRow>

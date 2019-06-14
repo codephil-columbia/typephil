@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ReactCountdownClock from 'react-countdown-clock'
+import { LocalStorageCache} from "./services";
+
 
 import Header from './components/header'
 import Tutorial from './BoatGameTracking'
@@ -11,6 +13,8 @@ import data from "./offline_data.json"
 class BoatGame extends Component{
     constructor(props){
         super(props);
+        this.cache = new LocalStorageCache();
+
         this.initiate=this.initiate.bind(this)
         this.beginGames=this.beginGames.bind(this)
         this.endGames=this.endGames.bind(this)
@@ -35,6 +39,7 @@ class BoatGame extends Component{
             playerDifficulty:1,
             baseDifficulty:1,
             showMainPage:true,
+            username: this.cache.get("username"),
             headerLinks: ["Games", "Learn", "Home"],
         };
     }
@@ -223,12 +228,20 @@ class BoatGame extends Component{
     }else if(this.state.isPlayerReady){
         {
             const { 
-                headerLinks, 
-                } = this.state;
+				badges, 
+				headerLinks, 
+				username
+			} = this.state;
 
             return(  
                 <div>
-                    <Header links={headerLinks}></Header>
+                    <Header 
+                        links={headerLinks} 
+                        isLoggedIn={true} 
+                        username={username} 
+                        history={this.props.history}
+                        onLogout={this.props.onLogout}
+                    />                    
                     <div className="countdown-clock-description">Starting Game In...</div>
                     <div style={{width:"100vw", height:"45vh", display:"flex", justifyContent:"center", alignItems:"center"}}>
                         <ReactCountdownClock className="countdown-clock" color="#52B094" seconds={3} size={300} onComplete={this.beginGames}/> 
@@ -239,13 +252,21 @@ class BoatGame extends Component{
         }
         }else if(this.state.gameStart){
             const { 
-                headerLinks,
-              } = this.state;
+				badges, 
+				headerLinks, 
+				username
+            } = this.state;
             
             return(
             <div className="">
-                <Header links={headerLinks}></Header>
-                <Tutorial playerHasLost={this.endGames} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
+                    <Header 
+                        links={headerLinks} 
+                        isLoggedIn={true} 
+                        username={username} 
+                        history={this.props.history}
+                        onLogout={this.props.onLogout}
+                    /> 
+                    <Tutorial playerHasLost={this.endGames} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
             </div>
             )
         }else if(this.state.playerHasLost){
