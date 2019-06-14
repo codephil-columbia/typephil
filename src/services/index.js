@@ -2,7 +2,8 @@ import axios from "axios";
 import uuid from "uuid";
 
 import {api_url} from "../constants";
-import { tutorialData } from "..";
+import {tutorialData} from "..";
+import {applyTextTransformer} from "../middleware/requestTextConverter";
 
 const sendPostReq = (url, data) => {
   return axios.post(url, data)
@@ -365,7 +366,9 @@ class OfflineTutorialService {
     const lastCompletedLesson = this.getLesson(lastCompletedRecord.lessonID);
     const nextLesson = this.getLesson(lastCompletedLesson.nextLessonID);
     
-    return Promise.resolve(nextLesson);
+    return Promise.resolve(
+      applyTextTransformer(nextLesson)
+    );
   }
 
   getCurrentChapter(uid) {
@@ -386,7 +389,8 @@ class OfflineTutorialService {
 
   getLesson(lessonID) {
     const lessons = getLocalStorageVal("lessons");
-    const lesson = lessons.find(l => l.lessonID === lessonID);
+    let lesson = lessons.find(l => l.lessonID === lessonID);
+    lesson = applyTextTransformer(lesson)
     return lesson;
   }
 
@@ -398,7 +402,7 @@ class OfflineTutorialService {
   getLessonProgressInChapter(uid) {
     const userChapterRecords = this.getChapterRecords(uid);
     let currentChapterID;
-    // If there are no records, return the first chapter
+
     if (userChapterRecords.length === 0) {
       currentChapterID = 1;
     } else {
@@ -415,10 +419,7 @@ class OfflineTutorialService {
 
   getCompletedLessons(uid) {
     const userRecords = this.getLessonRecords(uid);
-
-    return new Promise((res, rej) => {
-      res(userRecords);
-    });
+    return Promise.resolve(userRecords);
   }
 
   getChapterRecords(uid) {
@@ -540,14 +541,14 @@ class OfflineChapterService {
     const chapters = getLocalStorageVal("chapters");
     const lessons = getLocalStorageVal("lessons");
 
-    return new Promise((res, rej) => {
-      const chaptersAndLessons = chapters.map(chapter => {
-        const lessonsInChapter = lessons.filter(l => l.chapterID === chapter.chapterID)
-        return {chapter, lessons:lessonsInChapter}
-      });
-
-      res(chaptersAndLessons);
-    })
+    const chaptersAndLessons = chapters.map(chapter => {
+      const lessonsInChapter = lessons.filter(l => l.chapterID === chapter.chapterID)
+      return {
+        chapter, 
+        lessons:applyTextTransformer(lessonsInChapter)
+      }
+    });
+    return Promise.resolve(chaptersAndLessons);
   }
 }
 
