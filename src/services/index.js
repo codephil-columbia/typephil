@@ -90,12 +90,10 @@ class OnlineUserService {
   });
 
   authenticate = (username, password) => {
-    console.log("calling authenticate")
     return sendPostReq(`${api_url}${this.endpoints.AUTHENTICATE}`, { username, password })
   }
 
   signup = user => {
-    console.log(user);
     return sendPostReq(`${api_url}${this.endpoints.SIGN_UP}`, { ...user })
   }
 
@@ -266,12 +264,12 @@ class OfflineTutorialService {
   }
 
   lastLessonInChapter = {
-		"1": "6",
-		"2": "12",
-		"3": "25",
-		"4": "30",
-		"5": "36",
-		"6": "40",
+		1: 6,
+		2: 12,
+		3: 25,
+		4: 30,
+		5: 36,
+		6: 40,
 	}
 
   saveTutorialResult({
@@ -282,13 +280,11 @@ class OfflineTutorialService {
     lessonID
   }) {
     if (this.lastLessonInChapter[chapterID] === lessonID) {
-      this.saveChapterRecord(chapterID, uid);
+      this.saveChapterRecord({ chapterID, uid });
     }
     
     this.saveLessonRecord({ wpm, accuracy, uid, chapterID, lessonID });
-    return new Promise((res, rej) => {
-      res();
-    })
+    return Promise.resolve(0);
   }
 
   recordExists(uid, lessonID) {
@@ -390,9 +386,7 @@ class OfflineTutorialService {
 
   getLesson(lessonID) {
     const lessons = getLocalStorageVal("lessons");
-    console.log(lessons);
     const lesson = lessons.find(l => l.lessonID === lessonID);
-    console.log(lesson);
     return lesson;
   }
 
@@ -403,21 +397,19 @@ class OfflineTutorialService {
 
   getLessonProgressInChapter(uid) {
     const userChapterRecords = this.getChapterRecords(uid);
-
+    let currentChapterID;
     // If there are no records, return the first chapter
     if (userChapterRecords.length === 0) {
-      return new Promise(res => res(0));
+      currentChapterID = 1;
+    } else {
+      this.sortRecords(userChapterRecords, "chapterID");
+      const lastCompletedChapter = this.getChapter(userChapterRecords[userChapterRecords.length - 1].chapterID);
+      currentChapterID = lastCompletedChapter.nextChapterID;
     }
 
-    this.sortRecords(userChapterRecords, "chapterID");
-    const lastCompletedRecord = userChapterRecords[userChapterRecords.length - 1];
-    const lastCompletedChapter = this.getChapter(lastCompletedRecord.chapterID);
-    const nextChapter = this.getChapter(lastCompletedChapter.nextChapterID);
-
     const { lessonRecords } = getLocalStorageVal("records");
-    const count = lessonRecords.filter(r => r.uid === uid && r.chapterID === nextChapter.chapterID).length;
-    const total = this.lessons.filter(l => l.chapterID === nextChapter.chapterID).length;
-        
+    const count = lessonRecords.filter(r => r.uid === uid && r.chapterID === currentChapterID).length;
+    const total = this.lessons.filter(l => l.chapterID === currentChapterID).length;
     return Promise.resolve(Math.floor(Number(count) / Number(total) * 100));
   }
 
