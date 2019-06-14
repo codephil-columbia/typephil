@@ -76,9 +76,7 @@ class HomePage extends Component {
       chapterProgress,
       username
     } = this.state;
-
-    console.log(this.state);
-
+    
     const { lesson, chapter } = tutorialInfo;
     const { chapterImage } = chapter; 
     const { accuracy, wpm } = tutorialAvgs;

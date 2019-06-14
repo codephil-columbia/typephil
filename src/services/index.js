@@ -2,7 +2,8 @@ import axios from "axios";
 import uuid from "uuid";
 
 import {api_url} from "../constants";
-import { tutorialData } from "..";
+import {tutorialData} from "..";
+import {applyTextTransformer} from "../middleware/requestTextConverter";
 
 const sendPostReq = (url, data) => {
   return axios.post(url, data)
@@ -70,12 +71,23 @@ class UserService {
   signup = user => {
       return this.service.signup(user);
   }
+
+  getUser(uid) {
+    return this.service.getUser(uid);
+  }
+
+  changePassword(username, newPassword) {
+    return this.service.changePassword(username, newPassword);
+  }
 }
 
 class OnlineUserService {
   endpoints = Object.freeze({
     AUTHENTICATE: "/user/authenticate",
-    SIGN_UP: "/user/"
+    SIGN_UP: "/user/",
+
+    GET_USER: uid => `${api_url}/user/${uid}`,
+    EDIT_PASSWORD: `${api_url}/user/edit/password`
   });
 
   authenticate = (username, password) => {
@@ -83,7 +95,15 @@ class OnlineUserService {
   }
 
   signup = user => {
-      return sendPostReq(`${api_url}${this.endpoints.SIGN_UP}`, { ...user })
+    return sendPostReq(`${api_url}${this.endpoints.SIGN_UP}`, { ...user })
+  }
+
+  getUser(uid) {
+    return sendGetReq(this.endpoints.GET_USER(uid));
+  }
+
+  changePassword(username, newPassword) {
+    return sendPostReq(this.endpoints.EDIT_PASSWORD, { username, password: newPassword });
   }
 }
 
@@ -245,12 +265,12 @@ class OfflineTutorialService {
   }
 
   lastLessonInChapter = {
-		"1": "6",
-		"2": "12",
-		"3": "25",
-		"4": "30",
-		"5": "36",
-		"6": "40",
+		1: 6,
+		2: 12,
+		3: 25,
+		4: 30,
+		5: 36,
+		6: 40,
 	}
 
   saveTutorialResult({
@@ -261,13 +281,11 @@ class OfflineTutorialService {
     lessonID
   }) {
     if (this.lastLessonInChapter[chapterID] === lessonID) {
-      this.saveChapterRecord(chapterID, uid);
+      this.saveChapterRecord({ chapterID, uid });
     }
     
     this.saveLessonRecord({ wpm, accuracy, uid, chapterID, lessonID });
-    return new Promise((res, rej) => {
-      res();
-    })
+    return Promise.resolve(0);
   }
 
   recordExists(uid, lessonID) {
@@ -348,7 +366,9 @@ class OfflineTutorialService {
     const lastCompletedLesson = this.getLesson(lastCompletedRecord.lessonID);
     const nextLesson = this.getLesson(lastCompletedLesson.nextLessonID);
     
-    return Promise.resolve(nextLesson);
+    return Promise.resolve(
+      applyTextTransformer(nextLesson)
+    );
   }
 
   getCurrentChapter(uid) {
@@ -369,9 +389,8 @@ class OfflineTutorialService {
 
   getLesson(lessonID) {
     const lessons = getLocalStorageVal("lessons");
-    console.log(lessons);
-    const lesson = lessons.find(l => l.lessonID === lessonID);
-    console.log(lesson);
+    let lesson = lessons.find(l => l.lessonID === lessonID);
+    lesson = applyTextTransformer(lesson)
     return lesson;
   }
 
@@ -382,30 +401,25 @@ class OfflineTutorialService {
 
   getLessonProgressInChapter(uid) {
     const userChapterRecords = this.getChapterRecords(uid);
+    let currentChapterID;
 
-    // If there are no records, return the first chapter
     if (userChapterRecords.length === 0) {
-      return new Promise(res => res(0));
+      currentChapterID = 1;
+    } else {
+      this.sortRecords(userChapterRecords, "chapterID");
+      const lastCompletedChapter = this.getChapter(userChapterRecords[userChapterRecords.length - 1].chapterID);
+      currentChapterID = lastCompletedChapter.nextChapterID;
     }
 
-    this.sortRecords(userChapterRecords, "chapterID");
-    const lastCompletedRecord = userChapterRecords[userChapterRecords.length - 1];
-    const lastCompletedChapter = this.getChapter(lastCompletedRecord.chapterID);
-    const nextChapter = this.getChapter(lastCompletedChapter.nextChapterID);
-
     const { lessonRecords } = getLocalStorageVal("records");
-    const count = lessonRecords.filter(r => r.uid === uid && r.chapterID === nextChapter.chapterID).length;
-    const total = this.lessons.filter(l => l.chapterID === nextChapter.chapterID).length;
-        
+    const count = lessonRecords.filter(r => r.uid === uid && r.chapterID === currentChapterID).length;
+    const total = this.lessons.filter(l => l.chapterID === currentChapterID).length;
     return Promise.resolve(Math.floor(Number(count) / Number(total) * 100));
   }
 
   getCompletedLessons(uid) {
     const userRecords = this.getLessonRecords(uid);
-
-    return new Promise((res, rej) => {
-      res(userRecords);
-    });
+    return Promise.resolve(userRecords);
   }
 
   getChapterRecords(uid) {
@@ -527,14 +541,14 @@ class OfflineChapterService {
     const chapters = getLocalStorageVal("chapters");
     const lessons = getLocalStorageVal("lessons");
 
-    return new Promise((res, rej) => {
-      const chaptersAndLessons = chapters.map(chapter => {
-        const lessonsInChapter = lessons.filter(l => l.chapterID === chapter.chapterID)
-        return {chapter, lessons:lessonsInChapter}
-      });
-
-      res(chaptersAndLessons);
-    })
+    const chaptersAndLessons = chapters.map(chapter => {
+      const lessonsInChapter = lessons.filter(l => l.chapterID === chapter.chapterID)
+      return {
+        chapter, 
+        lessons:applyTextTransformer(lessonsInChapter)
+      }
+    });
+    return Promise.resolve(chaptersAndLessons);
   }
 }
 

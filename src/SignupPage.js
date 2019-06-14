@@ -81,7 +81,7 @@ class SignupPage extends Component {
     e.preventDefault();
     const { firstName, lastName, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstName, lastName to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
-    
+  
     this.userService.signup({
       firstName, 
       lastName,
