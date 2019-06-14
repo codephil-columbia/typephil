@@ -8,7 +8,7 @@ import { postTutorialResults } from './actions/tutorial';
 
 import Counter from './ExamCounterPage'
 
-import "./style/BoatTracking.css"
+import "./style/Exam.css"
 
 const BACKSPACE = "Backspace";
 const DEFAULT_STYLE = "default-character character";
@@ -27,95 +27,8 @@ const ModalCountDownDiv = styled.div`
   padding-bottom: 1rem;
 `
 
-const BoatraceGameBackground = styled.div`
-    background-image: url(./images/games/Waves_extended.svg);
-    //background-position: center bottom -130vh;
-    background-position: center bottom -130vh;
-    background-repeat: no-repeat;
-    background-size: 150vw auto;
-    // height: 100vh;
+const ExamBackground = styled.div`
 
-    @media only screen and (max-width: 2200px) {
-      background-position: center bottom -140vh;
-    }
-
-    @media only screen and (max-width: 1900px) {
-      background-position: center bottom -135vh;
-    }
-    @media only screen and (max-width: 1850px) {
-      background-position: center bottom -130vh;
-    }
-    @media only screen and (max-width: 1800px) {
-      background-position: center bottom -125vh;
-    }
-    @media only screen and (max-width: 1750px) {
-      background-position: center bottom -120vh;
-    }
-    @media only screen and (max-width: 1700px) {
-      background-position: center bottom -100vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1650px) {
-      background-position: center bottom -95vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1600px) {
-      background-position: center bottom -90vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1550px) {
-      background-position: center bottom -85vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1500px) {
-      background-position: center bottom -80vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1450px) {
-      background-position: center bottom -75vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1400px) {
-      background-position: center bottom -70vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1350px) {
-      background-position: center bottom -65vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1300px) {
-      background-position: center bottom -60vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1250px) {
-      background-position: center bottom -55vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1200px) {
-      background-position: center bottom -50vh;
-      height: 92vh;
-    }
-    @media only screen and (max-width: 1150px) {
-      background-position: center bottom -45vh;
-    }
-    @media only screen and (max-width: 1100px) {
-      background-position: center bottom -40vh;
-    }
-    @media only screen and (max-width: 1050px) {
-      background-position: center bottom -35vh;
-    }
-    @media only screen and (max-width: 1000px) {
-      background-position: center bottom -30vh;
-    }
-    @media only screen and (max-width: 950px) {
-      background-position: center bottom -25vh;
-    }
-    @media only screen and (max-width: 900px) {
-      background-position: center bottom -20vh;
-    }
-    @media only screen and (max-width: 850px) {
-      background-position: center bottom -15vh;
-    }
 `
 
 const GameText = styled.div`
@@ -130,12 +43,6 @@ const CounterNumber = styled.div`
 
 `
 
-const BoatContainer = styled.div`
-  display:flex;
-  flex-direction:column;
-  bottom: -1vh;
-`
-
 const Boat = styled.div`
   margin-left:${props => props.displacement}vw;
   padding-bottom: 9.5vh;
@@ -144,57 +51,7 @@ const Boat = styled.div`
   transition: all .8s ease-in-out;
 `
 
-const BoatImage = styled.div`
-  content: url(./images/games/Boat.svg);
-  width: 15vw;
-
-  @media only screen and (max-width: 1400px) {
-    width: 20vw;
-  }
-  @media only screen and (max-width: 1150px) {
-    width: 25vw;
-  }
-  @media only screen and (max-width: 1000px) {
-    width: 25vw;
-  }
-`
-
-const BoatText = styled.div`
-  z-score: 10;
-  position: relative;
-  padding-left:5vw;
-  margin-bottom: -4vh;
-  font-weight: bold;
-
-  @media only screen and (max-width: 1400px) {
-    padding-left:7vw;
-  }
-  @media only screen and (max-width: 1150px) {
-    padding-left: 7.5vw;
-  }
-  @media only screen and (max-width: 1000px) {
-    padding-left: 7.5vw;
-  }
-`
-const PlayerText=styled.div`
-  z-score: 10;
-  position: relative;
-  padding-left:6.8vw;
-  margin-bottom: -4vh;
-  font-weight: bold;
-
-  @media only screen and (max-width: 1400px) {
-    padding-left:9vw;
-  }
-  @media only screen and (max-width: 1150px) {
-    padding-left: 11vw;
-  }
-  @media only screen and (max-width: 1000px) {
-    padding-left: 11vw;
-  }
-`
-
-const BoatParagraphText = styled.div`
+const ExamParagraphText = styled.div`
   display:flex; 
   flex-direction:row; 
   text-align:center;
@@ -529,7 +386,7 @@ class BoatGameTracking extends Component {
     });
 
     // rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw", backgroundColor:"white"}} className="line">{[...row]}</p>);
-    rows = rows.map(row => <LineStyling className="line">{[...row]}</LineStyling>);
+    rows = rows.map(row => <LineStyling className="examLine">{[...row]}</LineStyling>);
     console.log(rows)
     return rows;
   };
@@ -620,29 +477,29 @@ class BoatGameTracking extends Component {
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
     return (
 
-      <BoatraceGameBackground>
+      <ExamBackground>
+
+        <ExamParagraphText>
+            {rows[0] ? rows[0]: <div> </div>}
+        </ExamParagraphText>
+        <ExamParagraphText>
+            {rows[1] ? rows[1]: <div> </div>}
+        </ExamParagraphText>  
+        <ExamParagraphText>
+            {rows[2] ? rows[2]: <div> </div>}
+        </ExamParagraphText> 
+        <ExamParagraphText>
+            {rows[3] ? rows[3]: <div> </div>}
+        </ExamParagraphText> 
+        <ExamParagraphText>
+            {rows[4] ? rows[4]: <div> </div>}
+        </ExamParagraphText> 
         <div className="content-wrapper">
           <div className="timer-container">
               <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} setTime={this.setTime} time={this.props.time} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
           </div> 
         </div>
-        <BoatParagraphText>
-            {rows[0] ? rows[0]: <div> </div>}
-        </BoatParagraphText>
-        <BoatParagraphText>
-            {rows[1] ? rows[1]: <div> </div>}
-        </BoatParagraphText>  
-        <BoatParagraphText>
-            {rows[2] ? rows[2]: <div> </div>}
-        </BoatParagraphText> 
-        <BoatParagraphText>
-            {rows[3] ? rows[3]: <div> </div>}
-        </BoatParagraphText> 
-        <BoatParagraphText>
-            {rows[4] ? rows[4]: <div> </div>}
-        </BoatParagraphText> 
-      
-      </BoatraceGameBackground>
+      </ExamBackground>
     )
   }
 }

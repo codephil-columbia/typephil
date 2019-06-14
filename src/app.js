@@ -22,6 +22,8 @@ import Spacerace from './Spacerace'
 import Animation from './animation'
 import DataDashboard from './DataDashboard'
 import BoatSelect from './BoatLevelSelect'
+import ExamSelection from './ExamSelectionPage'
+
 
 
 class App extends Component {
@@ -77,6 +79,7 @@ class App extends Component {
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/boat" component={Boat}/> 
         <Route path="/userStats" component={DataDashboard}/>
+        <Route path="/exam" component={ExamSelection}/>
       </Switch>
     )
   }

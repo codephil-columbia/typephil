@@ -1,0 +1,29 @@
+/* deprecated old. Convert to style divs later */
+
+.exam-timer{
+    color: #F5A623;	
+    font-size: 30px;	
+    letter-spacing: 15px;	
+    line-height: 43px;
+}
+
+.exam-countdown-clock {
+	text-align: center;
+	font-size: 80px;
+}
+
+.exam-countdown-clock-description {
+	text-align: center;
+	padding-top: 40px;
+	font-size: 20px;
+}
+
+.exam-countdown-clock-div {
+	margin-bottom: 40px;
+}
+
+@media only screen and (max-width: 900px) {
+	.exam-countdown-clock-div {
+		margin-top: -3vw;
+	}
+}

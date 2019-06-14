@@ -12,7 +12,7 @@ import {
 
 import { getCurrentLessonForUser } from './actions/homepage';
 
-import './style/counterPage.css'
+import './style/ExamCounterPage.css'
 import { DeviceSignalWifiOff } from "material-ui/svg-icons";
 import { timingSafeEqual } from "crypto";
 
@@ -30,9 +30,9 @@ class TimerInput extends React.Component {
 class Timer extends React.Component {
   render() {
     return (
-      <div className="countdown-clock-div">
-        <div className="countdown-clock">{this.props.value}:{this.props.seconds}</div>
-        <div className="countdown-clock-description">TIME REMAINING</div>
+      <div className="exam-countdown-clock-div">
+        <div className="exam-countdown-clock">{this.props.value}:{this.props.seconds}</div>
+        <div className="exam-countdown-clock-description">TIME REMAINING</div>
       </div>
     );
   }
@@ -165,7 +165,7 @@ class Counter extends React.Component {
       if(clicked){
       return (
         <div>
-          <div className="timer">
+          <div className="exam-timer">
             <div className="col-md-4"></div>
             <div className="col-md-4">
               <Timer value={this.state.value} seconds={this.state.seconds} />

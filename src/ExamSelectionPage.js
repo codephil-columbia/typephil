@@ -29,18 +29,17 @@ const RightExamSelectionPanel = styled.div`
     flex-direction: column;
     align-items: center;
     border-left: 1px solid #52B094;
-    margin-top: 5vh;
-    marign-bottom: -5vh;
+    padding-top: 20vh;
 `
 
 const FiveMinuteSelection = styled.div`
-	font-family: "SpaceRaceFont";
 	font-size: 5rem;
+	font-weight: bold;
 	height: 33%;
 	text-align: center;
 	padding-top: 10vh;
 	cursor: pointer;
-	color: ${props => props.isActive ? '#326BAE' :'#4A4A4A' };
+	color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
 
 	@media only screen and (max-width: 1150px) {
 		font-size: 4rem;
@@ -48,27 +47,31 @@ const FiveMinuteSelection = styled.div`
 `
 
 const ThreeMinuteSelection = styled.div`
-	font-family: "ReadySetTypeFont";
 	font-size: 5rem;
+	font-weight: bold;
 	height: 33%;
 	text-align: center;
 	padding-top: 12vh;
 	cursor: pointer;
-	color: ${props => props.isActive ? '#039894' :'#4A4A4A' };
+	color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
 
-	@media only screen and (max-width: 924px) {
-		padding-top: 5vh;
+	@media only screen and (max-width: 1150px) {
+		font-size: 4rem;
 	}
 `
 
 const OneMinuteSelection = styled.div`
-	font-family: "Racetrack";
 	font-size: 5rem;
+	font-weight: bold;
 	height: 33%;
 	text-align: center;
 	padding-top: 11vh;
 	cursor: pointer;
 	color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
+
+	@media only screen and (max-width: 1150px) {
+		font-size: 4rem;
+	}
 `
 
 const ExamSelectionLine = styled.div`
@@ -87,6 +90,7 @@ const InstructionsDescription = styled.div`
 	padding-top: 2.5rem;
 	padding-right: 10vw;
 	padding-left: 10vw;
+	font-size: 1.75rem;
 `
 
 
@@ -125,12 +129,10 @@ export default class ExamSelection extends Component {
 	      threeMinuteExamEnabled:false,
 	      fiveMinuteExamEnabled:false,
 	      gameDescription: "\
-			Type the words on the asteroids as they appear \
-			to eliminate them before they make impact on Earth. \
-			Each time an asteroid makes it through, you will lose a life. \
-			You start with three lives. You can gain a life each time you \
-			make it to the next level. As the levels increase, the number of \
-			asteroids also increase in number.\
+			Test how accurately and quickly you can type. \
+			Once the test is completed, \
+			you will get feedback on how many words you typed, \
+			how quickly you typed, and how accurately you typed.\
 	      ",
     	})
     }
@@ -142,12 +144,10 @@ export default class ExamSelection extends Component {
 	      threeMinuteExamEnabled:false,
 	      fiveMinuteExamEnabled:false,
 	      examDescription: "\
-			Type the words on the asteroids as they appear \
-			to eliminate them before they make impact on Earth. \
-			Each time an asteroid makes it through, you will lose a life. \
-			You start with three lives. You can gain a life each time you \
-			make it to the next level. As the levels increase, the number of \
-			asteroids also increase in number.\
+			Test how accurately and quickly you can type. \
+			Once the test is completed, \
+			you will get feedback on how many words you typed, \
+			how quickly you typed, and how accurately you typed.\
 	      ",
     	})
 		}
@@ -167,10 +167,10 @@ export default class ExamSelection extends Component {
 	      threeMinuteExamEnabled:true,
 	      fiveMinuteExamEnabled:false,
 	      examDescription: "\
-			Type the long passages as quickly and accurately as \
-			you can. The faster you type, the faster your boat \
-			will travel. Try to beat your opponents and your own \
-			best WPM as you race towards the finish line!\
+			Test how accurately and quickly you can type. \
+			Once the test is completed, \
+			you will get feedback on how many words you typed, \
+			how quickly you typed, and how accurately you typed.\
 	      ",
     	})
     	console.log("boatrace selected")
@@ -183,9 +183,10 @@ export default class ExamSelection extends Component {
 	      threeMinuteExamEnabled:false,
 	      fiveMinuteExamEnabled:true,
 	      examDescription: "\
-			Type as many phrases as possible before time runs out. \
-			Every time you correctly type a phrase, more time will be \
-			added to your counter and your streak will increase.\
+			Test how accurately and quickly you can type. \
+			Once the test is completed, \
+			you will get feedback on how many words you typed, \
+			how quickly you typed, and how accurately you typed.\
 	      ",
     	})
     	console.log("challenge selected")

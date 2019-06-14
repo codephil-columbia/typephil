@@ -7,23 +7,17 @@ import styled  from 'styled-components'
 
 
 const NavigationContainer= styled.div`
+    padding-topL: 10vh;
     display:flex;
-    justify-content:space-between;
-    padding-left:10vw;
-    width:90vw;
+    justify-content:center;
 
 `
 
 const CustomButton = Button.extend`
-    @font-face {
-        font-family: 'Arcade';
-        src: url(${Arcade}) format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    } 
+
     margin-top:10vh;
     font-size:1.5rem;
-    font-family:"Arcade";
+
     color: #52B094;
 
 `
@@ -74,12 +68,6 @@ const StatsHighScoreRow = styled.div`
 `
 
 const DataContainer = styled.div`
-    @font-face {
-        font-family: 'Arcade';
-        src: url(${Arcade}) format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    } 
 
     display:flex
     flex-direction:column;
@@ -95,9 +83,8 @@ const StatsHeader = styled.div`
     text-align:center;
     width:100vw;
 
-    font-family:"Arcade";
     color: #52B094;
-    font-size: 2.9rem;
+    font-size: 3.5rem;
     padding-bottom: 7vh;
 `
 
@@ -107,8 +94,7 @@ const StatsData = styled.div`
 `
 
 const StatsText = styled.div`
-	font-family:"Arcade";
-	font-size: 1.5rem;
+	font-size: 2.5rem;
 `
 
 const HighScoreLabel = styled.div`
@@ -118,7 +104,6 @@ const HighScoreLabel = styled.div`
     align-content: center;
     color: #199893;
 
-    font-family:"Arcade";
     width: 26vw;
 	text-align: center;
 	margin-bottom: -13px;
@@ -165,7 +150,7 @@ export default class ExamStatistics extends Component{
             <div>
                 <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} />
                 <StatsWrapper>
-                	<StatsHeader>GAME STATS</StatsHeader>
+                	<StatsHeader>TEST RESULTS</StatsHeader>
                     <StatsRow>
                         <DataContainer>
                             <StatsData>{this.props.data.wordsPerMinute}</StatsData>
@@ -180,26 +165,9 @@ export default class ExamStatistics extends Component{
                             <StatsText>Words</StatsText>
                         </DataContainer>
                     </StatsRow>
-	                <HighScoreLabel>
-	                	HIGH SCORES
-	                </HighScoreLabel>
-                    <StatsHighScoreRow>
-                        <DataContainer>
-                            <StatsData>98</StatsData>
-                            <StatsText>WPM</StatsText>
-                        </DataContainer>
-                        <DataContainer>
-                            <StatsData>45%</StatsData>
-                            <StatsText>Accuracy</StatsText>
-                        </DataContainer>
-                        <DataContainer>
-                            <StatsData>5</StatsData>
-                            <StatsText>Level</StatsText>
-                        </DataContainer>
-                    </StatsHighScoreRow>
+
                 </StatsWrapper>
                 <NavigationContainer>
-                        <CustomButton onClick={this.playAgain}>PLAY AGAIN</CustomButton>
                         <CustomButton onClick={this.exitGame}>EXIT</CustomButton>
                 </NavigationContainer>
             </div>
