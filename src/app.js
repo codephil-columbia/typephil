@@ -16,6 +16,7 @@ import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 import SpaceraceGame from './SpaceraceGame'
 import DataDashboard from './DataDashboard'
+import ExamSelection from './ExamSelectionPage'
 
 import { LocalStorageCache } from "./services";
 
@@ -67,6 +68,7 @@ class App extends Component {
         <Route path="/challenge" component={Challenge}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/finalstats" component={Stats}/>
+        <Route path="/exam" component={ExamSelection}/>
         <Route path="/" component={HomePage}/>
         <Route path="/404"component={Component404} />
       </Switch>
