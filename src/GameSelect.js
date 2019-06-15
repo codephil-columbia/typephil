@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { bindActionCreators } from 'redux';
+import { LocalStorageCache} from "./services";
+
 import Header from './components/header';
 import Button from 'react-button-component';
 import styled from 'styled-components';
@@ -103,8 +105,11 @@ const GameSelectionButton = Button.extend`
 
 export default class GameSelect extends Component {
   	constructor(props) {
-	    super(props);
+			super(props);
+      this.cache = new LocalStorageCache();
 	    this.state = { 
+        username: this.cache.get("username"),
+        isLoading: true,
 	      headerLinks: ["Games", "Learn", "Home"],
 	      spaceraceEnabled:false,
 	      boatraceEnabled:false,
@@ -202,14 +207,20 @@ export default class GameSelect extends Component {
 
     render() {
 	    const { 
-	      headerLinks, 
-	    } = this.state;
-
+				badges, 
+				headerLinks, 
+				username
+			} = this.state;
+			
         return(
             <div>
-		        <Header 
-		          links={headerLinks} 
-		        />
+		          <Header 
+								links={headerLinks} 
+								isLoggedIn={true} 
+								username={username} 
+								history={this.props.history}
+								onLogout={this.props.onLogout}
+							/>
 
             	<LeftGameSelectionPanel>
             		<SpaceRaceSelection onClick={this.spaceraceSelected} 

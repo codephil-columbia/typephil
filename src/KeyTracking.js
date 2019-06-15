@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Button from 'react-button-component'
 import styled from 'styled-components';
 import ReactCountdownClock from 'react-countdown-clock'
+import { LocalStorageCache} from "./services";
+
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router'
 
@@ -17,6 +19,8 @@ import data from "./offline_data.json"
 class KeyTracking extends Component{
     constructor(props){
         super(props);
+        this.cache = new LocalStorageCache();
+
         this.initiate=this.initiate.bind(this)
         this.beginGames=this.beginGames.bind(this)
         this.endGames=this.endGames.bind(this)
@@ -36,6 +40,7 @@ class KeyTracking extends Component{
             gameStart:false,
             playerDifficulty:1,
             showMainPage:true,
+            username: this.cache.get("username"),
             headerLinks: ["Games", "Learn", "Home"],
             jsonArray:[],
             dataArray:[]
@@ -164,12 +169,20 @@ class KeyTracking extends Component{
     }else if(this.state.isPlayerReady){
         {
             const { 
-                headerLinks, 
-                } = this.state;
-
+				badges, 
+				headerLinks, 
+				username
+			} = this.state;
+			
             return(  
                 <div>
-                    <Header links={headerLinks}></Header>
+                    <Header 
+                        links={headerLinks} 
+                        isLoggedIn={true} 
+                        username={username} 
+                        history={this.props.history}
+                        onLogout={this.props.onLogout}
+                    />                    
                     <div className="countdown-clock-description">Starting Game In...</div>
                     <div style={{width:"100vw", height:"45vh", display:"flex", justifyContent:"center", alignItems:"center"}}>
                         <ReactCountdownClock className="countdown-clock" color="#52B094" seconds={3} size={300} onComplete={this.beginGames}/> 
@@ -180,12 +193,20 @@ class KeyTracking extends Component{
         }
         }else if(this.state.gameStart){
             const { 
-                headerLinks,
-              } = this.state;
+				badges, 
+				headerLinks, 
+				username
+			} = this.state; 
             
             return(
             <div className="challenge-game-background">
-                <Header links={headerLinks}></Header>
+                <Header 
+                    links={headerLinks} 
+                    isLoggedIn={true} 
+                    username={username} 
+                    history={this.props.history}
+                    onLogout={this.props.onLogout}
+                />   
                 <Tutorial playerHasLost={this.endGames} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={cleanContent}/>
             </div>
             )
