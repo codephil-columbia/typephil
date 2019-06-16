@@ -85,7 +85,6 @@ class Tutorial extends Component {
         this.tutorialService.getLesson(this.cache.get("lessonID")),
         this.tutorialService.getChapter(this.cache.get("chapterID"))
       ]).then(([ currentLesson, chapter ]) => {
-        console.log(currentLesson, chapter, "LearnPage");
         this.setUpTutorial(currentLesson, chapter)
       })
         .catch(err => console.log(err));
@@ -93,7 +92,6 @@ class Tutorial extends Component {
       this.setState({ nextURLLocation: "TutorialPage" });
       this.tutorialService.getTutorialInfo(this.state.uid)
         .then(({lesson, chapter})  => {
-          console.log(lesson, chapter, "Homepage");
           this.setUpTutorial(lesson, chapter)
         })
         .catch(err => console.log(err));
@@ -140,18 +138,25 @@ class Tutorial extends Component {
   onKeyPressed = (e) => {
     let isRightKey = ['ArrowLeft', 'ArrowRight'].indexOf(e.key);
     switch(isRightKey) {
-      case 1:
+      case 1: {
         if(this.isLastContent()) {
           (this.state.userState === this.appState.READING) ? this.redirectToNextLesson() : this.postTutorialResultsAndRedirectToNextLesson();
         } else {
-          this.next();
+          if (
+            this.state.userState === this.appState.READING
+            || this.state.isFinished) {
+            this.next();
+          }
         }
         break;
-      case 0:
+      }
+      case 0: {
         this.prev();
         break;
-      default:
+      }
+      default: {
         return;
+      }
     }
   };
 
@@ -216,6 +221,14 @@ class Tutorial extends Component {
     return (txt.length/5) * 60/200 * 100;
   };
 
+  setAppState = indexPtr => {
+    if (this.state.contentTypeList[indexPtr] === this.contentType.DESCRIPTION) {
+      this.setState({ userState: this.appState.TYPING });
+    } else {
+      this.setState({ userState: this.appState.READING });
+    }
+  }
+
   next = () => {
     let { indexPtr, totalContentLength } = this.state;
     if(indexPtr < totalContentLength) {
@@ -223,6 +236,7 @@ class Tutorial extends Component {
       this.freezeTimerIfIsLessonText();
     }
     this.clearStatsForCurrentLesson();
+    this.setAppState(indexPtr);
     this.setState({ indexPtr, shouldShowStats: false, isFinished: false });
   };
 
@@ -236,6 +250,7 @@ class Tutorial extends Component {
       indexPtr -= 1;
     }
     
+    this.setAppState(indexPtr);
     this.setState({ 
       indexPtr, 
       shouldShowStats: false,
