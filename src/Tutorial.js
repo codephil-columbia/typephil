@@ -65,7 +65,7 @@ class Tutorial extends Component {
     document.removeEventListener('keydown', this.onKeyPressed);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     document.addEventListener('keydown', this.onKeyPressed);
     this.setState({
       results: {
@@ -81,20 +81,21 @@ class Tutorial extends Component {
 
     if(this.props.location.state.prevLocation === "LearnPage") {
       this.setState({ nextURLLocation: "LearnPage" });
-      Promise.all([
+
+      const [currentLesson, chapter] = await Promise.all([
         this.tutorialService.getLesson(this.cache.get("lessonID")),
         this.tutorialService.getChapter(this.cache.get("chapterID"))
-      ]).then(([ currentLesson, chapter ]) => {
-        this.setUpTutorial(currentLesson, chapter)
-      })
-        .catch(err => console.log(err));
+      ]).catch(err => console.log(err));
+
+      this.setUpTutorial(currentLesson, chapter);
     } else {
       this.setState({ nextURLLocation: "TutorialPage" });
-      this.tutorialService.getTutorialInfo(this.state.uid)
-        .then(({lesson, chapter})  => {
-          this.setUpTutorial(lesson, chapter)
-        })
-        .catch(err => console.log(err));
+
+      const { lesson, chapter } = (
+        await this.tutorialService.getTutorialInfo(this.state.uid)
+          .catch(err => console.log(err))
+      );
+      this.setUpTutorial(lesson, chapter);
     }
   }
 
@@ -371,7 +372,7 @@ class Tutorial extends Component {
           {userState === this.appState.READING ? (
             <div className="info-text">
               <div className="tutorial-text">{content}</div>
-                { hasImage ? (
+                {hasImage ? (
                   <TutorialImage path={imagePath} />
                 ) : (
                   <div className="tutorial-hands-keyboard">
