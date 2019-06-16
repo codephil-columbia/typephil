@@ -7,6 +7,10 @@ import { LocalStorageCache} from "./services";
 import Header from './components/header';
 import Button from 'react-button-component';
 import styled from 'styled-components';
+import BoatGame from './BoatGame'
+import KeyTracking from './KeyTracking'
+import SpaceraceGame from './SpaceraceGame'
+import GameOverSign from './components/gameOver'
 import './style/font.css';
 
 
@@ -37,6 +41,7 @@ const SpaceRaceSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 10vh;
+	cursor: pointer;
 	color: ${props => props.isActive ? '#326BAE' :'#4A4A4A' };
 
 	@media only screen and (max-width: 1150px) {
@@ -50,6 +55,7 @@ const BoatRaceSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 12vh;
+	cursor: pointer;
 	color: ${props => props.isActive ? '#039894' :'#4A4A4A' };
 
 	@media only screen and (max-width: 924px) {
@@ -63,6 +69,7 @@ const ChallengeSelection = styled.div`
 	height: 33%;
 	text-align: center;
 	padding-top: 11vh;
+	cursor: pointer;
 	color: ${props => props.isActive ? '#F5A623' :'#4A4A4A' };
 `
 
@@ -108,16 +115,18 @@ export default class GameSelect extends Component {
 			super(props);
       this.cache = new LocalStorageCache();
 	    this.state = { 
-        username: this.cache.get("username"),
-        isLoading: true,
-	      headerLinks: ["Games", "Learn", "Home"],
-	      spaceraceEnabled:false,
-	      boatraceEnabled:false,
-	      challengeEnabled:false
+				headerLinks: ["Games", "Learn", "Home"],
+				spaceraceEnabled:false,
+				showSpaceRace:false,
+				boatraceEnabled:false,
+				showBoatRace:false,
+				challengeEnabled:false,
+				showChallenge:false,
 	    }
 		this.spaceraceSelected = this.spaceraceSelected.bind(this);
 		this.boatraceSelected = this.boatraceSelected.bind(this);
 		this.challengeSelected = this.challengeSelected.bind(this);
+		this.returnToSelection=this.returnToSelection.bind(this)
 		this.BeginGame = this.BeginGame.bind(this)
     }
 
@@ -134,7 +143,7 @@ export default class GameSelect extends Component {
 			make it to the next level. As the levels increase, the number of \
 			asteroids also increase in number.\
 	      ",
-	      gameScreenshot: "/images/games/spacerace_placeholder.png"
+	      gameScreenshot: "./images/games/spacerace_placeholder.png"
     	})
     	console.log("spacerace selected on default")
     }
@@ -142,8 +151,8 @@ export default class GameSelect extends Component {
     spaceraceSelected()
     {
     	this.setState({
-	      spaceraceEnabled:true,
-	      boatraceEnabled:false,
+				spaceraceEnabled:true,
+				boatraceEnabled:false,
 	      challengeEnabled:false,
 	      gameDescription: "\
 			Type the words on the asteroids as they appear \
@@ -153,10 +162,18 @@ export default class GameSelect extends Component {
 			make it to the next level. As the levels increase, the number of \
 			asteroids also increase in number.\
 	      ",
-	      gameScreenshot: "/images/games/spacerace_placeholder.png"
+	      gameScreenshot: "./images/games/spacerace_placeholder.png"
     	})
     	console.log("spacerace selected")
-    }
+		}
+		
+		returnToSelection(){
+			this.setState({
+				showBoatRace:false,
+				showChallenge:false,
+				showSpaceRace:false
+			})
+		}
 
     boatraceSelected()
     {
@@ -170,7 +187,7 @@ export default class GameSelect extends Component {
 			will travel. Try to beat your opponents and your own \
 			best WPM as you race towards the finish line!\
 	      ",
-	      gameScreenshot: "/images/games/boatrace_placeholder.png"
+	      gameScreenshot: "./images/games/boatrace_placeholder.png"
     	})
     	console.log("boatrace selected")
     }
@@ -178,7 +195,7 @@ export default class GameSelect extends Component {
     challengeSelected()
     {
     	this.setState({
-	      spaceraceEnabled:false,
+				spaceraceEnabled:false,
 	      boatraceEnabled:false,
 	      challengeEnabled:true,
 	      gameDescription: "\
@@ -186,42 +203,39 @@ export default class GameSelect extends Component {
 			Every time you correctly type a phrase, more time will be \
 			added to your counter and your streak will increase.\
 	      ",
-	      gameScreenshot: "/images/games/challenge_placeholder.png"
+	      gameScreenshot: "./images/games/challenge_placeholder.png"
     	})
     	console.log("challenge selected")
 		}
 		
 		BeginGame(state){
 			if (this.state.spaceraceEnabled === true){
-				this.props.history.push("/spacerace");
-
+				this.setState({showSpaceRace:true})
 			} else if (this.state.challengeEnabled === true){
-				this.props.history.push("/coco");
-
+				this.setState({showChallenge:true})
 			} else if (this.state.boatraceEnabled === true){
-				this.props.history.push("/boat");
-
-
+				this.setState({showBoatRace:true})
+				console.log("was reached")
 			}	
 		}
 
     render() {
 	    const { 
-				badges, 
-				headerLinks, 
-				username
-			} = this.state;
-			
+	      headerLinks, 
+	    } = this.state;
+			if(this.state.showBoatRace){
+				console.log("boat has been activated")
+				return(<BoatGame exit={this.returnToSelection}/>)
+			}else if(this.state.showChallenge){
+				console.log("challenge has been activated")
+				return(<KeyTracking exit={this.returnToSelection}/>)
+			}else if(this.state.showSpaceRace){
+				console.log("spaceRace has been activated")
+				return(<SpaceraceGame exit={this.returnToSelection}/>)
+			}else{
         return(
             <div>
-		          <Header 
-								links={headerLinks} 
-								isLoggedIn={true} 
-								username={username} 
-								history={this.props.history}
-								onLogout={this.props.onLogout}
-							/>
-
+            	<Header links={headerLinks}/>
             	<LeftGameSelectionPanel>
             		<SpaceRaceSelection onClick={this.spaceraceSelected} 
             		isActive={this.state.spaceraceEnabled}>
@@ -264,19 +278,7 @@ export default class GameSelect extends Component {
 
             	</RightGameSelectionPanel>
             </div>
-        )
+				)
+			}
     }
-}
-
-
-const mapStateToProps = ({ app, auth }) => {
-  return {
-    allChapters: app.allChapters,
-    isLoading: app.isLoading,
-    chapterLessonPairs: app.chapterLessonPairs,
-    completedLessons: app.completedLessons,
-    currentUser: auth.currentUser,
-    isLoggedIn: auth.isLoggedIn,
-    currentLessonName: app.currentLesson.lessonName
-  }
 }

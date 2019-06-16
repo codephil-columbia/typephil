@@ -354,14 +354,14 @@ export default class DataDashboard extends Component{
                 <SideBar>
                     <SideTab onClick={this.activateProgress} isActive={this.state.progressActive}>
                       <SideButtonImage>
-                        <img src="/images/buttons/my_progress_button.svg"/>
+                        <img src="./images/buttons/my_progress_button.svg"/>
                       </SideButtonImage>
                       
                       My Progress
                     </SideTab>
                     <SideTab onClick={this.activateGameScore} isActive={this.state.gameScoreActive}>
                       <SideButtonImage>
-                        <img src="/images/buttons/my_scores_button.svg"/>
+                        <img src="./images/buttons/my_scores_button.svg"/>
                       </SideButtonImage>
                       Game Scores
                     </SideTab>

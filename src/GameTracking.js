@@ -53,6 +53,13 @@ const GameText = styled.div`
 
 `
 
+const ModalCountDownDiv = styled.div`
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #F5A623;
+  padding-bottom: 1rem;
+`
+
 const CounterText = styled.div`
     height:15vh;
     width:10vw;
@@ -96,6 +103,9 @@ class GameTracking extends Component {
     const totalLength = currentContent.length;
 
     this.resetIncrement=this.resetIncrement.bind(this)
+    this.userFinished=this.userFinished.bind(this)
+    this.turnOffAllowTimeFlag=this.turnOffAllowTimeFlag.bind(this)
+    this.modalCountdown=this.modalCountdown.bind(this)
     this.state = {
       rows,
       characterMapList,
@@ -108,6 +118,9 @@ class GameTracking extends Component {
       groupPtr,
       currentKey,
       totalLength,
+      linesPassed:0,
+      currLine:0,
+      allowedToAddTime:false,
       charPtr: 0,
       correct: [],
       incorrect: [],
@@ -123,6 +136,7 @@ class GameTracking extends Component {
       isFinished: false,
       startTime: 0,
       finishTime: 0,
+      modelCount:5,
       pauses: [],
       time: 0
     };
@@ -155,6 +169,10 @@ class GameTracking extends Component {
     return !(indexPtr >= characterMapList.length && groupPtr >= LESSON_LENGTH);
   };
 
+  turnOffAllowTimeFlag = () =>{
+    this.setState({allowedToAddTime:false})
+  }
+
   registerUserKeyPress = ({ key: keyPressed }) => {
     // Starts timer once user presses first key
     if(this.state.isFirstCharacter) {
@@ -172,7 +190,7 @@ class GameTracking extends Component {
   userDidPressBackspace = () => {
     let { charPtr, rows, correct, incorrect, edited, groupPtr, characterMapList, consecutiveIncorrectCount } = this.state;
     const { previousCharCorrectness, styleMapList } = this.state;
-
+    this.setState({consecutiveCorrect:0})
     // Set current indexPtr style to default
     this.applyStyle(`${DEFAULT_STYLE}`, charPtr, groupPtr);
     
@@ -181,7 +199,6 @@ class GameTracking extends Component {
       //highlight the previous character
       this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr, groupPtr);
       rows = this.buildRows(characterMapList, styleMapList, groupPtr);
-
     } else {
       if(groupPtr !== 0) {
         groupPtr -= 1;
@@ -190,7 +207,10 @@ class GameTracking extends Component {
         rows = this.buildRows(characterMapList, styleMapList, groupPtr);
         if(this.state.upDifficultyCount!=0){
           this.setState({upDifficultyCount:this.state.upDifficultyCount-1 })
-          console.log("line counter " + this.state.upDifficultyCount)
+          this.setState({currLine:this.state.currLine-1})
+          console.log("you have gone back one")
+          console.log("currLine: " + this.state.currLine)
+          console.log("linespassed: " + this.state.linesPassed)
           if(this.state.upDifficultyCount == 10){
             this.setState({
               upDifficulty:true,
@@ -200,7 +220,7 @@ class GameTracking extends Component {
           console.log("new level reached: " + this.props.difficulty)
           }
         }
-        this.setState({upDifficultyCount:0})
+        this.setState({upDifficultyCount:0,upDifficulty:false})
         this.setState({Level:this.state.Level + 1})
         console.log(this.state.Level)
       }
@@ -243,7 +263,13 @@ class GameTracking extends Component {
       if(charPtr + 1 >= currentRowLength) {
         this.setState({addTime:true})
         this.setState({upDifficultyCount:this.state.upDifficultyCount +1})
-        console.log("line counter " + this.state.upDifficultyCount)
+        this.setState({currLine:this.state.currLine+1})
+        if(this.state.currLine>this.state.linesPassed){
+          this.setState({linesPassed:this.state.linesPassed+1})
+          this.setState({allowedToAddTime:true})
+        }
+        console.log("linespassed: " + this.state.linesPassed)
+        console.log("currLine: " + (this.state.currLine))
         if(this.state.upDifficultyCount == 5){
           this.setState({
             upDifficulty:true,
@@ -274,6 +300,9 @@ class GameTracking extends Component {
       // Apply highlight key
       return { newCharPtr, newGroupPtr };
   };
+  userFinished = () => {
+    this.setState({userFinished:true})
+  }
 
   validateUserKeyPressCorrectness = (keyPressed) => {
     let { 
@@ -370,7 +399,7 @@ class GameTracking extends Component {
   };
 
   resetIncrement = () => {
-    this.setState({addTime:false})
+    this.setState({addTime:false,upDifficulty:false})
   }
 
 
@@ -400,11 +429,23 @@ class GameTracking extends Component {
     this.setState({ shouldShowModal: false, pauses });
   };
 
+  modalCountdown() {
+    this.setState({modelCount:this.state.modelCount-1})
+    console.log("seconds left: " + this.state.modelCount)
+}
+
   onModalOpen = () => {
     this.removeEventListener();
     let { pauses } = this.state;
     pauses.push(Date.now());
     this.setState({ pauses })
+    let ref= setInterval(this.modalCountdown,1000)
+    setTimeout(()=>{
+      clearInterval(ref)
+      this.setState({modelCount:5})
+      this.setState({consecutiveIncorrectCount:0})
+      this.closeModal()
+    }, 5000)
   }
 
   removeEventListener = () => {
@@ -428,10 +469,10 @@ class GameTracking extends Component {
  
 
   render() {
-    const { isFinished } = this.state;
-    if(isFinished) {
+    const { userFinished } = this.state;
+    if(userFinished) {
+      console.log("has terminated")
       this.removeEventListener();
-      this.props.showStats();
     }
 
     const { rows } = this.state;
@@ -458,11 +499,11 @@ class GameTracking extends Component {
           onAfterOpen={this.onModalOpen}
           className="tutorial-modal"
         >
-          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
-          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
+          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please focus on <strong>accuracy</strong>!</p>
+          <ModalCountDownDiv>{this.state.modelCount}</ModalCountDownDiv>
         </Modal>
         <div className="timer-container">
-            <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
+            <Counter resetFlag={this.turnOffAllowTimeFlag} accuracyInfo={this.state} userFinished={this.userFinished} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
         </div> 
       </div> 
       <div className="game-tracker-container">
