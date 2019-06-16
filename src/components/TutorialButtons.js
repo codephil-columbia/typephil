@@ -22,16 +22,15 @@ const LessonTutorialButtons = ({
   if((didUserPassLesson && isFinished) || userState === "reading") {
     return (
       <div className="lesson-buttons">
-        {!isLastContent ? <BackButton prev={prev} text="Previous"/> : <div></div>}
-
-    <div className="progress-bar-segmented" role="progressbar" aria-valuenow={currentPageIndex} aria-valuemin="0" aria-valuemax={totalNumOfPages} tabIndex="0">
-      {_.range(totalNumOfPages).map(step => (
-        <div key={step} style={{width: (100/totalNumOfPages) - 2 + "%"}} className={`progress-segment ${currentPageIndex + 1 > step ? 'progress-segment-complete' : ''}`}>&nbsp;</div>
-      ))}
-    </div>
+        <BackButton prev={prev} text="Previous"/>
+        <div className="progress-bar-segmented" role="progressbar" aria-valuenow={currentPageIndex} aria-valuemin="0" aria-valuemax={totalNumOfPages} tabIndex="0">
+          {_.range(totalNumOfPages).map(step => (
+            <div key={step} style={{width: (100/totalNumOfPages) - 2 + "%"}} className={`progress-segment ${currentPageIndex + 1 > step ? 'progress-segment-complete' : ''}`}>&nbsp;</div>
+          ))}
+        </div>
         <NextButton 
-            next={isLastContent ? redirectToNextLesson : next}
-            shouldRedirectToNextLesson={isLastContent} 
+          next={isLastContent ? redirectToNextLesson : next}
+          shouldRedirectToNextLesson={isLastContent} 
         />
       </div>
     )
@@ -116,15 +115,5 @@ const NextButton = ({ next, shouldRedirectToNextLesson }) => (
       </svg>
     </React.Fragment>
 )
-
-function SegmentedProgressBar({ current, total }) {
-  return (
-    <div className="progress-bar-segmented" role="progressbar" aria-valuenow={current} aria-valuemin="0" aria-valuemax={total} tabIndex="0">
-      {[0,1,2,3].map(step => (
-        <div key={step} className={`progress-segment ${current > step ? 'progress-segment-complete' : ''}`}>hi{current}{total}</div>
-      ))}
-    </div>
-  );
-}
 
 export default LessonTutorialButtons;
