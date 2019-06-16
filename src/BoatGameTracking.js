@@ -19,9 +19,15 @@ const HIGHLIGHTED = "highlighted character";
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
+const ModalCountDownDiv = styled.div`
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #F5A623;
+  padding-bottom: 1rem;
+`
 
 const BoatraceGameBackground = styled.div`
-    background-image: url(/images/games/Waves_extended.svg);
+    background-image: url(./images/games/Waves_extended.svg);
     //background-position: center bottom -130vh;
     background-position: center bottom -130vh;
     background-repeat: no-repeat;
@@ -46,47 +52,47 @@ const BoatraceGameBackground = styled.div`
     }
     @media only screen and (max-width: 1700px) {
       background-position: center bottom -100vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1650px) {
       background-position: center bottom -95vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1600px) {
       background-position: center bottom -90vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1550px) {
       background-position: center bottom -85vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1500px) {
       background-position: center bottom -80vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1450px) {
       background-position: center bottom -75vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1400px) {
       background-position: center bottom -70vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1350px) {
       background-position: center bottom -65vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1300px) {
       background-position: center bottom -60vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1250px) {
       background-position: center bottom -55vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1200px) {
       background-position: center bottom -50vh;
-      height: 100vh;
+      height: 92vh;
     }
     @media only screen and (max-width: 1150px) {
       background-position: center bottom -45vh;
@@ -138,7 +144,7 @@ const Boat = styled.div`
 `
 
 const BoatImage = styled.div`
-  content: url(/images/games/Boat.svg);
+  content: url(./images/games/Boat.svg);
   width: 15vw;
 
   @media only screen and (max-width: 1400px) {
@@ -193,38 +199,38 @@ const BoatParagraphText = styled.div`
   text-align:center;
   align-content:center;
   justify-content: center;
-  font-size:2.5rem;
+  font-size:3.5rem;
   width:100vw;
 
   @media only screen and (max-width: 1100px) {
-    font-size:2.5rem;
+    font-size:3.5rem;
   }
 
   @media only screen and (max-width: 1000px) {
-    font-size:2.5rem;
+    font-size:3.2rem;
   }
 
   @media only screen and (max-width: 950px) {
-    font-size:2rem;
+    font-size:3rem;
   }
 
   @media only screen and (max-width: 900px) {
-    font-size:1.75rem;
+    font-size:2.4rem;
   }
   
 `
 
 const LineStyling = styled.div`
   margin-bottom: 3vh;
-  width: 80vw;
+  width: 90vw;
   background-color: white;
 
   @media only screen and (max-width: 1100px) {
-    width: 90vw;
+    width: 100vw;
   }
 
   @media only screen and (max-width: 1000px) {
-    width: 95vw;
+    width: 100vw;
   }
 `
 
@@ -245,14 +251,14 @@ class BoatGameTracking extends Component {
     styleMapList[0] = styleMapList[0].set(0, 'default-character highlighted');
     this.buildRows=this.buildRows.bind(this)
     this.endRace=this.endRace.bind(this)
+    this.closeModal=this.closeModal.bind(this)
     const rows = this.buildRows(characterMapList, styleMapList, 0);
-
     const currentKey = characterMapList[0].get(0);
-
     const totalLength = currentContent.length;
-
     this.resetIncrement=this.resetIncrement.bind(this)
     this.calculateDisplacement=this.calculateDisplacement.bind(this)
+    this.calculatePlayerPlace=this.calculatePlayerPlace.bind(this)
+    this.modalCountdown=this.modalCountdown.bind(this)
     this.intervalHandler;
     this.state = {
       rows,
@@ -261,6 +267,7 @@ class BoatGameTracking extends Component {
       seconds: '00', 
       displacement:0,
       minutes: '',
+      modelCount:5,
       styleMapList,
       upDifficulty:false,
       upDifficultyCount:0,
@@ -297,6 +304,7 @@ class BoatGameTracking extends Component {
   componentWillMount = () => {
     this.determineSpeed();
     this.attachEventListener();
+    console.log(this.props.currentContent)
     this.startRace();
   };
 
@@ -308,10 +316,7 @@ class BoatGameTracking extends Component {
       if(this.state.boat1Margin >= 85 || this.state.boat3Margin >= 85){
         clearInterval(this.intervalHandler)
         this.endRace()
-        
       }
-
-    
 
   }
 
@@ -396,8 +401,22 @@ class BoatGameTracking extends Component {
     }
   };
 
+  calculatePlayerPlace = () =>{
+    let position;
+    let boat1Position=this.state.boat1Margin
+    let playerPosition=this.state.displacement
+    let boat3position=this.state.boat3Margin
+    let margins=[boat1Position,playerPosition,boat3position]
+    console.log(margins)
+    margins.sort().reverse()
+    return margins.indexOf(playerPosition) + 1
+  }
+  
   endRace= () =>{
      this.setState({stopTime:true})
+     console.log("race has ended")
+     let playerPosition= this.calculatePlayerPlace()
+     this.props.assignPosition(playerPosition)
   }
 
   userDidPressBackspace = () => {
@@ -627,6 +646,8 @@ class BoatGameTracking extends Component {
   };
 
   breakInto30CharacterLists = (line) => {
+    console.log(line)
+    console.log(line.split("\\n"))
     return line.split("\\n")
   };
 
@@ -637,11 +658,25 @@ class BoatGameTracking extends Component {
     this.setState({ shouldShowModal: false, pauses });
   };
 
+  modalCountdown() {
+      this.setState({modelCount:this.state.modelCount-1})
+      console.log("seconds left: " + this.state.modelCount)
+  }
+
+
+
   onModalOpen = () => {
     this.removeEventListener();
     let { pauses } = this.state;
     pauses.push(Date.now());
     this.setState({ pauses })
+    let ref= setInterval(this.modalCountdown,1000)
+    setTimeout(()=>{
+      clearInterval(ref)
+      this.setState({modelCount:5})
+      this.setState({consecutiveIncorrectCount:0})
+      this.closeModal()
+    }, 5000)
   }
 
   removeEventListener = () => {
@@ -666,9 +701,8 @@ class BoatGameTracking extends Component {
 
   render() {
     const { isFinished } = this.state;
-    if(isFinished) {
+    if(this.props.inputOff) {
       this.removeEventListener();
-      this.props.showStats();
     }
 
     const { rows } = this.state;
@@ -684,8 +718,8 @@ class BoatGameTracking extends Component {
             onAfterOpen={this.onModalOpen}
             className="tutorial-modal"
           >
-            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
-            <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
+            <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please focus on <strong>accuracy</strong>!</p>
+            <ModalCountDownDiv>{this.state.modelCount}</ModalCountDownDiv>
           </Modal>
           <div className="timer-container">
               <Counter accuracyInfo={this.state} timerShortStop={this.state.stopTime} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}

@@ -6,6 +6,9 @@ import Header from './components/header';
 import './style/LoginPage.css';
 import './style/styles.css';
 
+
+const bcrypt=require('bcryptjs')
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +18,7 @@ class LoginPage extends Component {
     this.cache = new LocalStorageCache();
 
     this.state = {
+      randomFlag:false,
       username: "",
       password: "",
       headerLinks: ["Progress", "Learn"],
@@ -23,6 +27,8 @@ class LoginPage extends Component {
       },
       loginWasSuccessful: false
     };
+    this.hashPassword=this.hashPassword.bind(this)
+    this.verifyPassword=this.verifyPassword.bind(this)
   }
 
   handleLogin = (e) => {
@@ -41,6 +47,20 @@ class LoginPage extends Component {
         console.log(err);
         this.setState({ loginWasSuccessful: false });
       })
+  }
+
+  verifyPassword= (pass, hash) => {
+    bcrypt.compare(pass, hash, function(err, res) {
+     console.log(res)
+    });
+  }
+
+  hashPassword= () => {
+    let pass = window.prompt("Insert Password")
+    let passHash = bcrypt.hashSync(pass, 10)
+    console.log("passHash outside the function: " + passHash)
+    pass = window.prompt("Insert Password for verifcation")
+    this.verifyPassword(pass,passHash)
   }
 
   handleKeyPress = (e) => {
@@ -73,9 +93,16 @@ class LoginPage extends Component {
     const { isLoggedIn } = this.props;
     const { headerLinks } = this.state;
 
+    //if(isLoggedIn) 
+      //return <Redirect to="home"/>
+
+    if(this.state.randomFlag){
+      this.hashPassword()
+      this.setState({randomFlag:false})
+    }
     return (
       <div>
-        <Header links={isLoggedIn? headerLinks : []} isLoggedIn={this.props.isLoggedIn} username=""/>
+        <Header links={isLoggedIn ? headerLinks : []} isLoggedIn={this.props.isLoggedIn} username=""/>
         <div className="container">
         <div className="login-content">
           <div className="content-left">

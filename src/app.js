@@ -16,9 +16,11 @@ import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 import SpaceraceGame from './SpaceraceGame'
 import DataDashboard from './DataDashboard'
+import BoatSelect from './BoatLevelSelect'
 import ExamSelection from './ExamSelectionPage'
 
-import { LocalStorageCache } from "./services";
+import {LocalStorageCache} from "./services";
+
 
 
 class App extends Component {
@@ -97,16 +99,6 @@ class App extends Component {
       </React.Fragment>
     )
   }
-}
-
-/**
- * Prevent memory leaks from unmounted components.
- */
-const componentDidMount = () => {
-  this._isMounted = true;
-}
-const componentWillUnmount = () => {
-  this._isMounted = false;
 }
 
 export default withRouter(App);

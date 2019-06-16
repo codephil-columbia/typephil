@@ -10,12 +10,16 @@ const NavigationContainer= styled.div`
     padding-topL: 10vh;
     display:flex;
     justify-content:center;
+
 `
 
 const CustomButton = Button.extend`
+
     margin-top:10vh;
     font-size:1.5rem;
+
     color: #52B094;
+
 `
 
 const StatsWrapper = styled.div`
@@ -37,7 +41,9 @@ const StatsRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
+
     color: #199893;
+
     padding-bottom: 2vh;
 `
 
@@ -50,7 +56,9 @@ const StatsHighScoreRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
+
     color: #199893;
+
     border-style: solid;
     border-color: #F5A623;
     height: 15vh;
@@ -162,3 +170,5 @@ export default class ExamStatistics extends Component{
     }
 
 }
+
+

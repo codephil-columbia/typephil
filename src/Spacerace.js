@@ -98,7 +98,7 @@ const SpaceraceDifficultyText = styled.div`
 `
 
 const SpaceraceGameSelectionBackground = styled.div`
-    background-image: url(/images/games/space_race_background.svg);
+    background-image: url(./images/games/space_race_background.svg);
     // background-position: center bottom -55vw;
     background-position: center bottom -5vw;
     background-repeat: no-repeat;

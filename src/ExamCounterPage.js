@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import './style/ExamCounterPage.css'
-import { DeviceSignalWifiOff } from "material-ui/svg-icons";
-import { timingSafeEqual } from "crypto";
 
 class TimerInput extends React.Component {
   render() {
@@ -180,6 +176,4 @@ class Counter extends React.Component {
     }
   }
 
-
-  
-  export default Counter;
+export default Counter;

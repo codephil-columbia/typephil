@@ -46,6 +46,8 @@ class Counter extends React.Component {
         lowerIncrement:this.props.IncrementLevel,
         baseTime:0,
         difficulty:0,
+        threeCount:1,
+        twoCount:1,
         timeElapse:0
       }
       this.secondsRemaining;
@@ -63,17 +65,23 @@ class Counter extends React.Component {
 
     calculateIncrement(){
       var newIncrement=0;
-      
-      if(this.state.difficulty==1){
-        this.setState({increment:6})
-      }
-      else if(this.state.difficulty==2){
-        this.setState({increment:3.5})
-      }
-      else{
-        var currIncrement=this.state.increment
-        var newIncrement=currIncrement*(9/10)
-        this.setState({increment:newIncrement})
+      var difficulty=this.props.baseDifficulty
+      console.log("curr difficulty: " + difficulty)
+      if(difficulty==2){
+        this.setState({increment:7})
+      }else{
+        // var currIncrement=thisstate.increment
+        // var newIncrement=currIncrement*(9/10)
+        if(this.state.increment==3 && this.state.threeCount<3){
+          this.setState({threeCount:this.state.threeCount+1})
+        }else if(this.state.increment==2 && this.state.increment<4){
+          this.setState({twoCount:this.state.twoCount+1})
+        }else if(this.state.threeCount==3 && this.state.increment==3){
+          this.setState({increment:1})
+        }else{
+          this.setState({increment:this.state.increment-1})
+        }
+
       }
     }
 
@@ -89,7 +97,7 @@ class Counter extends React.Component {
         }else if(difficulty==2){
           secondsGiven=17
           this.setState({
-            increment:6,
+            increment:5,
             difficulty:2
           })
         }else{
@@ -138,17 +146,23 @@ class Counter extends React.Component {
 
       if (min === 0 & sec === 0) {
         clearInterval(this.intervalHandle);
+        this.setState({threeCount:1,twoCount:1})
+        this.props.userFinished()
         this.props.PlayerLost(this.props.accuracyInfo,this.state.timeElapse)
       }
       
 
       this.secondsRemaining--
-      if(this.props.NeedsToIncrement){
-        if(this.state.lowerIncrement){
+      if(this.props.NeedsToIncrement && this.props.accuracyInfo.allowedToAddTime){
+        console.log("time was incremented")
+        if(this.props.IncrementLevel){
+          console.log("current increment " + this.state.increment)
            this.calculateIncrement()
+           console.log("new increment" + this.state.increment)
         }
         this.secondsRemaining = this.secondsRemaining +this.state.increment
         this.props.resetFunction();
+        this.props.resetFlag()
       }
     }
   

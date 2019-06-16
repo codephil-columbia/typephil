@@ -141,6 +141,26 @@ class OfflineUserService {
         res(user);
       })
   }
+
+  getUser(uid) {
+    const users = getLocalStorageVal("users");
+    const user = users.find(u => u.uid === uid);
+
+    // FIXME: since we for now do not hash passwords, remove it before 
+    // return the user 
+    user.password = "";
+
+    return Promise.resolve(user);
+  }
+
+  changePassword(username, newPassword) {
+    const users = getLocalStorageVal("users");
+    users.forEach(u => {
+      if (u.username === username) u.password = newPassword; 
+    })
+    setLocalStorageVal("users", users);
+    return Promise.resolve();
+  }
 }
 
 

@@ -34,9 +34,11 @@ const GameText = styled.div`
 `
 
 const CounterText = styled.div`
+
 `
 
 const CounterNumber = styled.div`
+
 `
 
 const Boat = styled.div`
@@ -55,15 +57,19 @@ const ExamParagraphText = styled.div`
   justify-content: center;
   font-size:3.5rem;
   width:100vw;
+
   @media only screen and (max-width: 1100px) {
     font-size:3.5rem;
   }
+
   @media only screen and (max-width: 1000px) {
     font-size:3.2rem;
   }
+
   @media only screen and (max-width: 950px) {
     font-size:3rem;
   }
+
   @media only screen and (max-width: 900px) {
     font-size:2.4rem;
   }
@@ -74,9 +80,11 @@ const LineStyling = styled.div`
   margin-bottom: 3vh;
   width: 90vw;
   background-color: white;
+
   @media only screen and (max-width: 1100px) {
     width: 100vw;
   }
+
   @media only screen and (max-width: 1000px) {
     width: 100vw;
   }

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import Header from './components/header';
 import Statistics from './SpaceraceStats'
 import Spacerace from './Spacerace'
-import { LocalStorageCache} from "./services";
-
+import GameOverSign from './components/gameOver'
+import {LocalStorageCache} from "./services";
 import data from "./offline_data.json"
 
 
@@ -42,7 +42,7 @@ const RocketRow = styled.div`
 `
 
 const SpaceRaceBackground = styled.div`
-    background-image: url(/images/games/Stars_Background.svg), url(/images/games/Earth.svg);
+    background-image: url(./images/games/Stars_Background.svg), url(./images/games/Earth.svg);
     background-position: center bottom 0vh, center right;
     background-repeat: repeat, no-repeat;
     background-size: 100vw auto, 30vw auto;
@@ -80,7 +80,7 @@ const RocketContainer = styled.div`
     flex-direction:column;
     height: 80vh;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 2em;
     color: white;
 `
 
@@ -141,8 +141,8 @@ class SpaceraceGame extends React.Component {
     this.state = {
       username: this.cache.get("username"),
       headerLinks: ["Games", "Learn", "Home"],
-      AvailableWords:[],
       FirstWords:["Friday", "Monday", "Sunday"],
+      AllWords:[],
       currentRockets:[],
       rowNum:0,
       seconds:0,
@@ -152,7 +152,8 @@ class SpaceraceGame extends React.Component {
       wpm:20,
       zIndex:5,
       lives:3,
-      playerHasLost:false, 
+      playerHasLost:false,
+      playerHasBegun:false, 
       needToincrement:false,
       level:1, 
       duration:10,
@@ -162,12 +163,16 @@ class SpaceraceGame extends React.Component {
       playerAccuracy:0,
       ref1:0,
       ref2:0,
+      ref3:0,
       live1:"./images/games/Heart.svg", 
       live2:"./images/games/Heart.svg", 
       live3:"./images/games/Heart.svg",
       showMainPage:true,
+      AvailableWords:[],
       isPlayerReady:false,
-      difficultySelected:""
+      showSign:false,
+      difficultySelected:"",
+      rocketsCreated: 0
 
     } 
 
@@ -186,30 +191,31 @@ class SpaceraceGame extends React.Component {
     this.exitGame=this.exitGame.bind(this)
     this.returnMainPage=this.returnMainPage.bind(this)
     this.exitMainPage=this.exitMainPage.bind(this)
-
+    this.setAvailableWords = this.setAvailableWords.bind(this)
+    this.createStyler=this.createStyler.bind(this)
     this.attachEventListener();
-    
   } 
   state = { isMoving: true };
 
   componentDidMount() {
-    fetch("http://localhost:5000/game/spacerace")
-    .then(results => {
-        return results.json()
-    })
-    .then(data => {
+    // fetch("http://localhost:5000/game/spacerace")
+    // .then(results => {
+    //     return results.json()
+    // })
+    // .then(data => {
        
-       console.log(data.length)
-       for (let i=0;i<data.length;i++){
-           let content=this.parse(data[i].Txt)
-           //console.log(content)
-       }
-    })
+    //    console.log(data.length)
+    //    for (let i=0;i<data.length;i++){
+    //        let content=this.parse(data[i].Txt)
+    //        //console.log(content)
+    //    }
+    // })
 
-    let shuffle = require('shuffle-array')
-    console.log(shuffle(data.games.spacerace))
-    this.setState({AvailableWords:data.games.spacerace})
+    //let shuffle = require('shuffle-array')
+    //console.log(shuffle(data.games.spacerace))
+    this.setState({AllWords:data.games.spacerace})
     console.log("AVAILABLE")
+    
     console.log(this.state.AvailableWords)
  //console.log(data.games.spacerace)
     
@@ -219,38 +225,57 @@ class SpaceraceGame extends React.Component {
   }
 
   exitMainPage = (difficulty) =>{
-    this.setState({
-      difficultySelected:difficulty,
-      showMainPage:false,
-      isPlayerReady:true
-    })
+    console.log("exitpage:")
+    console.log(difficulty)
+    //this.setState({difficultySelected: difficulty})
+    this.setState({showMainPage:false})
+    this.setState({isPlayerReady:true})
 
-    if(difficulty=="easy"){
+    if(difficulty==="easy"){
       this.setState({wpm:20})
-    }else if(difficulty=="medium"){
+      this.setState({difficultySelected : "easy"})
+      console.log(this.state.difficultySelected)
+    }else if(difficulty==="Medium"){
       this.setState({wpm:25})
-    }else if(difficulty=="hard"){
+      this.setState({difficultySelected : "medium"})
+    }else if(difficulty==="Hard"){
       this.setState({wpm:30})
+      this.setState({difficultySelected : "hard"})
     }
   }
   
   checkDifficultyIncrement = () => {
+    console.log("checkDiff:")
+    console.log(this.state.difficultySelected)
     if(this.state.seconds % 30 == 0){
       this.incrementDifficulty()
       console.log("current wpm: " + this.state.wpm)
     }
-    if(this.state.seconds % 120 ==0){
-      this.spawnRocket()
-      this.spawnRocket()
-      this.spawnRocket()
-      console.log("spawned 3")
+
+    if (this.state.difficultySelected === "easy"){
+      console.log("i am in")
+      if(this.state.seconds % 30 == 0){
+        this.spawnRocket(); 
+
+      }
+    }else if (this.state.difficultySelected === "hard"){
+      if(this.state.seconds % 5 == 0){
+        this.spawnRocket();   
       
+
+        console.log("have three rockets") 
+      }
+    } else {
+      if(this.state.seconds % 25 == 0){
+        this.spawnRocket();    
+
+      }
     }
-    console.log("checking need to increment ")
   }
+
   tick = () => {
     this.setState({seconds:this.state.seconds + 1})
-    console.log(this.state.seconds)
+    //console.log(this.state.seconds)
   }
 
   incrementDuration = () => {
@@ -266,8 +291,12 @@ class SpaceraceGame extends React.Component {
   }
 
   incrementDifficulty = () => {
-     this.setState({wpm:this.state.wpm + 5,})
      this.setState({level:this.state.level +1 })
+     clearInterval(this.state.ref3)
+     this.setState({wpm:this.state.wpm + 5,})
+     this.setState({ref3:setInterval(this.spawnRocket,this.state.wpm/60 *10000)})
+     
+
     console.log(this.state.level)
   }
 
@@ -288,14 +317,21 @@ class SpaceraceGame extends React.Component {
     playerHasLost:false,
     startPeriod:true,
     showMainPage:true,
+    startRocketSpawning:false,
+    showSign:false,
+    seconds:0,
     startPresses:0,
+    difficultySelected:"",
     difficulty:"",
     wpm:20,
+    level:1,
     currentRockets:[],
+    level:1,
     lives:3,
     live1:"./images/games/Heart.svg", 
     live2:"./images/games/Heart.svg", 
     live3:"./images/games/Heart.svg"})
+    this.attachEventListener();
     console.log(this.rows)
     
   }
@@ -304,7 +340,10 @@ class SpaceraceGame extends React.Component {
     // note need to account for different words
     //determine word and rowNum where we need to spawn rocket
     let AvailableWords= this.state.AvailableWords
+    console.log("i am inside spawn")
     console.log(this.state.AvailableWords)
+    
+    //console.log(this.state.AvailableWords)
     let randIndex= Math.floor(Math.random()* AvailableWords.length)
     let rocketWord=AvailableWords[randIndex]
 
@@ -329,19 +368,28 @@ class SpaceraceGame extends React.Component {
       this.setState({live2: null})
     }else if (this.state.lives === 1){
       this.setState({live1: null})
-  }
+    }
     this.setState({lives:this.state.lives -1})
     if(this.state.lives ==0){
-      this.setState({playerHasLost:true})
-      this.calculateStats()
-      console.log(this.state.level)
+      this.setState({showSign:true})
+      //console.log(this.state.level)
       clearInterval(this.state.ref1)
       clearInterval(this.state.ref2)
+      clearInterval(this.state.ref3)
+      document.removeEventListener("keydown", this.registerUserKeyPress);
+      this.calculateStats()
+      setTimeout(()=>{
+      this.setState({playerHasLost:true})
+      console.log(this.state.level)
+      },6000)
     }
   }
 
   destroyRocket= (targetDiv) => {
-    let target = document.getElementsByClassName(targetDiv)[0]
+    if(!document.getElementsByClassName(targetDiv)[0]){
+      return
+    }
+    let target=document.getElementsByClassName(targetDiv)[0]
     let childNodes = target.childNodes
     let text= childNodes[0]
     let img = childNodes[1]
@@ -353,7 +401,7 @@ class SpaceraceGame extends React.Component {
 
     //destory rocket
     img.src="./images/games/Meteor_Crash.svg"
-    img.style.width= "10vw"
+    img.style.width= "5vw"
     img.style.height= "auto"
     setTimeout(function() {
       target.style.visibility="hidden"
@@ -362,6 +410,8 @@ class SpaceraceGame extends React.Component {
       target.className= "null"
       text.textContent=""
     }, 100);
+    //this.spawnRocket(); 
+    
   }
 
   calculateStats= () =>  {
@@ -380,20 +430,20 @@ class SpaceraceGame extends React.Component {
     img.style.width="100%"
     rocket.style.width="25vw"
     rocket.style.height="auto"
-    rocket.style.zIndex=this.state.zIndex
+    //rocket.style.zIndex=this.state.zIndex
     img.style.height="auto"
-    img.style.zIndex=this.state.zIndex
+    //img.style.zIndex=this.state.zIndex
     text.textContent=word
-    text.style.zIndex=this.state.zIndex
+    //text.style.zIndex=this.state.zIndex
     text.style.color = "white"
-    text.style.fontSize = "2vw"
+    text.style.fontSize = "2.6vw"
+    text.style.fontWeight = "bold"
     text.style.textAlign = "center"
     text.style.position = "relative"
     // text.style.top = "6.5rem"
     // text.style.left = "7rem"
-    text.style.top = "5vw"
-    text.style.left = "5vw"
-
+    text.style.top = "5.5vw"
+    text.style.left = "5.5vw"
 
     
     rocket.className= word
@@ -405,7 +455,7 @@ class SpaceraceGame extends React.Component {
     //add randomword selected to rocket words (words that are on screen currently)
     this.state.currentRockets.push(word)
     this.state.AvailableWords.splice(index,1)
-    const extraRocket= styler(document.querySelector('.'+word))
+    const extraRocket= this.createStyler(word)
 
     let haslostLife=false
 
@@ -417,13 +467,13 @@ class SpaceraceGame extends React.Component {
 
     }).start(v => {
       extraRocket.set({x:v.x})
-      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -600 ){
+      if(rocket.id !="destroyed" && !haslostLife && v.x >= window.innerWidth -600 ){ //i think this might be an issue 
         this.subtractLife()
         haslostLife=true
       }
       if(v.x >= window.innerWidth -600){
         img.src="./images/games/Meteor_Crash.svg"
-        img.style.width= "10vw"
+        img.style.width= "5vw"
         img.style.height= "auto"
         setTimeout(function() {
           rocket.style.visibility="hidden"
@@ -435,20 +485,48 @@ class SpaceraceGame extends React.Component {
       else if(v.x <= 0){
         img.src= "./images/games/Meteor.svg"
       } 
+    });   
 
-    });
-    
-
+  }
+  createStyler= (word) => {
+    return styler(document.querySelector('.'+word))
   }
 
   returnMainPage(){
     this.setState({showMainPage:true})
   }
 
+  setAvailableWords(){
+    console.log("INDSIDE FUNCTION")
+    if (this.state.difficultySelected === "easy"){
+      console.log("INDSIDE EASY")
+      this.setState({AvailableWords: this.state.AllWords.slice(0, 145)})
+      let shuffle = require('shuffle-array')
+      shuffle(this.state.AvailableWords)
+      console.log(this.state.AvailableWords)
+    }else if (this.state.difficultySelected === "hard"){
+      this.setState({AvailableWords: this.state.AllWords.slice(408, -1)})
+      let shuffle = require('shuffle-array')
+      shuffle(this.state.AvailableWords)
+      console.log(this.state.AvailableWords)
+    }else {
+      this.setState({AvailableWords: this.state.AllWords.slice(145, 409)})
+      let shuffle = require('shuffle-array')
+      shuffle(this.state.AvailableWords)
+    }
+  }
+
   initGame = () =>{
-    this.spawnInitRocket(this.state.FirstWords[0],0,10)
     this.spawnInitRocket(this.state.FirstWords[1],1,12)
-    this.spawnInitRocket(this.state.FirstWords[2],2,11)
+
+    if (this.state.difficultySelected == "medium"){
+      this.spawnInitRocket(this.state.FirstWords[0],0,10)
+
+    }
+    else if (this.state.difficultySelected == "hard"){
+      this.spawnInitRocket(this.state.FirstWords[0],0,10)
+      this.spawnInitRocket(this.state.FirstWords[2],2,11)
+    }
   }
 
   getParentDiv() {
@@ -475,13 +553,13 @@ class SpaceraceGame extends React.Component {
     text.textContent=word
     text.style.zIndex=this.state.zIndex
     text.style.color = "white"
-    text.style.fontSize = "2vw"
+    text.style.fontSize = "2.6vw"
     text.style.textAlign = "center"
     text.style.position = "relative"
     // text.style.top = "6.5rem"
     // text.style.left = "7rem"
-    text.style.top = "5vw"
-    text.style.left = "5vw"
+    text.style.top = "5.5vw"
+    text.style.left = "5.5vw"
 
 
     
@@ -510,6 +588,8 @@ class SpaceraceGame extends React.Component {
       }
       if(v.x >= window.innerWidth -600){
         img.src="./images/games/Meteor_Crash.svg"
+        img.style.width= "5vw"
+        img.style.height= "auto"
         setTimeout(function() {
           rocket.style.visibility="hidden"
           rocket.style.width="0vw"
@@ -529,21 +609,39 @@ class SpaceraceGame extends React.Component {
 
   registerUserKeyPress = ({ key: keyPressed }) => {
     if(this.state.startPeriod){
+      this.setAvailableWords()
       this.setState({startPresses:this.state.startPresses + 1})
       if(this.state.startPresses==1){
-        console.log(this.state.startPeriod)
-        this.setState({startPeriod:false})
-        console.log(this.state.startPeriod)
+        //console.log(this.state.startPeriod)
+        this.setState({startPeriod:false,startRocketSpawning:true})
+        //console.log(this.state.startPeriod)
         this.setState({
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
         })
-        this.spawnRocket()
-        this.spawnRocket()
-        this.spawnRocket()
+        this.setState({ref3:setInterval(this.spawnRocket,this.state.wpm/60 *10000)})
+        console.log("spawn init")
+        if ((this.state.difficultySelected === "medium") && (this.state.seconds%1000=== 0) ){
+          //this.spawnRocket()
+          
+          // this.spawnInitRocket(this.state.FirstWords[1],1,12)
+          // this.spawnInitRocket(this.state.FirstWords[0],0,10)
+    
+        }
+        if (this.state.difficultySelected === "hard"){
+          //this.spawnRocket()
+          //this.spawnRocket()
+          // this.spawnInitRocket(this.state.FirstWords[1],1,12)
+          // this.spawnInitRocket(this.state.FirstWords[0],0,10)
+          // this.spawnInitRocket(this.state.FirstWords[2],2,11)
+        }
+        //this.spawnRocket()
+        //this.spawnRocket()
+        //this.spawnRocket()
       }
     } else if (keyPressed == BACKSPACE){
         this.setState({inputWord:this.state.inputWord.slice(0, -1)})
+        console.log(this.state.AllWords.slice(0, 145))
     //special inputs
     } else if (keyPressed == SHIFT){
       this.setState({inputWord:this.state.inputWord})
@@ -561,8 +659,8 @@ class SpaceraceGame extends React.Component {
       if (this.doesWordExist(this.state.inputWord)) {
         this.destroyRocket(this.state.inputWord)
         this.setState({totalCorrect: this.state.totalCorrect + 1})
-        setTimeout(this.spawnRocket(),this.state.wpm/60 )//make this variable time either delay it or use setinterval
-        
+        // console.log(this.state.wpm/60)
+        // setTimeout(this.spawnRocket(),this.state.wpm/60 )//make this variable time either delay it or use setinterval 
       }      
       this.setState({inputWord:''})
     }
@@ -588,15 +686,11 @@ class SpaceraceGame extends React.Component {
       return (<Spacerace data={this.state} commenceGame={this.exitMainPage} />)
     } else if(!this.state.playerHasLost){
       console.log("starting wpm: " + this.state.wpm)
+      console.log("Diff:" + this.state.difficultySelected)
         return (
           <SpaceRaceBackground>
-		        <Header 
-              links={headerLinks} 
-              isLoggedIn={true} 
-              username={username} 
-              history={this.props.history}
-              onLogout={this.props.onLogout}
-						/>
+            {this.state.showSign && <GameOverSign/>}
+            <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
             <LivesContainer>
               <Lives className="Lives">
                 <img height="auto" width="100%" src={live1}/>
@@ -637,7 +731,7 @@ class SpaceraceGame extends React.Component {
           </SpaceRaceBackground>
         );
     }else{
-     return( <Statistics data={this.state} exit={this.exitGame} reset={this.playAgain}/>)
+     return( <Statistics data={this.state} exit={this.props.exit} reset={this.playAgain}/>)
     }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }

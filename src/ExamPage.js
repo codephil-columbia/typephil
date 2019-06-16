@@ -4,9 +4,7 @@ import styled from 'styled-components';
 import Header from './components/header'
 import Tutorial from './ExamTracking'
 import Stats from './ExamStats'
-import { Connect, connect } from 'react-redux';
 import { tween, styler } from 'popmotion';
-import { bindActionCreators } from 'redux';
 import data from "./offline_data.json"
 
 
@@ -256,7 +254,4 @@ class ExamPage extends Component{
     }
 }
 
-
-
- 
-  export default ExamPage;
+export default ExamPage;
