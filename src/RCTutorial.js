@@ -53,7 +53,7 @@ class Tutorial extends Component {
       lessonImages,
       content: contentList[0],
       correctCount: 0,
-      headerLinks: ["Learn", "Home"],
+      headerLinks: ["Stats", "Games", "Learn", "Home"],
       indexPtr: 0,
       shouldFreeze: true,
       totalTime: 0,

@@ -140,7 +140,7 @@ class SpaceraceGame extends React.Component {
 
     this.state = {
       username: this.cache.get("username"),
-      headerLinks: ["Games", "Learn", "Home"],
+      headerLinks: ["Stats", "Games", "Learn", "Home"],
       FirstWords:["Friday", "Monday", "Sunday"],
       AllWords:[],
       currentRockets:[],
@@ -690,7 +690,13 @@ class SpaceraceGame extends React.Component {
         return (
           <SpaceRaceBackground>
             {this.state.showSign && <GameOverSign/>}
-            <Header links={headerLinks} isLoggedIn={false} username={"test"}/>
+            <Header 
+              links={headerLinks} 
+              isLoggedIn={true} 
+              username={this.state.username}
+              history={this.props.history}
+              onLogout={this.props.onLogout}
+            />
             <LivesContainer>
               <Lives className="Lives">
                 <img height="auto" width="100%" src={live1}/>

@@ -11,6 +11,7 @@ import BoatGame from './BoatGame'
 import KeyTracking from './KeyTracking'
 import SpaceraceGame from './SpaceraceGame'
 import GameOverSign from './components/gameOver'
+
 import './style/font.css';
 
 
@@ -113,15 +114,17 @@ const GameSelectionButton = Button.extend`
 export default class GameSelect extends Component {
   	constructor(props) {
 			super(props);
+			this.cache = new LocalStorageCache();
       this.cache = new LocalStorageCache();
 	    this.state = { 
-				headerLinks: ["Games", "Learn", "Home"],
+				headerLinks: ["Stats", "Games", "Learn", "Home"],
 				spaceraceEnabled:false,
 				showSpaceRace:false,
 				boatraceEnabled:false,
 				showBoatRace:false,
 				challengeEnabled:false,
 				showChallenge:false,
+				username: this.cache.get("username"),
 	    }
 		this.spaceraceSelected = this.spaceraceSelected.bind(this);
 		this.boatraceSelected = this.boatraceSelected.bind(this);
@@ -221,7 +224,9 @@ export default class GameSelect extends Component {
 
     render() {
 	    const { 
+	      badges,
 	      headerLinks, 
+	      username
 	    } = this.state;
 			if(this.state.showBoatRace){
 				console.log("boat has been activated")
@@ -235,7 +240,13 @@ export default class GameSelect extends Component {
 			}else{
         return(
             <div>
-            	<Header links={headerLinks}/>
+            	<Header 
+            		links={headerLinks}
+            		isLoggedIn={true}
+            		username={username}
+            		history={this.props.history}
+            		onLogout={this.props.onLogout}
+            	/>
             	<LeftGameSelectionPanel>
             		<SpaceRaceSelection onClick={this.spaceraceSelected} 
             		isActive={this.state.spaceraceEnabled}>

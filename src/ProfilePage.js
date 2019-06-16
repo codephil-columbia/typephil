@@ -15,7 +15,7 @@ class Profile extends Component {
     this.cache = new LocalStorageCache();
 
     this.state = {
-      headerLinks: ["Learn", "Home"],
+      headerLinks: ["Stats", "Games", "Learn", "Home"],
       isLoading: true,
       edited: false,
       editing: false,

@@ -64,7 +64,7 @@ class BoatGame extends Component{
             baseDifficulty:1,
             showMainPage:true,
             username: this.cache.get("username"),
-            headerLinks: ["Games", "Learn", "Home"],
+            headerLinks: ["Stats" ,"Games", "Learn", "Home"],
         };
     }
 
@@ -310,7 +310,14 @@ class BoatGame extends Component{
             return(
             <div className="">
                 {this.state.showSign && <GameOverSign isBoatGame={true} place={this.state.playerPlace}/>}
-                <Header links={headerLinks}></Header>
+                <Header 
+                    links={headerLinks}
+                    isLoggedIn={true}
+                    username={username}
+                    history={this.props.history}
+                    onLogout={this.props.onLogout}
+                >
+                </Header>
                 <Tutorial playerHasLost={this.endGames} inputOff={this.state.inputOff} assignPosition={this.assignPlayerPlace} showStats={this.showStatspage} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} baseDifficulty={this.state.baseDifficulty} currentContent={content}/>
             </div>
             )

@@ -26,7 +26,7 @@ class CocoType extends Component {
     this.updateLevel=this.updateLevel.bind(this)
     this.back=this.back.bind(this)
     this.state ={
-      headerLinks: ["Games", "Learn", "Home"],
+      headerLinks: ["Stats" ,"Games", "Learn", "Home"],
       Time:"00:15",
       currLine:"",
       currLinenum:0,

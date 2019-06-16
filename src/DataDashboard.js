@@ -296,7 +296,7 @@ export default class DataDashboard extends Component{
         this.activateBadges=this.activateBadges.bind(this)
         this.state = { 
             username: this.cache.get("username"),
-            headerLinks: ["Games", "Learn", "Home"],
+            headerLinks: ["Stats" ,"Games", "Learn", "Home"],
             progressActive:true,
             gameScoreActive:false,
             badgesActive:false

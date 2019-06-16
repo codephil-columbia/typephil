@@ -135,7 +135,7 @@ export default class Statistics extends Component{
 
         this.state = { 
             username: this.cache.get("username"),
-            headerLinks: ["Games", "Learn", "Home"],
+            headerLinks: ["Stats", "Games", "Learn", "Home"],
         }
 
         this.playAgain = this.playAgain.bind(this)

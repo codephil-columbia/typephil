@@ -25,7 +25,7 @@ class Challenge extends Component {
     this.cache = new LocalStorageCache();
     
     this.state = { 
-      headerLinks: ["Games", "Learn", "Home"],
+      headerLinks: ["Stats" ,"Games", "Learn", "Home"],
       isEzActive:false,
       isMidActive:false,
       isHardActive: false,

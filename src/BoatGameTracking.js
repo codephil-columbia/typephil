@@ -620,7 +620,7 @@ class BoatGameTracking extends Component {
     });
 
     // rows = rows.map(row => <p  style={{marginBottom:"3vh", width:"75vw", backgroundColor:"white"}} className="line">{[...row]}</p>);
-    rows = rows.map(row => <LineStyling className="line">{[...row]}</LineStyling>);
+    rows = rows.map(row => <LineStyling className="boatgame-line">{[...row]}</LineStyling>);
     console.log(rows)
     return rows;
   };

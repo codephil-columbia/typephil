@@ -26,7 +26,7 @@ class Learn extends Component {
       shouldShowLessons: false,
       carouselTitle: "Chapter Overview",
       carouselDesc: "",
-      headerLinks: ["Games", "Learn", "Home"],
+      headerLinks: ["Stats", "Games", "Learn", "Home"],
     }
   }
 

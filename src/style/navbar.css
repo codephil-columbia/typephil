@@ -38,6 +38,10 @@
     .nav_tutorial_chapter_info {
       width: 45%;
     }
+
+    .navigation-item {
+      font-size: .5rem;
+    }
 }
 
 @media only screen and (max-width: 950px) {
@@ -48,6 +52,8 @@
     .nav_tutorial_chapter_info {
       left: -32px;
     }
+
+
 }
 
 @media only screen and (max-width: 820px) {
@@ -99,6 +105,12 @@
 
 .navigation-item:hover, .navigation-item:active {
   border-bottom-color: #FAFAFA; }
+
+@media only screen and (max-width: 950px) {
+    .navigation-item {
+        padding: 0 1.5rem 1rem 1.5rem;
+    }
+}
 
 .profile-bubble {
   margin-top: 1px;
