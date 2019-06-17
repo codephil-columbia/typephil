@@ -125,9 +125,9 @@ export default class GameSelect extends Component {
 			}
 			
 			this.spaceraceSelected = this.spaceraceSelected.bind(this);
-			this.boatraceSelected = this.boatraceSelected.bind(this);
+			this.boatraceSelected  = this.boatraceSelected.bind(this);
 			this.challengeSelected = this.challengeSelected.bind(this);
-			this.returnToSelection=this.returnToSelection.bind(this)
+			this.returnToSelection = this.returnToSelection.bind(this)
 			this.BeginGame = this.BeginGame.bind(this)
     }
 
