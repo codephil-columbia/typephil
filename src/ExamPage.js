@@ -5,6 +5,7 @@ import Header from './components/header'
 import Tutorial from './ExamTracking'
 import Stats from './ExamStats'
 import { tween, styler } from 'popmotion';
+import { LocalStorageCache } from "./services";
 import data from "./offline_data.json"
 
 
@@ -25,6 +26,7 @@ const Ready = Button.extend`
 class ExamPage extends Component{
     constructor(props){
         super(props);
+        this.cache = new LocalStorageCache();
         this.initiate=this.initiate.bind(this)
         this.beginGames=this.beginGames.bind(this)
         this.endGames=this.endGames.bind(this)
@@ -49,7 +51,8 @@ class ExamPage extends Component{
             playerPlace:0,
             inputOff:false,
             words:0,
-            headerLinks: ["Games", "Learn", "Home"],
+            headerLinks: ["Stats" ,"Games", "Learn", "Home"],
+            username: this.cache.get("username"),
         };
     }
 
@@ -236,6 +239,8 @@ class ExamPage extends Component{
     render(){ 
         const { 
             headerLinks,
+            badges,
+            username,
             content
           } = this.state;
     console.log(this.state.totalWords)
@@ -244,7 +249,14 @@ class ExamPage extends Component{
         if(this.state.gameStart){
             return(
             <div>
-                <Header links={headerLinks}></Header>
+                <Header 
+                    links={headerLinks}
+                    isLoggedIn={true}
+                    username={username}
+                    history={this.props.history}
+                    onLogout={this.props.onLogout}
+                    >
+                </Header>
                 <Tutorial playerHasLost={this.endGames} insertText={this.addText} inputOff={this.state.inputOff} countTime={this.totalTime} time={this.props.time} currentContent={content}/>
             </div>
             )

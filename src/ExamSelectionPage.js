@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import Header from './components/header';
 import Button from 'react-button-component';
 import styled from 'styled-components';
+import { LocalStorageCache } from "./services";
 
 import ExamPage from './ExamPage'
 import ExamStatistics from './ExamStats'
@@ -103,14 +104,16 @@ const ExamSelectionButton = Button.extend`
 export default class ExamSelection extends Component {
   	constructor(props) {
 	    super(props);
+	    this.cache = new LocalStorageCache();
 	    this.state = { 
-				headerLinks: ["Games", "Learn", "Home"],
+				headerLinks: ["Stats", "Games", "Learn", "Home"],
 				oneMinuteExamEnabled:false,
 				showOneMinuteExam:false,
 				threeMinuteExamEnabled:false,
 				showThreeMinuteExam:false,
 				fiveMinuteEnabled:false,
 				showfiveMinuteExam:false,
+				username: this.cache.get("username"),
 	    }
 		this.oneMinuteExamSelected = this.oneMinuteExamSelected.bind(this);
 		this.threeMinuteExamSelected = this.threeMinuteExamSelected.bind(this);
@@ -211,6 +214,8 @@ export default class ExamSelection extends Component {
     render() {
 	    const { 
 				headerLinks,
+				badges, 
+				username,
 				showOneMinuteExam,
 				showThreeMinuteExam,
 				showFiveMinuteExam
@@ -225,7 +230,13 @@ export default class ExamSelection extends Component {
 			}else{
         return(
             <div>
-            	<Header links={headerLinks}/>
+            	<Header 
+            		links={headerLinks}
+            		isLoggedIn={true}
+            		username={username}
+            		history={this.props.history}
+            		onLogout={this.props.onLogout}
+            	/>
             	<LeftExamSelectionPanel>
             		<OneMinuteSelection onClick={this.oneMinuteExamSelected} 
             		isActive={this.state.oneMinuteExamEnabled}>

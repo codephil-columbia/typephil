@@ -66,7 +66,7 @@ class App extends Component {
         <Route path="/games" component={GameSelect}/>
         <Route path="/spacerace" component={SpaceraceGame}/>
         <Route path="/boat" component={Boat}/> 
-        <Route path="/userStats" component={DataDashboard}/>
+        <Route path="/stats" component={DataDashboard}/>
         <Route path="/challenge" component={Challenge}/>
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/finalstats" component={Stats}/>

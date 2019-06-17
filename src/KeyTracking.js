@@ -14,6 +14,7 @@ import GameOverSign from './components/gameOver'
 import shuffle from 'shuffle-array';
 
 import {LocalStorageCache} from "./services";
+import "./style/KeyTracking.css"
 
 const Ready = Button.extend`
     margin-top:4vh;
@@ -52,7 +53,7 @@ class KeyTracking extends Component{
             playerDifficulty:1,
             showMainPage:true,
             username: this.cache.get("username"),
-            headerLinks: ["Games", "Learn", "Home"],
+            headerLinks: ["Stats", "Games", "Learn", "Home"],
             showSign:false,
             jsonArray:[],
             dataArray:[]
@@ -190,7 +191,14 @@ class KeyTracking extends Component{
             return(
             <div className="challenge-game-background">
                 {this.state.showSign && <GameOverSign/>}
-                <Header links={headerLinks}></Header>
+                <Header 
+                    links={headerLinks} 
+                    isLoggedIn={true} 
+                    username={this.state.username}
+                    history={this.props.history}
+                    onLogout={this.props.onLogout}
+                >
+                </Header>
                 <Tutorial playerHasLost={this.endGames} inputOff={this.state.inputOff} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={cleanContent}/>
             </div>
             )

@@ -19,7 +19,7 @@ class Unit extends Component {
         "Numbers",
         "Special Characters"
       ],
-      headerLinks: ["Learn", "Home"]
+      headerLinks: ["Stats", "Games", "Learn", "Home"]
     }
   }
 

@@ -21,7 +21,7 @@ class LoginPage extends Component {
       randomFlag:false,
       username: "",
       password: "",
-      headerLinks: ["Progress", "Learn"],
+      headerLinks: ["Stats", "Games", "Learn", "Home"],
       touched: {
         signin: false
       },

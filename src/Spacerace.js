@@ -122,7 +122,7 @@ class Spacerace extends Component {
     this.cache = new LocalStorageCache();
 
     this.state = { 
-      headerLinks: ["Games", "Learn", "Home"],
+      headerLinks: ["Stats", "Games", "Learn", "Home"],
       isEzActive:false,
       isMidActive:false,
       isHardActive: false,
@@ -202,7 +202,13 @@ class Spacerace extends Component {
 
       return (
         <SpaceraceGameSelectionBackground>
-          <Header links={headerLinks} isLoggedIn={this.state.isLoggedIn} username={this.state.username}/>
+          <Header 
+            links={headerLinks} 
+            isLoggedIn={true} 
+            username={this.state.username}
+            history={this.props.history}
+            onLogout={this.props.onLogout}
+          />
           <SpaceraceGameTitleContainer>
             <SpaceraceGameDescriptionTitle>
                 <p>Spacerace</p>

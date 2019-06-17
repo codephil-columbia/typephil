@@ -104,6 +104,9 @@ const ProfileOptions = props => {
 				<div>  
 					<Link to="/profile" className="nav-bar-options">My Account</Link>
 				</div>
+                <div>
+                    <Link to="/exam" className="nav-bar-options">Exam</Link>
+                </div>
 				<div className="nav-bar-options" onClick={() => logout(props.dispatch, props.history, props.onLogout)}>
 					Log Out
 				</div>

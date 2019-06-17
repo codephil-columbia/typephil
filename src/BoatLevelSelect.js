@@ -130,7 +130,7 @@ class BoatLevelSelect extends Component {
     this.cache = new LocalStorageCache();
 
     this.state = { 
-      headerLinks: ["Games", "Learn", "Home"],
+      headerLinks: ["Stats" ,"Games", "Learn", "Home"],
       numOfWords:0,
       isEzActive:false,
       isMidActive:false,
