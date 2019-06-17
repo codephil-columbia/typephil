@@ -234,11 +234,17 @@ export default class GameSelect extends Component {
 			} = this.state;
 			
 			if(showBoatRace){
-				return(<BoatGame exit={this.returnToSelection}/>)
+				return(
+					<BoatGame exit={this.returnToSelection}/>
+				)
 			}else if(showChallenge){
-				return(<KeyTracking exit={this.returnToSelection}/>)
+				return(
+					<KeyTracking exit={this.returnToSelection}/>
+				)
 			}else if(showSpaceRace){
-				return(<SpaceraceGame exit={this.returnToSelection}/>)
+				return(
+					<SpaceraceGame exit={this.returnToSelection}/>
+				)
 			}else{
         return(
             <div>
@@ -276,7 +282,6 @@ export default class GameSelect extends Component {
             			Challenge
             		</ChallengeSelection>
             	</LeftGameSelectionPanel>
-
 
             	<RightGameSelectionPanel>
             		<InstructionsHeader>
