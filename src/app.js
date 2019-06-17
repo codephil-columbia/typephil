@@ -16,7 +16,6 @@ import KeyTracker from './KeyTracking'
 import Stats from './Statistics'
 import SpaceraceGame from './SpaceraceGame'
 import DataDashboard from './DataDashboard'
-import BoatSelect from './BoatLevelSelect'
 import ExamSelection from './ExamSelectionPage'
 
 import {LocalStorageCache} from "./services";
@@ -30,7 +29,11 @@ class App extends Component {
     this.cache = new LocalStorageCache();
 
     this._isMounted = false;
-    this.state = { isAuthenticated: false };
+    this.state = { 
+      isAuthenticated: false,
+    };
+
+    this.setPageSourceViaCache = this.setPageSourceViaCache.bind(this);
   }
 
   /**
@@ -50,6 +53,11 @@ class App extends Component {
     this.setState({ isAuthenticated: false });
   }
 
+  setPageSourceViaCache(pageSource=this.cache.get("tutorial").pageSource) {
+    const tutorialCachedData = this.cache.get("tutorial");
+    this.cache.set("tutorial", {...tutorialCachedData, pageSource});
+  }
+
   /**
    * Routes for an authenticated user. Has a default 404 component that can show text or just redirect back to home.
    * We need to keep the signup route here since App's render method will rerender signup after we have logged in, 
@@ -58,9 +66,9 @@ class App extends Component {
   userHasBeenAuthenticated = () => {
     return (
       <Switch>
-        <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history}/>} />
-        <Route path="/learn" component={() => <Learn onLogout={this.onLogout} history={this.props.history}/>} />
-        <Route path="/tutorial" component={Tutorial}/>
+        <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
+        <Route path="/learn" component={() => <Learn onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
+        <Route path="/tutorial" component={() => <Tutorial />}/>
         <Route path="/profile" component={() => <Profile onLogout={this.onLogout} history={this.props.history} />}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/games" component={GameSelect}/>
