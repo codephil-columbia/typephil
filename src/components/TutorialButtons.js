@@ -9,7 +9,7 @@ const LessonTutorialButtons = ({
   next, 
   prev, 
   isLastContent, 
-  redirectToNextLesson, 
+  saveTutorialResultAndRedirect, 
   didUserPassLesson,
   userState,
   isFinished,
@@ -29,7 +29,7 @@ const LessonTutorialButtons = ({
           ))}
         </div>
         <NextButton 
-          next={isLastContent ? redirectToNextLesson : next}
+          next={isLastContent ? saveTutorialResultAndRedirect : next}
           shouldRedirectToNextLesson={isLastContent} 
         />
       </div>

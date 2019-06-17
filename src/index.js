@@ -27,6 +27,10 @@ export function initLocalStorage() {
   }));
   localStorage.setItem("lessons", JSON.stringify(lessons));
   localStorage.setItem("chapters", JSON.stringify(chapters));
+
+  localStorage.setItem("tutorial", JSON.stringify({
+    pageSource: ""
+  }));
 } 
 
 const hasBeenSetup = localStorage.getItem("hasBeenSetup");
