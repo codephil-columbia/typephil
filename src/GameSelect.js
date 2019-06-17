@@ -16,21 +16,21 @@ const LeftGameSelectionPanel = styled.div`
 	float: left;
 	width: 50%;
 	height: 93vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `
 
 const RightGameSelectionPanel = styled.div`
 	float: right;
 	width: 50%;
 	height: 80vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-left: 1px solid #52B094;
-    margin-top: 5vh;
-    marign-bottom: -5vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-left: 1px solid #52B094;
+	margin-top: 5vh;
+	marign-bottom: -5vh;
 `
 
 const SpaceRaceSelection = styled.div`
@@ -219,7 +219,7 @@ export default class GameSelect extends Component {
 		}
 
     render() {
-			
+
 	    const {
 				showBoatRace,
 				boatraceEnabled,
