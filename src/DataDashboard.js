@@ -41,9 +41,9 @@ export default class DataDashboard extends Component{
     const { uid } = this.state;
 
     const { wpm, accuracy } = await this.tutorialService.getTutorialAvgs(this.state.uid);
-    const challengeHighScores = await this.gameService.getRecords(uid, GameService.Games.CHALLENGE);
-    const rstHighScores = await this.gameService.getRecords(uid, GameService.Games.READY_SET_TYPE);
-    const spaceRaceHighScores = await this.gameService.getRecords(uid, GameService.Games.SPACE_RACE);
+    const challengeHighScores = await this.gameService.getHighScores(uid, GameService.Games.CHALLENGE);
+    const rstHighScores = await this.gameService.getHighScores(uid, GameService.Games.READY_SET_TYPE);
+    const spaceRaceHighScores = await this.gameService.getHighScores(uid, GameService.Games.SPACE_RACE);
 
     this.setState({
         challengeHighScores,

@@ -598,16 +598,52 @@ class GameService {
     READY_SET_TYPE: "readysettype"
   }
 
-  getRecords(uid, gameType) {
-    return this.service.getRecords(uid, gameType);
+  getHighScores(uid, gameType) {
+    return this.service.getHighScores(uid, gameType);
+  }
+
+  addGameScore(uid, gameType, {wpm, accuracy, level}) {
+    return this.service.addGameScore(uid, gameType, {wpm, accuracy, level});
   }
 }
 
 class OfflineGameService {
 
-  getRecords(uid, gameType) {
+  getHighScores(uid, gameType) {
+    return Promise.resolve(this._getRecords(uid, gameType));
+  }
+
+  _getRecords(uid, gameType) {
     const { gameRecords } = getLocalStorageVal("records");
-    return Promise.resolve(gameRecords[uid][gameType]);
+    return gameRecords[uid][gameType];
+  }
+
+  _saveGameScores(uid, gameType, newHighScores) {
+   const records = getLocalStorageVal("records");
+   records.gameRecords[uid][gameType] = newHighScores;
+   setLocalStorageVal("records", records);
+  }
+
+  addGameScore(uid, gameType, {wpm, accuracy, level}) {
+    let highScores = this._getRecords(uid, gameType);
+    this._compareHighScoresAndUpdate(highScores, {wpm, accuracy, level});
+    this._saveGameScores(uid, gameType, highScores);
+    
+    return Promise.resolve();
+  }
+
+  _compareHighScoresAndUpdate(highScores, {wpm, accuracy, level}) {
+    if (wpm > highScores.wpm) {
+      highScores.wpm = wpm;
+    }
+
+    if (accuracy > highScores.accuracy) {
+      highScores.accuracy = accuracy;
+    }
+
+    if (level > highScores.level) {
+      highScores.level = level;
+    }
   }
 }
 
