@@ -79,7 +79,6 @@ class App extends Component {
         <Route path="/coco" component={KeyTracker}/>
         <Route path="/finalstats" component={Stats}/>
         <Route path="/exam" component={ExamSelection}/>
-        <Route path="/" component={HomePage}/>
         <Route path="/404"component={Component404} />
       </Switch>
     )
