@@ -135,11 +135,22 @@ class OfflineUserService {
         user.uid = uuid.v4();
 
         users.push(user);
+        this.addEntryToGameRecords(user.uid);
         // this.addUserToRecordList(user.uid);
 
         setLocalStorageVal(localStorageKeys.USERS, users);
         res(user);
       })
+  }
+
+  addEntryToGameRecords(uid) {
+    const records = getLocalStorageVal("records");
+    records.gameRecords[uid] = {
+      readysettype: {wpm: 0, accuracy: 0, level: 0},
+      spacerace: {wpm: 0, accuracy: 0, level: 0},
+      challenge: {wpm: 0, accuracy: 0, level: 0}
+    };
+    setLocalStorageVal("records", records);
   }
 
   getUser(uid) {
@@ -572,4 +583,32 @@ class OfflineChapterService {
   }
 }
 
-export { UserService, LocalStorageCache, TutorialService, ChapterService };
+class GameService {
+  constructor() {
+    if(process.env.REACT_APP_ENV === "offline") {
+      this.service = new OfflineGameService();
+    } else {
+      // this.service = new ();
+    }
+  }
+  
+  static Games = {
+    SPACE_RACE: "spacerace",
+    CHALLENGE: "challenge",
+    READY_SET_TYPE: "readysettype"
+  }
+
+  getRecords(uid, gameType) {
+    return this.service.getRecords(uid, gameType);
+  }
+}
+
+class OfflineGameService {
+
+  getRecords(uid, gameType) {
+    const { gameRecords } = getLocalStorageVal("records");
+    return Promise.resolve(gameRecords[uid][gameType]);
+  }
+}
+
+export { UserService, LocalStorageCache, TutorialService, ChapterService, GameService };

@@ -3,7 +3,7 @@ import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
 import styled  from 'styled-components'
-import { LocalStorageCache, TutorialService} from "./services";
+import { LocalStorageCache, TutorialService, GameService} from "./services";
 
 
 import './style/font.css'
@@ -15,6 +15,7 @@ export default class DataDashboard extends Component{
 
   this.cache = new LocalStorageCache();
   this.tutorialService = new TutorialService();
+  this.gameService = new GameService();
 
   this.state = { 
     username: this.cache.get("username"),
@@ -37,10 +38,17 @@ export default class DataDashboard extends Component{
 
   async componentDidMount() {
     this.setState({ isLoading: true });
+    const { uid } = this.state;
 
     const { wpm, accuracy } = await this.tutorialService.getTutorialAvgs(this.state.uid);
+    const challengeHighScores = await this.gameService.getRecords(uid, GameService.Games.CHALLENGE);
+    const rstHighScores = await this.gameService.getRecords(uid, GameService.Games.READY_SET_TYPE);
+    const spaceRaceHighScores = await this.gameService.getRecords(uid, GameService.Games.SPACE_RACE);
 
     this.setState({
+        challengeHighScores,
+        rstHighScores,
+        spaceRaceHighScores,
         wpm, 
         accuracy,
         isLoading: false
@@ -75,6 +83,9 @@ export default class DataDashboard extends Component{
     const {  
       headerLinks, 
       username,
+      rstHighScores,
+      spaceRaceHighScores,
+      challengeHighScores
     } = this.state; 
 
     if (this.state.isLoading) {
@@ -94,14 +105,14 @@ export default class DataDashboard extends Component{
           <SideBar>
             <SideTab onClick={this.activateProgress} isActive={this.state.progressActive}>
               <SideButtonImage>
-              <img src="./images/buttons/my_progress_button.svg"/>
+              <img src="./images/buttons/my_progress_button.svg" alt="My Progress"/>
               </SideButtonImage>
               
               My Progress
             </SideTab>
             <SideTab onClick={this.activateGameScore} isActive={this.state.gameScoreActive}>
               <SideButtonImage>
-              <img src="./images/buttons/my_scores_button.svg"/>
+              <img src="./images/buttons/my_scores_button.svg" alt="My Scores"/>
               </SideButtonImage>
               Game Scores
             </SideTab>
@@ -133,45 +144,45 @@ export default class DataDashboard extends Component{
                 <GameSpaceRaceRowHeader>Space Race</GameSpaceRaceRowHeader>
                 <StatsRow>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>75</GamesStatsNumber>
+                  <GamesStatsNumber>{spaceRaceHighScores.wpm}</GamesStatsNumber>
                   <GamesStatsNumberCaption>WPM</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>90%</GamesStatsNumber>
+                  <GamesStatsNumber>{spaceRaceHighScores.accuracy}%</GamesStatsNumber>
                   <GamesStatsNumberCaption>Accuracy</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>5</GamesStatsNumber>
+                  <GamesStatsNumber>{spaceRaceHighScores.level}</GamesStatsNumber>
                   <GamesStatsNumberCaption>Level</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 </StatsRow>
                 <GameReadySetTypeRowHeader>Ready, Set, Type!</GameReadySetTypeRowHeader>
                 <StatsRow>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>75</GamesStatsNumber>
+                  <GamesStatsNumber>{rstHighScores.wpm}</GamesStatsNumber>
                   <GamesStatsNumberCaption>WPM</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>90%</GamesStatsNumber>
+                  <GamesStatsNumber>{rstHighScores.accuracy}%</GamesStatsNumber>
                   <GamesStatsNumberCaption>Accuracy</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>5</GamesStatsNumber>
+                  <GamesStatsNumber>{rstHighScores.level}</GamesStatsNumber>
                   <GamesStatsNumberCaption>Level</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 </StatsRow>
                 <GameChallengeRowHeader>Challenge</GameChallengeRowHeader>
                 <StatsRow>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>75</GamesStatsNumber>
+                  <GamesStatsNumber>{challengeHighScores.wpm}</GamesStatsNumber>
                   <GamesStatsNumberCaption>WPM</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>90%</GamesStatsNumber>
+                  <GamesStatsNumber>{challengeHighScores.accuracy}%</GamesStatsNumber>
                   <GamesStatsNumberCaption>Accuracy</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 <GameStatsWrapper>
-                  <GamesStatsNumber>5</GamesStatsNumber>
+                  <GamesStatsNumber>{challengeHighScores.level}</GamesStatsNumber>
                   <GamesStatsNumberCaption>Level</GamesStatsNumberCaption>
                 </GameStatsWrapper>
                 </StatsRow>
