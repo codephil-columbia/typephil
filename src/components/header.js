@@ -10,8 +10,13 @@ const Header = props => {
     return (
         <nav className="navigation">
             <div className="">
-                <HeaderLeft/>
-                <HeaderCenter isTutorial={props.isTutorial} tutorialInfo={props.tutorialInfo} />
+                <HeaderLeft
+                    isLoggedIn={props.isLoggedIn}
+                />
+                <HeaderCenter 
+                    isTutorial={props.isTutorial} 
+                    tutorialInfo={props.tutorialInfo} 
+                />
                 <HeaderRight 
                     links={props.links} 
                     isTutorial={props.isTutorial} 
@@ -26,11 +31,12 @@ const Header = props => {
     )
 };
 
-const HeaderLeft = () => {
+const HeaderLeft = props => {
     return (
-        <Link to="/home">
+        <Link to={props.isLoggedIn ? "/home" : "/"}>
             <img className="navigation-title" src="images/universal/TypePhil_Header_Logo.svg" alt="TypePhil Logo"/>
         </Link>
+
     )
 };
 
