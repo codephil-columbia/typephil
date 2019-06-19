@@ -129,7 +129,7 @@ export default class DataDashboard extends Component{
                 <ProgressNumberSubCaption>This is your average<br/> Words Per Minute score.</ProgressNumberSubCaption>
                 </GameStatsWrapper>
                 <GameStatsWrapper>
-                <ProgressStatsNumberAccuracy>{this.state.accuracy}%</ProgressStatsNumberAccuracy>
+                <ProgressStatsNumberAccuracy>{Math.round(this.state.accuracy*10/10)}%</ProgressStatsNumberAccuracy>
                 <ProgressNumberCaption>Average Accuracy</ProgressNumberCaption>
                 <ProgressNumberSubCaption>This is your average<br/> accuracy score.</ProgressNumberSubCaption>
                 </GameStatsWrapper>
