@@ -124,7 +124,7 @@ export default class DataDashboard extends Component{
               <UserStats>
                 <StatsRow>
                 <GameStatsWrapper>
-                <ProgressStatsNumberWPM>{this.state.wpm}</ProgressStatsNumberWPM>
+                <ProgressStatsNumberWPM>{Math.round(this.state.wpm*10/10)}</ProgressStatsNumberWPM>
                 <ProgressNumberCaption>Average WPM</ProgressNumberCaption>
                 <ProgressNumberSubCaption>This is your average<br/> Words Per Minute score.</ProgressNumberSubCaption>
                 </GameStatsWrapper>
