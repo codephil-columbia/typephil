@@ -230,13 +230,13 @@ export default class GameSelect extends Component {
 	    } = this.state;
 			if(this.state.showBoatRace){
 				console.log("boat has been activated")
-				return(<BoatGame exit={this.returnToSelection}/>)
+				return(<BoatGame exit={this.returnToSelection} onLogout={this.props.onLogout} history={this.props.history}/>)
 			}else if(this.state.showChallenge){
 				console.log("challenge has been activated")
-				return(<KeyTracking exit={this.returnToSelection}/>)
+				return(<KeyTracking exit={this.returnToSelection} onLogout={this.props.onLogout} history={this.props.history}/>)
 			}else if(this.state.showSpaceRace){
 				console.log("spaceRace has been activated")
-				return(<SpaceraceGame exit={this.returnToSelection}/>)
+				return(<SpaceraceGame exit={this.returnToSelection} onLogout={this.props.onLogout} history={this.props.history}/>)
 			}else{
         return(
             <div>

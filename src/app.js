@@ -68,17 +68,17 @@ class App extends Component {
       <Switch>
         <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
         <Route path="/learn" component={() => <Learn onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
-        <Route path="/tutorial" component={() => <Tutorial />}/>
+        <Route path="/tutorial" component={() => <Tutorial onLogout={this.onLogout} history={this.props.history} />}/>
         <Route path="/profile" component={() => <Profile onLogout={this.onLogout} history={this.props.history} />}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route path="/games" component={GameSelect}/>
-        <Route path="/spacerace" component={SpaceraceGame}/>
-        <Route path="/boat" component={Boat}/> 
-        <Route path="/stats" component={DataDashboard}/>
-        <Route path="/challenge" component={Challenge}/>
-        <Route path="/coco" component={KeyTracker}/>
-        <Route path="/finalstats" component={Stats}/>
-        <Route path="/exam" component={ExamSelection}/>
+        <Route path="/games" component={() => <GameSelect onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/spacerace" component={() => <SpaceraceGame onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/boat" component={() => <Boat onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/stats" component={() => <DataDashboard onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/challenge" component={() => <Challenge onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/coco" component={() => <KeyTracker onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/finalstats" component={() => <Stats onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/exam" component={() => <ExamSelection onLogout={this.onLogout} history={this.props.history}/>} />
         <Route path="/404"component={Component404} />
       </Switch>
     )

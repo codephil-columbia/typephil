@@ -683,7 +683,7 @@ class SpaceraceGame extends React.Component {
     } = this.state;
 
     if(this.state.showMainPage){
-      return (<Spacerace data={this.state} commenceGame={this.exitMainPage} />)
+      return (<Spacerace data={this.state} commenceGame={this.exitMainPage} onLogout={this.props.onLogout} history={this.props.history} />)
     } else if(!this.state.playerHasLost){
       console.log("starting wpm: " + this.state.wpm)
       console.log("Diff:" + this.state.difficultySelected)
@@ -737,7 +737,7 @@ class SpaceraceGame extends React.Component {
           </SpaceRaceBackground>
         );
     }else{
-     return( <Statistics data={this.state} exit={this.props.exit} reset={this.playAgain}/>)
+     return( <Statistics data={this.state} exit={this.props.exit} reset={this.playAgain} onLogout={this.props.onLogout} history={this.props.history}/>)
     }
       // <Header links={headerLinks} isLoggedIn={this.props.isLoggedIn} username={this.props.currentUser.username}/>
   }

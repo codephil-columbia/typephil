@@ -222,11 +222,11 @@ export default class ExamSelection extends Component {
 			} = this.state;
 			
 			if(showOneMinuteExam){
-				return(<ExamPage exit={this.exit} time={1}/>)
+				return(<ExamPage exit={this.exit} time={1} onLogout={this.props.onLogout} history={this.props.history}/>)
 			}else if(showThreeMinuteExam){
-				return(<ExamPage time={3}/>)
+				return(<ExamPage time={3} onLogout={this.props.onLogout} history={this.props.history}/>)
 			}else if(showFiveMinuteExam){
-				return(<ExamPage time={5}/>)
+				return(<ExamPage time={5} onLogout={this.props.onLogout} history={this.props.history}/>)
 			}else{
         return(
             <div>

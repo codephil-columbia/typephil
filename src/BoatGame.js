@@ -298,7 +298,7 @@ class BoatGame extends Component{
     console.log(this.state.showMainPage)
          // this == event, in this cases
     if(this.state.showMainPage){
-        return (<MainPage setWords={this.setTotalWords} commenceGame={this.exitMainPage} />)
+        return (<MainPage setWords={this.setTotalWords} commenceGame={this.exitMainPage} onLogout={this.props.onLogout} history={this.props.history} />)
     }else if(this.state.gameStart){
             const { 
 				badges, 
@@ -321,7 +321,7 @@ class BoatGame extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats data={this.state} exit={this.props.exit} reset={this.playAgain}/>)
+            return(<Stats data={this.state} exit={this.props.exit} reset={this.playAgain} onLogout={this.props.onLogout} history={this.props.history}/>)
         }
     }
 }

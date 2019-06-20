@@ -386,7 +386,8 @@ class Tutorial extends Component {
     return (
       <Fragment>
         <Header links={headerLinks} isLoggedIn={true} username={username} 
-        isTutorial={true} tutorialInfo={this.state.currentLesson}/>
+        isTutorial={true} tutorialInfo={this.state.currentLesson}
+        onLogout={this.props.onLogout} history={this.props.history} />
         <div className="container-tutorial container tutorial">
           {userState === this.appState.READING ? (
             <div className="info-text">
@@ -409,6 +410,8 @@ class Tutorial extends Component {
               currentUser={this.props.currentUser}
               showStats={this.showStats}
               isFinished={this.isFinished}
+              onLogout={this.props.onLogout} 
+              history={this.props.history}
             />
           )}{shouldShowStats && (
             <TutorialStats 
@@ -416,6 +419,8 @@ class Tutorial extends Component {
               length={resultsForCurrentLesson.length}
               incorrect={resultsForCurrentLesson.incorrect}
               didUserPassLesson={didUserPassLesson}
+              onLogout={this.props.onLogout} 
+              history={this.props.history}
             />
           )}
           <LessonTutorialButtons 
@@ -429,6 +434,8 @@ class Tutorial extends Component {
             shouldFreeze={shouldFreeze}
             userState={userState}
             didUserPassLesson={didUserPassLesson}
+            onLogout={this.props.onLogout} 
+            history={this.props.history}
           />
         </div>
       </Fragment>

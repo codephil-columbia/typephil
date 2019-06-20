@@ -180,7 +180,7 @@ class KeyTracking extends Component{
     }
          // this == event, in this cases
     if(this.state.showMainPage){
-        return (<MainPage commenceGame={this.exitMainPage} />)
+        return (<MainPage commenceGame={this.exitMainPage} onLogout={this.props.onLogout} history={this.props.history} />)
     }else if(this.state.gameStart){
             const { 
 				badges, 
@@ -199,11 +199,11 @@ class KeyTracking extends Component{
                     onLogout={this.props.onLogout}
                 >
                 </Header>
-                <Tutorial playerHasLost={this.endGames} inputOff={this.state.inputOff} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={cleanContent}/>
+                <Tutorial playerHasLost={this.endGames} inputOff={this.state.inputOff} incrementDifficulty={this.incrementDifficulty} countTime={this.totalTime} difficulty={this.state.playerDifficulty} currentContent={cleanContent} onLogout={this.props.onLogout} history={this.props.history}/>
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats data={this.state} exit={this.props.exit} reset={this.playAgain}></Stats>)
+            return(<Stats data={this.state} exit={this.props.exit} reset={this.playAgain} onLogout={this.props.onLogout} history={this.props.history}></Stats>)
         }
     }
 }
