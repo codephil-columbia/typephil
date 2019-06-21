@@ -4,3 +4,4 @@ src/.sass_cache
 *.map
 *.DS_STORE
 .vscode/
+coverage/

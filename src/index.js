@@ -43,6 +43,6 @@ if (process.env.REACT_APP_ENV === "offline" && !hasBeenSetup) {
 ReactDOM.render(
   <BrowserRouter>
     <App/>
-  </BrowserRouter>,
-  document.getElementById('root')
+    </BrowserRouter>, 
+  document.getElementById('root') || document.createElement('div'),
 );
