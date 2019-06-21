@@ -280,9 +280,9 @@ class SpaceraceGame extends React.Component {
 
   incrementDuration = () => {
     let prevDuration= this.state.duration
-    if(prevDuration==10){
+    if(prevDuration === 10){
       this.setState({duration:12})
-    }else if(prevDuration==12){
+    }else if(prevDuration===12){
       this.setState({duration:11})
     }else if( prevDuration==11){
       this.setState({duration:10})
@@ -370,7 +370,7 @@ class SpaceraceGame extends React.Component {
       this.setState({live1: null})
     }
     this.setState({lives:this.state.lives -1})
-    if(this.state.lives ==0){
+    if(this.state.lives === 0){
       this.setState({showSign:true})
       //console.log(this.state.level)
       clearInterval(this.state.ref1)

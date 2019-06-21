@@ -16,8 +16,6 @@ const HIGHLIGHTED = "highlighted character";
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
-// http://reactcommunity.org/react-modal/accessibility/
-Modal.setAppElement('#root')
 
 class LessonTutorialContent extends Component {
   constructor(props) {
