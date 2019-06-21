@@ -586,7 +586,10 @@ class OfflineChapterService {
 class GameService {
   constructor() {
     if(process.env.REACT_APP_ENV === "offline") {
-      this.service = new OfflineGameService();
+      this.service = new OfflineGameService(
+        getLocalStorageVal,
+        setLocalStorageVal
+      );
     } else {
       // this.service = new ();
     }
@@ -602,33 +605,36 @@ class GameService {
     return this.service.getHighScores(uid, gameType);
   }
 
-  addGameScore(uid, gameType, {wpm, accuracy, level}) {
-    return this.service.addGameScore(uid, gameType, {wpm, accuracy, level});
+  addGameScoreAndUpdateIfHigher(uid, gameType, {wpm, accuracy, level}) {
+    return this.service.addGameScoreAndUpdateIfHigher(uid, gameType, {wpm, accuracy, level});
   }
 }
 
 class OfflineGameService {
+  constructor(getFromLocalStorage, setToLocalStorage) {
+    this._getFromLocalStorage = getFromLocalStorage;
+    this._setToLocalStorage = setToLocalStorage;
+  }
 
   getHighScores(uid, gameType) {
     return Promise.resolve(this._getRecords(uid, gameType));
   }
 
   _getRecords(uid, gameType) {
-    const { gameRecords } = getLocalStorageVal("records");
+    const { gameRecords } = this._getFromLocalStorage("records");
     return gameRecords[uid][gameType];
   }
 
   _saveGameScores(uid, gameType, newHighScores) {
-   const records = getLocalStorageVal("records");
+   const records = this._getFromLocalStorage("records");
    records.gameRecords[uid][gameType] = newHighScores;
-   setLocalStorageVal("records", records);
+   this._setToLocalStorage("records", records);
   }
 
-  addGameScore(uid, gameType, {wpm, accuracy, level}) {
+  addGameScoreAndUpdateIfHigher(uid, gameType, {wpm, accuracy, level}) {
     let highScores = this._getRecords(uid, gameType);
     this._compareHighScoresAndUpdate(highScores, {wpm, accuracy, level});
     this._saveGameScores(uid, gameType, highScores);
-    
     return Promise.resolve();
   }
 
@@ -647,4 +653,11 @@ class OfflineGameService {
   }
 }
 
-export { UserService, LocalStorageCache, TutorialService, ChapterService, GameService };
+export { 
+  UserService,  
+  TutorialService, 
+  ChapterService, 
+  GameService,
+  OfflineGameService,
+  LocalStorageCache
+};
