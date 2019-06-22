@@ -105,7 +105,8 @@ class GameTracking extends Component {
     this.resetIncrement=this.resetIncrement.bind(this)
     this.userFinished=this.userFinished.bind(this)
     this.turnOffAllowTimeFlag=this.turnOffAllowTimeFlag.bind(this)
-    this.modalCountdown=this.modalCountdown.bind(this)
+    this.modalCountdown=this.modalCountdown.bind(this);
+
     this.state = {
       rows,
       characterMapList,
@@ -146,6 +147,11 @@ class GameTracking extends Component {
   componentWillMount = () => {
     this.attachEventListener();
   };
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.registerUserKeyPress);
+  }
+
   createCharacterMapLists = (chars) => {
     chars = this.breakInto30CharacterLists(chars);
     let characterMaps = [];

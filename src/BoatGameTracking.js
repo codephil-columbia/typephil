@@ -260,6 +260,9 @@ class BoatGameTracking extends Component {
     this.calculatePlayerPlace=this.calculatePlayerPlace.bind(this)
     this.modalCountdown=this.modalCountdown.bind(this)
     this.intervalHandler;
+
+    this.registerUserKeyPress = this.registerUserKeyPress.bind(this);
+
     this.state = {
       rows,
       characterMapList,
@@ -298,7 +301,10 @@ class BoatGameTracking extends Component {
       pauses: [],
       time: 0
     };
+  }
 
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.registerUserKeyPress);
   }
 
   componentWillMount = () => {
@@ -384,7 +390,7 @@ class BoatGameTracking extends Component {
     return !(indexPtr >= characterMapList.length && groupPtr >= LESSON_LENGTH);
   };
 
-  registerUserKeyPress = ({ key: keyPressed }) => {
+  registerUserKeyPress({ key: keyPressed }) {
     // Starts timer once user presses first key
     if(this.state.isFirstCharacter) {
       this.setState({ startTime: Date.now(), isFirstCharacter: false });

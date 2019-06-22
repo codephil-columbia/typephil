@@ -222,6 +222,7 @@ class SpaceraceGame extends React.Component {
   }
 
   componentWillUnmount() {
+    document.removeEventListener('keydown', this.registerUserKeyPress);
   }
 
   exitMainPage = (difficulty) =>{

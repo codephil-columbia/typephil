@@ -64,6 +64,10 @@ class LessonTutorialContent extends Component {
     this.attachEventListener();
   };
 
+  componentWillUnmount() {
+    document.removeEventListener('key', this.registerUserKeyPress);
+  }
+
   createCharacterMapLists = (chars) => {
     chars = this.breakInto30CharacterLists(chars);
     let characterMaps = [];
