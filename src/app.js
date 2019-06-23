@@ -66,7 +66,7 @@ class App extends Component {
   userHasBeenAuthenticated = () => {
     return (
       <Switch>
-        <Route path="/home" component={() => <HomePage onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
+        <Route path="/" component={() => <HomePage onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
         <Route path="/learn" component={() => <Learn onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
         <Route path="/tutorial" component={() => <Tutorial onLogout={this.onLogout} history={this.props.history} />}/>
         <Route path="/profile" component={() => <Profile onLogout={this.onLogout} history={this.props.history} />}/>
