@@ -10,8 +10,13 @@ const Header = props => {
     return (
         <nav className="navigation">
             <div className="">
-                <HeaderLeft/>
-                <HeaderCenter isTutorial={props.isTutorial} tutorialInfo={props.tutorialInfo} />
+                <HeaderLeft
+                    isLoggedIn={props.isLoggedIn}
+                />
+                <HeaderCenter 
+                    isTutorial={props.isTutorial} 
+                    tutorialInfo={props.tutorialInfo} 
+                />
                 <HeaderRight 
                     links={props.links} 
                     isTutorial={props.isTutorial} 
@@ -26,11 +31,12 @@ const Header = props => {
     )
 };
 
-const HeaderLeft = () => {
+const HeaderLeft = props => {
     return (
-        <Link to="/home">
+        <Link to={props.isLoggedIn ? "/home" : "/"}>
             <img className="navigation-title" src="images/universal/TypePhil_Header_Logo.svg" alt="TypePhil Logo"/>
         </Link>
+
     )
 };
 
@@ -41,8 +47,18 @@ const HeaderCenter = props => {
         )
     }
     this.chapter_num = props.tutorialInfo["chapterName"].match(/\d+(?=:)/g)[0];
-    this.lesson_num = props.tutorialInfo["lessonName"].match(/\d+(?=:)/g)[0];
-    this.lesson_name = props.tutorialInfo["lessonName"].match(/: (.+)/g)[0].substring(1);
+    this.temp_lesson_num = props.tutorialInfo["lessonName"].match(/\d+(?=:)/g);
+    if (this.temp_lesson_num == null) {
+        this.lesson_num = ""
+    } else {
+        this.lesson_num = this.temp_lesson_num[0]
+    }
+    this.temp_lesson_name = props.tutorialInfo["lessonName"].match(/: (.+)/g)
+    if (this.temp_lesson_name == null) {
+        this.lesson_name = ""
+    } else {
+        this.lesson_name = this.temp_lesson_name[0].substring(1)
+    }
     return (
         <div className="nav_tutorial_chapter_info">{props.isTutorial &&
             <p className="nav_tutorial_chapter_info_text">

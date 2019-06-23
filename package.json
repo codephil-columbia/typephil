@@ -86,7 +86,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npm run tests/test.js",
+    "test": "jest --verbose",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "electron-start": "electron .",
@@ -97,7 +97,10 @@
     "@storybook/addon-actions": "^3.2.16",
     "@storybook/addon-links": "^3.2.16",
     "@storybook/react": "^3.2.16",
+    "chai": "^4.2.0",
     "electron": "^5.0.2",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "jest": "^21.2.1",
     "node-sass": "^4.8.3",
     "sass-loader": "^7.0.1",
@@ -114,13 +117,14 @@
       "src/**/*.{js,jsx}"
     ],
     "setupFiles": [
+      "<rootDir>/src/setupTests.js",
       "<rootDir>/config/polyfills.js"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.js?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
     ],
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",

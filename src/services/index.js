@@ -135,11 +135,22 @@ class OfflineUserService {
         user.uid = uuid.v4();
 
         users.push(user);
+        this.addEntryToGameRecords(user.uid);
         // this.addUserToRecordList(user.uid);
 
         setLocalStorageVal(localStorageKeys.USERS, users);
         res(user);
       })
+  }
+
+  addEntryToGameRecords(uid) {
+    const records = getLocalStorageVal("records");
+    records.gameRecords[uid] = {
+      readysettype: {wpm: 0, accuracy: 0, level: 0},
+      spacerace: {wpm: 0, accuracy: 0, level: 0},
+      challenge: {wpm: 0, accuracy: 0, level: 0}
+    };
+    setLocalStorageVal("records", records);
   }
 
   getUser(uid) {
@@ -572,4 +583,81 @@ class OfflineChapterService {
   }
 }
 
-export { UserService, LocalStorageCache, TutorialService, ChapterService };
+class GameService {
+  constructor() {
+    if(process.env.REACT_APP_ENV === "offline") {
+      this.service = new OfflineGameService(
+        getLocalStorageVal,
+        setLocalStorageVal
+      );
+    } else {
+      // this.service = new ();
+    }
+  }
+  
+  static Games = {
+    SPACE_RACE: "spacerace",
+    CHALLENGE: "challenge",
+    READY_SET_TYPE: "readysettype"
+  }
+
+  getHighScores(uid, gameType) {
+    return this.service.getHighScores(uid, gameType);
+  }
+
+  addGameScoreAndUpdateIfHigher(uid, gameType, {wpm, accuracy, level}) {
+    return this.service.addGameScoreAndUpdateIfHigher(uid, gameType, {wpm, accuracy, level});
+  }
+}
+
+class OfflineGameService {
+  constructor(getFromLocalStorage, setToLocalStorage) {
+    this._getFromLocalStorage = getFromLocalStorage;
+    this._setToLocalStorage = setToLocalStorage;
+  }
+
+  getHighScores(uid, gameType) {
+    return Promise.resolve(this._getRecords(uid, gameType));
+  }
+
+  _getRecords(uid, gameType) {
+    const { gameRecords } = this._getFromLocalStorage("records");
+    return gameRecords[uid][gameType];
+  }
+
+  _saveGameScores(uid, gameType, newHighScores) {
+   const records = this._getFromLocalStorage("records");
+   records.gameRecords[uid][gameType] = newHighScores;
+   this._setToLocalStorage("records", records);
+  }
+
+  addGameScoreAndUpdateIfHigher(uid, gameType, {wpm, accuracy, level}) {
+    let highScores = this._getRecords(uid, gameType);
+    this._compareHighScoresAndUpdate(highScores, {wpm, accuracy, level});
+    this._saveGameScores(uid, gameType, highScores);
+    return Promise.resolve();
+  }
+
+  _compareHighScoresAndUpdate(highScores, {wpm, accuracy, level}) {
+    if (wpm > highScores.wpm) {
+      highScores.wpm = wpm;
+    }
+
+    if (accuracy > highScores.accuracy) {
+      highScores.accuracy = accuracy;
+    }
+
+    if (level > highScores.level) {
+      highScores.level = level;
+    }
+  }
+}
+
+export { 
+  UserService,  
+  TutorialService, 
+  ChapterService, 
+  GameService,
+  OfflineGameService,
+  LocalStorageCache
+};

@@ -206,7 +206,13 @@ class BoatLevelSelect extends Component {
 
       return (
         <BoatraceGameSelectionBackground>
-          <Header links={headerLinks} isLoggedIn={this.state.isLoggedIn} username={this.state.username}/>
+          <Header 
+            links={headerLinks} 
+            isLoggedIn={this.state.isLoggedIn} 
+            username={this.state.username}
+            onLogout={this.props.onLogout} 
+            history={this.props.history}
+          />
           <BoatraceGameTitleContainer>
             <BoatraceGameDescriptionTitle>
                 <p>Ready, Set, Type!</p>

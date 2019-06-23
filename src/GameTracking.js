@@ -75,7 +75,7 @@ const CounterNumber = styled.div`
 
 
 // http://reactcommunity.org/react-modal/accessibility/
-Modal.setAppElement('#root')
+// Modal.setAppElement('#root')
 
 class GameTracking extends Component {
   constructor(props) {

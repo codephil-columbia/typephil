@@ -23,10 +23,16 @@ export function initLocalStorage() {
   localStorage.setItem("hasBeenSetup", true);
   localStorage.setItem("users", JSON.stringify([]));
   localStorage.setItem("records", JSON.stringify({
-    lessonRecords: [], chapterRecords: []
+    lessonRecords: [], 
+    chapterRecords: [],
+    gameRecords: {}
   }));
   localStorage.setItem("lessons", JSON.stringify(lessons));
   localStorage.setItem("chapters", JSON.stringify(chapters));
+
+  localStorage.setItem("tutorial", JSON.stringify({
+    pageSource: ""
+  }));
 } 
 
 const hasBeenSetup = localStorage.getItem("hasBeenSetup");
@@ -37,6 +43,6 @@ if (process.env.REACT_APP_ENV === "offline" && !hasBeenSetup) {
 ReactDOM.render(
   <BrowserRouter>
     <App/>
-  </BrowserRouter>,
-  document.getElementById('root')
+    </BrowserRouter>, 
+  document.getElementById('root') || document.createElement('div'),
 );

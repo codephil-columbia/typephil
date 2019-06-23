@@ -18,6 +18,8 @@ class Learn extends Component {
     this.tutorialService = new TutorialService();
     this.cache = new LocalStorageCache();
 
+    this.props.setPageSourceViaCache("LearnPage");
+
     this.state = {
       isLoading: true,
       uid: this.cache.get("uid"),

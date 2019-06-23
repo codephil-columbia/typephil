@@ -98,7 +98,13 @@ class Challenge extends Component {
 
       return (
         <div className="challenge-game-selection-background">
-          <Header links={headerLinks} isLoggedIn={this.state.isLoggedIn} username={this.state.username}/>
+          <Header 
+            links={headerLinks} 
+            isLoggedIn={this.state.isLoggedIn} 
+            username={this.state.username} 
+            onLogout={this.props.onLogout} 
+            history={this.props.history}
+          />
           <div className="game-title-container">
             <div className="game-description-title">
                 <p>Challenge</p>

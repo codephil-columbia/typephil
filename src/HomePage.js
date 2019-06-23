@@ -18,6 +18,8 @@ class HomePage extends Component {
       this.tutorialService = new TutorialService();
       const uid = this.cache.get("uid");
 
+      this.props.setPageSourceViaCache("HomePage");
+
       this.state = {
         uid,
         username: this.cache.get("username"),

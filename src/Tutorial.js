@@ -14,6 +14,11 @@ import { TutorialService, LocalStorageCache } from './services';
 
 import './style/Tutorial.css'
 
+const TutorialSource = Object.assign({
+  LearnPage: "LearnPage",
+  HomePage: "HomePage"
+});
+
 class Tutorial extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +60,8 @@ class Tutorial extends Component {
 
       nextURLLocation: ""
     };
+
+    this.fetchNextLesson = this.fetchNextLesson.bind(this);
   }
 
   componentWillMount = () => {
@@ -65,7 +72,7 @@ class Tutorial extends Component {
     document.removeEventListener('keydown', this.onKeyPressed);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     document.addEventListener('keydown', this.onKeyPressed);
     this.setState({
       results: {
@@ -79,22 +86,23 @@ class Tutorial extends Component {
 
     this.setState({ isLoading: true });
 
-    if(this.props.location.state.prevLocation === "LearnPage") {
+    if(this.cache.get("tutorial").pageSource === "LearnPage") {
       this.setState({ nextURLLocation: "LearnPage" });
-      Promise.all([
+
+      const [currentLesson, chapter] = await Promise.all([
         this.tutorialService.getLesson(this.cache.get("lessonID")),
         this.tutorialService.getChapter(this.cache.get("chapterID"))
-      ]).then(([ currentLesson, chapter ]) => {
-        this.setUpTutorial(currentLesson, chapter)
-      })
-        .catch(err => console.log(err));
+      ]).catch(err => console.log(err));
+
+      this.setUpTutorial(currentLesson, chapter);
     } else {
       this.setState({ nextURLLocation: "TutorialPage" });
-      this.tutorialService.getTutorialInfo(this.state.uid)
-        .then(({lesson, chapter})  => {
-          this.setUpTutorial(lesson, chapter)
-        })
-        .catch(err => console.log(err));
+
+      const { lesson, chapter } = (
+        await this.tutorialService.getTutorialInfo(this.state.uid)
+          .catch(err => console.log(err))
+      );
+      this.setUpTutorial(lesson, chapter);
     }
   }
 
@@ -140,7 +148,7 @@ class Tutorial extends Component {
     switch(isRightKey) {
       case 1: {
         if(this.isLastContent()) {
-          (this.state.userState === this.appState.READING) ? this.redirectToNextLesson() : this.postTutorialResultsAndRedirectToNextLesson();
+          this.saveTutorialResultAndRedirect();
         } else {
           if (
             this.state.userState === this.appState.READING
@@ -296,36 +304,48 @@ class Tutorial extends Component {
     }, totalTime);
   };
 
-  postTutorialResultsAndRedirectToNextLesson = () => {
-    this.tutorialService.saveTutorialResult({
-      wpm: Math.trunc((this.state.results.totalLength / 5) / ((this.state.results.totalTime)/60)),
-      accuracy: ((this.state.results.totalLength - this.state.results.totalIncorrect) / this.state.results.totalLength) * 100,
-      uid: this.state.uid,
-      chapterID: this.state.currentLesson.chapterID,
-      lessonID: this.state.currentLesson.lessonID
-    });
-    if (this.state.nextURLLocation === "LearnPage") {
-      this.props.history.push("/learn");
+  saveTutorialResultAndRedirect = () => {
+    const { results, uid } = this.state;
+    const { chapterID, lessonID } = this.state.currentLesson;
+
+    if (results.totalLength.size === 0) {
+      this.tutorialService.saveTutorialResult({
+        chapterID,
+        lessonID,
+        uid,
+        wpm: null, 
+        accuracy: null,
+      });
     } else {
-      window.location = "/tutorial";
+      this.tutorialService.saveTutorialResult({
+        uid,
+        chapterID,
+        lessonID,
+        wpm: Math.trunc((results.totalLength / 5) / ((results.totalTime)/60)),
+        accuracy: ((results.totalLength - results.totalIncorrect) / results.totalLength) * 100
+      });
+    }
+
+    this.fetchNextLesson();
+    this.redirect("tutorial");
+  }
+
+  fetchNextLesson() {
+    const pageSource = this.cache.get("tutorial").pageSource;
+
+    if (pageSource === TutorialSource.LearnPage) {
+      this.setTutorialCacheForNextLesson(this.state.currentLesson);
     }
   }
 
-  // In the case the last rendered content is text, we still want to make sure we record the lesson, 
-  // but without any speed/accuracy
-  redirectToNextLesson = () => {
-    this.tutorialService.saveTutorialResult({
-      wpm: null, 
-      accuracy: null,
-      uid: this.state.uid,
-      chapterID: this.state.currentLesson.chapterID,
-      lessonID: this.state.currentLesson.lessonID
-    });
-    if (this.state.nextURLLocation === "LearnPage") {
-      this.props.history.push("/learn");
-    } else {
-      window.location = "/tutorial";
-    }
+  setTutorialCacheForNextLesson({ nextLessonID }) {
+    const { lessonID, chapterID } = this.tutorialService.getLesson(nextLessonID);
+    this.cache.set("lessonID", lessonID);
+    this.cache.set("chapterID", chapterID); 
+  }
+
+  redirect(to) {
+    window.location = `/${to}`;
   }
 
   showStats = () => {
@@ -366,12 +386,13 @@ class Tutorial extends Component {
     return (
       <Fragment>
         <Header links={headerLinks} isLoggedIn={true} username={username} 
-        isTutorial={true} tutorialInfo={this.state.currentLesson}/>
+        isTutorial={true} tutorialInfo={this.state.currentLesson}
+        onLogout={this.props.onLogout} history={this.props.history} />
         <div className="container-tutorial container tutorial">
           {userState === this.appState.READING ? (
             <div className="info-text">
               <div className="tutorial-text">{content}</div>
-                { hasImage ? (
+                {hasImage ? (
                   <TutorialImage path={imagePath} />
                 ) : (
                   <div className="tutorial-hands-keyboard">
@@ -389,6 +410,8 @@ class Tutorial extends Component {
               currentUser={this.props.currentUser}
               showStats={this.showStats}
               isFinished={this.isFinished}
+              onLogout={this.props.onLogout} 
+              history={this.props.history}
             />
           )}{shouldShowStats && (
             <TutorialStats 
@@ -396,6 +419,8 @@ class Tutorial extends Component {
               length={resultsForCurrentLesson.length}
               incorrect={resultsForCurrentLesson.incorrect}
               didUserPassLesson={didUserPassLesson}
+              onLogout={this.props.onLogout} 
+              history={this.props.history}
             />
           )}
           <LessonTutorialButtons 
@@ -405,15 +430,12 @@ class Tutorial extends Component {
             prev={this.prev}
             isFinished={this.state.isFinished}
             isLastContent={this.state.indexPtr + 1 >= this.state.contentList.length}
-            redirectToNextLesson={
-              userState === this.appState.READING ? (
-                this.redirectToNextLesson
-              ) : (
-                this.postTutorialResultsAndRedirectToNextLesson
-              )}
+            saveTutorialResultAndRedirect={this.saveTutorialResultAndRedirect}
             shouldFreeze={shouldFreeze}
             userState={userState}
             didUserPassLesson={didUserPassLesson}
+            onLogout={this.props.onLogout} 
+            history={this.props.history}
           />
         </div>
       </Fragment>

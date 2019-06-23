@@ -220,7 +220,7 @@ const LineStyling = styled.div`
 
 
 // http://reactcommunity.org/react-modal/accessibility/
-Modal.setAppElement('#root')
+// Modal.setAppElement('#root')
 
 class BoatGameTracking extends Component {
   constructor(props) {
