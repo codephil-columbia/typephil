@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Route, Switch, Redirect } from 'react-router-dom'
+
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import styled from 'styled-components';
-import { NavigationFullscreenExit } from 'material-ui/svg-icons';
-import directions from 'material-ui/svg-icons/maps/directions';
-
 
 const DifficultyLevelWrapper = styled.div`
-display:flex;
-flex-direction:column;
-align-items:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 `
 
 const DifficultyLevel = styled.div`
@@ -27,9 +22,9 @@ const DifficultyLevel = styled.div`
   background-color: white;
 `
 const DifficultyContainer=styled.div`
-display:flex;
-width:100vw;
-justify-content: space-evenly;
+  display:flex;
+  width:100vw;
+  justify-content: space-evenly;
 
 `
 
@@ -55,14 +50,15 @@ export default class DifficultyTab extends Component {
     this.hardEnabled = this.hardEnabled.bind(this);
  
   }
-  componentDidMount(){
+
+  componentDidMount() {
     this.setState({
       medChosen:true
     })
     this.getGameCSS()
   }
   
-  disableOtherOptions(){
+  disableOtherOptions = () => {
     this.setState(
       {
         ezChosen:false,
@@ -75,31 +71,31 @@ export default class DifficultyTab extends Component {
   getGameCSS() {
     var gameSource = this.props.gameSource
 
-    if (gameSource == "Challenge") {
+    if (gameSource === "Challenge") {
       this.imagePath = "./images/games/Yellow_Arrow.svg"
       this.selectedColor = '#F5A623'
-    } else if (gameSource == "BoatRace") {
+    } else if (gameSource === "BoatRace") {
       this.imagePath = "./images/games/Teal_Arrow.svg"
       this.selectedColor = '#199893'
-    } else if (gameSource == "SpaceRace") {
+    } else if (gameSource === "SpaceRace") {
       this.imagePath = "./images/games/Blue_Arrow.svg"
       this.selectedColor = '#326BAE'
     }
   }
 
-  ezEnabled(){
+  ezEnabled = () => {
     this.disableOtherOptions();
     this.setState({ezChosen:true});
     this.props.updateEz();
   }
 
-  medEnabled(){
+  medEnabled = () => {
     this.disableOtherOptions();
     this.setState({medChosen:true})
     this.props.updateMed();
   }
   
-  hardEnabled(){
+  hardEnabled =() => {
     this.disableOtherOptions();
     this.setState({hardChosen:true})
     this.props.updateHard();

@@ -4,9 +4,7 @@ import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
 import { LocalStorageCache} from "./services";
 
-
 import styled  from 'styled-components'
-
 
 const NavigationContainer= styled.div`
     display:flex;
@@ -37,7 +35,6 @@ const StatsWrapper = styled.div`
     align-content:center;
     text-align:center;
     padding-top: 7vh;
-
     width: 100%
 `
 
@@ -50,9 +47,7 @@ const StatsRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
-
     color: #199893;
-
     padding-bottom: 2vh;
 `
 
@@ -65,9 +60,7 @@ const StatsHighScoreRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
-
     color: #199893;
-
     border-style: solid;
     border-color: #F5A623;
     height: 15vh;
@@ -119,7 +112,6 @@ const HighScoreLabel = styled.div`
     margin-right: 37vw;
     align-content: center;
     color: #199893;
-
     font-family:"Arcade";
     width: 26vw;
 	text-align: center;
@@ -147,21 +139,17 @@ export default class Statistics extends Component{
         this.playAgain = this.playAgain.bind(this)
         this.exitGame = this.exitGame.bind(this)
       }
-
-
-
     
-    playAgain= () =>{
+
+    playAgain = () => {
         this.props.reset()
     }
 
-
-    exitGame= ()  =>{
+    exitGame = ()  => {
         this.props.exit()
     }
 
-    render()
-    {
+    render() {
         console.log(this.props.data)
         const { 
             badges, 

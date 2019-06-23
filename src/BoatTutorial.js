@@ -314,7 +314,6 @@ class Tutorial extends Component {
       chapterID: this.props.currentLesson.chapterID,
       lessonID: this.props.currentLesson.lessonID
     }, this.props.source);
-    console.log(this.props.source); 
   }
 
   showStats = () => {
@@ -348,14 +347,11 @@ class Tutorial extends Component {
     if(userState === this.appState.READING && lessonImages[indexPtr] !== "") {
       hasImage = true;
       imagePath = lessonImages[indexPtr];
-      console.log(imagePath);
     } else {
       hasImage = false;
     }
 
     const { username } = this.props.currentUser
-    // console.log("!!!!!");
-    // console.log(this.props.currentLesson);
     return (
       <React.Fragment>
         <Header links={headerLinks} isLoggedIn={true} username={username} 
@@ -364,15 +360,15 @@ class Tutorial extends Component {
           {userState === this.appState.READING ? (
             <div className="info-text">
               <div className="tutorial-text">{content}</div>
-                { hasImage ? (
-                  <TutorialImage path={imagePath} />
-                ) : (
-                  <div className="tutorial-hands-keyboard">
-                    <LeftHand />
-                    <Keyboard />
-                    <RightHand />
-                  </div>
-                )}
+                { hasImage ? (<TutorialImage path={imagePath} />) : 
+                  (
+                    <div className="tutorial-hands-keyboard">
+                      <LeftHand />
+                      <Keyboard />
+                      <RightHand />
+                    </div>
+                  )
+                }
             </div>
           ) : (
             <TutorialContent

@@ -1,15 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
-import { LocalStorageCache} from "./services";
+import { LocalStorageCache } from "./services";
 
 import styled  from 'styled-components'
 
 import './style/font.css'
-import { withRouter } from "react-router";
-
-
 
 const EntireWrapper = styled.div`
     background-color: #25365A;
@@ -40,7 +37,6 @@ const StatsWrapper = styled.div`
     text-align:center;
     padding-top: 7vh;
     width: 100%;
-    // background-color: #25365A;
 `
 
 const StatsRow = styled.div`
@@ -142,22 +138,21 @@ export default class Statistics extends Component{
         this.exitGame = this.exitGame.bind(this)
       }
 
-    playAgain= () =>{
+    playAgain = () =>{
         this.props.reset()
     }
 
-    exitGame= ()  =>{
+    exitGame = ()  =>{
        this.props.exit()
     }
 
-    render()
-    {
-        console.log(this.props.data)
+    render(){
         const { 
             badges, 
             headerLinks, 
             username
           } = this.state;
+          
         return (
             <div>
                 <EntireWrapper>
@@ -210,19 +205,4 @@ export default class Statistics extends Component{
             </div>
         )
     }
-                    // <StatsRow>
-                    //     <DataContainer>
-                    //         <StatsData>{this.props.data.wordsPerMinute}</StatsData>
-                    //         <StatsText>WPM</StatsText>
-                    //     </DataContainer>
-                    //     <DataContainer>
-                    //         <StatsData>{this.props.data.accuracy}%</StatsData>
-                    //         <StatsText>Accuracy</StatsText>
-                    //     </DataContainer>
-                    //     <DataContainer>
-                    //         <StatsData>{this.props.data.baseDifficulty}</StatsData>
-                    //         <StatsText>Level</StatsText>
-                    //     </DataContainer>
-                    // </StatsRow>
-
 }

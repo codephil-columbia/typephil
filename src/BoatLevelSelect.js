@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components'
 
 import Button from 'react-button-component'
@@ -7,8 +6,9 @@ import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
 import ShowSpinner from './components/spinner';
 
-import './style/font.css'
 import { LocalStorageCache } from './services';
+
+import './style/font.css'
 
 const BoatracePlayButtonDiv = styled.div`
     p {
@@ -150,52 +150,46 @@ class BoatLevelSelect extends Component {
     this.setState({isMidActive:true})
   }
 
-  EzSelected()
-  {
+  EzSelected = () => {
     this.setState({
       isEzActive:true,
       isMidActive:false,
       isHardActive: false
     })
     this.props.setWords(50)
-    console.log("difficulty selected:Easy")
   }
 
-  MedSelected()
-  {
+  MedSelected = () => {
     this.setState({
       isEzActive:false,
       isMidActive:true,
       isHardActive: false
     })
     this.props.setWords(100)
-    console.log("difficulty selected: Medium and words")
   }
 
-  HardSelected()
-  {
+  HardSelected = () => {
     this.setState({
       isEzActive:false,
       isMidActive:false,
       isHardActive: true
     })
     this.props.setWords(0)
-    console.log("difficulty selected: Hard" )
   }
-  BeginChallenge(state){
-    var difficulty="";
+
+  BeginChallenge = (state) => {
+    var difficulty = "";
     if(state.isEzActive === true){
-      difficulty="easy";
+      difficulty = "easy";
     }
     else if(state.isMidActive === true){
-      difficulty="medium";
+      difficulty = "medium";
     }
     else {
-      difficulty="hard";
+      difficulty = "hard";
     }
     /*figure out how to carry over difficulty to challenge*/
     this.props.commenceGame(difficulty);
-
   }
   render() {
     const { 
@@ -228,7 +222,12 @@ class BoatLevelSelect extends Component {
             <BoatraceDifficultyText>
                 <p> SELECT DIFFICULTY </p>
             </BoatraceDifficultyText>
-            <DifficultyTab updateEz={this.EzSelected} updateMed={this.MedSelected} updateHard={this.HardSelected} gameSource="BoatRace"/>            
+            <DifficultyTab 
+              updateEz={this.EzSelected} 
+              updateMed={this.MedSelected} 
+              updateHard={this.HardSelected} 
+              gameSource="BoatRace"
+            />            
           </BoatraceDifficultySelection>
           <BoatracePlayButtonDiv>
             <BoatraceCustomButton onClick={() => this.BeginChallenge(this.state)}>

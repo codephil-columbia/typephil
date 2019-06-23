@@ -1,44 +1,26 @@
 import React, { Component } from "react";
-import Button from 'react-button-component'
-import styled from 'styled-components';
+import shuffle from 'shuffle-array'
+
 import Header from './components/header'
 import Tutorial from './ExamTracking'
 import Stats from './ExamStats'
-import { tween, styler } from 'popmotion';
-import { LocalStorageCache } from "./services";
 import data from "./offline_data.json"
 
-
-import { Route, Switch, Redirect } from 'react-router-dom'
-  
-import GameOverSign from "./components/gameOver";
-
-const Ready = Button.extend`
-    margin-top:4vh;
-    height: 82px;	
-    width: 270px;	
-    border: 5px solid #F5A623;	
-    border-radius: 10px;	
-    background-color: #FFFFFF;
-    font-size:30px;
-`
+import { LocalStorageCache } from "./services";
 
 class ExamPage extends Component{
     constructor(props){
         super(props);
         this.cache = new LocalStorageCache();
-        this.initiate=this.initiate.bind(this)
-        this.beginGames=this.beginGames.bind(this)
+
         this.endGames=this.endGames.bind(this)
-        this.exitMainPage=this.exitMainPage.bind(this)
         this.totalTime=this.totalTime.bind(this)
-        this.showStatspage=this.showStatspage.bind(this)
         this.parse=this.parse.bind(this)
         this.cleanContent=this.cleanContent.bind(this)
-        this.exitGame=this.exitGame.bind(this)
         this.playAgain=this.playAgain.bind(this)
         this.addText=this.addText.bind(this)
         this.setInitContent=this.setInitContent.bind(this)
+
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -58,135 +40,98 @@ class ExamPage extends Component{
 
 
 
-  componentWillMount = () => {
-    // fetch("http://localhost:5000/game/boatrace")
-    // .then(results => {
-    //     return results.json()
-    // })
-    // .then(data => {
-    //    let randIndex= Math.floor(Math.random() * data.length)
-    //    console.log(data.length)
-    //    for (let i=0;i<data.length;i++){
-    //        let content=this.parse(data[i].Txt)
-    //        console.log(content)
-    //    }
-    // })
-
-    //enable this for prev settings
-    // console.log(data.games.boatrace)
-
-        let shuffle = require('shuffle-array')
+    componentWillMount() {
         let fullcontent = ""
-        let jsonData= data.games.boatrace
+        let jsonData = data.games.boatrace
         shuffle(jsonData)
-        for (let i=0;i<jsonData.length;i++){
-            let content=this.parse(jsonData[i])
-            fullcontent+=content 
+        for (let i = 0;i < jsonData.length;i++){
+            let content = this.parse(jsonData[i])
+            fullcontent+= content 
         }
         this.setInitContent(fullcontent)
     };
-  
 
-    exitMainPage(difficulty){
-        this.setState({
-            showMainPage:false,
-            isPlayerReady:true,
-            gameStart:true,
-        })
-        
-    }
 
-    cleanContent(content){
+    cleanContent = (content) => {
         return content.replace(/(?:\r\n|\r|\n|\\n)/g, '').replace("\"\\n\"","")
     }
 
-    setInitContent(fullContent){
+    setInitContent = (fullContent) => {
         this.setState({
             content:fullContent
         })
     }
 
-    parse(response){
-        let currPhrase=""
-        let textArray=[]
-        let origin=0
-        let pointer=0
+    parse = (response) => {
+        let currPhrase = ""
+        let textArray = []
+        let origin = 0
+        let pointer = 0
+
         //Finds Title
-        while(response[pointer]+ response[pointer+1]!="\\n"){
+        while(response[pointer]+ response[pointer+1] !== "\\n"){
             pointer+=1
         }
-        currPhrase=response.slice(origin, pointer);
+        currPhrase = response.slice(origin, pointer);
         textArray.push(currPhrase.trim()+"\\n")
-        currPhrase=""
-        origin=pointer+2
-        let content= response.slice(origin,)
-        origin=0
-        pointer=35
+        currPhrase = ""
+        origin = pointer+2
+        let content = response.slice(origin,)
+        origin = 0
+        pointer = 35
 
-        
         //removes new line characters
-        content=this.cleanContent(content)
-        while(pointer<content.length){
-            let currChar=content[pointer]
-            if ( currChar == "." || currChar =="?" || currChar=="!"){
+        content = this.cleanContent(content)
+        while(pointer < content.length){
+            let currChar = content[pointer]
+            if (currChar === "." || currChar === "?" || currChar=== "!"){
                 pointer+=2
-                currPhrase=content.slice(origin,pointer)
+                currPhrase = content.slice(origin,pointer)
                 textArray.push(currPhrase)
-            }else if( currChar == " "){
+            }else if(currChar === " "){
                 pointer+=1
-                currPhrase=content.slice(origin,pointer)
+                currPhrase = content.slice(origin,pointer)
                 textArray.push(currPhrase)
             }else{
-                while(content[pointer] !=" "){
+                while(content[pointer] !== " "){
                     pointer-=1
                 }
                 pointer+=1
-                currPhrase=content.slice(origin,pointer)
+                currPhrase = content.slice(origin,pointer)
                 textArray.push(currPhrase)
             }
-            origin=pointer
-            pointer+=35
-            currPhrase=""
+            origin = pointer
+            pointer+= 35
+            currPhrase = ""
         }
         textArray.push(content.slice(origin,content.length))
         let finalstr=textArray[0]
         for(let i=1;i<textArray.length;i++){
             finalstr+=textArray[i] +"\\n"
         }
-        console.log("parsed string")
-        console.log(finalstr)
         return finalstr
     }
     
-
-    initiate(){
+    initiate = () => {
         this.setState({
             isPlayerReady:true,
             beginCountDown:true
         })
     }
     
-    totalTime(time){
+    totalTime = (time) => {
         var minutes=time/60
         this.setState({totalMinutes:minutes})
     }
     
-    beginGames(){
-        this.setState({
-            beginCountDown:false,
-            playerHasLost:false,
-            isPlayerReady:false,
-            gameStart:true
-        })
-    }
 
-    endGames= (state, time) =>{
+
+    endGames = (state) => {
         var minutes=this.props.time
         var totalChars= state.incorrect.length + state.correct.length   
         var playerAccuracy= Math.floor((1- state.incorrect.length/totalChars)*100)
         var wpm = Math.floor(totalChars/(5*minutes))
         var wordsTyped = wpm * minutes
-        console.log(minutes)
         this.setState({
             inputOff:true,
             playerHasLost:true,
@@ -196,27 +141,14 @@ class ExamPage extends Component{
             wordsPerMinute:wpm,
             words:wordsTyped
         })
-    
-    }
-
-    showStatspage= () => {
-        this.setState({
-            playerHasLost:true,
-            isPlayerReady:false,
-            gameStart:false,
-        })
-
     }
 
     addText = () => {
         let randIndex= Math.floor(Math.random() * data.games.boatrace.length)
-        console.log("new content")
-        console.log(data.games.boatrace[randIndex])
         this.setInitContent(data.games.boatrace[randIndex])
     }
 
-    playAgain(){
-        
+    playAgain = () => {
         this.setState({
             isPlayerReady:false,
             beginCountDown:false,
@@ -227,38 +159,37 @@ class ExamPage extends Component{
             accuracy:0,
             gameStart:true,
             inputOff:false,
-        })
-        this.componentWillMount()
+        });
+        this.componentWillMount();
     }
-    exitGame = () =>{
-        console.log("exit pressed")
-        console.log(this.props)
-        this.props.history.push("/exam")
-      }
+
     
-    render(){ 
+    render() { 
         const { 
             headerLinks,
-            badges,
             username,
             content
-          } = this.state;
-    console.log(this.state.totalWords)
- 
-         // this == event, in this cases
+        } = this.state;
+
         if(this.state.gameStart){
             return(
-            <div>
-                <Header 
-                    links={headerLinks}
-                    isLoggedIn={true}
-                    username={username}
-                    history={this.props.history}
-                    onLogout={this.props.onLogout}
-                    >
-                </Header>
-                <Tutorial playerHasLost={this.endGames} insertText={this.addText} inputOff={this.state.inputOff} countTime={this.totalTime} time={this.props.time} currentContent={content}/>
-            </div>
+                <div>
+                    <Header 
+                        links={headerLinks}
+                        isLoggedIn={true}
+                        username={username}
+                        history={this.props.history}
+                        onLogout={this.props.onLogout}
+                    />
+                    <Tutorial 
+                        playerHasLost={this.endGames} 
+                        insertText={this.addText} 
+                        inputOff={this.state.inputOff} 
+                        countTime={this.totalTime} 
+                        time={this.props.time} 
+                        currentContent={content}
+                    />
+                </div>
             )
         }else if(this.state.playerHasLost){
             return(<Stats data={this.state} exit={this.props.exit} reset={this.playAgain}/>)

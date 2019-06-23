@@ -11,7 +11,6 @@ import { LocalStorageCache} from "./services";
 
 import './style/font.css';
 
-
 const LeftGameSelectionPanel = styled.div`
 	float: left;
 	width: 50%;
@@ -127,8 +126,8 @@ export default class GameSelect extends Component {
 			this.spaceraceSelected = this.spaceraceSelected.bind(this);
 			this.boatraceSelected  = this.boatraceSelected.bind(this);
 			this.challengeSelected = this.challengeSelected.bind(this);
-			this.returnToSelection = this.returnToSelection.bind(this)
-			this.BeginGame = this.BeginGame.bind(this)
+			this.returnToSelection = this.returnToSelection.bind(this);
+			this.BeginGame = this.BeginGame.bind(this);
     }
 
     componentDidMount = () => {
@@ -145,7 +144,7 @@ export default class GameSelect extends Component {
 					asteroids also increase in number.\
 	      ",
 	      gameScreenshot: "./images/games/spacerace_placeholder.png"
-    	})
+    	});
     }
 
     spaceraceSelected = () => {
@@ -162,7 +161,7 @@ export default class GameSelect extends Component {
 					asteroids also increase in number.\
 				",
 	      gameScreenshot: "./images/games/spacerace_placeholder.png"
-    	})
+    	});
 		}
 		
 		returnToSelection = () => {
@@ -170,7 +169,7 @@ export default class GameSelect extends Component {
 				showBoatRace:false,
 				showChallenge:false,
 				showSpaceRace:false
-			})
+			});
 		}
 
     boatraceSelected = () => {
@@ -185,7 +184,7 @@ export default class GameSelect extends Component {
 					best WPM as you race towards the finish line!\
 	      ",
 	      gameScreenshot: "./images/games/boatrace_placeholder.png"
-    	})
+    	});
     }
 
     challengeSelected = () => {
@@ -199,7 +198,7 @@ export default class GameSelect extends Component {
 					added to your counter and your streak will increase.\
 	      ",
 	      gameScreenshot: "./images/games/challenge_placeholder.png"
-    	})
+    	});
 		}
 		
 		BeginGame = () => {
@@ -219,7 +218,6 @@ export default class GameSelect extends Component {
 		}
 
     render() {
-
 	    const {
 				showBoatRace,
 				boatraceEnabled,

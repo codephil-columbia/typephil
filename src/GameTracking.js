@@ -1,5 +1,5 @@
-import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
+import { OrderedMap } from 'immutable';
 import Modal from 'react-modal';
 import styled from 'styled-components'
 
@@ -17,7 +17,6 @@ const HIGHLIGHTED = "highlighted character";
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
-
 const GameText = styled.div`
     margin-top: 4vh;
     padding-top: 1vh;
@@ -27,14 +26,11 @@ const GameText = styled.div`
     width: 800vw;
     height: 10vh;
     text-align: center;
-
     font-weight: 600;
     font-size: 3.2rem;
     margin-bottom: 5rem;
     margin-left: 15%;
     margin-right: 15%;
-    // margin-left: 13%;
-    // margin-right: 13%;
 
     @media only screen and (max-width: 1300px) {
         font-size: 3.2rem;
@@ -50,14 +46,13 @@ const GameText = styled.div`
     @media only screen and (max-width: 900px) {
         font-size:2.6rem;
     }
-
 `
 
 const ModalCountDownDiv = styled.div`
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: #F5A623;
-  padding-bottom: 1rem;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #F5A623;
+    padding-bottom: 1rem;
 `
 
 const CounterText = styled.div`
@@ -67,11 +62,9 @@ const CounterText = styled.div`
     padding-right: 25px;
     color: #52B094;
     font-family: "Racetrack";
-
     display:flex;
     flex-direction: column;
     align-items:center;
-
 `
 
 const CounterNumber = styled.div`
@@ -205,24 +198,19 @@ class GameTracking extends Component {
         charPtr = styleMapList[groupPtr].size - 1;
         this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr, groupPtr);
         rows = this.buildRows(characterMapList, styleMapList, groupPtr);
-        if(this.state.upDifficultyCount!=0){
+        if(this.state.upDifficultyCount !== 0){
           this.setState({upDifficultyCount:this.state.upDifficultyCount-1 })
           this.setState({currLine:this.state.currLine-1})
-          console.log("you have gone back one")
-          console.log("currLine: " + this.state.currLine)
-          console.log("linespassed: " + this.state.linesPassed)
-          if(this.state.upDifficultyCount == 10){
+          if(this.state.upDifficultyCount === 10){
             this.setState({
               upDifficulty:true,
               upDifficultyCount:0
             })
             this.props.incrementDifficulty()
-          console.log("new level reached: " + this.props.difficulty)
           }
         }
         this.setState({upDifficultyCount:0,upDifficulty:false})
         this.setState({Level:this.state.Level + 1})
-        console.log(this.state.Level)
       }
     }
     //we also want to pop previous result and add it to edited keys group
@@ -268,16 +256,13 @@ class GameTracking extends Component {
           this.setState({linesPassed:this.state.linesPassed+1})
           this.setState({allowedToAddTime:true})
         }
-        console.log("linespassed: " + this.state.linesPassed)
-        console.log("currLine: " + (this.state.currLine))
-        if(this.state.upDifficultyCount == 5){
+        if(this.state.upDifficultyCount === 5){
           this.setState({
             upDifficulty:true,
-            upDifficultyCount:0
+            upDifficultyCount:0,
+            Level:this.state.Level + 1
           })
           this.props.incrementDifficulty()
-          this.state.Level += 1
-        console.log("new level reached: " + this.props.difficulty)
         }
         if(groupPtr + 1 < LESSON_LENGTH) {
           newCharPtr = 0;
@@ -335,7 +320,7 @@ class GameTracking extends Component {
     } else {
       this.setState({consecutiveCorrect:0})
       consecutiveIncorrectCount += 1;
-      if(characterWanted == " ") {
+      if(characterWanted === " ") {
         styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_SPACE_STYLE);
       } else {
         styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
@@ -431,8 +416,7 @@ class GameTracking extends Component {
 
   modalCountdown() {
     this.setState({modelCount:this.state.modelCount-1})
-    console.log("seconds left: " + this.state.modelCount)
-}
+  }
 
   onModalOpen = () => {
     this.removeEventListener();
@@ -471,7 +455,6 @@ class GameTracking extends Component {
   render() {
     const { userFinished } = this.state;
     if(userFinished) {
-      console.log("has terminated")
       this.removeEventListener();
     }
 
@@ -480,7 +463,6 @@ class GameTracking extends Component {
 
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
     return (
-
       <div>
       <div className="data-container">
         <CounterText>

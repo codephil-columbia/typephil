@@ -1,26 +1,20 @@
 import React, {Component} from 'react'
 import Header from './components/header'
-import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
 import { LocalStorageCache } from "./services";
 
 import styled  from 'styled-components'
 
-
-const NavigationContainer= styled.div`
+const NavigationContainer = styled.div`
     padding-topL: 10vh;
     display:flex;
     justify-content:center;
-
 `
 
 const CustomButton = Button.extend`
-
     margin-top:10vh;
     font-size:1.5rem;
-
     color: #52B094;
-
 `
 
 const StatsWrapper = styled.div`
@@ -42,29 +36,8 @@ const StatsRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
-
     color: #199893;
-
     padding-bottom: 2vh;
-`
-
-const StatsHighScoreRow = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:space-evenly
-    align-content:center;
-    text-align:center;
-    width:60vw;
-    margin-left:20.5vw;
-    margin-right:20.5vw
-
-    color: #199893;
-
-    border-style: solid;
-    border-color: #F5A623;
-    height: 15vh;
-    padding-top: 2vh
-    padding-bottom: 2vh
 `
 
 const DataContainer = styled.div`
@@ -95,28 +68,11 @@ const StatsText = styled.div`
 	font-size: 2.5rem;
 `
 
-const HighScoreLabel = styled.div`
-	display: inline-block;
-    margin-left: 37vw;
-    margin-right: 37vw;
-    align-content: center;
-    color: #199893;
-    width: 26vw;
-	text-align: center;
-	margin-bottom: -13px;
-	z-index: 2;
-	background-color: white;
-	font-size: 1.3rem;
-	@media only screen and (max-width: 1050px) {
-		padding-top: 3vw;
-	}
-`
-
-
 export default class ExamStatistics extends Component{
     constructor(props) {
         super(props);
         this.cache = new LocalStorageCache();
+
         this.state = { 
             headerLinks: ["Stats", "Games", "Learn", "Home"],
             username: this.cache.get("username"),
@@ -129,23 +85,21 @@ export default class ExamStatistics extends Component{
 
 
     
-    playAgain= () =>{
+    playAgain = () => {
         this.props.reset()
     }
 
 
-    exitGame= ()  =>{
+    exitGame = ()  => {
         this.props.exit()
     }
 
-    render()
-    {
-        console.log(this.props.data)
+    render() {
         const { 
             headerLinks, 
-            badges,
             username
-          } = this.state;
+        } = this.state;
+        
         return (
             <div>
                 <Header 

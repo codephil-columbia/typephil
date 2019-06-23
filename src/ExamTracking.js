@@ -1,7 +1,5 @@
 import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import styled from 'styled-components'
 
@@ -18,36 +16,6 @@ const HIGHLIGHTED = "highlighted character";
 
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
-
-const ModalCountDownDiv = styled.div`
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: #F5A623;
-  padding-bottom: 1rem;
-`
-
-const ExamBackground = styled.div`
-`
-
-const GameText = styled.div`
-    
-`
-
-const CounterText = styled.div`
-
-`
-
-const CounterNumber = styled.div`
-
-`
-
-const Boat = styled.div`
-  margin-left:${props => props.displacement}vw;
-  padding-bottom: 9.5vh;
-  height:auto;
-  width:auto;
-  transition: all .8s ease-in-out;
-`
 
 const ExamParagraphText = styled.div`
   display:flex; 
@@ -89,7 +57,6 @@ const LineStyling = styled.div`
     width: 100vw;
   }
 `
-
 
 // http://reactcommunity.org/react-modal/accessibility/
 Modal.setAppElement('#root')
@@ -206,10 +173,9 @@ class BoatGameTracking extends Component {
         charPtr = styleMapList[groupPtr].size - 1;
         this.applyStyle(`${DEFAULT_STYLE} ${HIGHLIGHTED}`, charPtr, groupPtr);
         rows = this.buildRows(characterMapList, styleMapList, groupPtr);
-        if(this.state.upDifficultyCount!=0){
+        if(this.state.upDifficultyCount !== 0){
           this.setState({upDifficultyCount:this.state.upDifficultyCount-1 })
-          console.log("line counter " + this.state.upDifficultyCount)
-          if(this.state.upDifficultyCount == 5){
+          if(this.state.upDifficultyCount === 5){
             this.setState({
               upDifficulty:true,
               upDifficultyCount:0
@@ -263,7 +229,7 @@ class BoatGameTracking extends Component {
         this.setState({addTime:true})
         this.setState({upDifficultyCount:this.state.upDifficultyCount +1})
         console.log("line counter " + this.state.upDifficultyCount)
-        if(this.state.upDifficultyCount == 5){
+        if(this.state.upDifficultyCount === 5){
           this.setState({
             upDifficulty:true,
             upDifficultyCount:0
@@ -319,7 +285,7 @@ class BoatGameTracking extends Component {
     } else {
       this.setState({consecutiveCorrect:0})
       consecutiveIncorrectCount += 1;
-      if(characterWanted == " ") {
+      if(characterWanted === " ") {
         styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_SPACE_STYLE);
       } else {
         styleMapForRow = styleMapForRow.set(charPtr, INCORRECT_STYLE);
@@ -474,9 +440,7 @@ class BoatGameTracking extends Component {
 
     currentKey = (currentKey === " ") ? "spacebar" : currentKey;
     return (
-
-      <ExamBackground>
-
+      <div>
         <ExamParagraphText>
             {rows[0] ? rows[0]: <div> </div>}
         </ExamParagraphText>
@@ -494,10 +458,19 @@ class BoatGameTracking extends Component {
         </ExamParagraphText> 
         <div className="content-wrapper">
           <div className="timer-container">
-              <Counter accuracyInfo={this.state} PlayerLost={this.props.playerHasLost} setTime={this.setTime} time={this.props.time} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
+              <Counter 
+                accuracyInfo={this.state} 
+                PlayerLost={this.props.playerHasLost} 
+                setTime={this.setTime} 
+                time={this.props.time} 
+                baseDifficulty={this.props.difficulty} 
+                NeedsToIncrement={this.state.addTime} 
+                resetFunction={this.resetIncrement} 
+                IncrementLevel={this.state.upDifficulty} 
+              />  {/* should make this depend on difficulty*/}
           </div> 
         </div>
-      </ExamBackground>
+      </div>
     )
   }
 }
