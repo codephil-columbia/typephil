@@ -2,12 +2,9 @@ import React, {Component} from 'react'
 import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
-import { withRouter } from 'react-router'
-import { LocalStorageCache} from "./services";
-
+import { LocalStorageCache } from "./services";
 
 import styled  from 'styled-components'
-
 
 const NavigationContainer= styled.div`
     display:flex;
@@ -16,7 +13,6 @@ const NavigationContainer= styled.div`
     width:90vw;
 
 `
-
 
 const CustomButton = Button.extend`
     @font-face {
@@ -39,7 +35,6 @@ const StatsWrapper = styled.div`
     align-content:center;
     text-align:center;
     padding-top: 7vh;
-
     width: 100%
 `
 
@@ -52,9 +47,7 @@ const StatsRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
-
     color: #F5A623;
-
     padding-bottom: 2vh;
 `
 
@@ -67,9 +60,7 @@ const StatsHighScoreRow = styled.div`
     width:60vw;
     margin-left:20.5vw;
     margin-right:20.5vw
-
     color: #F5A623;
-
     border-style: solid;
     border-color: #F5A623;
     height: 15vh;
@@ -98,7 +89,6 @@ const StatsHeader = styled.div`
     align-content:center;
     text-align:center;
     width:100vw;
-
     font-family:"Arcade";
     color: #52B094;
     font-size: 2.9rem;
@@ -121,7 +111,6 @@ const HighScoreLabel = styled.div`
     margin-right: 37vw;
     align-content: center;
     color: #F5A623;
-
     font-family:"Arcade";
     width: 26vw;
 	text-align: center;
@@ -134,7 +123,6 @@ const HighScoreLabel = styled.div`
 		padding-top: 3vw;
 	}
 `
-
 
 export default class Statistics extends Component{
     constructor(props) {
@@ -161,22 +149,21 @@ export default class Statistics extends Component{
         this.props.exit()
     }
 
-    render()
-    {
-        const { 
-            badges, 
+    render() {
+        const {  
             headerLinks, 
             username
         } = this.state; 
+
         return (
             <div>
                 <Header 
-                        links={headerLinks} 
-                        isLoggedIn={true} 
-                        username={username} 
-                        history={this.props.history}
-                        onLogout={this.props.onLogout}
-                    />   
+                    links={headerLinks} 
+                    isLoggedIn={true} 
+                    username={username} 
+                    history={this.props.history}
+                    onLogout={this.props.onLogout}
+                />   
                 <StatsWrapper>
                 	<StatsHeader>GAME STATS</StatsHeader>
                     <StatsRow>
@@ -212,13 +199,12 @@ export default class Statistics extends Component{
                     </StatsHighScoreRow>
                 </StatsWrapper>
                 <NavigationContainer>
-                        <CustomButton onClick={this.playAgain}>PLAY AGAIN</CustomButton>
-                        <CustomButton onClick={this.exitGame}>EXIT</CustomButton>
+                    <CustomButton onClick={this.playAgain}>PLAY AGAIN</CustomButton>
+                    <CustomButton onClick={this.exitGame}>EXIT</CustomButton>
                 </NavigationContainer>
             </div>
         )
     }
-
 }
 
 

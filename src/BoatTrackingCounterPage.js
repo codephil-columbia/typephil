@@ -56,36 +56,35 @@ class Counter extends React.Component {
     }
     
 
-    componentDidMount(){
+    componentDidMount() {
       this.startCountDown()
     }
 
-    calculateIncrement(){
-      var newIncrement=0;
+    calculateIncrement = () => {
+      let newIncrement = 0;
       
-      if(this.state.difficulty==1){
+      if(this.state.difficulty === 1){
         this.setState({increment:2})
       }
-      else if(this.state.difficulty==2){
+      else if(this.state.difficulty === 2){
         this.setState({increment:1})
       }
       else{
-        var currIncrement=this.state.increment
-        var newIncrement=currIncrement*(2/3)
+        let currIncrement = this.state.increment
+        let newIncrement = currIncrement*(2/3)
         this.setState({increment:newIncrement})
       }
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
       this.setState({
         value: event.target.value
       })
     }
   
-    tick() {
-      var min = Math.floor(this.secondsRemaining / 60);
-      var sec = this.secondsRemaining - (min * 60);
-
+    tick = () => {
+      let min = Math.floor(this.secondsRemaining / 60);
+      let sec = this.secondsRemaining - (min * 60);
 
       this.setState({
         value: min,
@@ -93,34 +92,25 @@ class Counter extends React.Component {
         timeElapse:this.state.timeElapse + 1
       })
       
-
-
       if(this.props.timerShortStop){
         clearInterval(this.intervalHandle)
         this.props.PlayerLost(this.props.accuracyInfo,this.state.timeElapse)
       }
-
-
-      console.log(this.state.timeElapse)
   
       if (sec < 10) {
         this.setState({
           seconds: "0" + this.state.seconds,
         })
-  
       }
   
       if (min < 10) {
         this.setState({
           value: "0" + min,
         })
-  
       }
-      
-
     }
   
-    startCountDown() {
+    startCountDown = () => {
       this.intervalHandle = setInterval(this.tick, 1000);
     }
   

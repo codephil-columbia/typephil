@@ -2,17 +2,6 @@ import React, {Component} from "react";
 
 import './style/counterPage.css'
 
-class TimerInput extends Component {
-  render() {
-    return (
-      <div style={{marginLeft:100}}>
-        <h3>Input your desired time</h3>
-        <input type="number" value={this.props.value} onChange={this.props.handleChange} required />
-      </div>
-    );
-  }
-}
-
 class Timer extends React.Component {
   render() {
     return (
@@ -20,17 +9,6 @@ class Timer extends React.Component {
         <div className="countdown-clock">{this.props.value}:{this.props.seconds}</div>
         <div className="countdown-clock-description">TIME REMAINING</div>
       </div>
-    );
-  }
-}
-
-class StartButton extends React.Component {
-  render() {
-    return (
-      <div style={{ marginLeft: 130 }}>
-        <button className="btn btn-lg btn-success" disabled={!this.props.value} onClick={this.props.startCountDown}>Start</button>
-      </div>
-
     );
   }
 }
@@ -63,65 +41,58 @@ class Counter extends React.Component {
         this.setBaseTime()
     }
 
-    calculateIncrement(){
+    calculateIncrement = () => {
       var newIncrement=0;
       var difficulty=this.props.baseDifficulty
-      console.log("curr difficulty: " + difficulty)
-      if(difficulty==2){
+      if(difficulty === 2){
         this.setState({increment:7})
       }else{
-        // var currIncrement=thisstate.increment
-        // var newIncrement=currIncrement*(9/10)
-        if(this.state.increment==3 && this.state.threeCount<3){
+        if(this.state.increment ===3 && this.state.threeCount<3){
           this.setState({threeCount:this.state.threeCount+1})
-        }else if(this.state.increment==2 && this.state.increment<4){
+        }else if(this.state.increment === 2 && this.state.increment<4){
           this.setState({twoCount:this.state.twoCount+1})
-        }else if(this.state.threeCount==3 && this.state.increment==3){
+        }else if(this.state.threeCount === 3 && this.state.increment === 3){
           this.setState({increment:1})
         }else{
           this.setState({increment:this.state.increment-1})
         }
-
       }
     }
 
-    setBaseTime(){
-        var secondsGiven=0
-        var difficulty=this.props.baseDifficulty
-        if(difficulty==1){
-          secondsGiven=22
+    setBaseTime = () => {
+        var secondsGiven = 0
+        var difficulty = this.props.baseDifficulty
+        if(difficulty === 1){
+          secondsGiven = 22
           this.setState({
             increment:10,
             difficulty:1
           })
-        }else if(difficulty==2){
-          secondsGiven=17
+        }else if(difficulty === 2){
+          secondsGiven = 17
           this.setState({
             increment:5,
             difficulty:2
           })
         }else{
-          secondsGiven=12
+          secondsGiven = 12
           this.setState({
             increment:3,
             difficulty:3
           })
         }
-        console.log(secondsGiven)
         this.startCountDown(secondsGiven)
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
       this.setState({
         value: event.target.value
       })
     }
   
-    tick() {
-      var min = Math.floor(this.secondsRemaining / 60);
-      var sec = this.secondsRemaining - (min * 60);
-
-
+    tick = () => {
+      let min = Math.floor(this.secondsRemaining / 60);
+      let sec = this.secondsRemaining - (min * 60);
 
       this.setState({
         value: min,
@@ -154,19 +125,16 @@ class Counter extends React.Component {
 
       this.secondsRemaining--
       if(this.props.NeedsToIncrement && this.props.accuracyInfo.allowedToAddTime){
-        console.log("time was incremented")
         if(this.props.IncrementLevel){
-          console.log("current increment " + this.state.increment)
            this.calculateIncrement()
-           console.log("new increment" + this.state.increment)
         }
-        this.secondsRemaining = this.secondsRemaining +this.state.increment
+        this.secondsRemaining = this.secondsRemaining + this.state.increment
         this.props.resetFunction();
         this.props.resetFlag()
       }
     }
   
-    startCountDown(baseTime) {
+    startCountDown = (baseTime) => {
       this.intervalHandle = setInterval(this.tick, 1000);
       let time = baseTime;
       this.secondsRemaining = time; 
@@ -176,8 +144,6 @@ class Counter extends React.Component {
     }
   
     render() {
-      const clicked = this.state.isClicked;
-      if(clicked){
       return (
         <div>
           <div className="timer">
@@ -188,20 +154,6 @@ class Counter extends React.Component {
           </div>
         </div>
       );
-      }else{
-        return (
-          <div>
-            <div className="row">
-              <div className="col-md-4"></div>
-              <div className="col-md-4">
-                <TimerInput value={this.state.value} handleChange={this.handleChange} />
-                <Timer value={this.state.value} seconds={this.state.seconds} />
-                <StartButton startCountDown={this.startCountDown} value={this.state.value} />
-              </div>
-            </div>
-          </div>
-        );
-      }
     }
   }
   

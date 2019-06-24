@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { bindActionCreators } from 'redux';
-import { LocalStorageCache} from "./services";
 
 import Header from './components/header';
 import Button from 'react-button-component';
@@ -10,30 +6,30 @@ import styled from 'styled-components';
 import BoatGame from './BoatGame'
 import KeyTracking from './KeyTracking'
 import SpaceraceGame from './SpaceraceGame'
-import GameOverSign from './components/gameOver'
+
+import { LocalStorageCache} from "./services";
 
 import './style/font.css';
-
 
 const LeftGameSelectionPanel = styled.div`
 	float: left;
 	width: 50%;
 	height: 93vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `
 
 const RightGameSelectionPanel = styled.div`
 	float: right;
 	width: 50%;
 	height: 80vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-left: 1px solid #52B094;
-    margin-top: 5vh;
-    marign-bottom: -5vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-left: 1px solid #52B094;
+	margin-top: 5vh;
+	marign-bottom: -5vh;
 `
 
 const SpaceRaceSelection = styled.div`
@@ -115,7 +111,7 @@ export default class GameSelect extends Component {
   	constructor(props) {
 			super(props);
 			this.cache = new LocalStorageCache();
-      this.cache = new LocalStorageCache();
+
 	    this.state = { 
 				headerLinks: ["Stats", "Games", "Learn", "Home"],
 				spaceraceEnabled:false,
@@ -125,118 +121,128 @@ export default class GameSelect extends Component {
 				challengeEnabled:false,
 				showChallenge:false,
 				username: this.cache.get("username"),
-	    }
-		this.spaceraceSelected = this.spaceraceSelected.bind(this);
-		this.boatraceSelected = this.boatraceSelected.bind(this);
-		this.challengeSelected = this.challengeSelected.bind(this);
-		this.returnToSelection=this.returnToSelection.bind(this)
-		this.BeginGame = this.BeginGame.bind(this)
+			}
+			
+			this.spaceraceSelected = this.spaceraceSelected.bind(this);
+			this.boatraceSelected  = this.boatraceSelected.bind(this);
+			this.challengeSelected = this.challengeSelected.bind(this);
+			this.returnToSelection = this.returnToSelection.bind(this);
+			this.BeginGame = this.BeginGame.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount = () => {
     	this.setState({
 	      spaceraceEnabled:true,
 	      boatraceEnabled:false,
 	      challengeEnabled:false,
 	      gameDescription: "\
-			Type the words on the asteroids as they appear \
-			to eliminate them before they make impact on Earth. \
-			Each time an asteroid makes it through, you will lose a life. \
-			You start with three lives. You can gain a life each time you \
-			make it to the next level. As the levels increase, the number of \
-			asteroids also increase in number.\
+					Type the words on the asteroids as they appear \
+					to eliminate them before they make impact on Earth. \
+					Each time an asteroid makes it through, you will lose a life. \
+					You start with three lives. You can gain a life each time you \
+					make it to the next level. As the levels increase, the number of \
+					asteroids also increase in number.\
 	      ",
 	      gameScreenshot: "./images/games/spacerace_placeholder.png"
-    	})
-    	console.log("spacerace selected on default")
+    	});
     }
 
-    spaceraceSelected()
-    {
+    spaceraceSelected = () => {
     	this.setState({
 				spaceraceEnabled:true,
 				boatraceEnabled:false,
 	      challengeEnabled:false,
 	      gameDescription: "\
-			Type the words on the asteroids as they appear \
-			to eliminate them before they make impact on Earth. \
-			Each time an asteroid makes it through, you will lose a life. \
-			You start with three lives. You can gain a life each time you \
-			make it to the next level. As the levels increase, the number of \
-			asteroids also increase in number.\
-	      ",
+					Type the words on the asteroids as they appear \
+					to eliminate them before they make impact on Earth. \
+					Each time an asteroid makes it through, you will lose a life. \
+					You start with three lives. You can gain a life each time you \
+					make it to the next level. As the levels increase, the number of \
+					asteroids also increase in number.\
+				",
 	      gameScreenshot: "./images/games/spacerace_placeholder.png"
-    	})
-    	console.log("spacerace selected")
+    	});
 		}
 		
-		returnToSelection(){
+		returnToSelection = () => {
 			this.setState({
 				showBoatRace:false,
 				showChallenge:false,
 				showSpaceRace:false
-			})
+			});
 		}
 
-    boatraceSelected()
-    {
+    boatraceSelected = () => {
     	this.setState({
 	      spaceraceEnabled:false,
 	      boatraceEnabled:true,
 	      challengeEnabled:false,
 	      gameDescription: "\
-			Type the long passages as quickly and accurately as \
-			you can. The faster you type, the faster your boat \
-			will travel. Try to beat your opponents and your own \
-			best WPM as you race towards the finish line!\
+					Type the long passages as quickly and accurately as \
+					you can. The faster you type, the faster your boat \
+					will travel. Try to beat your opponents and your own \
+					best WPM as you race towards the finish line!\
 	      ",
 	      gameScreenshot: "./images/games/boatrace_placeholder.png"
-    	})
-    	console.log("boatrace selected")
+    	});
     }
 
-    challengeSelected()
-    {
+    challengeSelected = () => {
     	this.setState({
 				spaceraceEnabled:false,
 	      boatraceEnabled:false,
 	      challengeEnabled:true,
 	      gameDescription: "\
-			Type as many phrases as possible before time runs out. \
-			Every time you correctly type a phrase, more time will be \
-			added to your counter and your streak will increase.\
+					Type as many phrases as possible before time runs out. \
+					Every time you correctly type a phrase, more time will be \
+					added to your counter and your streak will increase.\
 	      ",
 	      gameScreenshot: "./images/games/challenge_placeholder.png"
-    	})
-    	console.log("challenge selected")
+    	});
 		}
 		
-		BeginGame(state){
-			if (this.state.spaceraceEnabled === true){
+		BeginGame = () => {
+			const{
+				spaceraceEnabled,
+				challengeEnabled,
+				boatraceEnabled
+			} = this.state;
+
+			if (spaceraceEnabled === true){
 				this.setState({showSpaceRace:true})
-			} else if (this.state.challengeEnabled === true){
+			} else if (challengeEnabled === true){
 				this.setState({showChallenge:true})
-			} else if (this.state.boatraceEnabled === true){
+			} else if (boatraceEnabled === true){
 				this.setState({showBoatRace:true})
-				console.log("was reached")
 			}	
 		}
 
     render() {
-	    const { 
-	      badges,
-	      headerLinks, 
+	    const {
+				showBoatRace,
+				boatraceEnabled,
+				showChallenge,
+				challengeEnabled,
+				showSpaceRace, 
+				spaceraceEnabled,
+				headerLinks,
+				gameDescription,
+				gameScreenshot, 
 	      username
-	    } = this.state;
-			if(this.state.showBoatRace){
-				console.log("boat has been activated")
-				return(<BoatGame exit={this.returnToSelection} onLogout={this.props.onLogout} history={this.props.history}/>)
-			}else if(this.state.showChallenge){
-				console.log("challenge has been activated")
-				return(<KeyTracking exit={this.returnToSelection} onLogout={this.props.onLogout} history={this.props.history}/>)
-			}else if(this.state.showSpaceRace){
-				console.log("spaceRace has been activated")
-				return(<SpaceraceGame exit={this.returnToSelection} onLogout={this.props.onLogout} history={this.props.history}/>)
+			} = this.state;
+			
+			if(showBoatRace){
+				return(
+					<BoatGame exit={this.returnToSelection}/>
+				)
+			}else if(showChallenge){
+				return(
+					<KeyTracking exit={this.returnToSelection}/>
+				)
+			}else if(showSpaceRace){
+				return(
+					<SpaceraceGame exit={this.returnToSelection}/>
+				)
 			}else{
         return(
             <div>
@@ -247,27 +253,33 @@ export default class GameSelect extends Component {
             		history={this.props.history}
             		onLogout={this.props.onLogout}
             	/>
+
             	<LeftGameSelectionPanel>
-            		<SpaceRaceSelection onClick={this.spaceraceSelected} 
-            		isActive={this.state.spaceraceEnabled}>
+								<SpaceRaceSelection 
+									onClick={this.spaceraceSelected} 
+									isActive={spaceraceEnabled}
+								>
             			Space Race
             		</SpaceRaceSelection>
 
             		<GameSelectionLine/>
 
-            		<BoatRaceSelection onClick={this.boatraceSelected} 
-            		isActive={this.state.boatraceEnabled}>
+								<BoatRaceSelection 
+									onClick={this.boatraceSelected} 
+									isActive={boatraceEnabled}
+								>
             			Ready, Set, Type!
             		</BoatRaceSelection>
 
             		<GameSelectionLine/>
 
-            		<ChallengeSelection onClick={this.challengeSelected} 
-            		isActive={this.state.challengeEnabled}>
+								<ChallengeSelection 
+									onClick={this.challengeSelected} 
+									isActive={challengeEnabled}
+								>
             			Challenge
             		</ChallengeSelection>
             	</LeftGameSelectionPanel>
-
 
             	<RightGameSelectionPanel>
             		<InstructionsHeader>
@@ -275,15 +287,14 @@ export default class GameSelect extends Component {
             		</InstructionsHeader>
 
             		<InstructionsDescription>
-            			{this.state.gameDescription}
-
+            			{gameDescription}
             		</InstructionsDescription>
 
             		<GameScreenshot>
-            			<img src={this.state.gameScreenshot}/>
+            			<img src={gameScreenshot}/>
             		</GameScreenshot>
 
-		            <GameSelectionButton onClick={() => this.BeginGame(this.state)}>
+		            <GameSelectionButton onClick={() => this.BeginGame()}>
 		              <p>PLAY GAME</p>
 		            </GameSelectionButton>
 
