@@ -9,7 +9,7 @@ import Spacerace from './Spacerace'
 import GameOverSign from './components/GameOverSign'
 import data from "./offline_data.json"
 
-import { LocalStorageCache } from "./services";
+import { LocalStorageCache, GameService } from "./services";
 
 import './style/animation.css';
 import './style/font.css';
@@ -110,7 +110,9 @@ const StartingInstructions = styled.div`
 class SpaceraceGame extends React.Component {
   constructor(props) {
     super(props);
+
     this.cache = new LocalStorageCache();
+    this.gameService = new GameService();
 
     this.state = {
       username: this.cache.get("username"),
@@ -161,9 +163,10 @@ class SpaceraceGame extends React.Component {
     this.exitMainPage = this.exitMainPage.bind(this)
     this.setAvailableWords = this.setAvailableWords.bind(this)
     this.createStyler = this.createStyler.bind(this)
+    this.recordHighScore = this.recordHighScore.bind(this);
+
     this.attachEventListener();
-  } 
-  state = { isMoving: true };
+  }
 
   componentDidMount() {
     this.setState({AllWords:data.games.spacerace})    
@@ -259,24 +262,37 @@ class SpaceraceGame extends React.Component {
     return this.state.nextWordUpdate; 
   }
 
+  async recordHighScore() {
+    await this.gameService.addGameScoreAndUpdateIfHigher(
+      this.cache.get('uid'),
+      GameService.Games.SPACE_RACE,
+      {
+        wpm:this.state.wpm,
+        accuracy:this.state.playerAccuracy,
+        level:this.state.level
+      }
+    );
+  }
+
   playAgain(){
     this.setState({
-    playerHasLost:false,
-    startPeriod:true,
-    showMainPage:true,
-    startRocketSpawning:false,
-    showSign:false,
-    seconds:0,
-    startPresses:0,
-    difficultySelected:"",
-    difficulty:"",
-    wpm:20,
-    currentRockets:[],
-    level:1,
-    lives:3,
-    live1:"./images/games/Heart.svg", 
-    live2:"./images/games/Heart.svg", 
-    live3:"./images/games/Heart.svg"})
+      playerHasLost:false,
+      startPeriod:true,
+      showMainPage:true,
+      startRocketSpawning:false,
+      showSign:false,
+      seconds:0,
+      startPresses:0,
+      difficultySelected:"",
+      difficulty:"",
+      wpm:20,
+      currentRockets:[],
+      level:1,
+      lives:3,
+      live1:"./images/games/Heart.svg", 
+      live2:"./images/games/Heart.svg", 
+      live3:"./images/games/Heart.svg"
+    })
     this.attachEventListener();    
   }
 
@@ -337,6 +353,7 @@ class SpaceraceGame extends React.Component {
     img.src="./images/games/Meteor_Crash.svg"
     img.style.width= "5vw"
     img.style.height= "auto"
+
     setTimeout(function() {
       target.style.visibility="hidden"
       target.style.width="0vw"
@@ -559,8 +576,17 @@ class SpaceraceGame extends React.Component {
 
           </SpaceRaceBackground>
         );
-    }else{
-     return( <Statistics data={this.state} exit={this.props.exit} reset={this.playAgain} onLogout={this.props.onLogout} history={this.props.history}/>)
+    } else{
+      return ( 
+        <Statistics 
+          recordHighScore={this.recordHighScore}
+          data={this.state} 
+          exit={this.props.exit} 
+          reset={this.playAgain} 
+          onLogout={this.props.onLogout} 
+          history={this.props.history}
+        />
+      )
     }
   }
 }

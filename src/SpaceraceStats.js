@@ -138,11 +138,13 @@ export default class Statistics extends Component{
         this.exitGame = this.exitGame.bind(this)
       }
 
-    playAgain = () =>{
+    playAgain = () => {
+        this.props.recordHighScore();
         this.props.reset()
     }
 
     exitGame = ()  =>{
+      this.props.recordHighScore();
        this.props.exit()
     }
 
