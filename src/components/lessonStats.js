@@ -2,7 +2,6 @@ import React from 'react';
 import Redirect from 'react-router-dom';
 
 const showLessonStats = (currentSelectedLesson, { accuracy, wpm, lessonID, chapterID }, doRestartLesson) => {
-  console.log(currentSelectedLesson);
   return (
     <div>
       <div className="lesson-stats-icon row">
@@ -20,7 +19,12 @@ const showLessonStats = (currentSelectedLesson, { accuracy, wpm, lessonID, chapt
       </div>
       <div 
         className="lesson-stats-icon row" 
-        onClick={() => doRestartLesson(lessonID, chapterID)}>
+        onClick={() => {
+          doRestartLesson(
+            lessonID === undefined ? currentSelectedLesson.lessonID : lessonID, 
+            chapterID === undefined ? currentSelectedLesson.chapterID : chapterID
+          )
+        }}>
         <img
           src="/images/buttons/ResumeButtonSquare.svg" 
           className="resume-button"

@@ -53,9 +53,6 @@ class LessonsView extends Component {
     // Lessons don't come sorted
     this.props.lessons.sort(this.sortLessonsByName);
 
-    console.log(this.props, currentSelectedLesson, lessonStats);
-
-
     let lessonStatView;
     if(lessonStats) {
       lessonStatView = showLessonStats(currentSelectedLesson, lessonStats, doRestartLesson);
