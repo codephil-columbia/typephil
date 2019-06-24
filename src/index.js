@@ -42,10 +42,10 @@ if (process.env.REACT_APP_ENV === "offline" && !hasBeenSetup) {
   initLocalStorage();
 
   if (Boolean(process.env.REACT_APP_SU)) {
-    if (Boolean(localStorage.getItem('superUserHasBeenSetup'))) {
+    if (!Boolean(localStorage.getItem('superUserHasBeenSetup'))) {
+      localStorage.setItem('superUserHasBeenSetup', true);
       console.log('creating superuser');
       createSuperUser();
-      localStorage.setItem('superUserHasBeenSetup', true);
     }
   }
 }

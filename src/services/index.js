@@ -134,6 +134,10 @@ class OfflineUserService {
         let users = getLocalStorageVal(localStorageKeys.USERS)
         user.uid = uuid.v4();
 
+        if (users.find(u => u.username === user.username)) {
+          rej('User with that username already exists');
+        }
+
         users.push(user);
         this.addEntryToGameRecords(user.uid);
         // this.addUserToRecordList(user.uid);
@@ -395,7 +399,14 @@ class OfflineTutorialService {
     this.sortRecords(userLessonRecords, "lessonID");
     const lastCompletedRecord = userLessonRecords[userLessonRecords.length - 1];
     const lastCompletedLesson = this.getLesson(lastCompletedRecord.lessonID);
-    const nextLesson = this.getLesson(lastCompletedLesson.nextLessonID);
+
+    let nextLesson;
+    // User has completed all lessons, just return the last lesson
+    if (!lastCompletedLesson.nextLessonID) {
+      nextLesson = lastCompletedLesson;
+    } else {
+      nextLesson = this.getLesson(lastCompletedLesson.nextLessonID);
+    }
     
     return Promise.resolve(
       applyTextTransformer(nextLesson)
@@ -413,9 +424,15 @@ class OfflineTutorialService {
     this.sortRecords(userChapterRecords, "chapterID");
     const lastCompletedRecord = userChapterRecords[userChapterRecords.length - 1];
     const lastCompletedChapter = this.getChapter(lastCompletedRecord.chapterID);
-    const nextChapter = this.getChapter(lastCompletedChapter.nextChapterID)
 
-    return new Promise((res, rej) => res(nextChapter));
+    let nextChapter;
+    if (!lastCompletedChapter.nextChapterID) {
+      nextChapter = lastCompletedChapter;
+    } else {
+      nextChapter = this.getChapter(lastCompletedChapter.nextChapterID) 
+    }
+
+    return Promise.resolve(nextChapter);
   }
 
   getLesson(lessonID) {
@@ -659,5 +676,7 @@ export {
   ChapterService, 
   GameService,
   OfflineGameService,
-  LocalStorageCache
+  LocalStorageCache,
+  setLocalStorageVal,
+  getLocalStorageVal
 };

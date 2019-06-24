@@ -89,8 +89,12 @@ class SignupPage extends Component {
       password,
       occupation,
       whichOccupation,
-    }).then(user => this.props.onSuccessfulAuth(user.username, user.uid))
-    .catch(err => console.log(err));
+    }).then(user => 
+      this.props.onSuccessfulAuth(user.username, user.uid)
+    )
+    .catch(err => {
+      this.setState({ usernameValid: false });
+    });
   }
 
   // Conditions hold `true` iff there is an error.
