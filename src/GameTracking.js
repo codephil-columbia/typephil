@@ -73,10 +73,6 @@ const CounterNumber = styled.div`
 }
 `
 
-
-// http://reactcommunity.org/react-modal/accessibility/
-// Modal.setAppElement('#root')
-
 class GameTracking extends Component {
   constructor(props) {
     super(props);
@@ -95,10 +91,10 @@ class GameTracking extends Component {
 
     const totalLength = currentContent.length;
 
-    this.resetIncrement=this.resetIncrement.bind(this)
-    this.userFinished=this.userFinished.bind(this)
-    this.turnOffAllowTimeFlag=this.turnOffAllowTimeFlag.bind(this)
-    this.modalCountdown=this.modalCountdown.bind(this);
+    this.resetIncrement = this.resetIncrement.bind(this)
+    this.userFinished = this.userFinished.bind(this)
+    this.turnOffAllowTimeFlag = this.turnOffAllowTimeFlag.bind(this)
+    this.modalCountdown = this.modalCountdown.bind(this);
 
     this.state = {
       rows,
@@ -291,6 +287,7 @@ class GameTracking extends Component {
       // Apply highlight key
       return { newCharPtr, newGroupPtr };
   };
+
   userFinished = () => {
     this.setState({userFinished:true})
   }
@@ -374,7 +371,7 @@ class GameTracking extends Component {
       groupIterator.push(groupPtr+1);
     }
 
-      groupIterator.forEach((i) => {
+    groupIterator.forEach((i) => {
       const styleMapListForRow = styleMapList[i];
       const characterMapListForRow = characterMapList[i];
       characterMapListForRow.mapKeys((index) => {
@@ -429,8 +426,8 @@ class GameTracking extends Component {
     let { pauses } = this.state;
     pauses.push(Date.now());
     this.setState({ pauses })
-    let ref= setInterval(this.modalCountdown,1000)
-    setTimeout(()=>{
+    let ref = setInterval(this.modalCountdown,1000)
+    setTimeout(() => {
       clearInterval(ref)
       this.setState({modelCount:5})
       this.setState({consecutiveIncorrectCount:0})
@@ -491,7 +488,17 @@ class GameTracking extends Component {
           <ModalCountDownDiv>{this.state.modelCount}</ModalCountDownDiv>
         </Modal>
         <div className="timer-container">
-            <Counter resetFlag={this.turnOffAllowTimeFlag} accuracyInfo={this.state} userFinished={this.userFinished} PlayerLost={this.props.playerHasLost} baseDifficulty={this.props.difficulty} setTime={this.props.countTime} NeedsToIncrement={this.state.addTime} resetFunction={this.resetIncrement} IncrementLevel={this.state.upDifficulty} />  {/* should make this depend on difficulty*/}
+            <Counter 
+              resetFlag={this.turnOffAllowTimeFlag} 
+              accuracyInfo={this.state} 
+              userFinished={this.userFinished} 
+              PlayerLost={this.props.playerHasLost} 
+              baseDifficulty={this.props.difficulty} 
+              setTime={this.props.countTime} 
+              NeedsToIncrement={this.state.addTime} 
+              resetFunction={this.resetIncrement} 
+              IncrementLevel={this.state.upDifficulty} 
+            />  {/* should make this depend on difficulty*/}
         </div> 
       </div> 
       <div className="game-tracker-container">
