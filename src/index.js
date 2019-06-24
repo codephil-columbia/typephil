@@ -6,6 +6,8 @@ import App from './app'
 
 import { lessons, chapters } from "./services/tutorialLessons";
 
+import {createSuperUser} from './services/superuser';
+
 import './style/styles.scss';
 import './style/index.scss';
 
@@ -35,9 +37,17 @@ export function initLocalStorage() {
   }));
 } 
 
-const hasBeenSetup = localStorage.getItem("hasBeenSetup");
+const hasBeenSetup = Boolean(localStorage.getItem("hasBeenSetup"));
 if (process.env.REACT_APP_ENV === "offline" && !hasBeenSetup) {
   initLocalStorage();
+
+  if (Boolean(process.env.REACT_APP_SU)) {
+    if (Boolean(localStorage.getItem('superUserHasBeenSetup'))) {
+      console.log('creating superuser');
+      createSuperUser();
+      localStorage.setItem('superUserHasBeenSetup', true);
+    }
+  }
 }
 
 ReactDOM.render(
