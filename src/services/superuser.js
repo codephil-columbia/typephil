@@ -21,7 +21,7 @@ function unlockAllLessons(uid) {
   const lessons = getLocalStorageVal("lessons");
   const records = getLocalStorageVal("records");
   lessons.forEach(l => {
-    records.lessonRecords.push({ wpm: 0, accuracy: 0, lessonID: l.lessonID, uid });
+    records.lessonRecords.push({ wpm: 0, accuracy: 0, lessonID: l.lessonID, chapterID: l.chapterID, uid });
   });
   setLocalStorageVal("records", records);
 }

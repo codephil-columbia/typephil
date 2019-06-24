@@ -456,7 +456,11 @@ class OfflineTutorialService {
     } else {
       this.sortRecords(userChapterRecords, "chapterID");
       const lastCompletedChapter = this.getChapter(userChapterRecords[userChapterRecords.length - 1].chapterID);
-      currentChapterID = lastCompletedChapter.nextChapterID;
+      if (lastCompletedChapter.nextChapterID) {
+        currentChapterID = lastCompletedChapter.nextChapterID;
+      } else {
+        currentChapterID = lastCompletedChapter.chapterID;
+      }
     }
 
     const { lessonRecords } = getLocalStorageVal("records");
@@ -590,7 +594,7 @@ class OfflineChapterService {
     const lessons = getLocalStorageVal("lessons");
 
     const chaptersAndLessons = chapters.map(chapter => {
-      const lessonsInChapter = lessons.filter(l => l.chapterID === chapter.chapterID)
+      const lessonsInChapter = lessons.filter(l => l.chapterID === chapter.chapterID);
       return {
         chapter, 
         lessons:applyTextTransformer(lessonsInChapter)
