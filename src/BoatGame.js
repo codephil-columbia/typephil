@@ -7,12 +7,13 @@ import MainPage from './BoatLevelSelect'
 import GameOverSign from "./components/GameOverSign";
 import data from "./offline_data.json"
 
-import { LocalStorageCache} from "./services";
+import { LocalStorageCache, GameService} from "./services";
 
 class BoatGame extends Component{
     constructor(props){
         super(props);
         this.cache = new LocalStorageCache();
+        this.gameService = new GameService();
 
         this.endGames=this.endGames.bind(this)
         this.exitMainPage=this.exitMainPage.bind(this)
@@ -27,6 +28,8 @@ class BoatGame extends Component{
         this.setInitContent=this.setInitContent.bind(this)
         this.setLimitedContent=this.setLimitedContent.bind(this)
         this.assignPlayerPlace=this.assignPlayerPlace.bind(this)
+        this.recordHighScore = this.recordHighScore.bind(this);
+
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -49,6 +52,17 @@ class BoatGame extends Component{
         };
     }
 
+    async recordHighScore() {
+        await this.gameService.addGameScoreAndUpdateIfHigher(
+          this.cache.get('uid'),
+          GameService.Games.READY_SET_TYPE,
+          {
+            wpm:this.state.wordsPerMinute,
+            accuracy:this.state.accuracy,
+            level:this.state.playerDifficulty
+          }
+        );
+      }
 
 
     componentWillMount = () => {
@@ -271,7 +285,16 @@ class BoatGame extends Component{
             </div>
             )
         }else if(this.state.playerHasLost){
-            return(<Stats data={this.state} exit={this.props.exit} reset={this.playAgain} onLogout={this.props.onLogout} history={this.props.history}/>)
+            return (
+                <Stats 
+                    recordHighScore={this.recordHighScore}
+                    data={this.state} 
+                    exit={this.props.exit} 
+                    reset={this.playAgain} 
+                    onLogout={this.props.onLogout} 
+                    history={this.props.history}
+                />
+            )
         }
     }
 }
