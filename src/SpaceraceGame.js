@@ -496,17 +496,17 @@ class SpaceraceGame extends React.Component {
     console.log("INDSIDE FUNCTION")
     if (this.state.difficultySelected === "easy"){
       console.log("INDSIDE EASY")
-      this.setState({AvailableWords: this.state.AllWords.slice(0, 145)})
+      this.setState({AvailableWords: this.state.AllWords.slice(0, 159)})
       let shuffle = require('shuffle-array')
       shuffle(this.state.AvailableWords)
       console.log(this.state.AvailableWords)
     }else if (this.state.difficultySelected === "hard"){
-      this.setState({AvailableWords: this.state.AllWords.slice(408, -1)})
+      this.setState({AvailableWords: this.state.AllWords.slice(446, -1)})
       let shuffle = require('shuffle-array')
       shuffle(this.state.AvailableWords)
       console.log(this.state.AvailableWords)
     }else {
-      this.setState({AvailableWords: this.state.AllWords.slice(145, 409)})
+      this.setState({AvailableWords: this.state.AllWords.slice(160, 447)})
       let shuffle = require('shuffle-array')
       shuffle(this.state.AvailableWords)
     }
