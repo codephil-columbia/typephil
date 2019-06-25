@@ -91,7 +91,7 @@
 					"image": ["","","images/lessons/home_row_map.svg","","",""]
 				},
 				"test1": {
-					"lessonName": "Chapter 1 Test!",
+					"lessonName": "Chapter 1 Test",
 					"lessonText": ["Try to type these letters as accurately as possible!","Remember to keep your hands on the home row!","Type the following words and letters. Try not to look down at the keyboard and remember your home!"],
 					"minimumScoreToPass": [70,70,70],
 					"lessonDescriptions": ["asdfghjkl&#59 &#59lkjhgfdsa alfalfas&#59 ashfalls haggadah&#59 haggadas halakahs&#59 halakhas halalahs", "hask khafk ah lads lag kaf fash&#59 flag flaks&#59 kafs alfs as lash sad&#59 ash ask flags&#59 flak dahs jag jags&#59 lags lakhs la khafs&#59 lad jaks dahls&#59", "flags flash shall gaff jag&#59 ha flag half sagas&#59 gags gash salad jags glad&#59 lash hash has as dad fad haha&#59 haj asks alls lass lash&#59 shag&#59 salad slags glass flags daffs algas flash add lad"],
@@ -154,7 +154,7 @@
 					"image": ["","",""]
 				},
 				"test2": {
-					"lessonName": "",
+					"lessonName": "Chapter 2 Test",
 					"lessonText": ["Focus on accuracy during this test. Make sure to get all of the characters correct!","Great job! Let’s do one more exercise to complete this chapter!"],
 					"minimumScoreToPass": [80,80],
 					"lessonDescriptions": ["“ha FLAG half lash&#59” gags ‘gash?’ salad: jags! “glad&#59 LaSH hash” has as dad, fad? haha&#59 “haj ASKS!” alls lass? Shag&#59 flags. “Flash, Shall gaff!” jagsalad? slags/ GLASS! FLAGS DAFFS AlGas “flash” add lad sagas&#59","S&#59 lldk! Kdgd fKhd ?gA k?&#59, “!” kFl “sl” ??dhh&#59f&#59 Kgk.l jJaa Fdjg? DgLgG ,dlh&#59, “,”dfGh&#59J ,gd a?sJl j!gd aSjh dj “!g &#59,kLdd&#59 gf,ka flaks skald dhals glads dahls"],

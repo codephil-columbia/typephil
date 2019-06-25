@@ -253,7 +253,14 @@ class BoatGame extends Component{
     let content = this.state.content
   
     if( this.state.showMainPage ){
-        return (<MainPage setWords={this.setTotalWords} commenceGame={this.exitMainPage} />)
+        return (
+            <MainPage 
+                setWords={this.setTotalWords} 
+                commenceGame={this.exitMainPage} 
+                history={this.props.history}
+                onLogout={this.props.onLogout}
+            />
+        )
     }else if( this.state.gameStart ){
             const { 
 				headerLinks, 

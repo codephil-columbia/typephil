@@ -8,8 +8,8 @@
     border-bottom: 1px solid grey;
     font-size: 4.2rem;
     margin-bottom: 5rem;
-    margin-left: 19%;
-    margin-right: 19%;
+    margin-left: 15%;
+    margin-right: 15%;
     text-align: left;
 }
 
@@ -66,16 +66,16 @@
 @media only screen and (max-width: 1300px) {
     .tutorial-words {
         font-size: 4.5rem;
-        margin-left: 15%;
-        margin-right: 15%;
+        margin-left: 13%;
+        margin-right: 13%;
     }
 }
 
 @media only screen and (max-width: 1150px) {
     .tutorial-words {
         font-size: 4rem;
-        margin-left: 8%;
-        margin-right: 8%;
+        margin-left: 7%;
+        margin-right: 7%;
     }
 
     .modal-text {
