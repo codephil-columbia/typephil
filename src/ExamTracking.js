@@ -108,9 +108,12 @@ class BoatGameTracking extends Component {
 
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.registerUserKeyPress);
+  }
+
   componentWillMount = () => {
     this.attachEventListener();
-    console.log(this.props.currentContent)
   };
 
   createCharacterMapLists = (chars) => {
