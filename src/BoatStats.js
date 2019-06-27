@@ -2,7 +2,9 @@ import React, {Component} from 'react'
 import Header from './components/header'
 import Arcade from './fonts/arcade/ARCADE_N.ttf'
 import Button from 'react-button-component'
-import { LocalStorageCache} from "./services";
+import { LocalStorageCache, GameService } from "./services";
+import ShowSpinner from './components/spinner';
+
 
 import styled  from 'styled-components'
 
@@ -130,15 +132,30 @@ export default class Statistics extends Component{
     constructor(props) {
         super(props);
         this.cache = new LocalStorageCache();
+        this.gameService = new GameService();
 
         this.state = { 
+            isLoading: true,
             username: this.cache.get("username"),
+            uid: this.cache.get("uid"),
             headerLinks: ["Stats" ,"Games", "Learn", "Home"],
         }
 
         this.playAgain = this.playAgain.bind(this)
         this.exitGame = this.exitGame.bind(this)
-      }
+    }
+
+    async componentDidMount() {
+        this.setState({ isLoading: true });
+        const { uid } = this.state;
+
+        const rstHighScores = await this.gameService.getHighScores(uid, GameService.Games.READY_SET_TYPE);
+
+        this.setState({
+            rstHighScores,
+            isLoading: false
+        })
+    }
     
 
     playAgain = () => {
@@ -156,8 +173,13 @@ export default class Statistics extends Component{
         const { 
             badges, 
             headerLinks, 
-            username
+            username,
+            rstHighScores
         } = this.state;
+
+        if (this.state.isLoading) {
+            return <ShowSpinner />;
+        }
 
         return (
             <div>
@@ -190,15 +212,15 @@ export default class Statistics extends Component{
 	                </HighScoreLabel>
                     <StatsHighScoreRow>
                         <DataContainer>
-                            <StatsData>98</StatsData>
+                            <StatsData>{rstHighScores.wpm}</StatsData>
                             <StatsText>WPM</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>45%</StatsData>
+                            <StatsData>{rstHighScores.accuracy}%</StatsData>
                             <StatsText>Accuracy</StatsText>
                         </DataContainer>
                         <DataContainer>
-                            <StatsData>5</StatsData>
+                            <StatsData>{rstHighScores.level}</StatsData>
                             <StatsText>Level</StatsText>
                         </DataContainer>
                     </StatsHighScoreRow>
