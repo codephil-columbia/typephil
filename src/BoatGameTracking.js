@@ -142,6 +142,21 @@ const BoatImage = styled.div`
   }
 `
 
+const PlayerBoatImage = styled.div`
+  content: url(./images/games/Boat_red.svg);
+  width: 15vw;
+
+  @media only screen and (max-width: 1400px) {
+    width: 20vw;
+  }
+  @media only screen and (max-width: 1150px) {
+    width: 25vw;
+  }
+  @media only screen and (max-width: 1000px) {
+    width: 25vw;
+  }
+`
+
 const BoatText = styled.div`
   z-score: 10;
   position: relative;
@@ -715,7 +730,7 @@ class BoatGameTracking extends Component {
           </Boat>
           <Boat displacement={this.state.displacement}>
             <PlayerText>You</PlayerText>
-            <BoatImage></BoatImage>
+            <PlayerBoatImage></PlayerBoatImage>
           </Boat>
           <Boat displacement={this.state.boat3Margin}>
             <BoatText>Challenger 2</BoatText>

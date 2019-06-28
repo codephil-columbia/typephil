@@ -233,15 +233,27 @@ export default class GameSelect extends Component {
 			
 			if(showBoatRace){
 				return(
-					<BoatGame exit={this.returnToSelection}/>
+					<BoatGame 
+						exit={this.returnToSelection} 
+						history={this.props.history} 
+						onLogout={this.props.onLogout}
+					/>
 				)
 			}else if(showChallenge){
 				return(
-					<KeyTracking exit={this.returnToSelection}/>
+					<KeyTracking 
+						exit={this.returnToSelection}
+						history={this.props.history} 
+						onLogout={this.props.onLogout}
+					/>
 				)
 			}else if(showSpaceRace){
 				return(
-					<SpaceraceGame exit={this.returnToSelection}/>
+					<SpaceraceGame 
+						exit={this.returnToSelection}
+						history={this.props.history} 
+						onLogout={this.props.onLogout}
+					/>
 				)
 			}else{
         return(
