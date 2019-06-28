@@ -329,10 +329,10 @@ class OfflineTutorialService {
   }
   
   updateRecord({ wpm, accuracy, uid, lessonID }) {
-    const { lessonRecords } = getLocalStorageVal("records");
+    const records = getLocalStorageVal("records");
     // Update record in place
-    lessonRecords.forEach(record => {
-      if (record.uid === uid && record.lessonID === lessonID) {
+    records.lessonRecords.forEach(record => {
+      if (record.uid === uid && record.lessonID === Number(lessonID)) {
         if (Number(record.wpm) < Number(wpm)) {
           record.wpm = Number(wpm);
         }
@@ -340,7 +340,8 @@ class OfflineTutorialService {
           record.accuracy = Number(accuracy);
         }
       }
-    })
+    });
+    setLocalStorageVal("records", records);
   }
 
   saveLessonRecord({ wpm, accuracy, uid, chapterID, lessonID }) {
