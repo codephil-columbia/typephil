@@ -316,7 +316,7 @@ const lessons = [
     {
         "lessonName": "Lesson 2: Left Hand (ZXCVB)",
         "lessonText": ["Keys 'Z, X, C, V, B' on the bottom row can be reached with your left hand.","Please see the chart below to learn which fingers are used to type which keys. Use pinky for 'Z', ring for 'X', middle for 'C', pointer for 'V', and pointer again for 'B'!","This exercise will introduce the 'Z' key. Let's start!","Great! Now let's add 'X'.","Excellent job so far. Let's add key 'C' now.","Almost finished with the bottom row! Time to add 'V'.","Last key! Let's practice the 'B' key.","Awesome! We finished the bottom row for the left hand. Before we complete this lesson, let's remember review some tips to keep in mind when typing to improve your skills.","Find a rhythm! You should establish and maintain a rhythm while typing. This means that keystrokes should come at equal intervals. Rhythm is important because it helps you increase accuracy.","Let's practice with all of the new keys that you have learned!","Great job! Remember to find a good rhythm when typing this time.","Awesome! One last exercise to complete this lesson."],
-        "minimumScoreToPass": [0,0,90,90,90,90,90,0,0,90,90,90],
+        "minimumScoreToPass": [0,0,85,85,85,85,85,0,0,85,85,85],
         "lessonDescriptions": ["","","Zags zero \"Zoo\" zealot, zo zoril. Zoea!l Zaire zite Zati zeta&#59 zila \"zoea\" zit 'zoa' Zerda? zed&#59 zel! zea? Zelator zeal","Xi xu \"Xrayed\" xystoi xrays! xyloid, xylose. Xray xyst? Xyster! xysti' 'Xis'","Capsulized! captious. captiously \"Captured\" cardy captures capul capuls \"Caput\" car Card, Cardhouse, captor, captors. cardi? cardie \"cardies\"","Volts voluspa! Vorpal Vortex vortical, vortices volute voluted volutes Votaries, Votary, vote Voted, voter! \"Voracity\" Vorlage, vorlages.","Backstory Bagels? backveld bailouts bails. bait Bade badge bagful Backswept backsword Bafts, bag, bagel. backup! Backups badger.","","","Cob Voice cozie, Beau, Cub cube! beaux Bivouac obia Ova ox cobza Cove. zoea bize Boa Box coxae \"Coze\" vie Zoa&#59 zax zobu buaze! cue cuz vocab voe zebu.","Cauterize Ectozoa. Ecotour! ebriate&#59 bioactive Bacterize. Activizer Exoteric exorcize Obviator, Icewater, exuviate? Voicebox. trivia Towier towbar Vizirate equator victoria.","Heartblock Hawseblock cratefuls? Crashdove crashdive. Hardcopies grubstaked Capsulized, Caprifoles grouchiest harpylike \"Butlership\" bushwalker Harpsicle. Halicores? calfdozers Cabriolets byproducts."],
         "lessonImages": ["","images/lessons/bottom_row_map.svg","","","","","","","","","",""],
         "lessonID": 27,
@@ -326,7 +326,7 @@ const lessons = [
     {
         "lessonName": "Lesson 3: Right Hand (NM,./)",
         "lessonText": ["You are almost done learning all of the letters on the keyboard! Please see the chart below to learn which fingers are used to type which keys. Use the pinky for forward-slash (/), ring for period (.), middle for comma (,), pointer for 'M', and pointer again for 'N'.","Since you are already familiar with the period (.) and comma (,), we will just focus on forward-slash (/), 'M', and 'N'.","Complete the exercise below for the 'N' key.","Great! Now let's practice with the 'M' key.","Final key! Forward slash (/) is not used often, but it is still useful.","Great job! Since you have already learned the period (.) and comma (,), we are all done! But before we continue, let's review good typing habits to improve your skills.","Set certain goals based on your current typing speed and try to aim faster each session you practice. By motivating yourself to hit certain targets, you will witness your typing speed improve significantly over time.","Let's practice with all of the new keys that you have learned with your right hand."],
-        "minimumScoreToPass": [0,0,90,90,90,0,0,90],
+        "minimumScoreToPass": [0,0,85,85,85,0,0,85],
         "lessonDescriptions": ["","","Nag nags? neighs noils Naif \"nod\" nodal negs Naifs Noise nose? naiks Neif neifs Neig, Nodalise node! nail No.","\"Medial\" Mensh Median meloids, Mid. midas Melon, mesa mensa 'Mensal' Mines minged Midge, Medials, media? Minges mingle.","Linos/song songlike//naled naleds///name/ Lions nife//nifes///solid","","","Medal Nodal, node/. Nodi medial//Median. Muled Muon/na, Nail. nailed medina. nod Media, nodule, noel, noil//nole nomad/Melano melanoid meld/."],
         "lessonImages": ["images/lessons/bottom_row_map.svg","","","","","","",""],
         "lessonID": 28,
@@ -386,7 +386,7 @@ const lessons = [
     {
         "lessonName": "Lesson 4: Left and Right Hand",
         "lessonText": ["Before we combine the left and right hands, don't worry too much about hitting the keys on the number row with the designated fingers. Unlike the alphabet keys, you have more flexibility when you reach for the number keys!","Type the words below!","Great! Let's try some more examples."],
-        "minimumScoreToPass": [0,90,90],
+        "minimumScoreToPass": [0,85,85],
         "lessonDescriptions": ["","6 times 6 is 36. 7 minus 2 is five. 10 times 10 is 100. 6 divided by 2 is 3. 2 plus 4 times 8 times 7 times 0 is 2. 8 plus 2 is 10. 99 plus 2 is 101.","24 divided by 8 is 3. 1 plus 1 is 2. 9 minus 9 is 0. 5 times 5 is 25. 6 times 6 is 36. 9 plus 1 is 10. 72 - 4 is 68. 0 times 100 is 0. 3 times 3 is 9. 7 minus 0 is 7."],
         "lessonImages": ["","",""],
         "lessonID": 34,
@@ -396,7 +396,7 @@ const lessons = [
     {
         "lessonName": "Lesson 5: Arithmetic Operations",
         "lessonText": ["In this lesson, you will learn how to type using basic arithmetic operations. Arithmetic operations implies the study of numbers with traditional operations, such as addition, subtraction, multiplication and division.","We will be using (+) for plus, (-) for minus, (*) for multiplication, (/) for division, and (=) for equal sign. Please see the map below on how to reach for these keys.","Type the arithmetic statements below.","Great! Let's try some more examples"],
-        "minimumScoreToPass": [0,0,90,90],
+        "minimumScoreToPass": [0,0,85,85],
         "lessonDescriptions": ["","","6 * 6 = 36, 6 / 6 = 1, 7 - 2 = 5, 10 * 10 = 100, 6 / 2 = 3, 2 + 4 * 8 * 7 * 0 = 2, 8 + 2 = 10","24 / 8 = 3, 1 + 1 = 2, 9 - 9 = 0, 5 * 5 = 25, 6 * 6 = 36, 9 + 1 = 10, 27 - 7 = 20, 0 * 100 = 0, 9 - 2 = 7"],
         "lessonImages": ["","images/lessons/keyboard_layout_map.svg","",""],
         "lessonID": 35,

@@ -116,6 +116,8 @@ class KeyTracking extends Component{
   }
 
   render(){
+    let shuffle = require('shuffle-array')
+    data.games.challenge = shuffle(data.games.challenge)
     let cleanContent = ""
     for(let i =0;i<data.games.challenge.length; i++){
         let string = data.games.challenge[i]
