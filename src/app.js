@@ -91,7 +91,6 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>} />
       </Switch>
     )
   }
