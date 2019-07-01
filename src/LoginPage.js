@@ -70,7 +70,8 @@ class LoginPage extends Component {
 
   handleSignup = e => {
     e.preventDefault();
-    window.location = '/signup';
+    this.props.history.push('/signup')
+    // window.location = '/signup';
   }
 
   handleBlur = (field) => (e) => {

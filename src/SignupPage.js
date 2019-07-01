@@ -78,6 +78,7 @@ class SignupPage extends Component {
   }
 
   signup = (e) => {
+    console.log("sign up was clicked")
     e.preventDefault();
     const { firstName, lastName, username, password, occupation, gender, whichOccupation, schoolyear } = this.state // TODO add firstName, lastName to db model (?)
     const dob = `${moment.monthsShort().indexOf(this.state.month)}-${this.state.day}-${this.state.year}`; // MM-DD-YYYY string
@@ -93,6 +94,7 @@ class SignupPage extends Component {
       this.props.onSuccessfulAuth(user.username, user.uid)
     )
     .catch(err => {
+      console.log(err)
       this.setState({ usernameValid: false });
     });
   }

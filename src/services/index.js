@@ -111,9 +111,11 @@ class OfflineUserService {
   authenticate(username, password) {
     return new Promise((res, rej) => {
       let users = getLocalStorageVal(localStorageKeys.USERS);
-
+      console.log("authenticating - this is the users")
+      console.log(users)
       // Check to see if user exits
       const user = users.find(user => user.username === username);
+      console.log("user boolean")
       if (!user) {
         return rej("User does not exist");
       }
@@ -134,7 +136,13 @@ class OfflineUserService {
         let users = getLocalStorageVal(localStorageKeys.USERS)
         user.uid = uuid.v4();
 
+        console.log("user db")
+        console.log(users)
+        console.log("seeing if user is found: ")
+        console.log(users.find(u => u.username === user.username))
+
         if (users.find(u => u.username === user.username)) {
+          console.log("this username was found ")
           rej('User with that username already exists');
         }
 

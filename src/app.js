@@ -17,6 +17,7 @@ import Stats from './Statistics'
 import SpaceraceGame from './SpaceraceGame'
 import DataDashboard from './DataDashboard'
 import ExamSelection from './ExamSelectionPage'
+import RedirectPage from './redirectPage'
 
 import {LocalStorageCache} from "./services";
 
@@ -41,6 +42,7 @@ class App extends Component {
    * url to the Home component.
    */
   onSuccessfulAuth = (username, uid) => {
+    console.log("activated onSuccesful auth has been reached")
     this.setState({ isAuthenticated: true })
     this.cache.set("isLoggedIn", true);
     this.cache.set("username", username);
@@ -89,8 +91,9 @@ class App extends Component {
   userHasNotBeenAuthenticated = () => {
     return (
       <Switch>
-        <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
-        <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth}/>}/>
+        <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth} history={this.props.history}/>}/>
+        <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth} history={this.props.history}/>}/>
+        <Route component={RedirectPage} />
       </Switch>
     )
   }
