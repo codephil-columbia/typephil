@@ -81,6 +81,7 @@ class App extends Component {
         <Route path="/coco" component={() => <KeyTracker onLogout={this.onLogout} history={this.props.history}/>} />
         <Route path="/finalstats" component={() => <Stats onLogout={this.onLogout} history={this.props.history}/>} />
         <Route path="/exam" component={() => <ExamSelection onLogout={this.onLogout} history={this.props.history}/>} />
+        <Route path="/" component={() => <HomePage onLogout={this.onLogout} history={this.props.history} setPageSourceViaCache={this.setPageSourceViaCache}/>} />
         <Route path="/404"component={Component404} />
       </Switch>
     )
@@ -93,7 +94,7 @@ class App extends Component {
       <Switch>
         <Route exact path="/" component={() => <LoginPage onSuccessfulAuth={this.onSuccessfulAuth} history={this.props.history}/>}/>
         <Route path="/signup" component={() => <SignupPage onSuccessfulAuth={this.onSuccessfulAuth} history={this.props.history}/>}/>
-        <Route component={RedirectPage} />
+        <Route component={RedirectPage}/>
       </Switch>
     )
   }
