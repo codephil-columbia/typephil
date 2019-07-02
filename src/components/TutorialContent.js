@@ -199,6 +199,8 @@ class LessonTutorialContent extends Component {
       shouldShowModal
     } = this.state;
 
+    if(typeof keyPressed === 'undefined') 
+      return;
     // Arrow key pressed; ignore.
     if(keyPressed.indexOf('Arrow') !== -1)
       return;
