@@ -41,6 +41,12 @@ class Counter extends React.Component {
         this.setBaseTime()
     }
 
+    componentWillUnmount() {
+      // Make sure to clear counter here in case normal game over flow does 
+      // not happen, ex. the user starts a game and then immediately logs out.
+      clearInterval(this.intervalHandle);
+    }
+
     calculateIncrement = () => {
       var newIncrement=0;
       var difficulty=this.props.baseDifficulty
@@ -115,7 +121,7 @@ class Counter extends React.Component {
       }
       
 
-      if (min === 0 & sec === 0) {
+      if (min === 0 && sec === 0) {
         clearInterval(this.intervalHandle);
         this.setState({threeCount:1,twoCount:1})
         this.props.userFinished()
