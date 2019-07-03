@@ -48,6 +48,7 @@
     "promise": "8.0.1",
     "rc-progress": "^2.2.5",
     "react": "^16.4.0",
+    "react-addons-pure-render-mixin": "^15.6.2",
     "react-button": "^1.2.1",
     "react-button-component": "^1.0.0",
     "react-buttons": "0.0.11",

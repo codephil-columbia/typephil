@@ -80,6 +80,10 @@ const InstructionsHeader = styled.div`
 	font-size: 2.5rem;
 	font-weight: bold;
 	color: #52B094;
+
+	@media only screen and (max-width: 1150px) {
+		padding-top: 2vh;
+	}
 `
 
 const InstructionsDescription = styled.div`
@@ -94,8 +98,8 @@ const GameScreenshot = styled.div`
 	padding-left: 10vw;
 
 	@media only screen and (max-width: 1150px) {
-		padding-right: 5vw;
-		padding-left: 5vw;
+		padding-right: 10vw;
+		padding-left: 10vw;
 	}
 `
 

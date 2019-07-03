@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { OrderedMap } from 'immutable';
+import styled from 'styled-components'
 
 import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
 
@@ -16,6 +17,12 @@ const HIGHLIGHTED = "highlighted character";
 const CORRECT = "correct";
 const INCORRECT = "incorrect";
 
+const ModalCountDownDiv = styled.div`
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #F5A623;
+  padding-bottom: 1rem;
+`
 
 class LessonTutorialContent extends Component {
   constructor(props) {
@@ -34,6 +41,9 @@ class LessonTutorialContent extends Component {
     const rows = this.buildRows(characterMapList, styleMapList, 0);
 
     const totalLength = currentContent.length;
+
+    this.closeModal=this.closeModal.bind(this);
+    this.modalCountdown = this.modalCountdown.bind(this)
 
     this.state = {
       rows,
@@ -56,7 +66,8 @@ class LessonTutorialContent extends Component {
       startTime: 0,
       finishTime: 0,
       pauses: [],
-      time: 0
+      time: 0,
+      modelCount: 5
     };
   }
 
@@ -199,6 +210,8 @@ class LessonTutorialContent extends Component {
       shouldShowModal
     } = this.state;
 
+    if(typeof keyPressed === 'undefined') 
+      return;
     // Arrow key pressed; ignore.
     if(keyPressed.indexOf('Arrow') !== -1)
       return;
@@ -304,11 +317,22 @@ class LessonTutorialContent extends Component {
     this.setState({ shouldShowModal: false, pauses });
   };
 
+  modalCountdown() {
+    this.setState({modelCount:this.state.modelCount-1})
+  }
+
   onModalOpen = () => {
     this.removeEventListener();
     let { pauses } = this.state;
     pauses.push(Date.now());
     this.setState({ pauses })
+    let ref = setInterval(this.modalCountdown, 1000)
+    setTimeout(() => {
+      clearInterval(ref)
+      this.setState({modelCount:5})
+      this.setState({consecutiveIncorrectCount:0})
+      this.closeModal()
+    }, 5000)
   }
 
   removeEventListener = () => {
@@ -342,8 +366,8 @@ class LessonTutorialContent extends Component {
           onAfterOpen={this.onModalOpen}
           className="tutorial-modal"
         >
-          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please go back and correct <br/>the mistyped keys!</p>
-          <button onClick={this.closeModal} className="button-primary solid modal-button" type="submit" value="CLOSE">OKAY</button>
+          <p className="modal-text">You missed more than <br/><strong><u>5 keys</u></strong> in a row. <br/>Please focus on accuracy!</p>
+          <ModalCountDownDiv>{this.state.modelCount}</ModalCountDownDiv>
         </Modal>
         { rows }
         <LessonTutorialHandsKeyboard currentKey={currentKey}/>
