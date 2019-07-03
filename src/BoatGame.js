@@ -15,21 +15,6 @@ class BoatGame extends Component{
         this.cache = new LocalStorageCache();
         this.gameService = new GameService();
 
-        this.endGames=this.endGames.bind(this)
-        this.exitMainPage=this.exitMainPage.bind(this)
-        this.incrementDifficulty=this.incrementDifficulty.bind(this)
-        this.totalTime=this.totalTime.bind(this)
-        this.showStatspage=this.showStatspage.bind(this)
-        this.parse=this.parse.bind(this)
-        this.cleanContent=this.cleanContent.bind(this)
-        this.playAgain=this.playAgain.bind(this)
-        this.setTotalWords=this.setTotalWords.bind(this)
-        this.limitWords=this.limitWords.bind(this)
-        this.setInitContent=this.setInitContent.bind(this)
-        this.setLimitedContent=this.setLimitedContent.bind(this)
-        this.assignPlayerPlace=this.assignPlayerPlace.bind(this)
-        this.recordHighScore = this.recordHighScore.bind(this);
-
         this.state={
             isPlayerReady:false,
             beginCountDown:false,
@@ -41,6 +26,7 @@ class BoatGame extends Component{
             originalContent:"",
             content:"",
             accuracy:0,
+            timeOutInstance:0,
             gameStart:false,
             playerPlace:0,
             playerDifficulty:1,
@@ -50,6 +36,8 @@ class BoatGame extends Component{
             username: this.cache.get("username"),
             headerLinks: ["Stats" ,"Games", "Learn", "Home"],
         };
+
+        
     }
 
     async recordHighScore() {
@@ -70,10 +58,13 @@ class BoatGame extends Component{
         this.setInitContent(data.games.boatrace[randIndex])
     }
 
+    componentWillUnmount = () => {
+        clearTimeout(this.state.timeOutInstance)
+    }
 
     exitMainPage = (difficulty) => {
-        var diffString = difficulty
-        var diffNum = 1
+        let diffString = difficulty
+        let diffNum = 1
 
         if( diffString === "easy" ){
             diffNum = 1
@@ -198,7 +189,7 @@ class BoatGame extends Component{
     }
     
     totalTime = (time) => {
-        var minutes=time/60
+        let minutes=time/60
         this.setState({totalMinutes:minutes})
     }
     
@@ -206,20 +197,26 @@ class BoatGame extends Component{
         this.setState({playerPlace:position})
     }
 
-    endGames= (state, time) => {
-        var minutes=time/60
-        var totalChars= state.incorrect.length + state.correct.length   
-        var playerAccuracy= Math.floor((1- state.incorrect.length/totalChars)*100)
-        var wpm = Math.floor(totalChars/(5*minutes))
-        this.setState({showSign:true,inputOff:true})
-        setTimeout(() => {
-            this.setState({
+    initiateTimeOut = (playerAccuracy,wpm) => {
+        return setTimeout(() => {
+          this.setState({
             playerHasLost:true,
             isPlayerReady:false,
             gameStart:false,
             accuracy:playerAccuracy,
-            wordsPerMinute:wpm,
-        })},6000)
+            wordsPerMinute:wpm
+          })
+        }, 6000);
+      }
+
+    endGames= (state, time) => {
+        let minutes=time/60
+        let totalChars= state.incorrect.length + state.correct.length   
+        let playerAccuracy= Math.floor((1- state.incorrect.length/totalChars)*100)
+        let wpm = Math.floor(totalChars/(5*minutes))
+        this.setState({showSign:true,inputOff:true})
+        
+        this.setState({timeOutInstance:this.initiateTimeOut(playerAccuracy,wpm)})
     }
 
     showStatspage = () => {

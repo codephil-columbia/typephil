@@ -135,6 +135,7 @@ class SpaceraceGame extends React.Component {
       startPresses:0,
       totalCorrect:0,
       playerAccuracy:0,
+      timeOutInstance:0,
       ref1:0,
       ref2:0,
       ref3:0,
@@ -148,22 +149,23 @@ class SpaceraceGame extends React.Component {
       difficultySelected:"",
     } 
 
-    this.doesWordExist = this.doesWordExist.bind(this)
-    this.spawnRocket = this.spawnRocket.bind(this)
-    this.destroyRocket = this.destroyRocket.bind(this)
-    this.subtractLife = this.subtractLife.bind(this)
-    this.incrementDifficulty = this.incrementDifficulty.bind(this)
-    this.tick = this.tick.bind(this)
-    this.checkDifficultyIncrement = this.checkDifficultyIncrement.bind(this)
-    this.calculateStats = this.calculateStats.bind(this)
-    this.playAgain = this.playAgain.bind(this)
-    this.getParentDiv = this.getParentDiv.bind(this)
-    this.exitGame = this.exitGame.bind(this)
-    this.returnMainPage = this.returnMainPage.bind(this)
-    this.exitMainPage = this.exitMainPage.bind(this)
-    this.setAvailableWords = this.setAvailableWords.bind(this)
-    this.createStyler = this.createStyler.bind(this)
+    this.doesWordExist = this.doesWordExist.bind(this);
+    this.spawnRocket = this.spawnRocket.bind(this);
+    this.destroyRocket = this.destroyRocket.bind(this);
+    this.subtractLife = this.subtractLife.bind(this);
+    this.incrementDifficulty = this.incrementDifficulty.bind(this);
+    this.tick = this.tick.bind(this);
+    this.checkDifficultyIncrement = this.checkDifficultyIncrement.bind(this);
+    this.calculateStats = this.calculateStats.bind(this);
+    this.playAgain = this.playAgain.bind(this);
+    this.getParentDiv = this.getParentDiv.bind(this);
+    this.exitGame = this.exitGame.bind(this);
+    this.returnMainPage = this.returnMainPage.bind(this);
+    this.exitMainPage = this.exitMainPage.bind(this);
+    this.setAvailableWords = this.setAvailableWords.bind(this);
+    this.createStyler = this.createStyler.bind(this);
     this.recordHighScore = this.recordHighScore.bind(this);
+    this.initiateTimeOut = this.initiateTimeOut.bind(this);
 
     this.attachEventListener();
   }
@@ -174,6 +176,7 @@ class SpaceraceGame extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.registerUserKeyPress);
+    clearTimeout(this.state.timeOutInstance)
   }
 
   exitMainPage = (difficulty) => {
@@ -314,6 +317,10 @@ class SpaceraceGame extends React.Component {
     }
   }
 
+  initiateTimeOut = () => {
+    return setTimeout(() => {this.setState({playerHasLost:true})},6000)
+  }
+
   subtractLife = () => {
     if (this.state.lives === 3){
       this.setState({live3: null})
@@ -330,7 +337,7 @@ class SpaceraceGame extends React.Component {
       clearInterval(this.state.ref3)
       document.removeEventListener("keydown", this.registerUserKeyPress);
       this.calculateStats()
-      setTimeout(() => {this.setState({playerHasLost:true})},6000)
+      this.setState({timeOutInstance:this.initiateTimeOut()})
     }
   }
 

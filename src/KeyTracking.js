@@ -22,16 +22,17 @@ class KeyTracking extends Component{
       isPlayerReady:false,
       beginCountDown:false,
       inputOff:false,
+      gameStart:false,
+      showMainPage:true,
+      showSign:false,
+      timeOutInstance:0,
       beginningDifficulty:1,
       totalMinutes:0,
       wordsPerMinute:0,
       accuracy:0,
-      gameStart:false,
       playerDifficulty:1,
-      showMainPage:true,
       username: this.cache.get("username"),
       headerLinks: ["Stats", "Games", "Learn", "Home"],
-      showSign:false,
       jsonArray:[],
       dataArray:[]
     };
@@ -39,8 +40,13 @@ class KeyTracking extends Component{
     this.endGames = this.endGames.bind(this);
     this.exitMainPage = this.exitMainPage.bind(this);
     this.incrementDifficulty = this.incrementDifficulty.bind(this);
+    this.initiateTimeOut = this.initiateTimeOut.bind(this);
     this.totalTime = this.totalTime.bind(this);
     this.playAgain = this.playAgain.bind(this);
+  }
+
+  componentWillUnmount(){
+    clearTimeout(this.state.timeOutInstance)
   }
 
   exitMainPage = (difficulty) => {
@@ -73,8 +79,18 @@ class KeyTracking extends Component{
     let minutes = time/60
     this.setState({totalMinutes:minutes})
   }
-  
 
+  initiateTimeOut = (playerAccuracy,wpm) => {
+    return setTimeout(() => {
+      this.setState({
+        playerHasLost:true,
+        isPlayerReady:false,
+        gameStart:false,
+        accuracy:playerAccuracy,
+        wordsPerMinute:wpm
+      })
+    }, 6000);
+  }
 
   endGames = async (state, time) => {
     let minutes = time/60
@@ -89,15 +105,8 @@ class KeyTracking extends Component{
       { wpm, accuracy:playerAccuracy, level:this.state.playerDifficulty }
     );
 
-    setTimeout(() => {
-      this.setState({
-        playerHasLost:true,
-        isPlayerReady:false,
-        gameStart:false,
-        accuracy:playerAccuracy,
-        wordsPerMinute:wpm
-      })
-    }, 6000);
+    this.setState({timeOutInstance:this.initiateTimeOut(playerAccuracy,wpm)})
+
   }
 
   playAgain = () => {
