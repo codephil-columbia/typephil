@@ -11,16 +11,6 @@ import {createSuperUser} from './services/superuser';
 import './style/styles.scss';
 import './style/index.scss';
 
-/**
- * If the app is online, we keep one reference to the lessons and chapters
- * to avoid reintantiating it multiple times throughout the app
- */
-export let tutorialData = {}
-if (process.env.REACT_APP_ENV === "offline") {
-  tutorialData.lessons = lessons;
-  tutorialData.chapters = chapters;
-}
-
 export function initLocalStorage() {
   localStorage.setItem("hasBeenSetup", true);
   localStorage.setItem("users", JSON.stringify([]));
