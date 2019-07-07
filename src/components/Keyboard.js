@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
-import { shiftedKeys, mapToSpecialKeys, specialKeyNames } from "../utils/keyboardUtils";
-import { isAlpha } from '../utils';
+import { shiftedKeys, mapToSpecialKeys, specialKeyNames } from "../utils/keyboard";
+
+function isAlpha(ch) {
+    return ch.match(/^[a-z]+$/i) !== null;
+}
 
 class Keyboard extends Component {
 
