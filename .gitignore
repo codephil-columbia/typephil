@@ -5,3 +5,5 @@ src/.sass_cache
 *.DS_STORE
 .vscode/
 coverage/
+build/
+dist/
