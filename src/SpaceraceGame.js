@@ -456,13 +456,13 @@ class SpaceraceGame extends React.Component {
     } = this.state;
 
     if (difficultySelected === "easy"){
-      this.setState({AvailableWords: AllWords.slice(0, 145)})
+      this.setState({AvailableWords: AllWords.slice(0, 159)})
       shuffle(AvailableWords)
     }else if (difficultySelected === "hard"){
-      this.setState({AvailableWords: AllWords.slice(408, -1)})
+      this.setState({AvailableWords: AllWords.slice(446, -1)})
       shuffle(AvailableWords)
     }else {
-      this.setState({AvailableWords: AllWords.slice(145, 409)})
+      this.setState({AvailableWords: AllWords.slice(160, 477)})
       shuffle(AvailableWords)
     }
   }
