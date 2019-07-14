@@ -177,6 +177,9 @@ class SpaceraceGame extends React.Component {
   componentWillUnmount() {
     document.removeEventListener('keydown', this.registerUserKeyPress);
     clearTimeout(this.state.timeOutInstance)
+    clearInterval(this.state.ref1)
+    clearInterval(this.state.ref2)
+    clearInterval(this.state.ref3)
   }
 
   exitMainPage = (difficulty) => {
