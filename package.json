@@ -2,8 +2,7 @@
   "name": "typephil",
   "version": "0.1.0",
   "private": true,
-  "main": "src/Main.js",
-  "homepage": "./",
+  "main": "public/electron.js",
   "dependencies": {
     "autoprefixer": "7.1.2",
     "aws-sdk": "^2.469.0",
@@ -20,6 +19,7 @@
     "chalk": "1.1.3",
     "css-loader": "0.28.4",
     "dotenv": "4.0.0",
+    "electron-is-dev": "^1.1.0",
     "eslint": "4.4.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-react-app": "^2.0.1",
@@ -92,21 +92,24 @@
     "build-storybook": "build-storybook -s public",
     "electron-start": "electron .",
     "preelectron-pack": "npm run build",
-    "electron-pack": "build --win -c.extraMetadata.main=build/Main.js"
+    "electron-pack": "build --win -c.extraMetadata.main=build/Main.js",
+    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.16",
     "@storybook/addon-links": "^3.2.16",
     "@storybook/react": "^3.2.16",
     "chai": "^4.2.0",
-    "electron": "^5.0.6",
+    "concurrently": "^4.1.1",
+    "electron": "^5.0.7",
     "electron-builder": "^20.44.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jest": "^21.2.1",
     "node-sass": "^4.8.3",
     "sass-loader": "^7.0.1",
-    "svg-inline-loader": "^0.8.0"
+    "svg-inline-loader": "^0.8.0",
+    "wait-on": "^3.3.0"
   },
   "build": {
     "files": [
