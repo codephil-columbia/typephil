@@ -177,6 +177,9 @@ class SpaceraceGame extends React.Component {
   componentWillUnmount() {
     document.removeEventListener('keydown', this.registerUserKeyPress);
     clearTimeout(this.state.timeOutInstance)
+    clearInterval(this.state.ref1)
+    clearInterval(this.state.ref2)
+    clearInterval(this.state.ref3)
   }
 
   exitMainPage = (difficulty) => {
@@ -249,7 +252,7 @@ class SpaceraceGame extends React.Component {
     this.setState({
       level:this.state.level +1, 
       wpm:this.state.wpm + 5,
-      ref3:setInterval(this.spawnRocket,this.state.wpm/60 *10000)
+      ref3:setInterval(this.spawnRocket,60/this.state.wpm *1000)
     })
   }
 
@@ -456,13 +459,13 @@ class SpaceraceGame extends React.Component {
     } = this.state;
 
     if (difficultySelected === "easy"){
-      this.setState({AvailableWords: AllWords.slice(0, 145)})
+      this.setState({AvailableWords: AllWords.slice(0, 159)})
       shuffle(AvailableWords)
     }else if (difficultySelected === "hard"){
-      this.setState({AvailableWords: AllWords.slice(408, -1)})
+      this.setState({AvailableWords: AllWords.slice(446, -1)})
       shuffle(AvailableWords)
     }else {
-      this.setState({AvailableWords: AllWords.slice(145, 409)})
+      this.setState({AvailableWords: AllWords.slice(160, 477)})
       shuffle(AvailableWords)
     }
   }
@@ -493,7 +496,7 @@ class SpaceraceGame extends React.Component {
           startRocketSpawning:true,
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
-          ref3:setInterval(this.spawnRocket,this.state.wpm/60 *10000)
+          ref3:setInterval(this.spawnRocket, 60/this.state.wpm *1000)
         })
       }
     } else if (keyPressed === BACKSPACE) {
