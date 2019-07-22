@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "public/electron.js",
+  "homepage": "./",
   "dependencies": {
     "autoprefixer": "7.1.2",
     "aws-sdk": "^2.469.0",
@@ -92,8 +93,22 @@
     "build-storybook": "build-storybook -s public",
     "electron-start": "electron .",
     "preelectron-pack": "npm run build",
-    "electron-pack": "build --win -c.extraMetadata.main=build/Main.js",
-    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\""
+    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "postinstall": "electron-builder install-app-deps",
+    "electron-pack": "build -mw"
+
+  },
+  "build": {
+    "appId": "com.my-website.my-app",
+    "productName": "MyApp",
+    "copyright": "Copyright © 2019",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ]
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.2.16",
@@ -110,12 +125,6 @@
     "sass-loader": "^7.0.1",
     "svg-inline-loader": "^0.8.0",
     "wait-on": "^3.3.0"
-  },
-  "build": {
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ]
   },
   "jest": {
     "collectCoverageFrom": [
