@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Edit Button</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0 24 0 24 24 0 24"></polygon>
+    </defs>
+    <g id="My-Profile---Joined-Class" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-616.000000, -572.000000)">
+        <g id="Edit-Button" transform="translate(616.000000, 572.000000)">
+            <g id="Page-1">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-2"></g>
+                <path d="M0.0135833113,23.3196601 C-0.0752488727,23.7215196 0.285703472,24.0815188 0.685604511,23.9838097 L6.12602904,22.6582314 L1.2465768,17.7521616 L0.0135833113,23.3196601 Z M23.5106159,2.82199916 L21.3333075,0.634132225 C20.4918838,-0.211377408 19.1255899,-0.211377408 18.2813544,0.634132225 L16.19569,2.730011 L21.0778151,7.63594129 L23.5106159,5.19133078 C24.163128,4.53551837 24.163128,3.47781156 23.5106159,2.82199916 Z M14.9237478,4.00528706 L19.8059077,8.91135689 L7.44785472,21.3299322 L2.56854133,16.4238624 L14.9237478,4.00528706 Z" id="Fill-1" fill="#52B094" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

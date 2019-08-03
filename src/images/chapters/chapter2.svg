@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="610px" height="292px" viewBox="0 0 610 292" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Shift Graphic</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="14.8753559%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#52B094" offset="0%"></stop>
+            <stop stop-color="#97C9A3" offset="59.4210277%"></stop>
+            <stop stop-color="#D0E9D6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Lesson-Graphics" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Shift-Graphic">
+            <g id="Lesson-Graphic">
+                <rect id="Rectangle-8" fill="url(#linearGradient-1)" transform="translate(305.000000, 146.000000) scale(-1, 1) translate(-305.000000, -146.000000) " x="0" y="0" width="610" height="292" rx="14"></rect>
+                <g id="Shift-Key" transform="translate(217.000000, 80.000000)">
+                    <path d="M314.5,112.5 L332,127" id="Line-2" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square"></path>
+                    <path d="M6.5,6.5 L22.5,20.5" id="Line-2" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square"></path>
+                    <path d="M314.5,6.5 L330.5,20.5" id="Line-2" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" transform="translate(322.500000, 13.500000) scale(-1, 1) translate(-322.500000, -13.500000) "></path>
+                    <path d="M6.5,112.5 L21.5,127.5" id="Line-2" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" transform="translate(14.000000, 120.000000) scale(1, -1) translate(-14.000000, -120.000000) "></path>
+                    <text id="Shift" font-family="AvenirNext-DemiBold, Avenir Next" font-size="25" font-weight="500" fill="#FFFFFF">
+                        <tspan x="66" y="77">Shift</tspan>
+                    </text>
+                    <rect id="Rectangle" stroke="#FFFFFF" stroke-width="4" x="21" y="18" width="294" height="96" rx="12"></rect>
+                    <rect id="Rectangle" stroke="#FFFFFF" stroke-width="3" x="1.5" y="1.5" width="336" height="131" rx="8"></rect>
+                    <g id="Group" transform="translate(43.000000, 55.000000)" fill="#FFFFFF">
+                        <polygon id="Triangle-3" points="9 0 18 16 0 16"></polygon>
+                        <rect id="Rectangle-3" x="6" y="16" width="6" height="7"></rect>
+                    </g>
+                </g>
+                <g id="Group-2" transform="translate(56.000000, 77.000000)">
+                    <text id="a" font-family="AmericanTypewriter-Semibold, American Typewriter" font-size="70" font-weight="500" fill="#FFFFFF">
+                        <tspan x="77" y="63">a</tspan>
+                    </text>
+                    <g id="Group" transform="translate(82.000000, 89.000000)" fill="#FFFFFF">
+                        <polygon id="Triangle-3" points="14.5 0 29 23.6969697 0 23.6969697"></polygon>
+                        <polygon id="Rectangle-3" points="9.32142857 23.6969697 18.6428571 23.6969697 18.6428571 34 9.32142857 34"></polygon>
+                    </g>
+                    <text id="A" font-family="AmericanTypewriter-Semibold, American Typewriter" font-size="90" font-weight="500" fill="#FFFFFF">
+                        <tspan x="0" y="100">A</tspan>
+                    </text>
+                    <path d="M71.5,78.5 L121.5,78.5" id="Line-4" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

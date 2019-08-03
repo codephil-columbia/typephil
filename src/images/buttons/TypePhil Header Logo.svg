@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="250px" height="39px" viewBox="0 0 250 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>TypePhil Header Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="TypePhil-Header-Logo" transform="translate(0.000000, -4.000000)">
+            <text id="TypePhil" font-family="AmericanTypewriter-Bold, American Typewriter" font-size="35" font-weight="bold" fill="#FFFFFF">
+                <tspan x="0" y="33">Type</tspan>
+                <tspan x="86.94" y="33" font-family="AvenirNext-Regular, Avenir Next" font-weight="normal">Phil</tspan>
+            </text>
+            <text id="Created-by-CodePhil" font-family="AvenirNext-Regular, Avenir Next" font-size="15" font-weight="normal" fill="#FFFFFF">
+                <tspan x="174" y="16">Created by </tspan>
+                <tspan x="174" y="36" font-family="AmericanTypewriter, American Typewriter" font-size="18">CodePhil</tspan>
+                <tspan x="249.672" y="36" font-size="18"> </tspan>
+            </text>
+            <path d="M159.5,6.5 L159.5,41.5" id="Line-3" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

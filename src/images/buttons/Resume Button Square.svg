@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="111px" height="111px" viewBox="0 0 111 111" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Resume Button Square</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Learn---Chapter-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-862.000000, -718.000000)">
+        <g id="Resume-Button-Square" transform="translate(862.000000, 718.000000)">
+            <rect id="Rectangle-2" fill="#BFD8BD" fill-rule="evenodd" x="0" y="0" width="111" height="111" rx="19"></rect>
+            <polygon id="Triangle" fill="#FFFFFF" fill-rule="evenodd" transform="translate(58.000000, 57.500000) rotate(90.000000) translate(-58.000000, -57.500000) " points="58 44 74 71 42 71"></polygon>
+            <circle id="Oval-2" stroke="#FFFFFF" stroke-width="4" cx="55" cy="56" r="32"></circle>
+        </g>
+    </g>
+</svg>
