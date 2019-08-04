@@ -312,10 +312,6 @@ class SpaceraceGame extends React.Component {
 
     let count = this.state.wordCount
 
-    if((count >= AvailableWords.length) || (this.state.startPresses == 0)){
-      shuffle(AvailableWords)
-    }
-
     let rocketWord = AvailableWords[count]
 
     //creates rocket and iterates over row - adds word to currentRockets 
