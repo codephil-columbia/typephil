@@ -26,7 +26,7 @@ const showLessonStats = (currentSelectedLesson, { accuracy, wpm, lessonID, chapt
           )
         }}>
         <img
-          src="/images/buttons/ResumeButtonSquare.svg" 
+          src="./images/buttons/ResumeButtonSquare.svg" 
           className="resume-button"
           alt="resume button">
         </img>

@@ -2,7 +2,6 @@ import axios from "axios";
 import uuid from "uuid";
 
 import {api_url} from "../constants";
-import {tutorialData} from "..";
 import {applyTextTransformer} from "../middleware/requestTextConverter";
 
 const sendPostReq = (url, data) => {
@@ -303,8 +302,8 @@ class OnlineTutorialService {
 
 class OfflineTutorialService {
   constructor() {
-    this.lessons = tutorialData.lessons;
-    this.chapters = tutorialData.chapters;
+    this.lessons = getLocalStorageVal("lessons");
+    this.chapters = getLocalStorageVal("chapters");
   }
 
   lastLessonInChapter = {
@@ -568,9 +567,6 @@ class OnlineChapterService {
 }
 
 class OfflineChapterService {
-  constructor() {
-    this.tutorialChapters = tutorialData.chapters;
-  }
 
   getChapterRecordsForUser(uid) {
     const { chapterRecords } = getLocalStorageVal("records");
@@ -580,8 +576,9 @@ class OfflineChapterService {
   }
 
   getChapterProgressPercentage(uid) {
+    const chapters = getLocalStorageVal("chapters");
     return new Promise((res, rej) => {
-      res(Number(this.getChapterRecordsForUser(uid).length / this.tutorialChapters.length));
+      res(Number(this.getChapterRecordsForUser(uid).length / chapters.length));
     })
   }
 
