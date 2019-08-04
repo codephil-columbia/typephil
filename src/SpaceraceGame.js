@@ -144,9 +144,10 @@ class SpaceraceGame extends React.Component {
       live3:"./images/games/Heart.svg",
       showMainPage:true,
       AvailableWords:[],
+      wordCount: 0, 
       isPlayerReady:false,
       showSign:false,
-      difficultySelected:"",
+      difficultySelected:"", 
     } 
 
     this.doesWordExist = this.doesWordExist.bind(this);
@@ -217,7 +218,7 @@ class SpaceraceGame extends React.Component {
         this.spawnRocket(); 
       }
     }else if (difficultySelected === "hard"){
-      if(seconds % 5 === 0){
+      if(seconds % 30 === 0){
         this.spawnRocket();   
       }
     } else {
@@ -302,11 +303,20 @@ class SpaceraceGame extends React.Component {
   spawnRocket = () => {
     //determine word and rowNum where we need to spawn rocket
     let AvailableWords = this.state.AvailableWords
-    let randIndex = Math.floor(Math.random()* AvailableWords.length)
-    let rocketWord = AvailableWords[randIndex]
+    if((count >= AvailableWords.length) || (this.state.startPresses == 1)){
+      shuffle(AvailableWords)
+    }
+
+    let count = this.state.wordCount
+
+    if((count >= AvailableWords.length) || (this.state.startPresses == 0)){
+      shuffle(AvailableWords)
+    }
+
+    let rocketWord = AvailableWords[count]
 
     //creates rocket and iterates over row - adds word to currentRockets 
-    this.createRocket(rocketWord,this.state.rowNum,randIndex)
+    this.createRocket(rocketWord,this.state.rowNum, count)
     this.setState({
       rowNum:this.state.rowNum + 1,
       zIndex:this.state.zIndex + 1
@@ -454,16 +464,13 @@ class SpaceraceGame extends React.Component {
       AvailableWords,
       AllWords
     } = this.state;
-
+    this.setState({wordCount: 0})
     if (difficultySelected === "easy"){
-      this.setState({AvailableWords: AllWords.slice(0, 159)})
-      shuffle(AvailableWords)
+      this.setState({AvailableWords: shuffle(AllWords.slice(0, 159))})  
     }else if (difficultySelected === "hard"){
-      this.setState({AvailableWords: AllWords.slice(446, -1)})
-      shuffle(AvailableWords)
+      this.setState({AvailableWords: shuffle(AllWords.slice(446, -1))})
     }else {
-      this.setState({AvailableWords: AllWords.slice(160, 477)})
-      shuffle(AvailableWords)
+      this.setState({AvailableWords: shuffle(AllWords.slice(160, 477))})
     }
   }
 
@@ -485,15 +492,18 @@ class SpaceraceGame extends React.Component {
     } = this.state;
     
     if(startPeriod){
+      this.setState({wordCount: 0})
       this.setAvailableWords()
       this.setState({startPresses: startPresses + 1})
       if(startPresses === 1){
         this.setState({
+          wordCount: 0,
           startPeriod:false,
           startRocketSpawning:true,
           ref1:setInterval(this.tick,1000),
           ref2:setInterval(this.checkDifficultyIncrement, 1000),
           ref3:setInterval(this.spawnRocket, 60/this.state.wpm *1000)
+          
         })
       }
     } else if (keyPressed === BACKSPACE) {
