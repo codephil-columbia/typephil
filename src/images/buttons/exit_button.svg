@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="45px" height="45px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>log-out (1)</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0 45 0 45 45 0 45"></polygon>
+    </defs>
+    <g id="Header---Tutorial" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-1278.000000, -30.000000)">
+        <g id="log-out-(1)" transform="translate(1278.000000, 30.000000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <g id="Clip-2"></g>
+            <path d="M5.27346223,0 C2.3656579,0 0,2.3656579 0,5.27346223 L0,12.3046573 L3.51564149,12.3046573 L3.51564149,5.27346223 C3.51564149,4.30419412 4.30419412,3.51564149 5.27346223,3.51564149 L39.7265378,3.51564149 C40.6958059,3.51564149 41.4843585,4.30419412 41.4843585,5.27346223 L41.4843585,39.7265378 C41.4843585,40.6958059 40.6958059,41.4843585 39.7265378,41.4843585 L5.27346223,41.4843585 C4.30419412,41.4843585 3.51564149,40.6958059 3.51564149,39.7265378 L3.51564149,32.6953427 L0,32.6953427 L0,39.7265378 C0,42.6343421 2.3656579,45 5.27346223,45 L39.7265378,45 C42.6343421,45 45,42.6343421 45,39.7265378 L45,5.27346223 C45,2.3656579 42.6343421,0 39.7265378,0 L5.27346223,0 Z" id="Fill-1" stroke="#FFFFFF" fill="#FFFFFF" mask="url(#mask-2)"></path>
+            <polygon id="Fill-3" stroke="#FFFFFF" fill="#FFFFFF" mask="url(#mask-2)" points="0 22.5 10.9175406 33 13.4020798 30.6104818 6.72604523 24.1896872 32 24.1896872 32 20.8103128 6.72604523 20.8103128 13.4020798 14.3895182 10.9175406 12"></polygon>
+        </g>
+    </g>
+</svg>

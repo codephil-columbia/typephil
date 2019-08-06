@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="220px" height="76px" viewBox="0 0 220 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Resume/Start button</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Resume/Start-button">
+            <g id="Resume-button">
+                <rect id="Rectangle-3" fill="#BFD8BD" x="0" y="0" width="220" height="76" rx="8"></rect>
+                <text id="RESUME" font-family="AvenirNext-DemiBold, Avenir Next" font-size="20" font-weight="500" letter-spacing="3" fill="#FFFFFF">
+                    <tspan x="82" y="45">RESUME</tspan>
+                </text>
+                <polygon id="Triangle" fill="#FFFFFF" transform="translate(41.000000, 38.500000) rotate(90.000000) translate(-41.000000, -38.500000) " points="41 30 51 47 31 47"></polygon>
+                <circle id="Oval-2" stroke="#FFFFFF" stroke-width="3" cx="38.5" cy="38.5" r="21.5"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

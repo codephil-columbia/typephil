@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="134px" height="57px" viewBox="0 0 134 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Next Arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Tutorial-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-1179.000000, -837.000000)">
+        <g id="Previous/Next-Buttons" transform="translate(131.000000, 840.000000)">
+            <g id="Next-Arrow" transform="translate(1047.000000, 1.000000)">
+                <text id="Next" font-family="AvenirNext-DemiBold, Avenir Next" font-size="25" font-weight="500" fill="#52B094">
+                    <tspan x="0" y="31">Next</tspan>
+                </text>
+                <polygon id="Triangle" stroke="#52B094" stroke-width="5" transform="translate(104.500000, 24.500000) rotate(90.000000) translate(-104.500000, -24.500000) " points="104.5 0 129 49 80 49"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

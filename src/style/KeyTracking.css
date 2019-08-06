@@ -1,5 +1,5 @@
 .challenge-game-background {
-    background-image: url(/images/games/Palm_Tree.svg), url(/images/games/Palm_Tree_Right.svg), url(/images/games/Sand.png);
+    background-image: url(./images/games/Palm_Tree.svg), url(./images/games/Palm_Tree_Right.svg), url(./images/games/Sand.png);
     background-position: left bottom, right bottom, center bottom -55vw;
     background-repeat: no-repeat, no-repeat, no-repeat;
     background-size: auto 85%, auto 85%, 100% auto;
