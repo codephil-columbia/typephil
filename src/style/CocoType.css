@@ -10,7 +10,7 @@
     src:
       local('Aveni'),
       local('AvenirLTStd-Book'),
-      url(,./fonts/avenir_ff/AvenirLTStd-Book.otf);
+      url(../fonts/avenir_ff/AvenirLTStd-Book.otf);
 }
 .LevelCounter{
     height:15vh;
