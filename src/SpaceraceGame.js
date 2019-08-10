@@ -216,6 +216,7 @@ class SpaceraceGame extends React.Component {
     if(seconds % 30 === 0){
       this.incrementDifficulty()
     }
+
     if (difficultySelected === "easy"){
       if(seconds % 30 === 0){
         this.spawnRocket(); 
@@ -225,7 +226,7 @@ class SpaceraceGame extends React.Component {
         this.spawnRocket();   
       }
     } else {
-      if(seconds % 25 === 0){
+      if(seconds % 30 === 0){
         this.spawnRocket();    
       }
     }
