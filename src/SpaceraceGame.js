@@ -332,14 +332,14 @@ class SpaceraceGame extends React.Component {
   }
 
   subtractLife = () => {
-    if (this.state.lives === 3){
+    if (this.state.lives === 3 && !this.state.startPeriod){
       this.setState({live3: null})
-    }else if (this.state.lives === 2){
+    }else if (this.state.lives === 2 && !this.state.startPeriod){
       this.setState({live2: null})
-    }else if (this.state.lives === 1){
+    }else if (this.state.lives === 1 && !this.state.startPeriod){
       this.setState({live1: null})
     }
-    this.setState({lives:this.state.lives -1})
+    !this.state.startPeriod && this.setState({lives:this.state.lives -1})
     if(this.state.lives === 0){
       this.setState({showSign:true})
       clearInterval(this.state.ref1)
@@ -578,7 +578,7 @@ class SpaceraceGame extends React.Component {
             <StartingInstructions hasStarted={this.state.startPeriod}>
               Press Any Key To Start!
             </StartingInstructions>
-
+          { !this.state.showSign &&
           <RocketContainer>
             <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
             </div>
@@ -593,6 +593,7 @@ class SpaceraceGame extends React.Component {
               {this.state.inputWord}
             </SpaceRaceInputText>
           </RocketContainer>
+          }
 
           </SpaceRaceBackground>
         );
