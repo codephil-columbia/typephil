@@ -4,6 +4,7 @@ import { OrderedMap } from 'immutable';
 import styled from 'styled-components'
 
 import LessonTutorialHandsKeyboard from './TutorialHandsKeyboard';
+import {setHandsForKeyPressed} from '../services/keyboardHighlight';
 
 import "../style/TutorialContent.css"
 
@@ -42,6 +43,8 @@ class LessonTutorialContent extends Component {
 
     const totalLength = currentContent.length;
 
+    const {rightHandImg, leftHandImg} = setHandsForKeyPressed(currentKey);
+
     this.closeModal=this.closeModal.bind(this);
     this.modalCountdown = this.modalCountdown.bind(this)
 
@@ -67,7 +70,13 @@ class LessonTutorialContent extends Component {
       finishTime: 0,
       pauses: [],
       time: 0,
-      modelCount: 5
+      modelCount: 5,
+
+      // Paths for images of hands
+      handPaths: {
+        rightHandImg,
+        leftHandImg
+      },
     };
   }
 
@@ -246,6 +255,9 @@ class LessonTutorialContent extends Component {
 
     shouldShowModal = consecutiveIncorrectCount > 4;
 
+    // Set new hand img paths for next key
+    const {leftHandImg, rightHandImg} = setHandsForKeyPressed(newCurrentKey);
+    
     this.setState({ 
       rows, 
       correct, 
@@ -255,8 +267,12 @@ class LessonTutorialContent extends Component {
       charPtr: newCharPtr, 
       groupPtr: newGroupPtr,
       currentKey: newCurrentKey,
+      handPaths: {
+        rightHandImg,
+        leftHandImg
+      },
       consecutiveIncorrectCount,
-      shouldShowModal
+      shouldShowModal,
     });
   };
 
@@ -370,7 +386,11 @@ class LessonTutorialContent extends Component {
           <ModalCountDownDiv>{this.state.modelCount}</ModalCountDownDiv>
         </Modal>
         { rows }
-        <LessonTutorialHandsKeyboard currentKey={currentKey}/>
+        <LessonTutorialHandsKeyboard 
+          currentKey={currentKey}
+          leftHandImg={this.state.handPaths.leftHandImg}
+          rightHandImg={this.state.handPaths.rightHandImg}
+        />
       </div>
     )
   }

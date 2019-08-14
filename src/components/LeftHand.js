@@ -1,13 +1,14 @@
 import React from 'react';
 
-const LeftHand = () => {
-  return (
-    <svg width="182px" height="259px" viewBox="0 0 182 259" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+const LeftHand = ({img}) => {
+  if (!img) {
+    return ( 
+     <svg width="182px" height="259px" viewBox="0 0 182 259" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
       <title>Fill 1</title>
       <desc>Created with Sketch.</desc>
       <defs></defs>
       <div></div>
-      <g id="Hands" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(-53.000000, -18.000000)">
+        <g id="Hands" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(-53.000000, -18.000000)">
           <g transform="translate(0.000000, 1.000000)" fill="#FFFFFF" id="Left-hand" stroke="#979797" strokeWidth="2">
               <g>
                   <g transform="translate(127.836158, 145.168660) scale(-1, 1) rotate(340.000000) translate(-127.836158, -145.168660) translate(35.836158, 24.168660)" id="Fill-1">
@@ -15,9 +16,14 @@ const LeftHand = () => {
                   </g>
               </g>
           </g>
-      </g>
-    </svg>
-  )
+        </g>
+      </svg>
+     );
+  } else {
+    return (
+      <img alt="Left hand with finger highlighted" src={img}></img>
+    )
+  }
 }
 
 export default LeftHand;
