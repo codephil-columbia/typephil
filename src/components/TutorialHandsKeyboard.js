@@ -6,13 +6,12 @@ import LeftHand from './LeftHand';
 
 import {setHandsForKeyPressed} from '../services/keyboardHighlight';
 
-const LessonTutorialHandsKeyboard = ({ currentKey }) => {
-  const { leftHandImage, rightHandImage } = setHandsForKeyPressed(currentKey);
+const LessonTutorialHandsKeyboard = ({ currentKey, leftHandImg, rightHandImg }) => {
   return (
     <div className="keyboard-hands row">
-      <LeftHand img={leftHandImage} />
+      <LeftHand img={leftHandImg} />
       <Keyboard currentKey={currentKey} />
-      <RightHand img={rightHandImage} />
+      <RightHand img={rightHandImg} />
     </div>
   )
 }

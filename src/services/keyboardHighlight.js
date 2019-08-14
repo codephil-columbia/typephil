@@ -6,11 +6,12 @@ export function setHandsForKeyPressed(keyPressed) {
 export function _setHandsForKeyPressed(keyPressed, imgs) {
   // This should never happen since all possible keys should be 
   // registered in imgForCharacter
+  console.log('in', keyPressed);
   if (!imgs.has(keyPressed)) {
-    return {leftHandImage:'', rightHandImage: ''};
+    return {leftHandImg:'', rightHandImg: ''};
   }
-  const [leftHandImage, rightHandImage] = imgs.get(keyPressed);
-  return {leftHandImage, rightHandImage};
+  const [leftHandImg, rightHandImg] = imgs.get(keyPressed);
+  return {leftHandImg, rightHandImg};
 };
 
 // The value is an array whose 0 index is the 
