@@ -333,7 +333,7 @@ class SpaceraceGame extends React.Component {
 
   subtractLife = () => {
     if (this.state.lives === 3 && !this.state.startPeriod){
-      this.setState({live3: null})
+      this.setState({live3: null} && !this.state.startPeriod)
     }else if (this.state.lives === 2 && !this.state.startPeriod){
       this.setState({live2: null})
     }else if (this.state.lives === 1 && !this.state.startPeriod){
