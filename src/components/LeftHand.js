@@ -22,7 +22,7 @@ const LeftHand = ({img}) => {
   } else {
     return (
       <img alt="Left hand with finger highlighted" src={img}></img>
-    )
+    );
   }
 }
 

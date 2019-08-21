@@ -194,12 +194,12 @@ class SpaceraceGame extends React.Component {
         difficultySelected : "easy", 
         wpm:20
       })
-    }else if(difficulty === "Medium"){
+    } else if(difficulty === "Medium"){
       this.setState({
         difficultySelected : "medium",
         wpm:25
       })
-    }else if(difficulty === "Hard"){
+    } else if(difficulty === "Hard"){
       this.setState({
         difficultySelected : "hard",
         wpm:30
@@ -220,7 +220,7 @@ class SpaceraceGame extends React.Component {
       if(seconds % 30 === 0){
         this.spawnRocket(); 
       }
-    }else if (difficultySelected === "hard"){
+    } else if (difficultySelected === "hard"){
       if(seconds % 30 === 0){
         this.spawnRocket();   
       }
@@ -237,12 +237,11 @@ class SpaceraceGame extends React.Component {
 
   incrementDuration = () => {
     let prevDuration= this.state.duration
-
     if(prevDuration === 10){
       this.setState({duration:12})
-    }else if(prevDuration === 12){
+    } else if(prevDuration === 12){
       this.setState({duration:11})
-    }else if(prevDuration === 11){
+    } else if(prevDuration === 11){
       this.setState({duration:10})
     }
     return prevDuration * 1000
@@ -333,9 +332,9 @@ class SpaceraceGame extends React.Component {
   subtractLife = () => {
     if (this.state.lives === 3){
       this.setState({live3: null})
-    }else if (this.state.lives === 2){
+    } else if (this.state.lives === 2){
       this.setState({live2: null})
-    }else if (this.state.lives === 1){
+    } else if (this.state.lives === 1){
       this.setState({live1: null})
     }
     this.setState({lives:this.state.lives -1})
@@ -376,15 +375,13 @@ class SpaceraceGame extends React.Component {
       target.style.height="0vh"
       target.className= "null"
       text.textContent=""
-    }, 100);
-    
+    }, 100); 
   }
 
   calculateStats = () =>  {
     let accuracy= Math.floor((this.state.totalCorrect/this.state.totalWordsTyped)*100)
     this.setState({playerAccuracy:accuracy})
   }
-  
   
   createRocket = (word,rowNum,index,) => {
     let rocket = document.createElement('div')
@@ -460,7 +457,6 @@ class SpaceraceGame extends React.Component {
   setAvailableWords = () => {
     const{
       difficultySelected,
-      AvailableWords,
       AllWords
     } = this.state;
     this.setState({wordCount: 0})
@@ -497,12 +493,11 @@ class SpaceraceGame extends React.Component {
       if(startPresses === 1){
         this.setState({
           wordCount: 0,
-          startPeriod:false,
-          startRocketSpawning:true,
-          ref1:setInterval(this.tick,1000),
-          ref2:setInterval(this.checkDifficultyIncrement, 1000),
-          ref3:setInterval(this.spawnRocket, 60/this.state.wpm *1000)
-          
+          startPeriod: false,
+          startRocketSpawning: true,
+          ref1: setInterval(this.tick,1000),
+          ref2: setInterval(this.checkDifficultyIncrement, 1000),
+          ref3: setInterval(this.spawnRocket, 60/this.state.wpm *1000)
         })
       }
     } else if (keyPressed === BACKSPACE) {
@@ -524,14 +519,12 @@ class SpaceraceGame extends React.Component {
         this.setState({totalCorrect:totalCorrect + 1})
       }      
       this.setState({inputWord:''})
-    }
-    else {
+    } else {
       this.setState({
         nextWordUpdate: true,
         inputWord:inputWord + keyPressed
-      })
+      });
     }
-
   }
 
   render() {
@@ -541,7 +534,7 @@ class SpaceraceGame extends React.Component {
     } = this.state;
 
     if(this.state.showMainPage){
-      return (<Spacerace data={this.state} commenceGame={this.exitMainPage} onLogout={this.props.onLogout} history={this.props.history} />)
+      return <Spacerace data={this.state} commenceGame={this.exitMainPage} onLogout={this.props.onLogout} history={this.props.history} />;
     } else if(!this.state.playerHasLost){
         return (
           <SpaceRaceBackground>
@@ -555,40 +548,29 @@ class SpaceraceGame extends React.Component {
             />
             <LivesContainer>
               <Lives className="Lives">
-                <img height="auto" width="100%" src={live1}/>
+                <img height="auto" width="100%" src={live1} alt="heart"/>
               </Lives>
-              
               <Lives className="Lives">
-                <img height="auto" width="100%" src={live2}/>
+                <img height="auto" width="100%" src={live2} alt="heart"/>
               </Lives>
-
               <Lives className="Lives">
-                <img height="auto" width="100%" src={live3}/>
+                <img height="auto" width="100%" src={live3} alt="heart"/>
               </Lives>
             </LivesContainer>
-
             <LevelContainer>
               Level {this.state.level}
             </LevelContainer>
-
             <StartingInstructions hasStarted={this.state.startPeriod}>
               Press Any Key To Start!
             </StartingInstructions>
-
-          <RocketContainer>
-            <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
-            </div>
-
-            <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
-            </div>
-
-            <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow">
-            </div>
-
-            <SpaceRaceInputText>
-              {this.state.inputWord}
-            </SpaceRaceInputText>
-          </RocketContainer>
+            <RocketContainer>
+              <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow"></div>
+              <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow"></div>
+              <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow"></div>
+              <SpaceRaceInputText>
+                {this.state.inputWord}
+              </SpaceRaceInputText>
+            </RocketContainer>
 
           </SpaceRaceBackground>
         );
