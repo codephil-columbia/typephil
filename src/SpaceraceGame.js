@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { tween, styler } from 'popmotion';
 import shuffle from 'shuffle-array'
 
@@ -305,7 +305,7 @@ class SpaceraceGame extends React.Component {
   spawnRocket = () => {
     //determine word and rowNum where we need to spawn rocket
     let AvailableWords = this.state.AvailableWords
-    if((count >= AvailableWords.length) || (this.state.startPresses == 1)){
+    if((this.state.wordCount >= AvailableWords.length) || (this.state.startPresses === 1)){
       shuffle(AvailableWords)
     }
 
@@ -440,10 +440,10 @@ class SpaceraceGame extends React.Component {
           rocket.style.height = "0vh"
           rocket.className = "null"
         }, 1000); 
-      }
-      else if(v.x <= 0){
+      } else if(v.x <= 0){
         img.src = "./images/games/Meteor.svg"
-      } 
+      }
+      console.log(rocket); 
     });
   }
   createStyler = (word) => {
