@@ -37,7 +37,8 @@ export const specialKeyNames = {
     "-": "minus",
     "/": "f-slash",
     ".": "period",
-    ",": "comma"
+    ",": "comma",
+    " ": "space",
 }
 
   export const shiftedKeys = ["~", "!", "@", "#", "$", "%", "^", "&amp;", "*", "(", ")", "_", "+", "|", "{", "}", ":", '"', "&lt;", "?"]

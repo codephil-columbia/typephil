@@ -91,7 +91,8 @@ const imageForCharacter = new Map([
   ["semicolon", ['images/hands/Left.svg', 'images/hands/Right_pinky.svg']],
   ["f-slash", ['images/hands/Left.svg', 'images/hands/Right_pinky.svg']],
   ["questionmark", ['images/hands/Left_pinky.svg', 'images/hands/Right_pinky.svg']],
-  ["exclamationmark", ['images/hands/Left_pinky.svg', 'images/hands/Right_pinky.svg']]
+  ["exclamationmark", ['images/hands/Left_pinky.svg', 'images/hands/Right_pinky.svg']],
+  ["space", ['images/hands/Left_thumb.svg', 'images/hands/Right_thumb.svg']],
 ]);
 
 export const mapToSpecialKeys = {
@@ -127,7 +128,8 @@ export const specialKeyNames = {
   "-": "minus",
   "/": "f-slash",
   ".": "period",
-  ",": "comma"
+  ",": "comma",
+  " ": "space",
 }
 
   export const shiftedKeys = ["~", "!", "@", "#", "$", "%", "^", "&amp;", "*", "(", ")", "_", "+", "|", "{", "}", ":", '"', "&lt;", "?"]
