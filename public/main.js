@@ -9,6 +9,7 @@ function createWindow () {
 			height: 900,
 			minWidth: 1200,
 			minHeight: 900
+			icon:__dirname + './favicon.ico'
 		}
 	) 
        

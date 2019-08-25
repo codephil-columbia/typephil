@@ -86,7 +86,7 @@ class App extends Component {
       </Switch>
     )
   }
-  /**
+  /** 
    * Routes for a non authenticated user.
    */
   userHasNotBeenAuthenticated = () => {

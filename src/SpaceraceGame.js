@@ -216,6 +216,7 @@ class SpaceraceGame extends React.Component {
     if(seconds % 30 === 0){
       this.incrementDifficulty()
     }
+
     if (difficultySelected === "easy"){
       if(seconds % 30 === 0){
         this.spawnRocket(); 
@@ -225,7 +226,7 @@ class SpaceraceGame extends React.Component {
         this.spawnRocket();   
       }
     } else {
-      if(seconds % 25 === 0){
+      if(seconds % 30 === 0){
         this.spawnRocket();    
       }
     }
@@ -330,14 +331,14 @@ class SpaceraceGame extends React.Component {
   }
 
   subtractLife = () => {
-    if (this.state.lives === 3){
-      this.setState({live3: null})
-    } else if (this.state.lives === 2){
+    if (this.state.lives === 3 && !this.state.startPeriod){
+      this.setState({live3: null} && !this.state.startPeriod)
+    }else if (this.state.lives === 2 && !this.state.startPeriod){
       this.setState({live2: null})
-    } else if (this.state.lives === 1){
+    }else if (this.state.lives === 1 && !this.state.startPeriod){
       this.setState({live1: null})
     }
-    this.setState({lives:this.state.lives -1})
+    !this.state.startPeriod && this.setState({lives:this.state.lives -1})
     if(this.state.lives === 0){
       this.setState({showSign:true})
       clearInterval(this.state.ref1)
@@ -493,11 +494,15 @@ class SpaceraceGame extends React.Component {
       if(startPresses === 1){
         this.setState({
           wordCount: 0,
-          startPeriod: false,
-          startRocketSpawning: true,
-          ref1: setInterval(this.tick,1000),
-          ref2: setInterval(this.checkDifficultyIncrement, 1000),
-          ref3: setInterval(this.spawnRocket, 60/this.state.wpm *1000)
+          startPeriod:false,
+          startRocketSpawning:true,
+          ref1:setInterval(this.tick,1000),
+          ref2:setInterval(this.checkDifficultyIncrement, 1000),
+          ref3:setInterval(this.spawnRocket, 60/this.state.wpm *1000),
+          lives:3,
+          live1:"./images/games/Heart.svg", 
+          live2:"./images/games/Heart.svg", 
+          live3:"./images/games/Heart.svg"
         })
       }
     } else if (keyPressed === BACKSPACE) {
@@ -563,14 +568,16 @@ class SpaceraceGame extends React.Component {
             <StartingInstructions hasStarted={this.state.startPeriod}>
               Press Any Key To Start!
             </StartingInstructions>
-            <RocketContainer>
+          { !this.state.showSign &&
+          <RocketContainer>
               <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow"></div>
               <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow"></div>
               <div style={{display:"flex",flexDirection:"inline-row",width:"100vw",height:"26vh",textAlign:"center"}} className="RocketRow"></div>
-              <SpaceRaceInputText>
-                {this.state.inputWord}
-              </SpaceRaceInputText>
-            </RocketContainer>
+            <SpaceRaceInputText>
+              {this.state.inputWord}
+            </SpaceRaceInputText>
+          </RocketContainer>
+          }
 
           </SpaceRaceBackground>
         );

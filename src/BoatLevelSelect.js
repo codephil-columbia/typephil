@@ -98,7 +98,7 @@ const BoatraceDifficultyText = styled.div`
 `
 
 const BoatraceGameSelectionBackground = styled.div`
-    background-image: url(./images/games/waves.svg);
+    background-image: url(./images/games/Waves.svg);
     background-position: center bottom -60vh;
     background-repeat: no-repeat;
     background-size: 100% auto;

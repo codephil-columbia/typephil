@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from 'react-button-component'
+import styled from 'styled-components'
 
 import Header from './components/header'
 import DifficultyTab from './DifficultyTab'
@@ -18,6 +19,14 @@ const CustomButton = Button.extend`
     background-color: #FFFFFF;
     font-size:30px;
 
+`
+
+const ChallengeGameSelectionBackground = styled.div`
+    background-image: url(./images/games/Palm_Tree.svg), url(./images/games/Palm_Tree_Right.svg), url(./images/games/Sand.png);
+    background-position: left bottom, right bottom, center bottom -55vw;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: auto 50%, auto 50%, 100% auto;
+    height: 100vh;
 `
 
 class Challenge extends Component {
@@ -97,7 +106,7 @@ class Challenge extends Component {
     } = this.state;
 
       return (
-        <div className="challenge-game-selection-background">
+        <ChallengeGameSelectionBackground>
           <Header 
             links={headerLinks} 
             isLoggedIn={this.state.isLoggedIn} 
@@ -133,7 +142,7 @@ class Challenge extends Component {
             </CustomButton>
           </div>
 
-      </div>
+      </ChallengeGameSelectionBackground>
     )
   }
 }
