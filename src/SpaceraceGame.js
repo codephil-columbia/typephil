@@ -225,7 +225,7 @@ class SpaceraceGame extends React.Component {
         this.spawnRocket();   
       }
     } else {
-      if(seconds % 25 === 0){
+      if(seconds % 30 === 0){
         this.spawnRocket();    
       }
     }
@@ -496,7 +496,11 @@ class SpaceraceGame extends React.Component {
           startRocketSpawning: true,
           ref1: setInterval(this.tick,1000),
           ref2: setInterval(this.checkDifficultyIncrement, 1000),
-          ref3: setInterval(this.spawnRocket, 60/this.state.wpm *1000)
+          ref3: setInterval(this.spawnRocket, 60/this.state.wpm *1000),
+          lives: 3,
+          live1: "./images/games/Heart.svg",
+          live2: "./images/games/Heart.svg",
+          live3: "./images/games/Heart.svg"
         })
       }
     } else if (keyPressed === BACKSPACE) {

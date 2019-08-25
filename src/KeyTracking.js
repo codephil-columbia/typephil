@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from 'styled-components'
 
 import Header from './components/header'
 import Tutorial from './GameTracking'
@@ -10,6 +11,14 @@ import GameOverSign from './components/GameOverSign'
 import { LocalStorageCache, GameService } from "./services";
 
 import "./style/KeyTracking.css"
+
+const ChallengeGameBackground = styled.div`
+    background-image: url(./images/games/Palm_Tree.svg), url(./images/games/Palm_Tree_Right.svg), url(./images/games/Sand.png);
+    background-position: left bottom, right bottom, center bottom -55vw;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: auto 85%, auto 85%, 100% auto;
+    height: 100vh;
+`
 
 class KeyTracking extends Component{
   constructor(props){
@@ -137,7 +146,7 @@ class KeyTracking extends Component{
       return <MainPage commenceGame={this.exitMainPage} onLogout={this.props.onLogout} history={this.props.history} />;
     } else if (this.state.gameStart){
         return(
-          <div className="challenge-game-background">
+          <ChallengeGameBackground>
             {this.state.showSign && <GameOverSign/>}
             <Header 
               links={this.state.headerLinks} 
@@ -155,7 +164,7 @@ class KeyTracking extends Component{
               difficulty={this.state.playerDifficulty} 
               currentContent={cleanContent}
             />
-          </div>
+          </ChallengeGameBackground>
         )
     } else if (this.state.playerHasLost){
         return (
