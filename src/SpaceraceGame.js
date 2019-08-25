@@ -443,7 +443,6 @@ class SpaceraceGame extends React.Component {
       } else if(v.x <= 0){
         img.src = "./images/games/Meteor.svg"
       }
-      console.log(rocket); 
     });
   }
   createStyler = (word) => {
@@ -548,13 +547,13 @@ class SpaceraceGame extends React.Component {
             />
             <LivesContainer>
               <Lives className="Lives">
-                <img height="auto" width="100%" src={live1} alt="heart"/>
+                <img height="auto" width="100%" src={live1}/>
               </Lives>
               <Lives className="Lives">
-                <img height="auto" width="100%" src={live2} alt="heart"/>
+                <img height="auto" width="100%" src={live2}/>
               </Lives>
               <Lives className="Lives">
-                <img height="auto" width="100%" src={live3} alt="heart"/>
+                <img height="auto" width="100%" src={live3}/>
               </Lives>
             </LivesContainer>
             <LevelContainer>
