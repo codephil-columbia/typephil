@@ -327,7 +327,7 @@ class Tutorial extends Component {
     }
 
     this.fetchNextLesson();
-    this.redirect("tutorial");
+    this.redirect();
   }
 
   fetchNextLesson() {
@@ -344,8 +344,8 @@ class Tutorial extends Component {
     this.cache.set("chapterID", chapterID); 
   }
 
-  redirect(to) {
-    window.location = `/${to}`;
+  redirect() {
+    this.props.history.push('/tutorial');
   }
 
   showStats = () => {
