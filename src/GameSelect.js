@@ -7,7 +7,7 @@ import BoatGame from './BoatGame'
 import KeyTracking from './KeyTracking'
 import SpaceraceGame from './SpaceraceGame'
 
-import { LocalStorageCache} from "./services";
+import { LocalStorageCache } from "./services";
 
 import './style/font.css';
 
@@ -232,7 +232,7 @@ export default class GameSelect extends Component {
 				headerLinks,
 				gameDescription,
 				gameScreenshot, 
-	      username
+	      		username
 			} = this.state;
 			
 			if(showBoatRace){

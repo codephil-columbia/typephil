@@ -107,7 +107,7 @@ class KeyTracking extends Component{
     let playerAccuracy = Math.floor((1- state.incorrect.length/totalChars)*100)
     let wpm = Math.floor(totalChars/(5*minutes))
     this.setState({showSign:true,inputOff:true})
-
+    
     await this.gameService.addGameScoreAndUpdateIfHigher(
       this.cache.get('uid'),
       GameService.Games.CHALLENGE,

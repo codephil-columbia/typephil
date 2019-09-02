@@ -7,7 +7,7 @@ import MainPage from './BoatLevelSelect'
 import GameOverSign from "./components/GameOverSign";
 import data from "./offline_data.json"
 
-import { LocalStorageCache, GameService} from "./services";
+import { LocalStorageCache, GameService } from "./services";
 
 class BoatGame extends Component{
     constructor(props){
@@ -15,7 +15,7 @@ class BoatGame extends Component{
         this.cache = new LocalStorageCache();
         this.gameService = new GameService();
 
-        this.state={
+        this.state = {
             isPlayerReady:false,
             beginCountDown:false,
             beginningDifficulty:1,
@@ -39,18 +39,6 @@ class BoatGame extends Component{
 
         
     }
-
-    async recordHighScore() {
-        await this.gameService.addGameScoreAndUpdateIfHigher(
-          this.cache.get('uid'),
-          GameService.Games.READY_SET_TYPE,
-          {
-            wpm:this.state.wordsPerMinute,
-            accuracy:this.state.accuracy,
-            level:this.state.playerDifficulty
-          }
-        );
-      }
 
 
     componentWillMount = () => {
@@ -209,12 +197,17 @@ class BoatGame extends Component{
         }, 6000);
       }
 
-    endGames= (state, time) => {
+    endGames= async (state, time) => {
         let minutes=time/60
         let totalChars= state.incorrect.length + state.correct.length   
         let playerAccuracy= Math.floor((1- state.incorrect.length/totalChars)*100)
         let wpm = Math.floor(totalChars/(5*minutes))
         this.setState({showSign:true,inputOff:true})
+        await this.gameService.addGameScoreAndUpdateIfHigher(
+            this.cache.get('uid'),
+            GameService.Games.READY_SET_TYPE,
+            { wpm, accuracy:playerAccuracy, level:this.state.playerDifficulty }
+          );
         
         this.setState({timeOutInstance:this.initiateTimeOut(playerAccuracy,wpm)})
     }
@@ -291,7 +284,6 @@ class BoatGame extends Component{
         }else if(this.state.playerHasLost){
             return (
                 <Stats 
-                    recordHighScore={this.recordHighScore}
                     data={this.state} 
                     exit={this.props.exit} 
                     reset={this.playAgain} 

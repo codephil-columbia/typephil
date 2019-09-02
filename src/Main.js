@@ -8,7 +8,7 @@ function createWindow () {
 			width: 1200, 
 			height: 900,
 			minWidth: 1200,
-			minHeight: 900
+			minHeight: 900,
 		}
 	) 
        

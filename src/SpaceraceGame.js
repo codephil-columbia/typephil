@@ -578,6 +578,7 @@ class SpaceraceGame extends React.Component {
           </SpaceRaceBackground>
         );
     } else{
+      
       return ( 
         <Statistics 
           recordHighScore={this.recordHighScore}
